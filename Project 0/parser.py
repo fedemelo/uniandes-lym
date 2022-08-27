@@ -1,3 +1,7 @@
+# Authors: Federico Melo Barrero.
+#          Sebastian Contreras.
+
+
 import re
 
 def load_program(file_name: str)->None:
@@ -17,36 +21,40 @@ def load_program(file_name: str)->None:
     
     check_sintax(program_str.strip())
 
-    
-
-def sintax_error(error: str)->None:
-    """Ends sintax check after finding a sintax error.
-       Prints False to inform the program is incorrect and stops execution.
-    """
-    print("Sintax error: "+error) # TODO: delete line
-    print(False)
-    quit()
-
 
 def check_sintax(program_str: str)->bool:
+    """ Uses various auxiliary functions to check if a program is correctly written.
+        'A program defintion begins with the keyword PROG possibly followed by a declaration
+        of variables, followed by zero or more procedure defintions, followed by a block of
+        instructions. It ends the keyword GORP'.
+
+    Args:
+        program_str (str): _description_
+
+    Returns:
+        bool: _description_
+    """
+
     # PROG and GORP
     if program_str[0:4] != "PROG":
         sintax_error("expected 'PROG' to begin program definition.")
     if program_str[-4:] != "GORP":
         sintax_error("expected 'GORP' to end program definition.")
     program_str = program_str[4:-4].strip()
-        
     
     # Variable declaration
     if program_str[0:3] == "VAR":
         program_str = check_variable_declaration(program_str)
     
     # Procedure definitions
-    procedures = []  # List of tuples, (procedure_name, parameter_count)
+    procedures = []  # List of tuples with structure (<procedure_name>, <parameter_count>)
     while program_str.strip()[0:4] == "PROC":
         procedures, program_str = check_procedure(procedures, program_str.strip())
 
-    # If program gets here, sintax is correct
+    # Final block of instructions
+    check_instruction_block(program_str.strip())
+
+    # Once the parser gets here, if no exceptions have been raised, sintax is correct
     print(True)
 
 
@@ -93,7 +101,7 @@ def check_name(name: str)->None:
             if not (char.isalpha or char.isnumeric):  # at least one isn't alphanumeric
                 sintax_error("name '"+name+"' isn't alphanumeric.")
 
-    
+
 def check_procedure(procedures: list, program_str: str)->tuple:
     """Check a procedure.
 
@@ -144,12 +152,12 @@ def check_procedure(procedures: list, program_str: str)->tuple:
     procedures.append((procedure_name, parameter_count))
 
     # Instructions
-    check_instructions_block(instructions_block.strip(), procedure_name)
+    check_instruction_block(instructions_block.strip(), procedure_name)
 
     return (procedures, program_str)
 
 
-def check_instructions_block(block: str, procedure_name: str)->None:
+def check_instruction_block(block: str, procedure_name="")->None:
     """Checks the sintax for a block of instructions
     'A block of instructions is a sequence of instructions separated 
     by semicolons within curly brackets'.
@@ -157,20 +165,51 @@ def check_instructions_block(block: str, procedure_name: str)->None:
     Args:
         block (str): _description_
     """
+
+    # Write error message. Differs if the instruction block belongs to a procedure
+    if procedure_name == "":  # Final instruction block, no procedure name
+        no_start_curly_msg = "Expected '{' before the last block of instructions."
+        no_end_curly_msg = "Expected '}' after the last block of instructions."
+    else:
+        no_start_curly_msg = "Expected '{' before block of instructions in procedure '"+procedure_name+"'."
+        no_end_curly_msg = "Expected '}' after block of instructions in procedure '"+procedure_name+"'."
+    
     # Check curly brackets
     if block[0] != "{":
-        sintax_error("Expected '{' before  block of instructions in procedure '"+procedure_name+"'.")
+        sintax_error(no_start_curly_msg)
     if block[-1] != "}":
-        sintax_error("Expected '}' after  block of instructions in procedure '"+procedure_name+"'.")
+        sintax_error(no_end_curly_msg)
     block = block[1:-1].strip()
-    pass
-    # TODO
 
-### Main
+    # No checking for ';' beforehand, as there can be just a single instruction and hence no ';'
+    instructions = block.split(";")
+    for instruction in instructions:
+        check_instruction(instruction.strip())
+    # TODO: Falta algo más después de revisar cada instrucción?
+    pass
+
+
+def check_instruction(instruction: str)->None:
+    """Check the sintax for a given instruction is valid
+     'An instruction can be a command, a control structure or a procedure call'.
+    """
+    # TODO: Revisar instrucción!
+    pass
+
+
+def sintax_error(error: str)->None:
+    """Ends sintax check after finding a sintax error.
+       Prints False to inform the program is incorrect and stops execution.
+    """
+    print("Sintax error: "+error) # TODO: delete line
+    print(False)
+    quit()
+
 
 def main()->None:
     # file_name = "program.txt"
     file_name = "wrong_program.txt"
     load_program(file_name)
+
 
 main()
