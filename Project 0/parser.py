@@ -42,7 +42,7 @@ def load_program(file_name: str) -> None:
     check_sintax(program_str.strip())
 
 
-def sintax_error(error: str) -> None:
+def raise_sintax_error(error: str) -> None:
     """Ends sintax check after finding a sintax error.
        Prints False to inform the program is incorrect and stops execution.
     """
@@ -67,9 +67,9 @@ def check_sintax(program_str: str) -> bool:
 
     # PROG and GORP
     if program_str[0:4] != "PROG":
-        sintax_error("expected 'PROG' to begin program definition.")
+        raise_sintax_error("expected 'PROG' to begin program definition.")
     if program_str[-4:] != "GORP":
-        sintax_error("expected 'GORP' to end program definition.")
+        raise_sintax_error("expected 'GORP' to end program definition.")
     program_str = program_str[4:-4].strip()
 
     # Variable declaration
@@ -106,14 +106,14 @@ def check_variable_declaration(program_str: str) -> str:
     """
     pos_var_declaration_end = program_str.find(";")
     if pos_var_declaration_end == -1:
-        sintax_error("expected ';' to end variable declaration.")
+        raise_sintax_error("expected ';' to end variable declaration.")
 
     # Remove VAR and ;
     var_declaration = program_str[3:pos_var_declaration_end].strip()
 
     # Check if there's at least one comma
     if var_declaration.find(",") == -1:
-        sintax_error("expected ',' to separate variables.")
+        raise_sintax_error("expected ',' to separate variables.")
     var_list = var_declaration.split(",")
     var_names = []
     for var in var_list:
@@ -133,13 +133,13 @@ def check_name(name: str) -> None:
     """
     # First character
     if not name[0].isalpha():  # name doesn't begin with letter
-        sintax_error("name '"+name+"' doesn't begin with a letter.")
+        raise_sintax_error("name '"+name+"' doesn't begin with a letter.")
 
     # Other characters
     if len(name) > 1:
         for char in name[1:]:
             if not (char.isalpha or char.isnumeric):  # one isn't alphanumeric
-                sintax_error("name '"+name+"' isn't alphanumeric.")
+                raise_sintax_error("name '"+name+"' isn't alphanumeric.")
 
 
 def check_proc_declaration(program_str: str, procedures: dict,
@@ -159,14 +159,15 @@ def check_proc_declaration(program_str: str, procedures: dict,
     # Check for CORP. Remove PROC and CORP
     pos_procedure_end = program_str.find("CORP")
     if pos_procedure_end == -1:
-        sintax_error("expected 'CORP' to end procedure definition.")
+        raise_sintax_error("expected 'CORP' to end procedure definition.")
     procedure = program_str[4:pos_procedure_end].strip()
     program_str = program_str[pos_procedure_end+4:].strip()
 
     # Extract and check procedure name
     pos_end_procedure_name = procedure.find(" ")
     if pos_end_procedure_name == -1:
-        sintax_error("expected blankspace character after procedure name.")
+        raise_sintax_error("expected blankspace character after procedure " +
+                           "name.")
     procedure_name = procedure[:pos_end_procedure_name]
     procedure_name = procedure_name.strip()
     check_name(procedure_name)
@@ -175,13 +176,13 @@ def check_proc_declaration(program_str: str, procedures: dict,
     # Extract parameters.
 
     if procedure[0] != "(":
-        sintax_error("expected '(' before list of parameters in procedure '" +
-                     procedure_name+"'.")
+        raise_sintax_error("expected '(' before list of parameters in " +
+                           "procedure '"+procedure_name+"'.")
 
     end_parenthesis = procedure.find(")")
     if end_parenthesis == -1:
-        sintax_error("expected ')' after list of parameters in procedure '" +
-                     procedure_name+"'.")
+        raise_sintax_error("expected ')' after list of parameters in " +
+                           "procedure '"+procedure_name+"'.")
 
     if procedure[1] == ")" or (procedure[1] == " " and procedure[2] == ")"):
         # Looking for '()' or '( )'. If found, there's no parameters
@@ -229,9 +230,9 @@ def check_instruction_block(block: str, variables: dict, procedures: list,
 
     # Check curly brackets
     if block[0] != "{":
-        sintax_error(no_start_curly_msg)
+        raise_sintax_error(no_start_curly_msg)
     if block[-1] != "}":
-        sintax_error(no_end_curly_msg)
+        raise_sintax_error(no_end_curly_msg)
     block = block[1:-1].strip()
 
     # There's no checking for ';' beforehand, as there can be just a single
@@ -272,7 +273,7 @@ def check_instruction(instruction: str, variables: dict, procedures: list,
         pass
         # TODO: check_procedure_call(instr_tokens, procedures)
     else:
-        sintax_error("Name '"+first_token+"' is not defined.")
+        raise_sintax_error("Name '"+first_token+"' is not defined.")
 
     return variables
 
@@ -286,30 +287,103 @@ def check_var_assignment(instr_tokens: list, variables: dict) -> None:
         try:
             value = float(instr_tokens[2])
         except ValueError:
-            sintax_error("Expected a number after assignment operator '" +
-                         asign_operator + "' for variable '"+var_name+"'.")
+            raise_sintax_error("Expected a number after assignment " +
+                               "operator '"+asign_operator +
+                               "' for variable '"+var_name+"'.")
         variables[var_name] = value
 
     # Assignment sintax error
     else:
-        sintax_error("Expected '=' or ':=' as assignment operator" +
-                     " for variable '" + var_name + "'.")
-   
+        raise_sintax_error("Expected '=' or ':=' as assignment operator" +
+                           " for variable '" + var_name + "'.")
+
     return variables
 
 
 def check_command(instr_tokens: list, variables: dict,
-                  proc_param_names: list) -> str:
-    # commands = {"walk": ["num_var_or_param"], "jump": ["num_var_or_param"],
-    #             "jumpTo": ["num_var_or_param", "num_var_or_param"],
-    #             "veer": ["veer_dir"], "look": ["cardinal_dir"],
-    #             "drop": ["num_var_or_param"], "grab": ["num_var_or_param"],
-    #             "get": ["num_var_or_param"], "free": ["num_var_or_param"],
-    #             "pop": ["num_var_or_param"],
-    #             "walk": ["walk_dir", "num_var_or_param"],
-    #             "walk": ["cardinal_dir", "num_var_or_param"]}
-    # TODO
-    pass
+                  parameters: list) -> str:
+    command = instr_tokens[0]
+
+    # Single-parameter commands
+    single_param_commands = ["jump", "veer", "look", "drop", "grab",
+                             "get", "free", "pop"]
+    if command in single_param_commands:
+        if len(instr_tokens) != 4:
+            raise_sintax_error("Expected exactly one parameter for '" +
+                               command + "' command.")
+        else:
+            param = instr_tokens[2]
+
+            # Commands that recieve a single parameter, that may be a
+            # number, a variable, or a parameter.
+            num_var_param_commands = ["jump", "drop", "grab", "get",
+                                      "free", "pop"]
+            if command in num_var_param_commands:
+                check_param_is_number_var_or_param(param, variables,
+                                                   parameters, command)
+
+            # Other single-parameter commands
+            elif command == "veer":  # veer(D)
+                veer_dirs = ["left", "right", "around"]
+                if param not in veer_dirs:
+                    raise_sintax_error("Expected 'left', 'right', or " +
+                                       "'around' as parameters for 'veer' " +
+                                       "command")
+            elif command == "look":  # look(O)
+                look_dirs = ["north", "south", "east", "west"]
+                if param not in look_dirs:
+                    raise_sintax_error("Expected 'north', 'south', 'east', " +
+                                       "or 'west' as parameters for 'look' " +
+                                       "command")
+
+    # Double-parameter commands
+    # jumpTo(n,m) is the only double-parameter command with no homonyms
+    elif command == "jumpTo":
+        if len(instr_tokens) == 6:
+            param1, param2 = instr_tokens[2], instr_tokens[4]
+            check_param_is_number_var_or_param(param1, variables,
+                                               parameters, command)
+            check_param_is_number_var_or_param(param2, variables,
+                                               parameters, command)
+        else:
+            raise_sintax_error("Expected exactly two parameters for " +
+                               "'jumpTo' command.")
+
+    # Walk command has both single- and double-parameter versions
+    elif command == "walk":
+        pass
+        # TODO: walk command
+        # if len(instr_tokens) == 6:  # walk(d, n) or walk(o, n)
+        #     direction = instr_tokens[2]
+        #     second_param = instr_tokens[4]
+        #     if direction in WALK_DIR:  # walk(d, n)
+
+        #     elif direction in CARDINAL_DIR:  # walk(o, n)
+
+        #     else:
+        #         raise_sintax_error("Expected a direction for walk function )
+        # elif len(instr_tokens) == 4:  # walk(n)
+        # else:
+        #     raise_sintax_error("Expected one or two parameters for "+
+        #                        " 'walk' command.")
+
+    else:
+        # If this runs, command_names list in check_instruction is
+        # inconsistent with lists here
+        raise_sintax_error("Command name '"+command+"' is not recognized.")
+
+
+def check_param_is_number_var_or_param(param_to_check: str, variables: dict,
+                                       parameters: list,
+                                       command: str) -> None:
+    is_num = param_to_check.isnumeric
+    is_var = param_to_check in list(variables.keys())
+    is_param = param_to_check in parameters
+    condition = is_num or is_var or is_param
+    if not condition:
+        raise_sintax_error("Parameter '"+param_to_check+"' in command '" +
+                           command+"' is not a number, variable or " +
+                           "parameter.")
 
 
 def check_procedure_call(instr_tokens: list, procedures: dict) -> None:
