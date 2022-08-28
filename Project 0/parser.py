@@ -118,7 +118,7 @@ def check_variable_declaration(program_str: str) -> str:
     var_names = []
     for var in var_list:
         check_name(var.strip())
-        var_names.append(var)
+        var_names.append(var.strip())
 
     program_str = program_str[pos_var_declaration_end+1:].strip()
     return program_str, var_names
@@ -271,33 +271,30 @@ def check_instruction(instruction: str, variables: dict, procedures: list,
     elif first_token in procedure_names:
         pass
         # TODO: check_procedure_call(instr_tokens, procedures)
-
+    else:
+        sintax_error("Name '"+first_token+"' is not defined.")
 
     return variables
 
 
 def check_var_assignment(instr_tokens: list, variables: dict) -> None:
-    # pos = instruction.find("=")
-    # if pos != -1:  # It's an assignment
-    #     if instruction[pos-1] == ":":
-    #         assign_op = ":="
-    #         # Supports both '=' and ':=' for assignments. # TODO: Preguntar!!
-    #         name = instruction[:pos-1]
-    #     else:
-    #         assign_op = "="
-    #         name = instruction[pos]
-    #     if name not in var_names:
-    #         sintax_error("Variable name " + name + " is not defined.")
-    #     else:
-    #         try:
-    #             assigned_vars[name] = float(instruction[pos+1:])
-    #         except Exception:
-    #             sintax_error("Expected a number after assignment oper" +
-    #                          "ator '"+assign_op+"' for variable '"+name+"'.")
-    # else:  # Not an assignment
-    #     pass
-    # pass
-    # pass
+    var_name = instr_tokens[0]
+    asign_operator = instr_tokens[1]
+
+    # Supports both '=' and ':=' for assignments. TODO: Ask!
+    if asign_operator == "=" or asign_operator == ":=":
+        try:
+            value = float(instr_tokens[2])
+        except ValueError:
+            sintax_error("Expected a number after assignment operator '" +
+                         asign_operator + "' for variable '"+var_name+"'.")
+        variables[var_name] = value
+
+    # Assignment sintax error
+    else:
+        sintax_error("Expected '=' or ':=' as assignment operator" +
+                     " for variable '" + var_name + "'.")
+   
     return variables
 
 
