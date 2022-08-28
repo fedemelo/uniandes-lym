@@ -90,7 +90,7 @@ def check_sintax(program_str: str) -> bool:
                                                          variables)
 
     # Final block of instructions
-    check_instruction_block(program_str.strip(), var_names, procedures)
+    check_instruction_block(program_str.strip(), variables, procedures)
 
     # If no exceptions have been raised by this point, sintax is correct
     print(True)
@@ -262,7 +262,7 @@ def check_instruction(instruction: str, variables: dict, procedures: list,
 
     first_token = instr_tokens[0]
     if first_token in list(variables.keys()):
-        check_var_assignment(instr_tokens, variables)
+        variables = check_var_assignment(instr_tokens, variables)
     elif first_token in command_names:
         check_command(instr_tokens, variables, proc_param_names)
     elif first_token in control_structure_names:
@@ -271,6 +271,9 @@ def check_instruction(instruction: str, variables: dict, procedures: list,
     elif first_token in procedure_names:
         pass
         # TODO: check_procedure_call(instr_tokens, procedures)
+
+
+    return variables
 
 
 def check_var_assignment(instr_tokens: list, variables: dict) -> None:
@@ -295,7 +298,7 @@ def check_var_assignment(instr_tokens: list, variables: dict) -> None:
     #     pass
     # pass
     # pass
-    pass
+    return variables
 
 
 def check_command(instr_tokens: list, variables: dict,
