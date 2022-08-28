@@ -12,10 +12,16 @@ Basic idea: Read program as a single string where every token is separated by
 
 """
 
-import re
+from re import sub  # Regular expressions
+from re import split as rsplit
 
-commands_num_var_or_param = {'walk': 1, "jump": 1, "jumpTo": 2, "drop": 1,
-                             'grab': 1, "get": 1, "free": 1, "pop": 1}
+
+# Language data types
+NUM_VAR_PARAM = "NUM_VAR_PARAM"  # Number, variable or parameter
+VEER_DIR = ["left", "right", "around"]
+CARDINAL_DIR = ["north", "south", "east", "west"]
+WALK_DIR = ["front", "right", "left", "back"]
+CONDITION = "CONDITION"
 
 
 def load_program(file_name: str) -> None:
@@ -31,9 +37,18 @@ def load_program(file_name: str) -> None:
     program.close()
 
     # Convert newlines, tabs and multiple spaces to a single space
-    program_str = re.sub("\s+", " ", program_str)
+    program_str = sub(r"\s+", " ", program_str)
 
     check_sintax(program_str.strip())
+
+
+def sintax_error(error: str) -> None:
+    """Ends sintax check after finding a sintax error.
+       Prints False to inform the program is incorrect and stops execution.
+    """
+    print("Sintax error: " + error)  # TODO: delete line
+    print(False)
+    quit()
 
 
 def check_sintax(program_str: str) -> bool:
@@ -61,12 +76,18 @@ def check_sintax(program_str: str) -> bool:
     var_names = []
     if program_str[0:3] == "VAR":
         program_str, var_names = check_variable_declaration(program_str)
+    variables = {}  # variables = {<var_name>: <value>}
+    for var_name in var_names:
+        variables[var_name] = None  # Variables are assigned None by default
 
     # Procedure definitions
-    procedures = {}  # {<name>: [<parameters>]}
+    procedures = []
+    # procedures = [[<name>, [(<param_name>, <type>)]], [],...]
+    # Element e.g: ["run", [("O", CARDINAL_DIR) , ("n", NUM_VAR_PARAM)]]
     while program_str.strip()[0:4] == "PROC":
-        program_str, procedures = check_procedure(program_str.strip(),
-                                                  procedures, var_names)
+        program_str, procedures = check_proc_declaration(program_str.strip(),
+                                                         procedures,
+                                                         variables)
 
     # Final block of instructions
     check_instruction_block(program_str.strip(), var_names, procedures)
@@ -121,21 +142,18 @@ def check_name(name: str) -> None:
                 sintax_error("name '"+name+"' isn't alphanumeric.")
 
 
-def check_procedure(program_str: str, procedures: dict,
-                    var_names: list) -> tuple:
-    """Check a procedure.
+def check_proc_declaration(program_str: str, procedures: dict,
+                           variables: dict) -> tuple:
+    """Check a procedure declaration.
 
     Args:
-        procedures (dict): Dictionary with procedure names as keys and
-                           parameter lists as values
-                           {<procedure_name>: [<parameters>]}
+        procedures (dict):
         program_str (str): What is left of the program as a string
-        var_names (list): Names of the variables defined for the program.
-                          Necessary to check instruction blocks.
+        variables (dict):
 
     Returns:
         tuple: updated procedures dictionary and what is left of the program
-               after the check as a string
+               as a string after the check
     """
 
     # Check for CORP. Remove PROC and CORP
@@ -150,7 +168,8 @@ def check_procedure(program_str: str, procedures: dict,
     if pos_end_procedure_name == -1:
         sintax_error("expected blankspace character after procedure name.")
     procedure_name = procedure[:pos_end_procedure_name]
-    check_name(procedure_name.strip())
+    procedure_name = procedure_name.strip()
+    check_name(procedure_name)
     procedure = procedure[pos_end_procedure_name:].strip()
 
     # Extract parameters.
@@ -167,33 +186,32 @@ def check_procedure(program_str: str, procedures: dict,
     if procedure[1] == ")" or (procedure[1] == " " and procedure[2] == ")"):
         # Looking for '()' or '( )'. If found, there's no parameters
         parameters = []
+        proc_param_names = []
     else:
+        parameters = []
+        proc_param_names = []
         parameters_pre_strip = procedure[1:end_parenthesis].split(",")
-        parameters = [p.strip() for p in parameters_pre_strip]
-        for parameter in parameters:
-            check_name(parameter)  # Parameters are names, just as variables
+        for parameter in parameters_pre_strip:
+            check_name(parameter.strip())  # Parameters are names
+            parameters.append((parameter.strip(), NUM_VAR_PARAM))
+            proc_param_names.append(parameter.strip())
 
     # Add procedure name and parameters to procedures
-    procedures[procedure_name] = parameters
-    # FIXME: Ojo! Dos procedimientos con mismo nombre, ahí qué hago??
-    # Posible solución: que la llave sea una concatenación nombre y parámetros.
+    procedures.append([procedure_name, parameters])
 
     # Instructions
     instructions_block = procedure[end_parenthesis+1:].strip()
-    check_instruction_block(instructions_block.strip(), var_names, procedures,
-                            procedure_name)
+    check_instruction_block(instructions_block.strip(), variables, procedures,
+                            procedure_name, proc_param_names)
 
     return (program_str, procedures)
 
 
-def check_instruction_block(block: str, var_names: list, procedures: dict,
-                            procedure_name="") -> None:
+def check_instruction_block(block: str, variables: dict, procedures: list,
+                            procedure_name="", proc_param_names=[]) -> None:
     """Checks the sintax for a block of instructions
     'A block of instructions is a sequence of instructions separated
     by semicolons within curly brackets'.
-
-    Args:
-        block (str): _description_
     """
 
     # Write error message. Differs if the instruction block belongs to a
@@ -220,48 +238,83 @@ def check_instruction_block(block: str, var_names: list, procedures: dict,
     # instruction and hence no ';'
     instructions = block.split(";")
     for instruction in instructions:
-        check_instruction(instruction.strip(), var_names, procedures,
-                          procedure_name)
+        variables = check_instruction(instruction.strip(), variables,
+                                      procedures,
+                                      procedure_name,
+                                      proc_param_names)
 
 
-def check_instruction(instruction: str, var_names: list, procedures: list,
-                      procedure_name: str) -> None:
+def check_instruction(instruction: str, variables: dict, procedures: list,
+                      procedure_name: str, proc_param_names: list) -> None:
     """Check the sintax for a given instruction is valid
      'An instruction can be a command, a control structure or a procedure
       call'.
     """
 
-    # Control structure
+    command_names = ["walk", "jump", "jumpTo", "veer", "look", "drop", "grab",
+                     "get", "free", "pop"]
+    procedure_names = [list_proc[0] for list_proc in procedures]
+    control_structure_names = ["if", "while", "repeatTimes"]
 
-    # Procedure call
+    # Tokenize instruction
+    instr_tokens_ = rsplit(r'(\b|\s)', instruction)
+    instr_tokens = [e for e in instr_tokens_ if e != "" and e != " "]
 
-    # TODO: Revisar instrucción!
+    first_token = instr_tokens[0]
+    if first_token in list(variables.keys()):
+        check_var_assignment(instr_tokens, variables)
+    elif first_token in command_names:
+        check_command(instr_tokens, variables, proc_param_names)
+    elif first_token in control_structure_names:
+        pass
+        # TODO: check_control_structure()
+    elif first_token in procedure_names:
+        pass
+        # TODO: check_procedure_call(instr_tokens, procedures)
+
+
+def check_var_assignment(instr_tokens: list, variables: dict) -> None:
+    # pos = instruction.find("=")
+    # if pos != -1:  # It's an assignment
+    #     if instruction[pos-1] == ":":
+    #         assign_op = ":="
+    #         # Supports both '=' and ':=' for assignments. # TODO: Preguntar!!
+    #         name = instruction[:pos-1]
+    #     else:
+    #         assign_op = "="
+    #         name = instruction[pos]
+    #     if name not in var_names:
+    #         sintax_error("Variable name " + name + " is not defined.")
+    #     else:
+    #         try:
+    #             assigned_vars[name] = float(instruction[pos+1:])
+    #         except Exception:
+    #             sintax_error("Expected a number after assignment oper" +
+    #                          "ator '"+assign_op+"' for variable '"+name+"'.")
+    # else:  # Not an assignment
+    #     pass
+    # pass
+    # pass
     pass
 
 
-def check_command(instruction: str) -> str:
+def check_command(instr_tokens: list, variables: dict,
+                  proc_param_names: list) -> str:
+    # commands = {"walk": ["num_var_or_param"], "jump": ["num_var_or_param"],
+    #             "jumpTo": ["num_var_or_param", "num_var_or_param"],
+    #             "veer": ["veer_dir"], "look": ["cardinal_dir"],
+    #             "drop": ["num_var_or_param"], "grab": ["num_var_or_param"],
+    #             "get": ["num_var_or_param"], "free": ["num_var_or_param"],
+    #             "pop": ["num_var_or_param"],
+    #             "walk": ["walk_dir", "num_var_or_param"],
+    #             "walk": ["cardinal_dir", "num_var_or_param"]}
+    # TODO
     pass
 
 
-def check_param_is_num_var_or_param(param: str, vars: list,
-                                    procedure_params: list) -> None:
-    """
-    Checks if a parameter in a command is a number, a previously defined
-    variable or, if the command is called within a procedure, a parameter
-    of said procedure.
-
-    Args:
-        parameter (str): parameter in a command
-    """
-
-
-def sintax_error(error: str) -> None:
-    """Ends sintax check after finding a sintax error.
-       Prints False to inform the program is incorrect and stops execution.
-    """
-    print("Sintax error: "+error)  # TODO: delete line
-    print(False)
-    quit()
+def check_procedure_call(instr_tokens: list, procedures: dict) -> None:
+    # TODO
+    pass
 
 
 def main() -> None:
