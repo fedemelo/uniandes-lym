@@ -450,7 +450,7 @@ def check_control_structure(instr_tokens: list, variables: dict,
     return variables
 
 
-def check_if_fi(if_string: str, variables: dict,
+def check_if_fi(if_instr_block: str, variables: dict,
                 parameters: list, procedures: list,
                 procedure_name: str) -> list:
     """
@@ -458,16 +458,16 @@ def check_if_fi(if_string: str, variables: dict,
     (condition)Block1
     """
     ctrl_struc_name = "if"
-    if_string = check_condition(if_string, variables,
-                                parameters, procedures,
-                                procedure_name, ctrl_struc_name)
-    variables = check_instruction_block(if_string,
+    if_instr_block = check_condition(if_instr_block, variables,
+                                     parameters, procedures,
+                                     procedure_name, ctrl_struc_name)
+    variables = check_instruction_block(if_instr_block,
                                         variables, procedures,
                                         procedure_name, parameters)
     return variables
 
 
-def check_if_else(if_else_string: str, variables: dict,
+def check_if_else(if_else_block: str, variables: dict,
                   parameters: list, procedures: list,
                   procedure_name: str) -> list:
     """
@@ -475,12 +475,12 @@ def check_if_else(if_else_string: str, variables: dict,
     (condition)Block1 else Block2
     """
     ctrl_struc_name = "if ... else"
-    if_else_string = check_condition(if_else_string, variables,
-                                     parameters, procedures,
-                                     procedure_name, ctrl_struc_name)
-    else_position = if_else_string.find("else")
-    instr_block1 = if_else_string[:else_position-1].strip()
-    instr_block2 = if_else_string[else_position+4:].strip()
+    if_else_block = check_condition(if_else_block, variables,
+                                    parameters, procedures,
+                                    procedure_name, ctrl_struc_name)
+    else_position = if_else_block.find("else")
+    instr_block1 = if_else_block[:else_position-1].strip()
+    instr_block2 = if_else_block[else_position+4:].strip()
     variables = check_instruction_block(instr_block1,
                                         variables, procedures,
                                         procedure_name, parameters)
@@ -505,8 +505,8 @@ def check_while(while_str: str, variables: dict,
     if while_str[:2] != "do":
         raise_sintax_error("Expected 'do' for 'while .. do' " +
                            "control structure.")
-    while_str = while_str[2:].strip()
-    variables = check_instruction_block(while_str,
+    while_block = while_str[2:].strip()
+    variables = check_instruction_block(while_block,
                                         variables, procedures,
                                         procedure_name, parameters)
     return variables
@@ -532,8 +532,7 @@ def check_repeat(repeat_string: str, variables: dict,
 
 def check_condition(ctrl_struc_str: str, variables: dict,
                     parameters: list, procedures: list,
-                    procedure_name: str, ctrl_struc_name: str,
-                    look_for_extra_parenthesis=False) -> str:
+                    procedure_name: str, ctrl_struc_name: str) -> str:
     """
         ctrl_struc_str (str): There's always a single space between tokens
     """
@@ -552,20 +551,26 @@ def check_condition(ctrl_struc_str: str, variables: dict,
     ctrl_struc_str = ctrl_struc_str[condition_start+1:].strip()
 
     conditions = ["isfacing", "isValid", "canWalk", "not"]
-    condition_name_end = ctrl_struc_str.find(' ')
-    condition_name = ctrl_struc_str[:condition_name_end]
+    condition_name_end = ctrl_struc_str.find('(')
+    condition_name = ctrl_struc_str[:condition_name_end].strip()
     if condition_name not in conditions:
         raise_sintax_error("Condition name '"+condition_name+"' not " +
                            "defined"+in_err_msg)
 
     if condition_name == "not":
-        nested_condition = ctrl_struc_str[3:].strip()
-        ctrl_struc_str = check_condition(nested_condition, variables,
-                                         parameters, procedures,
-                                         procedure_name, ctrl_struc_name,
-                                         True)
-        # True parameter removes second parenthesis in 'not ( condition )'
-        # TODO: Test
+        # Nested condition
+        ctrl_struc_str = ctrl_struc_str[condition_name_end+1:]
+        # Remove end parenthesis.
+        end_parenthesis = ctrl_struc_str.find(")")
+        if end_parenthesis == -1:
+            raise_sintax_error("Expected ')' to enclose '" +
+                               condition_name+"' condition"+in_err_msg)
+        ctrl_struc_str = ('('+ctrl_struc_str[:end_parenthesis] +
+                          ctrl_struc_str[end_parenthesis+1:]).strip()
+        ctrl_struc_str = ctrl_struc_str.replace("  ", " ")
+        return check_condition(ctrl_struc_str, variables,
+                               parameters, procedures,
+                               procedure_name, ctrl_struc_name)
 
     ctrl_struc_str = ctrl_struc_str[condition_name_end+2:].strip()
     parameter_separator = ctrl_struc_str.find(" ")
@@ -623,13 +628,10 @@ def check_condition(ctrl_struc_str: str, variables: dict,
     if ctrl_struc_str[0] != ")":
         raise_sintax_error("Expected ')' to enclose '" +
                            condition_name+"' condition"+in_err_msg)
-    ctrl_struc_str = ctrl_struc_str[1:].strip()
-    if look_for_extra_parenthesis:
-        if ctrl_struc_str[0] != ")":
-            raise_sintax_error("Expected ')' to enclose '" +
-                               condition_name+"' condition"+in_err_msg)
-        ctrl_struc_str = ctrl_struc_str[1:].strip()
-    return ctrl_struc_str
+    # Possibly an instruction block, or an else or od clause
+    remaining_string = ctrl_struc_str[1:].strip()
+
+    return remaining_string
 
 
 def check_procedure_call(instr_tokens: list, procedures: dict) -> None:
@@ -662,7 +664,7 @@ def check_procedure_call(instr_tokens: list, procedures: dict) -> None:
 
 def main() -> None:
     # file_name = "program.txt"
-    file_name = "sample3.txt"
+    file_name = "sample1.txt"
     load_program(file_name)
 
 

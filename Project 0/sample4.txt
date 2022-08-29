@@ -1,0 +1,42 @@
+PROG
+VAR n;
+PROC repB(a)
+{
+	n := 6;
+    grab(n);
+    while (isValid(jump,a)) do {jump(a)} od
+}
+CORP
+
+PROC esquiA(d,e)
+{   
+    veer(  right);
+    while (not ( canWalk(east    ,1) ) )  do {walk( south  , 1)} od
+}
+CORP
+
+PROC esteSi(o)
+{
+    get(n);
+    if ( not ( isValid( pop, n) ) )  {look( north)} fi
+}
+CORP
+
+PROC camiA(x,y)
+{
+    free(x);
+    drop(n);
+    if (   not (    canWalk(  right  ,x)  ) ) {walk(south  ,x  )} else {pop(x)} fi
+}
+CORP
+
+{
+walk(1);
+free(9);
+n:=  7   ;
+repB(2);
+esquiA(east,right);
+esteSi(south);
+camiA(3,back)
+}
+GORP
