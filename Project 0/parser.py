@@ -77,12 +77,14 @@ def check_sintax(program_str: str) -> bool:
     # procedures = [[<name>, [(<param_name>, <type>)]], [],...]
     # Element e.g: ["run", [("O", "NUM_VAR_PARAM") , ("n", "NUM_VAR_PARAM")]]
     while program_str.strip()[0:4] == "PROC":
-        program_str, procedures = check_proc_declaration(program_str.strip(),
-                                                         procedures,
-                                                         variables)
+        updated = check_proc_declaration(program_str.strip(), procedures,
+                                         variables)
+        program_str, procedures, variables = updated
 
     # Final block of instructions
-    check_instruction_block(program_str.strip(), variables, procedures)
+    variables = check_instruction_block(program_str.strip(),
+                                        variables,
+                                        procedures)
 
     # If no exceptions have been raised by this point, sintax is correct
     print(True)
@@ -134,7 +136,7 @@ def check_name(name: str) -> None:
                 raise_sintax_error("name '"+name+"' isn't alphanumeric.")
 
 
-def check_proc_declaration(program_str: str, procedures: dict,
+def check_proc_declaration(program_str: str, procedures: list,
                            variables: dict) -> tuple:
     """Check a procedure declaration.
 
@@ -144,8 +146,8 @@ def check_proc_declaration(program_str: str, procedures: dict,
         variables (dict):
 
     Returns:
-        tuple: updated procedures dictionary and what is left of the program
-               as a string after the check
+        tuple: updated procedures dictionary, what is left of the program
+               as a string after the check and variables dictionary
     """
 
     # Check for CORP. Remove PROC and CORP
@@ -194,14 +196,15 @@ def check_proc_declaration(program_str: str, procedures: dict,
 
     # Instructions
     instructions_block = procedure[end_parenthesis+1:].strip()
-    check_instruction_block(instructions_block.strip(), variables, procedures,
-                            procedure_name, proc_param_names)
+    variables = check_instruction_block(instructions_block.strip(),
+                                        variables, procedures,
+                                        procedure_name, proc_param_names)
 
-    return (program_str, procedures)
+    return (program_str, procedures, variables)
 
 
 def check_instruction_block(block: str, variables: dict, procedures: list,
-                            procedure_name="", proc_param_names=[]) -> None:
+                            procedure_name="", proc_param_names=[]) -> list:
     """Checks the sintax for a block of instructions
     'A block of instructions is a sequence of instructions separated
     by semicolons within curly brackets'.
@@ -235,6 +238,7 @@ def check_instruction_block(block: str, variables: dict, procedures: list,
                                       procedures,
                                       procedure_name,
                                       proc_param_names)
+    return variables
 
 
 def check_instruction(instruction: str, variables: dict, procedures: list,
@@ -261,8 +265,9 @@ def check_instruction(instruction: str, variables: dict, procedures: list,
     elif first_token in command_names:
         check_command(instr_tokens, variables, proc_param_names)
     elif first_token in control_structure_names:
-        pass
-        # TODO: check_control_structure()
+        variables = check_control_structure(instr_tokens, variables,
+                                            proc_param_names, procedures,
+                                            procedure_name)
     elif first_token in procedure_names:
         pass
         # TODO: check_procedure_call(instr_tokens, procedures)
@@ -299,7 +304,7 @@ def check_var_assignment(instr_tokens: list, variables: dict) -> None:
 
 
 def check_command(instr_tokens: list, variables: dict,
-                  parameters: list) -> str:
+                  parameters: list) -> None:
     command = instr_tokens[0]
 
     # Single-parameter commands
@@ -385,8 +390,157 @@ def check_param_is_number_var_or_param(param_to_check: str, variables: dict,
                            "parameter.")
 
 
+def check_control_structure(instr_tokens: list, variables: dict,
+                            parameters: list, procedures: list,
+                            procedure_name: str) -> str:
+    ctrl_struc_name = instr_tokens[0]
+    ctrl_struc_end = instr_tokens[-1]
+
+    # Conditional: if
+    if ctrl_struc_name == "if":
+        if ctrl_struc_end != "fi":
+            raise_sintax_error("Expected 'fi' to end 'if' control structure.")
+
+        # From tokens to string
+        if_string = " ".join(instr_tokens[1:-1]).strip()
+
+        if "else" in instr_tokens:  # if (condition)Block1 else Block2 fi
+            check_if_else(if_string, variables, parameters, procedures,
+                          procedure_name)
+        else:  # if (condition)Block1 fi
+            check_if_fi(if_string, variables, parameters, procedures,
+                        procedure_name)
+
+    # Loop: while do
+    elif ctrl_struc_name == "while":
+        if ctrl_struc_end != "od":
+            raise_sintax_error("Expected 'od' to end 'while .. do' " +
+                               "control structure.")
+
+        # From tokens to string
+        while_string = " ".join(instr_tokens[1:-1]).strip()
+        check_while(while_string, variables, parameters, procedures,
+                    procedure_name)
+
+    # Repeat: repeatTimes
+    elif ctrl_struc_name == "repeatTimes":
+        if ctrl_struc_end != "per":
+            raise_sintax_error("Expected 'per' to end 'repeatTimes' " +
+                               "control structure.")
+
+        # From tokens to string
+        repeat_string = " ".join(instr_tokens[1:-1]).strip()
+        check_repeat(repeat_string, variables, parameters, procedures,
+                     procedure_name)
+
+    else:  # This else clause should never run!
+        raise_sintax_error("Error in procedure call for procedure '" +
+                           ctrl_struc_name+"'.")
+    return variables
+
+
+def check_if_fi(if_string: str, variables: dict,
+                parameters: list, procedures: list,
+                procedure_name: str) -> None:
+    # TODO: check_if_fi
+    # begin_block1 = instr_tokens.index(")")
+    # instruc_block_tokens = instr_tokens[begin_block1+1:-1]
+    # instruc_block = " ".join(instruc_block_tokens)
+    # variables = check_instruction_block(instruc_block.strip(),
+    #                                     variables,
+    #                                     procedures,
+    #                                     procedure_name, parameters)
+    pass
+
+
+def check_if_else(if_else_string: str, variables: dict,
+                  parameters: list, procedures: list,
+                  procedure_name: str) -> None:
+    # TODO: check_if_else
+    # instruc_block1 = " ".join(block1_tokens)
+    # variables = check_instruction_block(instruc_block1.strip(),
+    #                                     variables,
+    #                                     procedures,
+    #                                     procedure_name, parameters)
+    # block2_tokens = instr_tokens[end_block1+1:-1]
+    # instruc_block2 = " ".join(block2_tokens)
+    # variables = check_instruction_block(instruc_block2.strip(),
+    #                                     variables,
+    #                                     procedures,
+    #                                     procedure_name, parameters)
+    pass
+
+
+def check_while(while_string: str, variables: dict,
+                parameters: list, procedures: list,
+                procedure_name: str) -> None:
+    # TODO: check_while
+    # condition_tokens = search_for_condition(instr_tokens, ctrl_struc_name)
+    # check_condition(condition_tokens, variables, parameters)
+
+    # if not ("do" in instr_tokens):
+    #     raise_sintax_error("Expected 'do' for 'while .. do' " +
+    #                        "control structure.")
+
+    # do_position = instr_tokens.index("do")
+    # instruc_block_tokens = instr_tokens[do_position+1:-1]
+    # instruc_block = " ".join(instruc_block_tokens)
+    # variables = check_instruction_block(instruc_block.strip(),
+    #                                     variables, procedures,
+    #                                     procedure_name, parameters)
+    pass
+
+
+def check_repeat(repeat_string: str, variables: dict,
+                 parameters: list, procedures: list,
+                 procedure_name: str) -> None:
+    # TODO: check_repeat
+    pass
+
+# def search_for_condition(instr_tokens: list,
+#                          ctrl_struc_name: str) -> list:
+#     if not ("(" in instr_tokens and ")" in instr_tokens):
+#         raise_sintax_error("Expected parenthesis to enclose " +
+#                            "condition in '"+ctrl_struc_name +
+#                            "' control structure.")
+
+#     # Count how many '('
+#     first_begin_parenthesis = instr_tokens.index("(")  # First '('
+#     parenthesis_count = 1
+#     instr_tokens2 = instr_tokens  # Create copy
+#     instr_tokens2 = instr_tokens2[first_begin_parenthesis+1:]
+#     while "(" in instr_tokens2:
+#         parenthesis_count += 1
+#         new_begin_parenthesis = instr_tokens2.index("(")
+#         instr_tokens2 = instr_tokens2[new_begin_parenthesis+1:]
+
+#     # There must be the same number of ')'
+#     first_end_parenthesis = instr_tokens.index(")")  # First ')'
+#     end_parenthesis_count = 1
+#     instr_tokens3 = instr_tokens  # Create another copy
+#     instr_tokens3 = instr_tokens3[first_end_parenthesis+1:]
+#     while ")" in instr_tokens3:
+#         end_parenthesis_count += 1
+#         new_end_parenthesis = instr_tokens3.index(")")
+#         instr_tokens3 = instr_tokens3[new_end_parenthesis+1:]
+
+#     if parenthesis_count != end_parenthesis_count:
+#         raise_sintax_error("Expected ')' after '(' in '" +
+#                            ctrl_struc_name+"' control structure.")
+
+#     instr_tokens2
+#     end_parenthesis = instr_tokens.index(")")
+#    condition_tokens = instr_tokens[first_begin_parenthesis+1:end_parenthesis]
+#     return condition_tokens
+
+
+# def check_condition(condition_tokens: list, variables: dict,
+#                     parameters: list) -> None:
+#     condition_name = condition_tokens[0]
+#     # TODO: check condition
+
+
 def check_procedure_call(instr_tokens: list, procedures: dict) -> None:
-    # TODO
     pass
 
 

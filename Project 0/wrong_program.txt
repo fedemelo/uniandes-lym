@@ -28,6 +28,15 @@ PROC goWest ()
 CORP
 
 
+PROC goEast ()
+{
+
+	if ( canWalk ( west ,1) ) { walk ( west ,1) } else { walk ( west ,2) } fi
+
+}
+CORP
+
+
 {
 putCB (3 ,3,) ;
 n = 24578;
