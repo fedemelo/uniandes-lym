@@ -6,7 +6,7 @@ PROC putCB (c , b)
 {
 	drop (c) ;
 	free (b) ;
-	walk (n)
+	walk (y)
 }
 CORP
 
@@ -29,8 +29,8 @@ CORP
 
 
 {
-putCB (3 ,3) ;
-n := 654;
+putCB (3 ,3,) ;
+n = 24578;
 putCB (2 ,1)
 
 

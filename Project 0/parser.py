@@ -16,14 +16,6 @@ from re import sub  # Regular expressions
 from re import split as rsplit
 
 
-# Language data types
-NUM_VAR_PARAM = "NUM_VAR_PARAM"  # Number, variable or parameter
-VEER_DIR = ["left", "right", "around"]
-CARDINAL_DIR = ["north", "south", "east", "west"]
-WALK_DIR = ["front", "right", "left", "back"]
-CONDITION = "CONDITION"
-
-
 def load_program(file_name: str) -> None:
     """Loads program as a single string.
        Subtitutes every whitespace character, including newlines and tabs,
@@ -83,7 +75,7 @@ def check_sintax(program_str: str) -> bool:
     # Procedure definitions
     procedures = []
     # procedures = [[<name>, [(<param_name>, <type>)]], [],...]
-    # Element e.g: ["run", [("O", CARDINAL_DIR) , ("n", NUM_VAR_PARAM)]]
+    # Element e.g: ["run", [("O", "NUM_VAR_PARAM") , ("n", "NUM_VAR_PARAM")]]
     while program_str.strip()[0:4] == "PROC":
         program_str, procedures = check_proc_declaration(program_str.strip(),
                                                          procedures,
@@ -194,7 +186,7 @@ def check_proc_declaration(program_str: str, procedures: dict,
         parameters_pre_strip = procedure[1:end_parenthesis].split(",")
         for parameter in parameters_pre_strip:
             check_name(parameter.strip())  # Parameters are names
-            parameters.append((parameter.strip(), NUM_VAR_PARAM))
+            parameters.append((parameter.strip(), "NUM_VAR_PARAM"))
             proc_param_names.append(parameter.strip())
 
     # Add procedure name and parameters to procedures
@@ -252,13 +244,15 @@ def check_instruction(instruction: str, variables: dict, procedures: list,
       call'.
     """
 
-    command_names = ["walk", "jump", "jumpTo", "veer", "look", "drop", "grab",
-                     "get", "free", "pop"]
+    command_names = ["walk", "jump", "jumpTo", "veer", "look", "drop",
+                     "grab", "get", "free", "pop"]
     procedure_names = [list_proc[0] for list_proc in procedures]
     control_structure_names = ["if", "while", "repeatTimes"]
 
     # Tokenize instruction
-    instr_tokens_ = rsplit(r'(\b|\s)', instruction)
+    bewteen_non_alphanumeric = r'(?=[^A-Za-z0-9\s])(?<=[^A-Za-z0-9\s])'
+    instr_tokens_ = rsplit(r'(\b|\s|'+bewteen_non_alphanumeric+r')',
+                           instruction)
     instr_tokens = [e for e in instr_tokens_ if e != "" and e != " "]
 
     first_token = instr_tokens[0]
@@ -280,22 +274,26 @@ def check_instruction(instruction: str, variables: dict, procedures: list,
 
 def check_var_assignment(instr_tokens: list, variables: dict) -> None:
     var_name = instr_tokens[0]
-    asign_operator = instr_tokens[1]
 
     # Supports both '=' and ':=' for assignments. TODO: Ask!
-    if asign_operator == "=" or asign_operator == ":=":
-        try:
-            value = float(instr_tokens[2])
-        except ValueError:
-            raise_sintax_error("Expected a number after assignment " +
-                               "operator '"+asign_operator +
-                               "' for variable '"+var_name+"'.")
-        variables[var_name] = value
-
-    # Assignment sintax error
+    if instr_tokens[1] == "=":
+        asign_operator = "="
+        value = instr_tokens[2]
+    elif instr_tokens[1] == ":" and instr_tokens[2] == "=":
+        asign_operator = ":="
+        value = instr_tokens[3]
     else:
-        raise_sintax_error("Expected '=' or ':=' as assignment operator" +
-                           " for variable '" + var_name + "'.")
+        raise_sintax_error("Expected '=' or ':=' as assignment operator " +
+                           "for variable '" + var_name + "'.")
+
+    # Check if assigned value is numeric
+    try:
+        value = float(value)
+    except ValueError:
+        raise_sintax_error("Expected a number after assignment " +
+                           "operator '"+asign_operator +
+                           "' for variable '"+var_name+"'.")
+    variables[var_name] = value
 
     return variables
 
@@ -328,13 +326,13 @@ def check_command(instr_tokens: list, variables: dict,
                 if param not in veer_dirs:
                     raise_sintax_error("Expected 'left', 'right', or " +
                                        "'around' as parameters for 'veer' " +
-                                       "command")
+                                       "command.")
             elif command == "look":  # look(O)
-                look_dirs = ["north", "south", "east", "west"]
-                if param not in look_dirs:
+                cardinal_dirs = ["north", "south", "east", "west"]
+                if param not in cardinal_dirs:
                     raise_sintax_error("Expected 'north', 'south', 'east', " +
                                        "or 'west' as parameters for 'look' " +
-                                       "command")
+                                       "command.")
 
     # Double-parameter commands
     # jumpTo(n,m) is the only double-parameter command with no homonyms
@@ -351,25 +349,26 @@ def check_command(instr_tokens: list, variables: dict,
 
     # Walk command has both single- and double-parameter versions
     elif command == "walk":
-        pass
-        # TODO: walk command
-        # if len(instr_tokens) == 6:  # walk(d, n) or walk(o, n)
-        #     direction = instr_tokens[2]
-        #     second_param = instr_tokens[4]
-        #     if direction in WALK_DIR:  # walk(d, n)
+        if len(instr_tokens) == 4:  # walk(n)
+            param = instr_tokens[2]
+            check_param_is_number_var_or_param(param, variables,
+                                               parameters, command)
+        elif len(instr_tokens) == 6:  # walk(d, n) or walk(o, n)
+            param1, param2 = instr_tokens[2], instr_tokens[4]
+            check_param_is_number_var_or_param(param2, variables,
+                                               parameters, command)
+            walk_dirs = ["front", "right", "left", "back"]
+            cardinal_dirs = ["north", "south", "east", "west"]
+            if not (param1 in walk_dirs or param1 in cardinal_dirs):
+                raise_sintax_error("Expected a direction for 'walk' " +
+                                   "command. Invalid parameter '"+param1+"'.")
+        else:
+            raise_sintax_error("Expected exactly one or two parameters " +
+                               "for 'walk' command.")
 
-        #     elif direction in CARDINAL_DIR:  # walk(o, n)
-
-        #     else:
-        #         raise_sintax_error("Expected a direction for walk function )
-        # elif len(instr_tokens) == 4:  # walk(n)
-        # else:
-        #     raise_sintax_error("Expected one or two parameters for "+
-        #                        " 'walk' command.")
-
+    # If this else clause runs, command_names list in check_instruction is
+    # inconsistent with commands handled here
     else:
-        # If this runs, command_names list in check_instruction is
-        # inconsistent with lists here
         raise_sintax_error("Command name '"+command+"' is not recognized.")
 
 
