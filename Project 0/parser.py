@@ -38,7 +38,7 @@ def raise_sintax_error(error: str) -> None:
     """Ends sintax check after finding a sintax error.
        Prints False to inform the program is incorrect and stops execution.
     """
-    print("Sintax error: " + error)  # TODO: delete line
+    print("Sintax error: " + error)  # TODO: delete Sintax error line
     print(False)
     quit()
 
@@ -640,7 +640,7 @@ def check_procedure_call(instr_tokens: list, procedures: dict) -> None:
     if end_parenthesis != ")":
         raise_sintax_error("Expected ')' after parameters in procedure " +
                            " call for '"+proc_name+"' procedure.")
-    
+
     for procedure in procedures:
         if proc_name == procedure[0]:
             param_count = len(procedure[1])
