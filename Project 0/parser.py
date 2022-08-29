@@ -106,14 +106,20 @@ def check_variable_declaration(program_str: str) -> str:
     # Remove VAR and ;
     var_declaration = program_str[3:pos_var_declaration_end].strip()
 
-    # Check if there's at least one comma
-    if var_declaration.find(",") == -1:
-        raise_sintax_error("expected ',' to separate variables.")
-    var_list = var_declaration.split(",")
     var_names = []
-    for var in var_list:
-        check_name(var.strip())
-        var_names.append(var.strip())
+    # Check if there are no commas
+    if var_declaration.find(",") == -1:
+        # Only one parameter
+        var = var_declaration.strip()
+        check_name(var)
+        var_names.append(var)
+    # There are commas, multiple paramaters
+    else:
+        var_list = var_declaration.split(",")
+        for var in var_list:
+            var = var.strip()
+            check_name(var)
+            var_names.append(var)
 
     program_str = program_str[pos_var_declaration_end+1:].strip()
     return program_str, var_names
@@ -156,23 +162,19 @@ def check_proc_declaration(program_str: str, procedures: list,
     if pos_procedure_end == -1:
         raise_sintax_error("expected 'CORP' to end procedure definition.")
     procedure = program_str[4:pos_procedure_end].strip()
+    # Next procedure or remaining program
     program_str = program_str[pos_procedure_end+4:].strip()
 
     # Extract and check procedure name
-    pos_end_procedure_name = procedure.find(" ")
+    pos_end_procedure_name = procedure.find("(")
     if pos_end_procedure_name == -1:
-        raise_sintax_error("expected blankspace character after procedure " +
-                           "name.")
-    procedure_name = procedure[:pos_end_procedure_name]
-    procedure_name = procedure_name.strip()
+        raise_sintax_error("expected '(' before list of parameters in " +
+                           "procedure.")
+    procedure_name = procedure[:pos_end_procedure_name].strip()
     check_name(procedure_name)
     procedure = procedure[pos_end_procedure_name:].strip()
 
     # Extract parameters.
-
-    if procedure[0] != "(":
-        raise_sintax_error("expected '(' before list of parameters in " +
-                           "procedure '"+procedure_name+"'.")
 
     end_parenthesis = procedure.find(")")
     if end_parenthesis == -1:
@@ -660,7 +662,7 @@ def check_procedure_call(instr_tokens: list, procedures: dict) -> None:
 
 def main() -> None:
     # file_name = "program.txt"
-    file_name = "wrong_program.txt"
+    file_name = "sample3.txt"
     load_program(file_name)
 
 
