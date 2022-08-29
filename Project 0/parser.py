@@ -452,14 +452,9 @@ def check_if_fi(if_string: str, variables: dict,
     if_string = check_condition(if_string, variables,
                                 parameters, procedures,
                                 procedure_name, ctrl_struc_name)
-    # TODO: check_if_fi
-    # begin_block1 = instr_tokens.index(")")
-    # instruc_block_tokens = instr_tokens[begin_block1+1:-1]
-    # instruc_block = " ".join(instruc_block_tokens)
-    # variables = check_instruction_block(instruc_block.strip(),
-    #                                     variables,
-    #                                     procedures,
-    #                                     procedure_name, parameters)
+    variables = check_instruction_block(if_string,
+                                        variables, procedures,
+                                        procedure_name, parameters)
     return variables
 
 
@@ -474,18 +469,15 @@ def check_if_else(if_else_string: str, variables: dict,
     if_else_string = check_condition(if_else_string, variables,
                                      parameters, procedures,
                                      procedure_name, ctrl_struc_name)
-    # TODO: check_if_else
-    # instruc_block1 = " ".join(block1_tokens)
-    # variables = check_instruction_block(instruc_block1.strip(),
-    #                                     variables,
-    #                                     procedures,
-    #                                     procedure_name, parameters)
-    # block2_tokens = instr_tokens[end_block1+1:-1]
-    # instruc_block2 = " ".join(block2_tokens)
-    # variables = check_instruction_block(instruc_block2.strip(),
-    #                                     variables,
-    #                                     procedures,
-    #                                     procedure_name, parameters)
+    else_position = if_else_string.find("else")
+    instr_block1 = if_else_string[:else_position-1].strip()
+    instr_block2 = if_else_string[else_position+4:].strip()
+    variables = check_instruction_block(instr_block1,
+                                        variables, procedures,
+                                        procedure_name, parameters)
+    variables = check_instruction_block(instr_block2,
+                                        variables, procedures,
+                                        procedure_name, parameters)
     return variables
 
 
