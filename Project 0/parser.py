@@ -442,6 +442,9 @@ def check_control_structure(instr_tokens: list, variables: dict,
 def check_if_fi(if_string: str, variables: dict,
                 parameters: list, procedures: list,
                 procedure_name: str) -> None:
+    """
+    if (condition)Block1 fi
+    """
     # TODO: check_if_fi
     # begin_block1 = instr_tokens.index(")")
     # instruc_block_tokens = instr_tokens[begin_block1+1:-1]
@@ -456,6 +459,9 @@ def check_if_fi(if_string: str, variables: dict,
 def check_if_else(if_else_string: str, variables: dict,
                   parameters: list, procedures: list,
                   procedure_name: str) -> None:
+    """
+    if (condition)Block1 else Block2 fi
+    """
     # TODO: check_if_else
     # instruc_block1 = " ".join(block1_tokens)
     # variables = check_instruction_block(instruc_block1.strip(),
@@ -474,6 +480,9 @@ def check_if_else(if_else_string: str, variables: dict,
 def check_while(while_string: str, variables: dict,
                 parameters: list, procedures: list,
                 procedure_name: str) -> None:
+    """
+    while (condition)do Block od
+    """
     # TODO: check_while
     # condition_tokens = search_for_condition(instr_tokens, ctrl_struc_name)
     # check_condition(condition_tokens, variables, parameters)
@@ -494,6 +503,9 @@ def check_while(while_string: str, variables: dict,
 def check_repeat(repeat_string: str, variables: dict,
                  parameters: list, procedures: list,
                  procedure_name: str) -> None:
+    """
+    repeatTimes n Block per
+    """
     # TODO: check_repeat
     pass
 
