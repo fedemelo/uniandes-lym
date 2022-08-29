@@ -28,10 +28,10 @@ PROC goSouth ()
 CORP
 
 
-PROC goWest ()
+PROC goWest (a, r, t)
 {
 
-	if ( canWalk ( west ,1) ) { walk ( west ,1) } fi
+	if ( canWalk ( west ,a) ) { walk ( west ,t) } fi
 
 }
 CORP
@@ -47,9 +47,9 @@ CORP
 
 
 {
-putCB (3 ,3,) ;
+putCB (3 ,3) ;
 n := 24578;
-putCB (2 ,1)
+goWest (3, 4, n)
 
 
 

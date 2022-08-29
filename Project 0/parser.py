@@ -75,7 +75,8 @@ def check_sintax(program_str: str) -> bool:
     # Procedure definitions
     procedures = []
     # procedures = [[<name>, [(<param_name>, <type>)]], [],...]
-    # Element e.g: ["run", [("O", "NUM_VAR_PARAM") , ("n", "NUM_VAR_PARAM")]]
+    # Element e.g: ["run", ["O", "n"]]
+    # All parameters in a procedure are num, var or param
     while program_str.strip()[0:4] == "PROC":
         updated = check_proc_declaration(program_str.strip(), procedures,
                                          variables)
@@ -181,15 +182,12 @@ def check_proc_declaration(program_str: str, procedures: list,
     if procedure[1] == ")" or (procedure[1] == " " and procedure[2] == ")"):
         # Looking for '()' or '( )'. If found, there's no parameters
         parameters = []
-        proc_param_names = []
     else:
         parameters = []
-        proc_param_names = []
         parameters_pre_strip = procedure[1:end_parenthesis].split(",")
-        for parameter in parameters_pre_strip:
-            check_name(parameter.strip())  # Parameters are names
-            parameters.append((parameter.strip(), "NUM_VAR_PARAM"))
-            proc_param_names.append(parameter.strip())
+        parameters = [param.strip() for param in parameters_pre_strip]
+        for parameter in parameters:
+            check_name(parameter)  # Parameters are names
 
     # Add procedure name and parameters to procedures
     procedures.append([procedure_name, parameters])
@@ -198,7 +196,7 @@ def check_proc_declaration(program_str: str, procedures: list,
     instructions_block = procedure[end_parenthesis+1:].strip()
     variables = check_instruction_block(instructions_block.strip(),
                                         variables, procedures,
-                                        procedure_name, proc_param_names)
+                                        procedure_name, parameters)
 
     return (program_str, procedures, variables)
 
@@ -269,8 +267,7 @@ def check_instruction(instruction: str, variables: dict, procedures: list,
                                             proc_param_names, procedures,
                                             procedure_name)
     elif first_token in procedure_names:
-        pass
-        # TODO: check_procedure_call(instr_tokens, procedures)
+        check_procedure_call(instr_tokens, procedures)
     else:
         raise_sintax_error("Name '"+first_token+"' is not defined.")
 
@@ -566,7 +563,7 @@ def check_condition(ctrl_struc_str: str, variables: dict,
                                          procedure_name, ctrl_struc_name,
                                          True)
         # True parameter removes second parenthesis in 'not ( condition )'
-        # TODO
+        # TODO: Test
 
     ctrl_struc_str = ctrl_struc_str[condition_name_end+2:].strip()
     parameter_separator = ctrl_struc_str.find(" ")
@@ -634,7 +631,31 @@ def check_condition(ctrl_struc_str: str, variables: dict,
 
 
 def check_procedure_call(instr_tokens: list, procedures: dict) -> None:
-    pass
+    proc_name = instr_tokens[0]
+    begin_parenthesis = instr_tokens[1]
+    end_parenthesis = instr_tokens[-1]
+    if begin_parenthesis != "(":
+        raise_sintax_error("Expected '(' before parameters in procedure " +
+                           " call for '"+proc_name+"' procedure.")
+    if end_parenthesis != ")":
+        raise_sintax_error("Expected ')' after parameters in procedure " +
+                           " call for '"+proc_name+"' procedure.")
+    
+    for procedure in procedures:
+        if proc_name == procedure[0]:
+            param_count = len(procedure[1])
+            if param_count == 0:
+                if len(instr_tokens) != 3:
+                    raise_sintax_error("Expected exactly 0 parameters " +
+                                       "in procedure call for '" +
+                                       proc_name+"' procedure.")
+            else:
+                commas_count = param_count-1
+                expected_len = 3 + param_count + commas_count
+                if len(instr_tokens) != expected_len:
+                    raise_sintax_error("Expected exactly "+str(param_count) +
+                                       " parameters in procedure call for '" +
+                                       proc_name+"' procedure.")
 
 
 def main() -> None:
