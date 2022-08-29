@@ -510,7 +510,14 @@ def check_repeat(repeat_string: str, variables: dict,
     repeatTimes n Block per
     n Block
     """
-    # TODO: check_repeat
+    first_space = repeat_string.find(" ")
+    repeat_n = repeat_string[: first_space]
+    check_param_is_number_var_or_param(repeat_n, variables, parameters,
+                                       "repeatTimes")
+    instr_block = repeat_string[first_space:].strip()
+    variables = check_instruction_block(instr_block,
+                                        variables, procedures,
+                                        procedure_name, parameters)
     return variables
 
 

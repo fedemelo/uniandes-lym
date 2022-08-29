@@ -13,7 +13,16 @@ CORP
 PROC goNorth ()
 
 {
-	while ( canWalk ( north ,1) ) do { walk ( north ,1) } od
+	while ( canWalk ( north ,1) ) do { walk ( north , n) } od
+
+}
+CORP
+
+
+PROC goSouth ()
+
+{
+	repeatTimes 3 { walk( west , 76) } per
 
 }
 CORP
@@ -31,7 +40,7 @@ CORP
 PROC goEast ()
 {
 
-	if ( canWalk ( west , 34) ) { walk ( west ,1) } else { walk ( west ,2) } fi
+	if ( canWalk ( west , 34) ) { walk ( west ,87) } else { walk ( west ,2) } fi
 
 }
 CORP
