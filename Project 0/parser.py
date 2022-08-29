@@ -280,15 +280,25 @@ def check_instruction(instruction: str, variables: dict, procedures: list,
 def check_var_assignment(instr_tokens: list, variables: dict) -> None:
     var_name = instr_tokens[0]
 
-    # Supports both '=' and ':=' for assignments. TODO: Ask!
-    if instr_tokens[1] == "=":
-        asign_operator = "="
-        value = instr_tokens[2]
-    elif instr_tokens[1] == ":" and instr_tokens[2] == "=":
+    # Supports ':=' for assignments.
+    if instr_tokens[1] == ":" and instr_tokens[2] == "=":
         asign_operator = ":="
         value = instr_tokens[3]
+    # ------------------------------------------------------------------------
+    # Sobre las inconsistencias del enunciado y el ejemplo provisto:
+
+    # Antes el parser aceptaba '=' como operador de asignación también,
+    # en tanto que en el ejemplo del enunciado ese es el operador que se
+    # usa. Sin embargo, en consonancia con las indicaciones de la monitora,
+    # se comenta el código de abajo para que únicamente se admita el
+    # operador ':=' para asignaciones.
+    #   ----    ----    ----    ----    ----    ----    ----    ----    ----
+    # elif instr_tokens[1] == "=":
+    #     asign_operator = "="
+    #     value = instr_tokens[2]
+    # ------------------------------------------------------------------------
     else:
-        raise_sintax_error("Expected '=' or ':=' as assignment operator " +
+        raise_sintax_error("Expected ':=' as assignment operator " +
                            "for variable '" + var_name + "'.")
 
     # Check if assigned value is numeric
