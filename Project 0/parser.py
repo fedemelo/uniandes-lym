@@ -1,15 +1,36 @@
 """
-Authors: Federico Melo Barrero.
-            Sebastian Contreras.
+Authors: Federico Melo Barrero. 202021525
+         Sebastian Contreras. 202020903
 
-Basic idea: Read program as a single string where every token is separated by
-            exactly one space.
-            Orderly check the string for sintax errors, one part of the
-            program at a time. Every time a part has been checked, it's
-            removed from the string. As a result, as the parser executes,
-            the string it's processing becomes progressively shorter until
-            it's empty.
+To read a program, please copy it to a text file (.txt) and write its name
+as variable file on the main() function, in line 682.
 
+Two basic ideas: 1. Read the program as a single string where every token is
+                 separated by exactly one space. Orderly check the
+                 string for sintax errors, one part of the program at a time.
+                 Every time a part has been checked, it's removed from the
+                 string. As a result, as the parser executes, the processed
+                 string becomes progressively shorter until it's empty.
+
+                2. Break down the program into a list of tokens with
+                semantical or syntactical meaning. Remove every space and
+                empty string from the list. Orderly check the list to ensure
+                tokens are arranged in a syntactically correct manner.
+
+                Both ideas are used at different points in the parser.
+
+Notice that the example program given for the project has errors, as
+we adverted by email. Running said program in the parser will
+point out the mistakes.
+
+Program test0.txt is the erroneous given example.
+Programs test1.txt, test2.txt, and test3 are correct programs.
+test2.txt is notably more complex.
+
+As their name suggest, they are meant to be used for testing. Feel free
+to modify the programs or purposely induce errors to challenge the parser.
+
+We hope you like our approach.
 """
 
 from re import sub  # Regular expressions
@@ -30,15 +51,17 @@ def load_program(file_name: str) -> None:
 
     # Convert newlines, tabs and multiple spaces to a single space
     program_str = sub(r"\s+", " ", program_str)
-
-    check_sintax(program_str.strip())
+    try:
+        check_sintax(program_str.strip())
+    except Exception:
+        raise_sintax_error("Badly written sintax")
 
 
 def raise_sintax_error(error: str) -> None:
     """Ends sintax check after finding a sintax error.
        Prints False to inform the program is incorrect and stops execution.
     """
-    print("Sintax error: " + error)  # TODO: delete Sintax error line
+    print("Sintax error: " + error)
     print(False)
     quit()
 
@@ -375,7 +398,8 @@ def check_command(instr_tokens: list, variables: dict,
             cardinal_dirs = ["north", "south", "east", "west"]
             if not (param1 in walk_dirs or param1 in cardinal_dirs):
                 raise_sintax_error("Expected a direction for 'walk' " +
-                                   "command. Invalid parameter '"+param1+"'.")
+                                   "command with two parameters. Invalid " +
+                                   "input '"+param1+"'.")
         else:
             raise_sintax_error("Expected exactly one or two parameters " +
                                "for 'walk' command.")
@@ -663,8 +687,7 @@ def check_procedure_call(instr_tokens: list, procedures: dict) -> None:
 
 
 def main() -> None:
-    # file_name = "program.txt"
-    file_name = "sample1.txt"
+    file_name = "test2.txt"
     load_program(file_name)
 
 
