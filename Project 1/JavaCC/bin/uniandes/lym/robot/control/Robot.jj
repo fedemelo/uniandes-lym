@@ -59,13 +59,22 @@ SKIP:
 TOKEN: /* Nombres de Comandos */
 {
 
-			<MOV:  "Mov">
-		| 	<RIGHT: "RIGHT">
+			<MOVE:  "move">
+		| 	<RIGHT: "right">
 		| 	<PUT: "Put">
 		| 	<PICK: "Pick">
-		|  < POP: "Pop" >
-		|  <GO: "GO" >
-        |  < HOP:  "HOP" >		
+		|  < POP: "pop" >
+		|  <GO: "Go" >
+        |  < HOP:  "Hop" >
+        | < STEP: "step" >
+        | < JUMP: "jump" >
+        | < JUMPTO: "jumpTo" >
+        | < VEER: "veer" >
+        | < LOOK: "look" >
+        | < DROP: "drop" >
+        | < GRAB: "grab" >
+        | < GET: "get" >
+        | < FREE: "free" >
 
 }
 
@@ -74,6 +83,14 @@ TOKEN:
 		<BALLOONS:  "BALLOONS" >
 		|	<CHIPS:     "CHIPS"  >	
 
+}
+
+TOKEN:
+{
+	< NORTH: "north" >
+| < SOUTH: "south" >
+| < EAST: "east" >
+| < WEST: "west" >
 }
 
 
@@ -99,7 +116,7 @@ TOKEN :
 	{
 		(		  (
 		   <RIGHT> "(" ")" {world.turnRight();salida = "Command: Turnright";}
-		| 	<MOV>  "(" x=num() ")" {world.moveForward(x,false);salida = "Command: Moveforward ";}  
+		| 	<MOVE>  "(" x=num() ")" {world.moveForward(x,false);salida = "Command: Moveforward ";}  
 		| 	<HOP>  "(" x=num() ")" {world.moveForward(x,true);salida = "Command:Jumpforward ";}
 		| 	<GO>  "(" x=num() "," y=num()")" {world.setPostion(x,y);salida = "Command:GO ";}  
 		|  <PUT> "("  put() ")"					  			
@@ -141,8 +158,37 @@ TOKEN :
 
 	}
 
+	void step():
+	{
+		int n = 1;
+	}
+	{
+		(< STEP > "(" n = num() ")" { world.moveForward(n, false); salida= "Command: Step"; })
+	}
+
+	void jump():
+	{
+		int n = 1;
+	}
+	{
+	  < JUMP >"(" n= num()")" { world.moveForward(n,true); salida = "Command: Jump"; }
+	}
 	
-	
+	void free():
+	{
+		int n = 1;
+	}
+	{
+		< FREE >"("n=num()")" { world.putBalloons(n); salida = "Command: Free"; }
+	}
+
+	void pop():
+	{
+		int n = 1;
+	}
+	{
+		< POP > "("n=num()")" { world.popBalloons(n); salida= "Command: Pop"; }
+	}
 
 	/**
 	 * Unsigned decimal number
