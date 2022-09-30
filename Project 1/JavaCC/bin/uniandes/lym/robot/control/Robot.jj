@@ -1,13 +1,10 @@
 /*
-Gramatica para el Robot:
-Autor: Alejandro Arango
-Modificado por: Silvia Takahashi
-Modificado por: Juan Pablo Morales.
-Agregadas producciones para manejar globos
-Modificado por Silvia Takahashi
+Languages and Machines
+Project 1
 
-
- **/
+@authors: Federico Melo Barrero, f.melo, 202021525
+		  Germán Alberto Rojas Cetina, g.rojasc, 202013415
+*/
 
 
 options 
