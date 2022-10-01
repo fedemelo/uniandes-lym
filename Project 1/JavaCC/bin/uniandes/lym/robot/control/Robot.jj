@@ -143,7 +143,6 @@ TOKEN :
 
 	boolean program(Console sistema):
 	{
-		salida = new String();
 	}
 	{
 		< PROG > [varDecl()] (procDef())* instrBlock() < GORP > {
@@ -159,11 +158,11 @@ TOKEN :
 	}
 
 
-	void varDecl():
+	String varDecl():
 	{
 	}
 	{
-		< VAR > < NAME > ("," < NAME >)* ";" {
+		< VAR > < NAME > ( LOOKAHEAD(2) "," < NAME >)* ";" {
 			/*TODO : Lógica Java declaración de variables*/
 			salida="Variable declaration";
 			}
@@ -185,7 +184,7 @@ TOKEN :
 	{
 	}
 	{
-		< NAME > ("," < NAME >)*
+		< NAME > ( LOOKAHEAD(2) "," < NAME >)*
 	}
 
 
@@ -193,7 +192,7 @@ TOKEN :
 	{
 	}
 	{
-		"{" instr() (";" instr())* "}"
+		"{" instr() ( LOOKAHEAD(2) ";" instr())* "}"
 	}
 
 
@@ -230,40 +229,49 @@ TOKEN :
 
 	void ctrlStruct():
 	{
-		boolean bool = false;
 	}
 	{
-		ifElseFi()
-	|	ifFi()
+		ifFi()
 	|	whileDoOd()
 	|	repeatTimes()
 	}
 
 
-	void ifElseFi():
-	{
-	}
-	{
-		< IF > "(" bool=condition() ")" instrBlock() < ELSE > instrBlock() < FI >  {
-			/*TODO : Lógica Java if else*/
-			salida="'if-else' conditional control structure";
-			}
-	}
-
-
 	void ifFi():
 	{
+		boolean bool;
 	}
 	{
-		< IF > "(" bool=condition() ")" instrBlock() < FI >  {
-			/*TODO : Lógica Java if */
+		< IF > "(" bool=condition() ")" instrBlockTrue(bool) [< ELSE > instrBlockFalse(bool)] < FI > {
+			// TODO: Lógica? Implementar los instrBlock distintos
 			salida="'if' conditional control structure";
 			}
 	}
 
 
+	void instrBlockTrue(boolean bool):
+	{
+		if (bool) {
+			
+		}
+	}
+	{
+	}
+
+
+	void instrBlockFalse(boolean bool):
+	{
+		if (!bool) {
+			
+		}
+	}
+	{
+	}
+
+
 	void whileDoOd():
 	{
+		boolean bool;
 	}
 	{
 		< WHILE > "(" bool=condition() ")" < DO > instrBlock() < OD > {
@@ -285,14 +293,14 @@ TOKEN :
 	}
 
 
-	void condition():
+	boolean condition():
 	{
 	}
 	{
-		< ISFACING >  "(" bool=isFacing() ")"
+		(< ISFACING >  "(" bool=isFacing() ")"
 	|	< ISVALID >  "(" bool=isValid() ")"
 	|	< CANMOVE >  "(" bool=canMove() ")"
-	|	< NOT >  "(" bool=not() ")"
+	|	< NOT >  "(" bool=not() ")") {return bool;}
 	}
 
 
@@ -443,27 +451,27 @@ TOKEN :
 	}
 
 
-	void isFacing():
+	boolean isFacing():
 	{
 	}
 	{
-		(< NORTH > {
+		((< NORTH > {
 			bool=world.facingNorth()})
 	|	(< SOUTH > {
 			bool=world.facingSouth()})
 	|	(< EAST > {
 			bool=world.facingEast()})
 	|	(< WEST > {
-			bool=world.facingWest()})
+			bool=world.facingWest()})) { return bool; }
 	}
 
 
-	void isValid():
+	boolean isValid():
 	{
 		int n;
 	}
 	{ // TODO: Que n pueda ser num, var, param
-		(< STEP > ","  n=num() {
+		((< STEP > ","  n=num() {
 			/*TODO: Lógica*/
 		})
 	|	(< JUMP > ","  n=num() {
@@ -483,7 +491,7 @@ TOKEN :
 		})
 	|	(< DROP > ","  n=num() {
 			/*TODO: Lógica*/
-		})
+		})) { return bool; }
 	}
 	/*
 	|	< STEP >  "(" n=num() ")" {world.moveForward(n, false); salida = "Command: Move steps forward ";}  
@@ -501,12 +509,12 @@ TOKEN :
 	*/
 
 
-	void canMove():
+	boolean canMove():
 	{
 		int n;
 	}
 	{  // TODO: Que n pueda ser num, var, param
-		(< NORTH > ","  n=num() {
+		((< NORTH > ","  n=num() {
 			/*TODO: Lógica*/
 		})
 	|	(< SOUTH > ","  n=num() {
@@ -517,15 +525,15 @@ TOKEN :
 		})
 	|	(< WEST > ","  n=num() {
 			/*TODO: Lógica*/
-		})
+		})) { return bool; }
 	}
 
 
-	void not():
+	boolean not():
 	{
 	}
 	{
-		bool=condition() {bool = !bool}
+		bool=condition() {return !bool;}
 	}
 
 
