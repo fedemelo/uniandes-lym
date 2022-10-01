@@ -242,31 +242,27 @@ TOKEN :
 		boolean bool;
 	}
 	{
-		< IF > "(" bool=condition() ")" instrBlockTrue(bool) [< ELSE > instrBlockFalse(bool)] < FI > {
+		(< IF > "(" bool=condition() ")" instrBlockTrue(bool) [< ELSE > instrBlockFalse(bool)] < FI >) {
 			// TODO: Lógica? Implementar los instrBlock distintos
 			salida="'if' conditional control structure";
 			}
 	}
 
 
-//	void instrBlockTrue(boolean bool):
-//	{
-//		if (bool) {
-//			
-//		}
-//	}
-//	{
-//	}
+JAVACODE
+	private void instrBlockTrue(boolean bool) {
+		if (bool) {
+			instrBlock();
+		}
+	}
 
 
-//	void instrBlockFalse(boolean bool):
-//	{
-//		if (!bool) {
-//			
-//		}
-//	}
-//	{
-//	}
+JAVACODE
+	void instrBlockFalse(boolean bool) {
+		if (!bool) {
+			instrBlock();
+		}
+	}
 
 
 	void whileDoOd():
@@ -295,6 +291,7 @@ TOKEN :
 
 	boolean condition():
 	{
+		boolean bool;
 	}
 	{
 		(< ISFACING >  "(" bool=isFacing() ")"
@@ -450,6 +447,7 @@ TOKEN :
 
 	boolean isFacing():
 	{
+		boolean bool;
 	}
 	{
 		((< NORTH > {
@@ -466,6 +464,7 @@ TOKEN :
 	boolean isValid():
 	{
 		int n;
+		boolean bool;
 	}
 	{ // TODO: Que n pueda ser num, var, param
 		((< STEP > ","  n=num() {
@@ -509,6 +508,7 @@ TOKEN :
 	boolean canMove():
 	{
 		int n;
+		boolean bool;
 	}
 	{  // TODO: Que n pueda ser num, var, param
 		((< NORTH > ","  n=num() {
@@ -528,6 +528,7 @@ TOKEN :
 
 	boolean not():
 	{
+		boolean bool;
 	}
 	{
 		bool=condition() {return !bool;}
