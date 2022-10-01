@@ -230,6 +230,7 @@ TOKEN :
 
 	void ctrlStruct():
 	{
+		boolean bool = false;
 	}
 	{
 		ifElseFi()
@@ -243,7 +244,7 @@ TOKEN :
 	{
 	}
 	{
-		< IF > "(" condition() ")" instrBlock() < ELSE > instrBlock() < FI >  {
+		< IF > "(" bool=condition() ")" instrBlock() < ELSE > instrBlock() < FI >  {
 			/*TODO : Lógica Java if else*/
 			salida="'if-else' conditional control structure";
 			}
@@ -254,7 +255,7 @@ TOKEN :
 	{
 	}
 	{
-		< IF > "(" condition() ")" instrBlock() < FI >  {
+		< IF > "(" bool=condition() ")" instrBlock() < FI >  {
 			/*TODO : Lógica Java if */
 			salida="'if' conditional control structure";
 			}
@@ -265,7 +266,7 @@ TOKEN :
 	{
 	}
 	{
-		< WHILE > "(" condition() ")" < DO > instrBlock() < OD > {
+		< WHILE > "(" bool=condition() ")" < DO > instrBlock() < OD > {
 			/*TODO : Lógica Java while */
 			salida="'while' loop control structure";
 			}
@@ -288,10 +289,10 @@ TOKEN :
 	{
 	}
 	{
-		< ISFACING >  "(" isFacing() ")"
-	|	< ISVALID >  "(" isValid() ")"
-	|	< CANMOVE >  "(" canMove() ")"
-	|	< NOT >  "(" not() ")"
+		< ISFACING >  "(" bool=isFacing() ")"
+	|	< ISVALID >  "(" bool=isValid() ")"
+	|	< CANMOVE >  "(" bool=canMove() ")"
+	|	< NOT >  "(" bool=not() ")"
 	}
 
 
@@ -434,10 +435,14 @@ TOKEN :
 	{
 	}
 	{
-		(< NORTH > {/*TODO: Lógica*/})
-	|	(< SOUTH > {/*TODO: Lógica*/})
-	|	(< EAST > {/*TODO: Lógica*/})
-	|	(< WEST > {/*TODO: Lógica*/})
+		(< NORTH > {
+			bool=world.facingNorth()})
+	|	(< SOUTH > {
+			bool=world.facingSouth()})
+	|	(< EAST > {
+			bool=world.facingEast()})
+	|	(< WEST > {
+			bool=world.facingWest()})
 	}
 
 
@@ -450,7 +455,7 @@ TOKEN :
 	|	(< JUMP > ","  n=num() {/*TODO: Lógica*/})
 	|	(< GRAB > ","  n=num() {/*TODO: Lógica*/})
 	|	(< POP > ","  n=num() {/*TODO: Lógica*/})
-	|	(< PICK > ","  n=num() {/*TODO: Lógica.})  // Equivalent to 'grab'
+	|	(< PICK > ","  n=num() {/*TODO: Lógica.})  /* Equivalent to 'grab' */
 	|	(< FREE > ","  n=num() {/*TODO: Lógica*/})
 	|	(< DROP > ","  n=num() {/*TODO: Lógica*/})
 	}
