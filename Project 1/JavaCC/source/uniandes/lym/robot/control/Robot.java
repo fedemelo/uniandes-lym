@@ -24,6 +24,7 @@ public class Robot implements RobotConstants {
         private ArrayList<String> declaredVars = new ArrayList<String>();
 
   final public boolean command(Console sistema) throws ParseException {
+                salida=new String();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case PROG:
       jj_consume_token(PROG);
@@ -841,24 +842,6 @@ public class Robot implements RobotConstants {
     finally { jj_save(2, xla); }
   }
 
-  private boolean jj_3R_24() {
-    if (jj_3R_27()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_10() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_24()) {
-    jj_scanpos = xsp;
-    if (jj_3R_25()) {
-    jj_scanpos = xsp;
-    if (jj_3R_26()) return true;
-    }
-    }
-    return false;
-  }
-
   private boolean jj_3R_23() {
     if (jj_scan_token(OMOVE)) return true;
     return false;
@@ -1032,6 +1015,24 @@ public class Robot implements RobotConstants {
 
   private boolean jj_3R_25() {
     if (jj_3R_28()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_24() {
+    if (jj_3R_27()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_10() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_24()) {
+    jj_scanpos = xsp;
+    if (jj_3R_25()) {
+    jj_scanpos = xsp;
+    if (jj_3R_26()) return true;
+    }
+    }
     return false;
   }
 

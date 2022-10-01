@@ -1,0 +1,18 @@
+PROG
+
+VAR n , x , y ;
+
+
+{
+
+
+go (3 ,3) ;
+n = 6;
+putCB (2 ,1)
+
+
+
+
+}
+
+GORP

@@ -2,6 +2,8 @@
 Project 1
 @authors: Federico Melo Barrero, f.melo, 202021525
 		  Germán Alberto Rojas Cetina, g.rojasc, 202013415
+
+Please rename file to 'Robot.jj' before using.
 */
 
 
@@ -145,9 +147,10 @@ TOKEN :
 
 	boolean command(Console sistema):
 	{
+		salida=new String();
 	}
 	{
-		< PROG > [varDecl()] (procDef())* instrBlock() < GORP > {
+		( < PROG > [varDecl()] (procDef())* instrBlock() < GORP >) {
 		    try {
 	    		Thread.sleep(900);
 	    	} catch (InterruptedException e) {
