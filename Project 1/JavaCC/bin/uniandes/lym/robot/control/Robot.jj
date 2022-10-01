@@ -22,8 +22,7 @@ import uniandes.lym.robot.view.Console;
  
 import java.awt.Point;
 import java.io.*;
-import java.util.Vector;
-import java.util.LinkedList;
+import java.util.*;
 
 @SuppressWarnings("serial")
 public class Robot 
@@ -36,7 +35,10 @@ public class Robot
 	}
 
 
-	String salida = new String();
+	private String salida = new String();
+
+	private Hashtable<String, Integer> vars = new Hashtable<String, Integer>();
+	private ArrayList<String> declaredVars = new ArrayList<String>();
 }
 
 PARSER_END(Robot)
@@ -160,31 +162,50 @@ TOKEN :
 
 	String varDecl():
 	{
+		String name;
 	}
 	{
-		< VAR > < NAME > ( LOOKAHEAD(2) "," < NAME >)* ";" {
-			/*TODO : Lógica Java declaración de variables*/
-			salida="Variable declaration";
+		((< VAR > name=name()) {
+			this.declaredVars.add(name);
+		} ( LOOKAHEAD(2) "," (name=name()) {
+			if (this.declaredVars.contains(name)) {
+				throw new Error("Repeated variable name: "+name+" in variable declaration");
+			} else {
+				this.declaredVars.add(name);
 			}
+		} )* ";" ) {
+			salida="Variable declaration";
+		}
 	}
 
 
 	void procDef():
 	{
+		String procName;
+		ArrayList<String> localVars = new ArrayList<String>();;
 	}
 	{
-		< PROC > < NAME > "(" [params()] ")" instrBlock() < CORP > {
+		< PROC > procName=name() "(" [localVars=params()] ")" instrBlock() < CORP > {
 			/*TODO : Lógica Java definición de procedimientos*/
 			salida="Procedure definition";
+		}
+	}
+
+
+	ArrayList<String> params():
+	{
+		ArrayList<String> localVars = new ArrayList<String>();
+	}
+	{
+		((name=name()) {
+			localVars.add(name);
+		} ( LOOKAHEAD(2) "," (name=name()) {
+			if (localVars.contains(name)) {
+				throw new Error("Repeated parameter name: "+name);
+			} else {
+				localVars.add(name);
 			}
-	}
-
-
-	void params():
-	{
-	}
-	{
-		< NAME > ( LOOKAHEAD(2) "," < NAME >)*
+		} )*) { return localVars; }
 	}
 
 
@@ -207,23 +228,31 @@ TOKEN :
 
 
 	void command():
-	{	
-		int n, m;
+	{
+		String name;
+		Integer n, m;
 	}
-	{  // TODO: Funciona con números. Falta con vars y params
-		< NAME > ":=" < NUM > {/*TODO: Lógica asignación*/salida = "Command: Variable assignment";}
-	|	< STEP >  "(" n=num() ")" {world.moveForward(n, false); salida = "Command: Move steps forward ";}  
-	|	< JUMP >  "(" n=num() ")" {world.moveForward(n, true); salida = "Command: Jump steps forward ";}
-	|	< JUMPTO >  "(" n=num() "," m=num()")" {world.setPostion(n,m); salida = "Command: Jump to position ";}
-	|	< VEER >  "(" veer() ")"
-	|	< LOOK >  "(" look() ")"
-	|	< DROP >  "(" n=num() ")" {world.putChips(n); salida = "Command: Drop chips from its position ";}
-	|	< GRAB >  "(" n=num() ")" {world.grabBalloons(n); salida = "Command: Grab balloons from its position ";}
-	|	< GET >  "(" n=num() ")" {world.pickChips(n); salida = "Command: Get chips from its position ";}
-	|	< FREE >  "(" n=num() ")" {world.putBalloons(n); salida = "Command: Put balloons from its position ";}
-	|	< POP >  "(" n=num() ")" {world.popBalloons(n); salida = "Command: Pop balloons from its position ";}
-	|	< DMOVE >  "(" dMove() ")"
-	|	< OMOVE >  "(" oMove() ")"
+	{
+		((name=name() ":=" n=num()) {
+			if (declaredVars.contains(name)) {
+				vars.put(name, n);
+			} else {
+				throw new Error("Tried to assign to undeclared variable "+name);
+			}
+			salida = "Command: Variable assignment";
+		})
+	|	(< STEP >  "(" n=num() ")" {world.moveForward(n, false); salida = "Command: Move steps forward ";})
+	|	(< JUMP >  "(" n=num() ")" {world.moveForward(n, true); salida = "Command: Jump steps forward ";})
+	|	(< JUMPTO >  "(" n=num() "," m=num()")" {world.setPostion(n,m); salida = "Command: Jump to position ";})
+	|	(< VEER >  "(" veer() ")")
+	|	(< LOOK >  "(" look() ")")
+	|	(< DROP >  "(" n=num() ")" {world.putChips(n); salida = "Command: Drop chips from its position ";})
+	|	(< GRAB >  "(" n=num() ")" {world.grabBalloons(n); salida = "Command: Grab balloons from its position ";})
+	|	(< GET >  "(" n=num() ")" {world.pickChips(n); salida = "Command: Get chips from its position ";})
+	|	(< FREE >  "(" n=num() ")" {world.putBalloons(n); salida = "Command: Put balloons from its position ";})
+	|	(< POP >  "(" n=num() ")" {world.popBalloons(n); salida = "Command: Pop balloons from its position ";})
+	|	(< DMOVE >  "(" dMove() ")")
+	|	(< OMOVE >  "(" oMove() ")")
 	}
 
 
@@ -270,7 +299,7 @@ JAVACODE
 	}
 	{
 		< WHILE > "(" bool=condition() ")" < DO > instrBlockWhile(bool) < OD > {
-			/*TODO : Lógica Java while */
+			/*TODO : Lógica Java while. Implementar instrBlockWhile*/
 			salida="'while' loop control structure";
 			}
 	}
@@ -278,7 +307,7 @@ JAVACODE
 
 	void repeatTimes():
 	{
-		int n;
+		Integer n;
 	}
 	{
 		( < REPEATTIMES > n=num() ) {
@@ -370,7 +399,7 @@ JAVACODE
 
 	void dMove() :
 	{
-		int n;
+		Integer n;
 	}
 	{
 		( n = num()"," ( < FRONT > {world.moveForward(n, false);salida = "Command: Move to the front, face original direction ";})
@@ -397,7 +426,7 @@ JAVACODE
 
 	void oMove() :
 	{
-		int n;
+		Integer n;
 	}
 	{
 		(num() ","( < NORTH > {
@@ -465,7 +494,7 @@ JAVACODE
 
 	boolean isValid():
 	{
-		int n;
+		Integer n;
 		boolean bool;
 	}
 	{ // TODO: Que n pueda ser num, var, param
@@ -509,7 +538,7 @@ JAVACODE
 
 	boolean canMove():
 	{
-		int n;
+		Integer n;
 		boolean bool;
 	}
 	{  // TODO: Que n pueda ser num, var, param
@@ -537,22 +566,32 @@ JAVACODE
 	}
 
 
+
+	String name():
+	{
+	}
+	{
+		< NAME > { return token.image; }
+	}
+
+
 	/**
 	 * Unsigned decimal number
 	 * @return the corresponding value of the string
 	 * @error  corresponding value is too large
 	 */
 
-	int num() throws Error:
+	Integer num() throws Error:
 	{	
-		int total=1;
+		Integer total;
 	}
 	{
 		<NUM>
 		{
 			try 
 			{
-				total = Integer.parseInt(token.image);
+				total_ = Integer.parseInt(token.image);
+				total = Integer.valueOf(total_);
 			} 
 			catch (NumberFormatException ee) 
 			{

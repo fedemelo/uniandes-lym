@@ -4,8 +4,7 @@ import uniandes.lym.robot.kernel.*;
 import uniandes.lym.robot.view.Console;
 import java.awt.Point;
 import java.io.*;
-import java.util.Vector;
-import java.util.LinkedList;
+import java.util.*;
 
 /** Token Manager. */
 public class RobotTokenManager implements RobotConstants
