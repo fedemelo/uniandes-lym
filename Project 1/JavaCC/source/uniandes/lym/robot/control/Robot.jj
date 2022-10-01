@@ -39,9 +39,10 @@ public class Robot
 		world = (RobotWorldDec) w;	
 	}
 
-	String salida=new String();
+	String salida = new String();
 }
 PARSER_END(Robot)
+
 
 SKIP:
 {
@@ -51,9 +52,10 @@ SKIP:
 	| "\n"
 }
 
+
+/* Commands */
 TOKEN: 
 {
-  	/* Commands */
     	< STEP: "step" >
     |	< JUMP: "jump" >
     |	< JUMPTO: "jumpTo" >
@@ -65,9 +67,13 @@ TOKEN:
     |	< FREE: "free" >
     | 	< DMOVE:  "Dmove" >
 	|	< OMOVE:  "Omove" >
-	
-	/* Control structures */
-	|	< IF: "if" >
+}
+
+
+/* Control structures */
+TOKEN :
+{
+		< IF: "if" >
 	|	< FI: "fi" >
 	|	< ELSE: "else" >
 	| 	< WHILE: "while" >
@@ -75,21 +81,33 @@ TOKEN:
 	| 	< OD: "od" >
 	|	< REPEATTIMES: "repeatTimes" >
 	|	< PER : "per" >
-	
-	/* Conditions */
-	|	< ISFACING : "isfacing" >
+}
+
+
+/* Conditions */
+TOKEN :
+{
+		< ISFACING : "isfacing" >
 	| 	< ISVALID: "isValid" >
 	| 	< CANMOVE: "canMove" >
 	| 	< NOT: "not" >
-	
-	/* Cardinal directions */
-	| 	< NORTH: "north" >
+}
+
+
+/* Cardinal directions */
+TOKEN :
+{
+	 	< NORTH: "north" >
 	| 	< SOUTH: "south" >
 	| 	< EAST: "east" >
 	| 	< WEST: "west" >s
-	
-	/* Directions */
-	|	< AROUND: "around" >  // For veer command
+}
+
+
+/* Directions */
+TOKEN :
+{
+		< AROUND: "around" >
 	| 	< RIGHT: "right" >
 	| 	< LEFT: "left" >
 	| 	< FRONT: "front" >
@@ -97,15 +115,25 @@ TOKEN:
 }
 
 
-//TOKEN:
-//{
-//		<BALLOONS:  "BALLOONS" >
-//		|	<CHIPS:     "CHIPS"  >	
-//
-//}
+/* Keywords */
+TOKEN :
+{
+		< PROG: "PROG" >
+	|	< GORP: "GORP" >
+	|	< VAR: "VAR" >
+	|	< PROC: "PROC" >
+	|	< CORP: "CORP" >
+}
 
 
-/* Special tokens */
+/* Name */
+TOKEN :
+{
+		< NAME: <LETTER>(["a"-"z""A"-"Z""0"-"9"])* >
+	|  	< #LETTER: ["a"-"z""A"-"Z"] >
+}
+
+/* Number */
 TOKEN :
 {
 		< NUM: (<DIGIT>)+ >
@@ -113,176 +141,155 @@ TOKEN :
 }
 
 
-	boolean command(Console sistema):
-	{	
-		
-		int x,y;
-		salida=new String();	
-	}
-
+	boolean program(Console sistema):
 	{
-		(
-		  ( // TODO: Funciona con números. Falta con vars y params
- 			< NAME > ":=" < NUM > //TODO: Lógica asignación {;salida = "Command: Variable assignment";}
-		| 	< STEP >  "(" n=num() ")" {world.moveForward(n, false);salida = "Command: Move steps forward ";}  
-		| 	< JUMP >  "(" n=num() ")" {world.moveForward(n, true);salida = "Command: Jump steps forward ";}
-		| 	< JUMPTO >  "(" n=num() "," m=num()")" {world.setPostion(n,m);salida = "Command: Jump to position ";}
-		| 	< VEER >  "(" D=veerDir() ")" {turn90(D);salida = "Command: Veer 90 degrees in some direction ";}
-		| 	< LOOK >  "(" O=cardinalDir() ")" {faceCardinalDir(O);salida = "Command: Look towards some cardinal direction ";}
-		| 	< DROP >  "(" n=num() ")" {world.putChips(n);salida = "Command: Drop chips from its position ";}
-		| 	< GRAB >  "(" n=num() ")" {world.grabBalloons(n);salida = "Command: Grab balloons from its position ";}
-		| 	< GET >  "(" n=num() ")" {world.pickChips(n);salida = "Command: Get chips from its position ";}
-		| 	< FREE >  "(" n=num() ")" {world.putBalloons(n);salida = "Command: Put balloons from its position ";}
-		| 	< POP >  "(" n=num() ")" {world.popBalloons(n);salida = "Command: Pop balloons from its position ";}
-		| 	< DMOVE >  "(" n=num() "," D=dir()")" {dMove(n, D);salida = "Command: Move positions, face original direction ";}
-		| 	< OMOVE >  "(" n=num() "," O=cardinalDir()")" {oMove(n, O);salida = "Command: Face cardinal direction then move steps ";}
-		
-		|  <PUT> "("  put() ")"					  			
-		|  <PICK> "(" get()  ")"	
-	    |  < POP > "(" x=num() ")" {world.popBalloons(x); salida = "Comando:  Pop";}
-		) ";" // TODO. Ahí el ; no está separando comandos, está yendo al final de todo comando. 
-
-		{
+	}
+	{
+		< PROG > varDecl()? procDef()* instrBlock() < GORP > {
 		    try {
-	    			 Thread.sleep(900);
-	    	    } catch (InterruptedException e) {
-	    			        System.err.format("IOException: %s%n", e);
-	    		    }
-	    			 
+	    		Thread.sleep(900);
+	    	} catch (InterruptedException e) {
+	    		System.err.format("IOException: %s%n", e);
+	    	}
 			sistema.printOutput(salida);
 			return true;
-		})+
-
-    	| <EOF> {return false;} 
-	}
-
-	void put() :
-	{
-		int f=1;	
-	}
-	{
-		( <CHIPS>    "," f=num() {world.putChips(f); salida = "Command:  Put Chips"; })
-		|  	  ( <BALLOONS>   "," f=num() {world.putBalloons(f); salida = "Command:  Put Balloons";})	 
-
-	}
-
-
-	void veerDir():
-	{
-	}
-	{
-	  (	< AROUND > )
-	  |		(< RIGHT >)
-	  | 	(< LEFT >)
-	}
-
-
-	void dir():
-	{
-	}
-	{
-	  (	< RIGHT > )
-	  |		(< LEFT >)
-	  | 	(< FRONT >)
-	  | 	(< BACK >)
-	}
-
-
-	void  cardinalDir():
-	{
-	}
-	{
-	  (	< NORTH > )
-	  |		(< SOUTH >)
-	  | 	(< WEST >)
-	  | 	(< EAST >)
-	}
-
-
-JAVACODE
-	private void turn90(String D) {
-		if (D == "left") {
-		  	// Turning left is turning right thrice
-			world.turnRight()
-			world.turnRight()
-			world.turnRight()
-		} else if (D == "right") {
-	    	world.turnRight()
-		} else if (D == "around") {
-		    world.turnRight()
-			world.turnRight()
-	    }
-	}
-
-
-JAVACODE
-	private void faceCardinalDir(String O) {
-		if (O == "north") {
-			// TODO: Lógica en Java con las funciones de world que quede mirando al norte
-		} else if (O == "south") {
-			// TODO
-		} else if (O == "east") {
-			// TODO
-		} else if (O == "west") {
-			// TODO
 		}
+    	| <EOF> {return false;}
 	}
 
 
-JAVACODE
-	private void dMove(n, D) {
-		// TODO: Lógica del DMOVE
+	void varDecl():
+	{
+	}
+	{
+		< VAR > < NAME > ("," < NAME >)* ";" {/*TODO : Lógica Java declaración de variables*/ }
 	}
 
 
-JAVACODE
-	private void oMove(n, O) {
-		// TODO: Lógica del OMOVE
+	void procDef():
+	{
+	}
+	{
+		< PROC > < NAME > "(" params()? ")" instrBlock() < CORP > {/*TODO : Lógica Java definición de procedimientos*/ }
 	}
 
 
-		
-	void get() :
+	void params():
 	{
-		int f=1;	
 	}
 	{
-		( <CHIPS>   "," f=num() {world.pickChips(f);salida = "Command:  Pick chips";})
-		|  	  ( <BALLOONS>   "," f=num() {world.grabBalloons(f);salida="Command:  Pick balloons";})	 
-
+		< NAME > ("," < NAME >)*
 	}
 
-	void step():
+
+	void instrBlock():
 	{
-		int n = 1;
 	}
 	{
-		(< STEP > "(" n = num() ")" { world.moveForward(n, false); salida= "Command: Step"; })
+		"{" instr() (";" instr())* "}"
 	}
 
-	void jump():
+
+	void instr():
 	{
-		int n = 1;
 	}
 	{
-	  < JUMP >"(" n= num()")" { world.moveForward(n,true); salida = "Command: Jump"; }
-	}
-	
-	void free():
-	{
-		int n = 1;
-	}
-	{
-		< FREE >"("n=num()")" { world.putBalloons(n); salida = "Command: Free"; }
+		command()
+	|	ctrlStruct()
+	|	procCall()
 	}
 
-	void pop():
+
+	void command():
+	{	
+		int n, m;
+		salida = new String();	
+	}
+	{  // TODO: Funciona con números. Falta con vars y params
+		 < NAME > ":=" < NUM > {/*TODO: Lógica asignación*/salida = "Command: Variable assignment";}
+		| < STEP >  "(" n=num() ")" {world.moveForward(n, false); salida = "Command: Move steps forward ";}  
+		| < JUMP >  "(" n=num() ")" {world.moveForward(n, true); salida = "Command: Jump steps forward ";}
+		| < JUMPTO >  "(" n=num() "," m=num()")" {world.setPostion(n,m); salida = "Command: Jump to position ";}
+		| < VEER >  "(" veer() ")"
+		| < LOOK >  "(" look() ")"
+		| < DROP >  "(" n=num() ")" {world.putChips(n); salida = "Command: Drop chips from its position ";}
+		| < GRAB >  "(" n=num() ")" {world.grabBalloons(n); salida = "Command: Grab balloons from its position ";}
+		| < GET >  "(" n=num() ")" {world.pickChips(n); salida = "Command: Get chips from its position ";}
+		| < FREE >  "(" n=num() ")" {world.putBalloons(n); salida = "Command: Put balloons from its position ";}
+		| < POP >  "(" n=num() ")" {world.popBalloons(n); salida = "Command: Pop balloons from its position ";}
+		| < DMOVE >  "(" dMove() ")"
+		| < OMOVE >  "(" oMove() ")"
+	}
+
+
+	void ctrlStruct():
 	{
-		int n = 1;
 	}
 	{
-		< POP > "("n=num()")" { world.popBalloons(n); salida= "Command: Pop"; }
+		// TODO
 	}
+
+
+	void procCall():
+	{
+	}
+	{
+		// TODO
+	}
+
+
+	void condition():
+	{
+	}
+	{
+		// TODO
+	}
+
+
+	void veer() :
+	{
+	}
+	{
+		(< RIGHT > {world.turnRight(); salida = "Command: Veer right ";})
+		| (< AROUND > {world.turnRight(); world.turnRight(); salida = "Command: Veer around ";})
+		| (< LEFT > {world.turnRight(); world.turnRight(); world.turnRight(); salida = "Command: Veer left ";})
+	}
+
+
+	void look() :
+	{
+	}
+	{
+		(< NORTH > {; salida = "Command: Look north ";})
+		| (< SOUTH > {; salida = "Command: Look south ";})
+		| (< EAST > {; salida = "Command: Look east ";})
+		| (< WEST > {; salida = "Command: Look west ";})
+	}
+
+
+	void dMove() :
+	{
+		int n = 0;
+	}
+	{
+		( n = num() "," < FRONT > {/*TODO: Lógica*/salida = "Command: Move to the front, face original direction ";})
+	|	( n = num() "," < RIGHT > {/*TODO: Lógica*/salida = "Command: Move to the right, face original direction ";})
+	|	( n = num() "," < LEFT > {/*TODO: Lógica*/salida = "Command: Move to the left, face original direction ";})
+	|	( n = num() "," < BACK > {/*TODO: Lógica*/salida = "Command: Move to the back, face original direction ";})
+	}
+
+
+	void oMove() :
+	{
+		int n = 0;
+	}
+	{
+		( n = num() "," < NORTH > {/*TODO: Lógica*/salida = "Command: Face north, move steps";})
+	|	( n = num() "," < SOUTH > {/*TODO: Lógica*/salida = "Command: Face south, move steps";})
+	|	( n = num() "," < EAST > {/*TODO: Lógica*/salida = "Command: Face east, move steps";})
+	|	( n = num() "," < WEST > {/*TODO: Lógica*/salida = "Command: Face west, move steps";})
+	}
+
 
 	/**
 	 * Unsigned decimal number
