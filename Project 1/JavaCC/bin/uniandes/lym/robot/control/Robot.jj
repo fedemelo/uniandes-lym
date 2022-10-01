@@ -500,41 +500,27 @@ JAVACODE
 	}
 	{ // TODO: Que n pueda ser num, var, param
 		((< STEP > ","  n=num() {
-			/*TODO: Lógica*/
+			/*world.moveForward(n, false)TODO: Lógica*/
 		})
 	|	(< JUMP > ","  n=num() {
-			/*TODO: Lógica*/
+			/*world.moveForward(n, true)TODO: Lógica*/
 		})
 	|	(< GRAB > ","  n=num() {
-			/*TODO: Lógica*/
+			/*world.grabBalloons(n)TODO: Lógica*/
 		})
 	|	(< POP > ","  n=num() {
-			/*TODO: Lógica*/
+			/*world.popBalloons(n); salida = "CommandTODO: Lógica*/
 		})
 	|	(< PICK > ","  n=num() { /* Equivalent to 'grab' */
-			/*TODO: Lógica*/
+			/*world.grabBalloons(n)TODO: Lógica*/
 		}) 
 	|	(< FREE > ","  n=num() {
-			/*TODO: Lógica*/
+			/*world.putBalloons(n)TODO: Lógica*/
 		})
 	|	(< DROP > ","  n=num() {
-			/*TODO: Lógica*/
+			/*world.putChips(n)TODO: Lógica*/
 		})) { return bool; }
 	}
-	/*
-	|	< STEP >  "(" n=num() ")" {world.moveForward(n, false); salida = "Command: Move steps forward ";}  
-	|	< JUMP >  "(" n=num() ")" {world.moveForward(n, true); salida = "Command: Jump steps forward ";}
-	|	< JUMPTO >  "(" n=num() "," m=num()")" {world.setPostion(n,m); salida = "Command: Jump to position ";}
-	|	< VEER >  "(" veer() ")"
-	|	< LOOK >  "(" look() ")"
-	|	< DROP >  "(" n=num() ")" {world.putChips(n); salida = "Command: Drop chips from its position ";}
-	|	< GRAB >  "(" n=num() ")" {world.grabBalloons(n); salida = "Command: Grab balloons from its position ";}
-	|	< GET >  "(" n=num() ")" {world.pickChips(n); salida = "Command: Get chips from its position ";}
-	|	< FREE >  "(" n=num() ")" {world.putBalloons(n); salida = "Command: Put balloons from its position ";}
-	|	< POP >  "(" n=num() ")" {world.popBalloons(n); salida = "Command: Pop balloons from its position ";}
-	|	< DMOVE >  "(" dMove() ")"
-	|	< OMOVE >  "(" oMove() ")"
-	*/
 
 
 	boolean canMove():
