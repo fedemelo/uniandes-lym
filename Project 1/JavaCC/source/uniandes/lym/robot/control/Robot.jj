@@ -373,10 +373,46 @@ TOKEN :
 		int n;
 	}
 	{
-		( n = num() "," < NORTH > {/*TODO: Lógica*/salida = "Command: Face north, move steps";})
-	|	( n = num() "," < SOUTH > {/*TODO: Lógica*/salida = "Command: Face south, move steps";})
-	|	( n = num() "," < EAST > {/*TODO: Lógica*/salida = "Command: Face east, move steps";})
-	|	( n = num() "," < WEST > {/*TODO: Lógica*/salida = "Command: Face west, move steps";})
+		( num() "," < NORTH > {
+			if (world.facingWest()) {
+				world.turnRight();
+			} else if (world.facingSouth()) {
+				world.turnRight(); world.turnRight();
+			} else if (world.facingEast()) {
+				world.turnRight(); world.turnRight(); world.turnRight();
+			}
+			world.moveForward(n, false)
+			salida = "Command: Face north, move steps";})
+	|	(num() "," < SOUTH > {
+			if (world.facingEast()) {
+				world.turnRight();
+			} else if (world.facingNorth()) {
+				world.turnRight(); world.turnRight();
+			} else if (world.facingWest()) {
+				world.turnRight(); world.turnRight(); world.turnRight();
+			}
+			world.moveForward(n, false)
+			salida = "Command: Face south, move steps";})
+	|	(num() "," < EAST > {
+			if (world.facingNorth()) {
+				world.turnRight();
+			} else if (world.facingWest()) {
+				world.turnRight(); world.turnRight();
+			} else if (world.facingSouth()) {
+				world.turnRight(); world.turnRight(); world.turnRight();
+			}
+			world.moveForward(n, false)
+			salida = "Command: Face east, move steps";})
+	|	(num() "," < WEST > {
+			if (world.facingSouth()) {
+				world.turnRight();
+			} else if (world.facingEast()) {
+				world.turnRight(); world.turnRight();
+			} else if (world.facingNorth()) {
+				world.turnRight(); world.turnRight(); world.turnRight();
+			}
+			world.moveForward(n, false)
+			salida = "Command: Face west, move steps";})
 	}
 
 
