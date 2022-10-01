@@ -326,7 +326,8 @@ TOKEN :
 			} else if (world.facingEast()) {
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
-			salida = "Command: Look north ";})
+			salida = "Command: Look north ";
+		})
 	|	(< SOUTH > {
 			if (world.facingEast()) {
 				world.turnRight();
@@ -335,7 +336,8 @@ TOKEN :
 			} else if (world.facingWest()) {
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
-			salida = "Command: Look south ";})
+			salida = "Command: Look south ";
+		})
 	|	(< EAST > {
 			if (world.facingNorth()) {
 				world.turnRight();
@@ -344,7 +346,8 @@ TOKEN :
 			} else if (world.facingSouth()) {
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
-			salida = "Command: Look east ";})
+			salida = "Command: Look east ";
+		})
 	|	(< WEST > {
 			if (world.facingSouth()) {
 				world.turnRight();
@@ -353,7 +356,8 @@ TOKEN :
 			} else if (world.facingNorth()) {
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
-			salida = "Command: Look west ";})
+			salida = "Command: Look west ";
+		})
 	}
 
 
@@ -364,22 +368,26 @@ TOKEN :
 	{
 		( n = num() "," < FRONT > {
 			world.moveForward(n, false)
-			salida = "Command: Move to the front, face original direction ";})
+			salida = "Command: Move to the front, face original direction ";
+		})
 	|	( n = num() "," < RIGHT > {
 			world.turnRight();
 			world.moveForward(n, false)
 			world.turnRight(); world.turnRight(); world.turnRight();
-			salida = "Command: Move to the right, face original direction ";})
+			salida = "Command: Move to the right, face original direction ";
+		})
 	|	( n = num() "," < BACK > {
 			world.turnRight(); world.turnRight();
 			world.moveForward(n, false)
 			world.turnRight(); world.turnRight();
-			salida = "Command: Move to the back, face original direction ";})
+			salida = "Command: Move to the back, face original direction ";
+		})
 	|	( n = num() "," < LEFT > {
 			world.turnRight(); world.turnRight(); world.turnRight();
 			world.moveForward(n, false)
 			world.turnRight();
-			salida = "Command: Move to the left, face original direction ";})
+			salida = "Command: Move to the left, face original direction ";
+		})
 	}
 
 
@@ -397,7 +405,8 @@ TOKEN :
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
 			world.moveForward(n, false)
-			salida = "Command: Face north, move steps";})
+			salida = "Command: Face north, move steps";
+		})
 	|	(num() "," < SOUTH > {
 			if (world.facingEast()) {
 				world.turnRight();
@@ -407,7 +416,8 @@ TOKEN :
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
 			world.moveForward(n, false)
-			salida = "Command: Face south, move steps";})
+			salida = "Command: Face south, move steps";
+		})
 	|	(num() "," < EAST > {
 			if (world.facingNorth()) {
 				world.turnRight();
@@ -417,7 +427,8 @@ TOKEN :
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
 			world.moveForward(n, false)
-			salida = "Command: Face east, move steps";})
+			salida = "Command: Face east, move steps";
+		})
 	|	(num() "," < WEST > {
 			if (world.facingSouth()) {
 				world.turnRight();
@@ -427,7 +438,8 @@ TOKEN :
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
 			world.moveForward(n, false)
-			salida = "Command: Face west, move steps";})
+			salida = "Command: Face west, move steps";
+		})
 	}
 
 
@@ -451,14 +463,44 @@ TOKEN :
 		int n;
 	}
 	{ // TODO: Que n pueda ser num, var, param
-		(< STEP > ","  n=num() {/*TODO: Lógica*/})
-	|	(< JUMP > ","  n=num() {/*TODO: Lógica*/})
-	|	(< GRAB > ","  n=num() {/*TODO: Lógica*/})
-	|	(< POP > ","  n=num() {/*TODO: Lógica*/})
-	|	(< PICK > ","  n=num() {/*TODO: Lógica.})  /* Equivalent to 'grab' */
-	|	(< FREE > ","  n=num() {/*TODO: Lógica*/})
-	|	(< DROP > ","  n=num() {/*TODO: Lógica*/})
+		(< STEP > ","  n=num() {
+			/*TODO: Lógica*/
+		})
+	|	(< JUMP > ","  n=num() {
+			/*TODO: Lógica*/
+		})
+	|	(< GRAB > ","  n=num() {
+			/*TODO: Lógica*/
+		})
+	|	(< POP > ","  n=num() {
+			/*TODO: Lógica*/
+		})
+	|	(< PICK > ","  n=num() { /* Equivalent to 'grab' */
+			/*TODO: Lógica*/
+		}) 
+	|	(< FREE > ","  n=num() {
+			/*TODO: Lógica*/
+		})
+	|	(< DROP > ","  n=num() {
+			/*TODO: Lógica*/
+		})
 	}
+
+
+	/*
+	|	< STEP >  "(" n=num() ")" {world.moveForward(n, false); salida = "Command: Move steps forward ";}  
+	|	< JUMP >  "(" n=num() ")" {world.moveForward(n, true); salida = "Command: Jump steps forward ";}
+	|	< JUMPTO >  "(" n=num() "," m=num()")" {world.setPostion(n,m); salida = "Command: Jump to position ";}
+	|	< VEER >  "(" veer() ")"
+	|	< LOOK >  "(" look() ")"
+	|	< DROP >  "(" n=num() ")" {world.putChips(n); salida = "Command: Drop chips from its position ";}
+	|	< GRAB >  "(" n=num() ")" {world.grabBalloons(n); salida = "Command: Grab balloons from its position ";}
+	|	< GET >  "(" n=num() ")" {world.pickChips(n); salida = "Command: Get chips from its position ";}
+	|	< FREE >  "(" n=num() ")" {world.putBalloons(n); salida = "Command: Put balloons from its position ";}
+	|	< POP >  "(" n=num() ")" {world.popBalloons(n); salida = "Command: Pop balloons from its position ";}
+	|	< DMOVE >  "(" dMove() ")"
+	|	< OMOVE >  "(" oMove() ")"
+	*/
 
 
 	void canMove():
