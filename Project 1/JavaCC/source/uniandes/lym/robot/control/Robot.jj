@@ -203,7 +203,7 @@ TOKEN :
 	{
 		command()
 	|	ctrlStruct()
-	|	procCall()
+	//|	procCall()
 	}
 
 
@@ -296,12 +296,12 @@ TOKEN :
 	}
 
 
-	void procCall():
-	{
-	}
-	{
-		// TODO
-	}
+//	void procCall():
+//	{
+//	}
+//	{
+//		// TODO
+//	}
 
 
 	void veer() :
@@ -367,24 +367,24 @@ TOKEN :
 	}
 	{
 		( n = num() "," < FRONT > {
-			world.moveForward(n, false)
+			world.moveForward(n, false);
 			salida = "Command: Move to the front, face original direction ";
 		})
 	|	( n = num() "," < RIGHT > {
 			world.turnRight();
-			world.moveForward(n, false)
+			world.moveForward(n, false);
 			world.turnRight(); world.turnRight(); world.turnRight();
 			salida = "Command: Move to the right, face original direction ";
 		})
 	|	( n = num() "," < BACK > {
 			world.turnRight(); world.turnRight();
-			world.moveForward(n, false)
+			world.moveForward(n, false);
 			world.turnRight(); world.turnRight();
 			salida = "Command: Move to the back, face original direction ";
 		})
 	|	( n = num() "," < LEFT > {
 			world.turnRight(); world.turnRight(); world.turnRight();
-			world.moveForward(n, false)
+			world.moveForward(n, false);
 			world.turnRight();
 			salida = "Command: Move to the left, face original direction ";
 		})
@@ -404,7 +404,7 @@ TOKEN :
 			} else if (world.facingEast()) {
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
-			world.moveForward(n, false)
+			world.moveForward(n, false);
 			salida = "Command: Face north, move steps";
 		})
 	|	(num() "," < SOUTH > {
@@ -415,7 +415,7 @@ TOKEN :
 			} else if (world.facingWest()) {
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
-			world.moveForward(n, false)
+			world.moveForward(n, false);
 			salida = "Command: Face south, move steps";
 		})
 	|	(num() "," < EAST > {
@@ -426,7 +426,7 @@ TOKEN :
 			} else if (world.facingSouth()) {
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
-			world.moveForward(n, false)
+			world.moveForward(n, false);
 			salida = "Command: Face east, move steps";
 		})
 	|	(num() "," < WEST > {
@@ -437,7 +437,7 @@ TOKEN :
 			} else if (world.facingNorth()) {
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
-			world.moveForward(n, false)
+			world.moveForward(n, false);
 			salida = "Command: Face west, move steps";
 		})
 	}
@@ -448,13 +448,13 @@ TOKEN :
 	}
 	{
 		(< NORTH > {
-			bool=world.facingNorth()})
+			bool=world.facingNorth();})
 	|	(< SOUTH > {
-			bool=world.facingSouth()})
+			bool=world.facingSouth();})
 	|	(< EAST > {
-			bool=world.facingEast()})
+			bool=world.facingEast();})
 	|	(< WEST > {
-			bool=world.facingWest()})
+			bool=world.facingWest();})
 	}
 
 
@@ -525,7 +525,7 @@ TOKEN :
 	{
 	}
 	{
-		bool=condition() {bool = !bool}
+		bool=condition() {bool = !bool;}
 	}
 
 
