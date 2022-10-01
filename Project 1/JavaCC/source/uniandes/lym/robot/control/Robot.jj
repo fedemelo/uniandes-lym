@@ -485,8 +485,6 @@ TOKEN :
 			/*TODO: Lógica*/
 		})
 	}
-
-
 	/*
 	|	< STEP >  "(" n=num() ")" {world.moveForward(n, false); salida = "Command: Move steps forward ";}  
 	|	< JUMP >  "(" n=num() ")" {world.moveForward(n, true); salida = "Command: Jump steps forward ";}
@@ -508,10 +506,18 @@ TOKEN :
 		int n;
 	}
 	{  // TODO: Que n pueda ser num, var, param
-		(< NORTH > ","  n=num() {/*TODO: Lógica*/})
-	|	(< SOUTH > ","  n=num() {/*TODO: Lógica*/})
-	|	(< EAST > ","  n=num() {/*TODO: Lógica*/})
-	|	(< WEST > ","  n=num() {/*TODO: Lógica*/})
+		(< NORTH > ","  n=num() {
+			/*TODO: Lógica*/
+		})
+	|	(< SOUTH > ","  n=num() {
+			/*TODO: Lógica*/
+		})
+	|	(< EAST > ","  n=num() {
+			/*TODO: Lógica*/
+		})
+	|	(< WEST > ","  n=num() {
+			/*TODO: Lógica*/
+		})
 	}
 
 
@@ -519,7 +525,7 @@ TOKEN :
 	{
 	}
 	{
-		condition() {/*TODO: Lógica*/}
+		bool=condition() {bool = !bool}
 	}
 
 
