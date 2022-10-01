@@ -7,13 +7,11 @@ Project 1
 
 options 
 {
-  
 	LOOKAHEAD=1; 
 	IGNORE_CASE=true;
 	STATIC = false;
-	
 }
-   
+
 
 PARSER_BEGIN(Robot)
 
@@ -31,16 +29,18 @@ import java.util.LinkedList;
 public class Robot 
 {
 
-
 	private RobotWorldDec world;
-	
-	
+
+
 	void setWorld(RobotWorld w) {
 		world = (RobotWorldDec) w;	
 	}
 
+
 	String salida = new String();
+
 }
+
 PARSER_END(Robot)
 
 
@@ -56,17 +56,18 @@ SKIP:
 /* Commands */
 TOKEN: 
 {
-    	< STEP: "step" >
-    |	< JUMP: "jump" >
-    |	< JUMPTO: "jumpTo" >
-    |	< VEER: "veer" >
-    |	< LOOK: "look" >
-    |	< DROP: "drop" >
-    |	< GRAB: "grab" >
-    |	< GET: "get" >
-    |	< FREE: "free" >
-    | 	< DMOVE:  "Dmove" >
-	|	< OMOVE:  "Omove" >
+	< STEP: "step" >
+|	< JUMP: "jump" >
+|	< JUMPTO: "jumpTo" >
+|	< VEER: "veer" >
+|	< LOOK: "look" >
+|	< DROP: "drop" >
+|	< GRAB: "grab" >
+|	< GET: "get" >
+|	< FREE: "free" >
+|	< POP: "pop" >
+| 	< DMOVE:  "Dmove" >
+|	< OMOVE:  "Omove" >
 }
 
 
@@ -100,7 +101,7 @@ TOKEN :
 	 	< NORTH: "north" >
 	| 	< SOUTH: "south" >
 	| 	< EAST: "east" >
-	| 	< WEST: "west" >s
+	| 	< WEST: "west" >
 }
 
 
@@ -129,8 +130,8 @@ TOKEN :
 /* Name */
 TOKEN :
 {
-		< NAME: <LETTER>(["a"-"z""A"-"Z""0"-"9"])* >
-	|  	< #LETTER: ["a"-"z""A"-"Z"] >
+		< NAME: <LETTER>(["a"-"z","A"-"Z","0"-"9"])* >
+	|  	< #LETTER: ["a"-"z","A"-"Z"] >
 }
 
 /* Number */
@@ -143,9 +144,10 @@ TOKEN :
 
 	boolean program(Console sistema):
 	{
+		salida = new String();
 	}
 	{
-		< PROG > varDecl()? procDef()* instrBlock() < GORP > {
+		< PROG > [varDecl()] (procDef())* instrBlock() < GORP > {
 		    try {
 	    		Thread.sleep(900);
 	    	} catch (InterruptedException e) {
@@ -162,7 +164,10 @@ TOKEN :
 	{
 	}
 	{
-		< VAR > < NAME > ("," < NAME >)* ";" {/*TODO : Lógica Java declaración de variables*/ }
+		< VAR > < NAME > ("," < NAME >)* ";" {
+			/*TODO : Lógica Java declaración de variables*/
+			salida="Variable declaration";
+			}
 	}
 
 
@@ -170,7 +175,10 @@ TOKEN :
 	{
 	}
 	{
-		< PROC > < NAME > "(" params()? ")" instrBlock() < CORP > {/*TODO : Lógica Java definición de procedimientos*/ }
+		< PROC > < NAME > "(" [params()] ")" instrBlock() < CORP > {
+			/*TODO : Lógica Java definición de procedimientos*/
+			salida="Procedure definition";
+			}
 	}
 
 
@@ -203,22 +211,21 @@ TOKEN :
 	void command():
 	{	
 		int n, m;
-		salida = new String();	
 	}
 	{  // TODO: Funciona con números. Falta con vars y params
-		 < NAME > ":=" < NUM > {/*TODO: Lógica asignación*/salida = "Command: Variable assignment";}
-		| < STEP >  "(" n=num() ")" {world.moveForward(n, false); salida = "Command: Move steps forward ";}  
-		| < JUMP >  "(" n=num() ")" {world.moveForward(n, true); salida = "Command: Jump steps forward ";}
-		| < JUMPTO >  "(" n=num() "," m=num()")" {world.setPostion(n,m); salida = "Command: Jump to position ";}
-		| < VEER >  "(" veer() ")"
-		| < LOOK >  "(" look() ")"
-		| < DROP >  "(" n=num() ")" {world.putChips(n); salida = "Command: Drop chips from its position ";}
-		| < GRAB >  "(" n=num() ")" {world.grabBalloons(n); salida = "Command: Grab balloons from its position ";}
-		| < GET >  "(" n=num() ")" {world.pickChips(n); salida = "Command: Get chips from its position ";}
-		| < FREE >  "(" n=num() ")" {world.putBalloons(n); salida = "Command: Put balloons from its position ";}
-		| < POP >  "(" n=num() ")" {world.popBalloons(n); salida = "Command: Pop balloons from its position ";}
-		| < DMOVE >  "(" dMove() ")"
-		| < OMOVE >  "(" oMove() ")"
+		< NAME > ":=" < NUM > {/*TODO: Lógica asignación*/salida = "Command: Variable assignment";}
+	|	< STEP >  "(" n=num() ")" {world.moveForward(n, false); salida = "Command: Move steps forward ";}  
+	|	< JUMP >  "(" n=num() ")" {world.moveForward(n, true); salida = "Command: Jump steps forward ";}
+	|	< JUMPTO >  "(" n=num() "," m=num()")" {world.setPostion(n,m); salida = "Command: Jump to position ";}
+	|	< VEER >  "(" veer() ")"
+	|	< LOOK >  "(" look() ")"
+	|	< DROP >  "(" n=num() ")" {world.putChips(n); salida = "Command: Drop chips from its position ";}
+	|	< GRAB >  "(" n=num() ")" {world.grabBalloons(n); salida = "Command: Grab balloons from its position ";}
+	|	< GET >  "(" n=num() ")" {world.pickChips(n); salida = "Command: Get chips from its position ";}
+	|	< FREE >  "(" n=num() ")" {world.putBalloons(n); salida = "Command: Put balloons from its position ";}
+	|	< POP >  "(" n=num() ")" {world.popBalloons(n); salida = "Command: Pop balloons from its position ";}
+	|	< DMOVE >  "(" dMove() ")"
+	|	< OMOVE >  "(" oMove() ")"
 	}
 
 
@@ -226,19 +233,70 @@ TOKEN :
 	{
 	}
 	{
-		// TODO
+		ifElseFi()
+	|	ifFi()
+	|	whileDoOd()
+	|	repeatTimes()
 	}
 
 
-	void procCall():
+	void ifElseFi():
 	{
 	}
 	{
-		// TODO
+		< IF > "(" condition() ")" instrBlock() < ELSE > instrBlock() < FI >  {
+			/*TODO : Lógica Java if else*/
+			salida="'if-else' conditional control structure";
+			}
+	}
+
+
+	void ifFi():
+	{
+	}
+	{
+		< IF > "(" condition() ")" instrBlock() < FI >  {
+			/*TODO : Lógica Java if */
+			salida="'if' conditional control structure";
+			}
+	}
+
+
+	void whileDoOd():
+	{
+	}
+	{
+		< WHILE > "(" condition() ")" < DO > instrBlock() < OD > {
+			/*TODO : Lógica Java while */
+			salida="'while' loop control structure";
+			}
+	}
+
+
+	void repeatTimes():
+	{
+		int n;
+	}
+	{
+		< REPEATTIMES > n=num() instrBlock() < PER > {
+			/*TODO : Lógica repeatTimes */
+			salida="'repeatTimes' loop control structure";
+			}
 	}
 
 
 	void condition():
+	{
+	}
+	{
+		< ISFACING >  "(" isFacing() ")"
+	|	< ISVALID >  "(" isValid() ")"
+	|	< CANMOVE >  "(" canMove() ")"
+	|	< NOT >  "(" not() ")"
+	}
+
+
+	void procCall():
 	{
 	}
 	{
@@ -260,16 +318,16 @@ TOKEN :
 	{
 	}
 	{
-		(< NORTH > {; salida = "Command: Look north ";})
-		| (< SOUTH > {; salida = "Command: Look south ";})
-		| (< EAST > {; salida = "Command: Look east ";})
-		| (< WEST > {; salida = "Command: Look west ";})
+		(< NORTH > {/*TODO: Lógica*/salida = "Command: Look north ";})
+	|	(< SOUTH > {/*TODO: Lógica*/salida = "Command: Look south ";})
+	|	(< EAST > {/*TODO: Lógica*/salida = "Command: Look east ";})
+	|	(< WEST > {/*TODO: Lógica*/salida = "Command: Look west ";})
 	}
 
 
 	void dMove() :
 	{
-		int n = 0;
+		int n;
 	}
 	{
 		( n = num() "," < FRONT > {/*TODO: Lógica*/salida = "Command: Move to the front, face original direction ";})
@@ -281,13 +339,59 @@ TOKEN :
 
 	void oMove() :
 	{
-		int n = 0;
+		int n;
 	}
 	{
 		( n = num() "," < NORTH > {/*TODO: Lógica*/salida = "Command: Face north, move steps";})
 	|	( n = num() "," < SOUTH > {/*TODO: Lógica*/salida = "Command: Face south, move steps";})
 	|	( n = num() "," < EAST > {/*TODO: Lógica*/salida = "Command: Face east, move steps";})
 	|	( n = num() "," < WEST > {/*TODO: Lógica*/salida = "Command: Face west, move steps";})
+	}
+
+
+	void isFacing():
+	{
+	}
+	{
+		(< NORTH > {/*TODO: Lógica*/})
+	|	(< SOUTH > {/*TODO: Lógica*/})
+	|	(< EAST > {/*TODO: Lógica*/})
+	|	(< WEST > {/*TODO: Lógica*/})
+	}
+
+
+	void isValid():
+	{
+		int n;
+	}
+	{ // TODO: Que n pueda ser num, var, param
+		(< STEP > ","  n=num() {/*TODO: Lógica*/})
+	|	(< JUMP > ","  n=num() {/*TODO: Lógica*/})
+	|	(< GRAB > ","  n=num() {/*TODO: Lógica*/})
+	|	(< POP > ","  n=num() {/*TODO: Lógica*/})
+//	|	(< PICK > ","  n=num() {/*TODO: Lógica*/})
+	|	(< FREE > ","  n=num() {/*TODO: Lógica*/})
+	|	(< DROP > ","  n=num() {/*TODO: Lógica*/})
+	}
+
+
+	void canMove():
+	{
+		int n;
+	}
+	{  // TODO: Que n pueda ser num, var, param
+		(< NORTH > ","  n=num() {/*TODO: Lógica*/})
+	|	(< SOUTH > ","  n=num() {/*TODO: Lógica*/})
+	|	(< EAST > ","  n=num() {/*TODO: Lógica*/})
+	|	(< WEST > ","  n=num() {/*TODO: Lógica*/})
+	}
+
+
+	void not():
+	{
+	}
+	{
+		condition() {/*TODO: Lógica*/}
 	}
 
 
