@@ -249,24 +249,24 @@ TOKEN :
 	}
 
 
-	void instrBlockTrue(boolean bool):
-	{
-		if (bool) {
-			
-		}
-	}
-	{
-	}
+//	void instrBlockTrue(boolean bool):
+//	{
+//		if (bool) {
+//			
+//		}
+//	}
+//	{
+//	}
 
 
-	void instrBlockFalse(boolean bool):
-	{
-		if (!bool) {
-			
-		}
-	}
-	{
-	}
+//	void instrBlockFalse(boolean bool):
+//	{
+//		if (!bool) {
+//			
+//		}
+//	}
+//	{
+//	}
 
 
 	void whileDoOd():
