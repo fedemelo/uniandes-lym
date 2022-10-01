@@ -366,28 +366,25 @@ TOKEN :
 		int n;
 	}
 	{
-		( n = num() "," < FRONT > {
-			world.moveForward(n, false);
-			salida = "Command: Move to the front, face original direction ";
-		})
-	|	( n = num() "," < RIGHT > {
+		( n = num()"," ( < FRONT > {world.moveForward(n, false);salida = "Command: Move to the front, face original direction ";})
+	| < RIGHT > {
 			world.turnRight();
 			world.moveForward(n, false);
 			world.turnRight(); world.turnRight(); world.turnRight();
 			salida = "Command: Move to the right, face original direction ";
-		})
-	|	( n = num() "," < BACK > {
+		}
+	|	( < BACK > {
 			world.turnRight(); world.turnRight();
 			world.moveForward(n, false);
 			world.turnRight(); world.turnRight();
 			salida = "Command: Move to the back, face original direction ";
 		})
-	|	( n = num() "," < LEFT > {
+	|	( < LEFT > {
 			world.turnRight(); world.turnRight(); world.turnRight();
 			world.moveForward(n, false);
 			world.turnRight();
 			salida = "Command: Move to the left, face original direction ";
-		})
+		}))
 	}
 
 
@@ -396,7 +393,7 @@ TOKEN :
 		int n;
 	}
 	{
-		( num() "," < NORTH > {
+		(num() ","( < NORTH > {
 			if (world.facingWest()) {
 				world.turnRight();
 			} else if (world.facingSouth()) {
@@ -407,7 +404,7 @@ TOKEN :
 			world.moveForward(n, false);
 			salida = "Command: Face north, move steps";
 		})
-	|	(num() "," < SOUTH > {
+	|	(< SOUTH > {
 			if (world.facingEast()) {
 				world.turnRight();
 			} else if (world.facingNorth()) {
@@ -418,7 +415,7 @@ TOKEN :
 			world.moveForward(n, false);
 			salida = "Command: Face south, move steps";
 		})
-	|	(num() "," < EAST > {
+	|	(< EAST > {
 			if (world.facingNorth()) {
 				world.turnRight();
 			} else if (world.facingWest()) {
@@ -429,7 +426,7 @@ TOKEN :
 			world.moveForward(n, false);
 			salida = "Command: Face east, move steps";
 		})
-	|	(num() "," < WEST > {
+	|	(< WEST > {
 			if (world.facingSouth()) {
 				world.turnRight();
 			} else if (world.facingEast()) {
@@ -439,7 +436,7 @@ TOKEN :
 			}
 			world.moveForward(n, false);
 			salida = "Command: Face west, move steps";
-		})
+		}))
 	}
 
 

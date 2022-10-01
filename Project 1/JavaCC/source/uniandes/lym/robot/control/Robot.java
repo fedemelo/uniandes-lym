@@ -458,27 +458,23 @@ public class Robot implements RobotConstants {
       n = num();
       jj_consume_token(48);
       jj_consume_token(FRONT);
-                        world.moveForward(n, false);
-                        salida = "Command: Move to the front, face original direction ";
+                                            world.moveForward(n, false);salida = "Command: Move to the front, face original direction ";
       break;
-      n = num();
-      jj_consume_token(48);
+    case RIGHT:
       jj_consume_token(RIGHT);
                         world.turnRight();
                         world.moveForward(n, false);
                         world.turnRight(); world.turnRight(); world.turnRight();
                         salida = "Command: Move to the right, face original direction ";
       break;
-      n = num();
-      jj_consume_token(48);
+    case BACK:
       jj_consume_token(BACK);
                         world.turnRight(); world.turnRight();
                         world.moveForward(n, false);
                         world.turnRight(); world.turnRight();
                         salida = "Command: Move to the back, face original direction ";
       break;
-      n = num();
-      jj_consume_token(48);
+    case LEFT:
       jj_consume_token(LEFT);
                         world.turnRight(); world.turnRight(); world.turnRight();
                         world.moveForward(n, false);
@@ -509,8 +505,7 @@ public class Robot implements RobotConstants {
                         world.moveForward(n, false);
                         salida = "Command: Face north, move steps";
       break;
-      num();
-      jj_consume_token(48);
+    case SOUTH:
       jj_consume_token(SOUTH);
                         if (world.facingEast()) {
                                 world.turnRight();
@@ -522,8 +517,7 @@ public class Robot implements RobotConstants {
                         world.moveForward(n, false);
                         salida = "Command: Face south, move steps";
       break;
-      num();
-      jj_consume_token(48);
+    case EAST:
       jj_consume_token(EAST);
                         if (world.facingNorth()) {
                                 world.turnRight();
@@ -535,8 +529,7 @@ public class Robot implements RobotConstants {
                         world.moveForward(n, false);
                         salida = "Command: Face east, move steps";
       break;
-      num();
-      jj_consume_token(48);
+    case WEST:
       jj_consume_token(WEST);
                         if (world.facingSouth()) {
                                 world.turnRight();
@@ -722,10 +715,10 @@ public class Robot implements RobotConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x0,0x0,0x1,0x0,0x0,0x0,0x0,0x93ffe0,0x1ffe0,0x920000,0x1e000000,0x0,0xc0000000,0x0,0x0,0xc0000000,0x20006c60,0xc0000000,};
+      jj_la1_0 = new int[] {0x0,0x0,0x1,0x0,0x0,0x0,0x0,0x93ffe0,0x1ffe0,0x920000,0x1e000000,0x0,0xc0000000,0x0,0x80000000,0xc0000000,0x20006c60,0xc0000000,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x200,0x400,0x80,0x10000,0x1000,0x10000,0x20000,0x1000,0x1000,0x0,0x0,0x1c,0x3,0x4000,0x4000,0x3,0x0,0x3,};
+      jj_la1_1 = new int[] {0x200,0x400,0x80,0x10000,0x1000,0x10000,0x20000,0x1000,0x1000,0x0,0x0,0x1c,0x3,0x4058,0x4003,0x3,0x0,0x3,};
    }
 
   /** Constructor with InputStream. */
