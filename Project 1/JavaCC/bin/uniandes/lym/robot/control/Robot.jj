@@ -317,10 +317,42 @@ TOKEN :
 	{
 	}
 	{
-		(< NORTH > {/*TODO: Lógica*/salida = "Command: Look north ";})
-	|	(< SOUTH > {/*TODO: Lógica*/salida = "Command: Look south ";})
-	|	(< EAST > {/*TODO: Lógica*/salida = "Command: Look east ";})
-	|	(< WEST > {/*TODO: Lógica*/salida = "Command: Look west ";})
+		(< NORTH > {
+			if (world.facingWest()) {
+				world.turnRight();
+			} else if (world.facingSouth()) {
+				world.turnRight(); world.turnRight();
+			} else if (world.facingEast()) {
+				world.turnRight(); world.turnRight(); world.turnRight();
+			}
+			salida = "Command: Look north ";})
+	|	(< SOUTH > {
+			if (world.facingEast()) {
+				world.turnRight();
+			} else if (world.facingNorth()) {
+				world.turnRight(); world.turnRight();
+			} else if (world.facingWest()) {
+				world.turnRight(); world.turnRight(); world.turnRight();
+			}
+			salida = "Command: Look south ";})
+	|	(< EAST > {
+			if (world.facingNorth()) {
+				world.turnRight();
+			} else if (world.facingWest()) {
+				world.turnRight(); world.turnRight();
+			} else if (world.facingSouth()) {
+				world.turnRight(); world.turnRight(); world.turnRight();
+			}
+			salida = "Command: Look east ";})
+	|	(< WEST > {
+			if (world.facingSouth()) {
+				world.turnRight();
+			} else if (world.facingEast()) {
+				world.turnRight(); world.turnRight();
+			} else if (world.facingNorth()) {
+				world.turnRight(); world.turnRight(); world.turnRight();
+			}
+			salida = "Command: Look west ";})
 	}
 
 
