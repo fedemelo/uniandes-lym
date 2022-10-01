@@ -1,13 +1,8 @@
 /*
-Gramatica para el Robot:
-Autor: Alejandro Arango
-Modificado por: Silvia Takahashi
-Modificado por: Juan Pablo Morales.
-Agregadas producciones para manejar globos
-Modificado por Silvia Takahashi
-
-
- **/
+Project 1
+@authors: Federico Melo Barrero, f.melo, 202021525
+		  Germán Alberto Rojas Cetina, g.rojasc, 202013415
+*/
 
 
 options 
@@ -56,50 +51,64 @@ SKIP:
 	| "\n"
 }
 
-TOKEN: /* Nombres de Comandos */
+TOKEN: 
 {
-
-			<MOVE:  "move">
-		| 	<RIGHT: "right">
-		| 	<PUT: "Put">
-		| 	<PICK: "Pick">
-		|  < POP: "pop" >
-		|  <GO: "Go" >
-        |  < HOP:  "Hop" >
-        | < STEP: "step" >
-        | < JUMP: "jump" >
-        | < JUMPTO: "jumpTo" >
-        | < VEER: "veer" >
-        | < LOOK: "look" >
-        | < DROP: "drop" >
-        | < GRAB: "grab" >
-        | < GET: "get" >
-        | < FREE: "free" >
-
+  	/* Commands */
+    	< STEP: "step" >
+    |	< JUMP: "jump" >
+    |	< JUMPTO: "jumpTo" >
+    |	< VEER: "veer" >
+    |	< LOOK: "look" >
+    |	< DROP: "drop" >
+    |	< GRAB: "grab" >
+    |	< GET: "get" >
+    |	< FREE: "free" >
+    | 	< DMOVE:  "Dmove" >
+	|	< OMOVE:  "Omove" >
+	
+	/* Control structures */
+	|	< IF: "if" >
+	|	< FI: "fi" >
+	|	< ELSE: "else" >
+	| 	< WHILE: "while" >
+	|	< DO: "do" >
+	| 	< OD: "od" >
+	|	< REPEATTIMES: "repeatTimes" >
+	|	< PER : "per" >
+	
+	/* Conditions */
+	|	< ISFACING : "isfacing" >
+	| 	< ISVALID: "isValid" >
+	| 	< CANMOVE: "canMove" >
+	| 	< NOT: "not" >
+	
+	/* Cardinal directions */
+	| 	< NORTH: "north" >
+	| 	< SOUTH: "south" >
+	| 	< EAST: "east" >
+	| 	< WEST: "west" >s
+	
+	/* Directions */
+	| 	< RIGHT: "right" >
+	| 	< LEFT: "left" >
+	| 	< FRONT: "front" >
+	| 	< BACK: "back" >
 }
 
-TOKEN:
-{
-		<BALLOONS:  "BALLOONS" >
-		|	<CHIPS:     "CHIPS"  >	
 
-}
-
-TOKEN:
-{
-	< NORTH: "north" >
-| < SOUTH: "south" >
-| < EAST: "east" >
-| < WEST: "west" >
-}
+//TOKEN:
+//{
+//		<BALLOONS:  "BALLOONS" >
+//		|	<CHIPS:     "CHIPS"  >	
+//
+//}
 
 
-
+/* Special tokens */
 TOKEN :
 {
-		<NUM: (<DIGIT>)+ >
-		|  	<#DIGIT: ["0"-"9"] >
-        
+		< NUM: (<DIGIT>)+ >
+	|  	< #DIGIT: ["0"-"9"] >
 }
 
 
@@ -114,7 +123,8 @@ TOKEN :
 
 	
 	{
-		(		  (
+		(
+		  (
 		   <RIGHT> "(" ")" {world.turnRight();salida = "Command: Turnright";}
 		| 	<MOVE>  "(" x=num() ")" {world.moveForward(x,false);salida = "Command: Moveforward ";}  
 		| 	<HOP>  "(" x=num() ")" {world.moveForward(x,true);salida = "Command:Jumpforward ";}
