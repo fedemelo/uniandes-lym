@@ -638,13 +638,13 @@ public class Robot implements RobotConstants {
                         } else {
                                 /*Check if path is blocked*/
                                 if(world.facingNorth())
-                                        bool = world.blockedInRange(posX, posY, posY-pasos, 0);
+                                        bool = !world.blockedInRange(posX, posY, posY-pasos, 0);
                                 else if(world.facingSouth())
-                                        bool = world.blockedInRange(posX, posY, posY+pasos, 1);
+                                        bool = !world.blockedInRange(posX, posY, posY+pasos, 1);
                                 else if(world.facingEast())
-                                        bool = world.blockedInRange(posX, posY, posX+pasos, 2);
+                                        bool = !world.blockedInRange(posX, posY, posX+pasos, 2);
                                 else if(world.facingWest())
-                                        bool = world.blockedInRange(posX, posY, posX-pasos, 3);
+                                        bool = !world.blockedInRange(posX, posY, posX-pasos, 3);
                         }
       break;
     case JUMP:
@@ -735,31 +735,46 @@ public class Robot implements RobotConstants {
 
   final public boolean canMove() throws ParseException {
                 Integer n;
-                boolean bool;
+                boolean bool = true;
+                int pasos;
+                int posX;
+                int posY;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case NORTH:
       jj_consume_token(NORTH);
       jj_consume_token(48);
       n = num();
-
+                        pasos = n;
+                        posX = (int) world.getPosition().getX();
+                        posY = (int) world.getPosition().getY();
+                        bool = !world.blockedInRange(posX, posY, posY-pasos, 0);
       break;
     case SOUTH:
       jj_consume_token(SOUTH);
       jj_consume_token(48);
       n = num();
-
+                        pasos = n;
+                        posX = (int) world.getPosition().getX();
+                        posY = (int) world.getPosition().getY();
+                        bool = !world.blockedInRange(posX, posY, posY+pasos, 1);
       break;
     case EAST:
       jj_consume_token(EAST);
       jj_consume_token(48);
       n = num();
-
+                        pasos = n;
+                        posX = (int) world.getPosition().getX();
+                        posY = (int) world.getPosition().getY();
+                        bool = !world.blockedInRange(posX, posY, posX+pasos, 2);
       break;
     case WEST:
       jj_consume_token(WEST);
       jj_consume_token(48);
       n = num();
-
+                        pasos = n;
+                        posX = (int) world.getPosition().getX();
+                        posY = (int) world.getPosition().getY();
+                        bool = !world.blockedInRange(posX, posY, posX-pasos, 3);
       break;
     default:
       jj_la1[15] = jj_gen;
@@ -841,11 +856,6 @@ public class Robot implements RobotConstants {
     if (jj_3R_26()) return true;
     }
     }
-    return false;
-  }
-
-  private boolean jj_3R_5() {
-    if (jj_scan_token(NAME)) return true;
     return false;
   }
 
@@ -971,6 +981,11 @@ public class Robot implements RobotConstants {
   private boolean jj_3_3() {
     if (jj_scan_token(49)) return true;
     if (jj_3R_6()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_5() {
+    if (jj_scan_token(NAME)) return true;
     return false;
   }
 

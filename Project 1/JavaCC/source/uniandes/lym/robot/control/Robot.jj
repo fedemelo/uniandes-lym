@@ -505,7 +505,7 @@ JAVACODE
 		int posY;
 		boolean outOfBounds;
 	}
-	{ // TODO: Que n pueda ser num, var, param
+	{ // TODO: Que n pueda ser tambien var o param
 		((< STEP > ","  n=num() {
 			pasos = n;
 			posX = (int) world.getPosition().getX();
@@ -530,13 +530,13 @@ JAVACODE
 			} else {
 				/*Check if path is blocked*/
 				if(world.facingNorth())
-					bool = world.blockedInRange(posX, posY, posY-pasos, 0);
+					bool = !world.blockedInRange(posX, posY, posY-pasos, 0);
 				else if(world.facingSouth()) 
-					bool = world.blockedInRange(posX, posY, posY+pasos, 1);
+					bool = !world.blockedInRange(posX, posY, posY+pasos, 1);
 				else if(world.facingEast())
-					bool = world.blockedInRange(posX, posY, posX+pasos, 2);
+					bool = !world.blockedInRange(posX, posY, posX+pasos, 2);
 				else if(world.facingWest())
-					bool = world.blockedInRange(posX, posY, posX-pasos, 3);
+					bool = !world.blockedInRange(posX, posY, posX-pasos, 3);
 			}
 		})
 	|	(< JUMP > ","  n=num() {
@@ -602,20 +602,35 @@ JAVACODE
 	boolean canMove():
 	{
 		Integer n;
-		boolean bool;
+		boolean bool = true;
+		int pasos;
+		int posX;
+		int posY;
 	}
-	{  // TODO: Que n pueda ser num, var, param
+	{  // TODO: Que n pueda ser tambien var o param
 		((< NORTH > ","  n=num() {
-			/*TODO: Lógica*/
+			pasos = n;
+			posX = (int) world.getPosition().getX();
+			posY = (int) world.getPosition().getY();
+			bool = !world.blockedInRange(posX, posY, posY-pasos, 0);
 		})
 	|	(< SOUTH > ","  n=num() {
-			/*TODO: Lógica*/
+			pasos = n;
+			posX = (int) world.getPosition().getX();
+			posY = (int) world.getPosition().getY();
+			bool = !world.blockedInRange(posX, posY, posY+pasos, 1);
 		})
 	|	(< EAST > ","  n=num() {
-			/*TODO: Lógica*/
+			pasos = n;
+			posX = (int) world.getPosition().getX();
+			posY = (int) world.getPosition().getY();
+			bool = !world.blockedInRange(posX, posY, posX+pasos, 2);
 		})
 	|	(< WEST > ","  n=num() {
-			/*TODO: Lógica*/
+			pasos = n;
+			posX = (int) world.getPosition().getX();
+			posY = (int) world.getPosition().getY();
+			bool = !world.blockedInRange(posX, posY, posX-pasos, 3);
 		})) { return bool; }
 	}
 
