@@ -308,8 +308,8 @@ TOKEN :
 	}
 	{
 		(< RIGHT > {world.turnRight(); salida = "Command: Veer right ";})
-		| (< AROUND > {world.turnRight(); world.turnRight(); salida = "Command: Veer around ";})
-		| (< LEFT > {world.turnRight(); world.turnRight(); world.turnRight(); salida = "Command: Veer left ";})
+	|	(< AROUND > {world.turnRight(); world.turnRight(); salida = "Command: Veer around ";})
+	|	(< LEFT > {world.turnRight(); world.turnRight(); world.turnRight(); salida = "Command: Veer left ";})
 	}
 
 
@@ -361,10 +361,24 @@ TOKEN :
 		int n;
 	}
 	{
-		( n = num() "," < FRONT > {/*TODO: Lógica*/salida = "Command: Move to the front, face original direction ";})
-	|	( n = num() "," < RIGHT > {/*TODO: Lógica*/salida = "Command: Move to the right, face original direction ";})
-	|	( n = num() "," < LEFT > {/*TODO: Lógica*/salida = "Command: Move to the left, face original direction ";})
-	|	( n = num() "," < BACK > {/*TODO: Lógica*/salida = "Command: Move to the back, face original direction ";})
+		( n = num() "," < FRONT > {
+			world.moveForward(n, false)
+			salida = "Command: Move to the front, face original direction ";})
+	|	( n = num() "," < RIGHT > {
+			world.turnRight();
+			world.moveForward(n, false)
+			world.turnRight(); world.turnRight(); world.turnRight();
+			salida = "Command: Move to the right, face original direction ";})
+	|	( n = num() "," < BACK > {
+			world.turnRight(); world.turnRight();
+			world.moveForward(n, false)
+			world.turnRight(); world.turnRight();
+			salida = "Command: Move to the back, face original direction ";})
+	|	( n = num() "," < LEFT > {
+			world.turnRight(); world.turnRight(); world.turnRight();
+			world.moveForward(n, false)
+			world.turnRight();
+			salida = "Command: Move to the left, face original direction ";})
 	}
 
 
