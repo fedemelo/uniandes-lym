@@ -28,7 +28,6 @@ import java.util.LinkedList;
 @SuppressWarnings("serial")
 public class Robot 
 {
-
 	private RobotWorldDec world;
 
 
@@ -38,7 +37,6 @@ public class Robot
 
 
 	String salida = new String();
-
 }
 
 PARSER_END(Robot)
@@ -46,28 +44,28 @@ PARSER_END(Robot)
 
 SKIP:
 {
-	" "
+		" "
 	|	"\r"
 	|	"\t"
-	| "\n"
+	|	"\n"
 }
 
 
 /* Commands */
 TOKEN: 
 {
-	< STEP: "step" >
-|	< JUMP: "jump" >
-|	< JUMPTO: "jumpTo" >
-|	< VEER: "veer" >
-|	< LOOK: "look" >
-|	< DROP: "drop" >
-|	< GRAB: "grab" >
-|	< GET: "get" >
-|	< FREE: "free" >
-|	< POP: "pop" >
-| 	< DMOVE:  "Dmove" >
-|	< OMOVE:  "Omove" >
+		< STEP: "step" >
+	|	< JUMP: "jump" >
+	|	< JUMPTO: "jumpTo" >
+	|	< VEER: "veer" >
+	|	< LOOK: "look" >
+	|	< DROP: "drop" >
+	|	< GRAB: "grab" >
+	|	< GET: "get" >
+	|	< FREE: "free" >
+	|	< POP: "pop" >
+	| 	< DMOVE:  "Dmove" >
+	|	< OMOVE:  "Omove" >
 }
 
 
@@ -92,6 +90,7 @@ TOKEN :
 	| 	< ISVALID: "isValid" >
 	| 	< CANMOVE: "canMove" >
 	| 	< NOT: "not" >
+	|	< PICK:  "pick" > // For isValid condition
 }
 
 
@@ -369,7 +368,7 @@ TOKEN :
 	|	(< JUMP > ","  n=num() {/*TODO: Lógica*/})
 	|	(< GRAB > ","  n=num() {/*TODO: Lógica*/})
 	|	(< POP > ","  n=num() {/*TODO: Lógica*/})
-//	|	(< PICK > ","  n=num() {/*TODO: Lógica*/})
+	|	(< PICK > ","  n=num() {/*TODO: Lógica.})  // Equivalent to 'grab'
 	|	(< FREE > ","  n=num() {/*TODO: Lógica*/})
 	|	(< DROP > ","  n=num() {/*TODO: Lógica*/})
 	}
