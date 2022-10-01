@@ -195,6 +195,7 @@ TOKEN :
 	ArrayList<String> params():
 	{
 		ArrayList<String> localVars = new ArrayList<String>();
+		String name;
 	}
 	{
 		((name=name()) {
@@ -582,7 +583,8 @@ JAVACODE
 	 */
 
 	Integer num() throws Error:
-	{	
+	{
+		int total_;
 		Integer total;
 	}
 	{
