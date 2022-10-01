@@ -269,7 +269,7 @@ JAVACODE
 		boolean bool;
 	}
 	{
-		< WHILE > "(" bool=condition() ")") < DO > instrBlockWhile(bool) < OD > {
+		< WHILE > "(" bool=condition() ")" < DO > instrBlockWhile(bool) < OD > {
 			/*TODO : Lógica Java while */
 			salida="'while' loop control structure";
 			}
@@ -283,7 +283,7 @@ JAVACODE
 	{
 		( < REPEATTIMES > n=num() ) {
 			for (int i=0; i<n; i++) {
-				instrBlock()
+				instrBlock();
 			}
 		} ( < PER > ) {
 			salida="'repeatTimes' loop control structure";
