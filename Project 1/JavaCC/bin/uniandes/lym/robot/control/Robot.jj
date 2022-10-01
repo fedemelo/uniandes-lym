@@ -452,23 +452,14 @@ TOKEN :
 	{
 	}
 	{
-<<<<<<< HEAD
 		((< NORTH > {
-			bool=world.facingNorth()})
-=======
-		(< NORTH > {
 			bool=world.facingNorth();})
->>>>>>> 76bf2ce5b67d6d85135de36833efdbb207e0be62
 	|	(< SOUTH > {
 			bool=world.facingSouth();})
 	|	(< EAST > {
 			bool=world.facingEast();})
 	|	(< WEST > {
-<<<<<<< HEAD
-			bool=world.facingWest()})) { return bool; }
-=======
-			bool=world.facingWest();})
->>>>>>> 76bf2ce5b67d6d85135de36833efdbb207e0be62
+			bool=world.facingWest();})) { return bool; }
 	}
 
 
