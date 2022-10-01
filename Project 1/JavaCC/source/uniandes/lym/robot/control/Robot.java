@@ -24,7 +24,6 @@ public class Robot implements RobotConstants {
         private ArrayList<String> declaredVars = new ArrayList<String>();
 
   final public boolean command(Console sistema) throws ParseException {
-                salida=new String();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case PROG:
       jj_consume_token(PROG);
@@ -70,7 +69,7 @@ public class Robot implements RobotConstants {
     throw new Error("Missing return statement in function");
   }
 
-  final public String varDecl() throws ParseException {
+  final public void varDecl() throws ParseException {
                 String name;
     jj_consume_token(VAR);
     name = name();
@@ -92,7 +91,6 @@ public class Robot implements RobotConstants {
     }
     jj_consume_token(49);
                         salida="Variable declaration";
-    throw new Error("Missing return statement in function");
   }
 
   final public void procDef() throws ParseException {

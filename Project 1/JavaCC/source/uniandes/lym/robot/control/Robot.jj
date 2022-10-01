@@ -147,7 +147,6 @@ TOKEN :
 
 	boolean command(Console sistema):
 	{
-		salida=new String();
 	}
 	{
 		( < PROG > [varDecl()] (procDef())* instrBlock() < GORP >) {
@@ -163,7 +162,7 @@ TOKEN :
 	}
 
 
-	String varDecl():
+	void varDecl():
 	{
 		String name;
 	}
