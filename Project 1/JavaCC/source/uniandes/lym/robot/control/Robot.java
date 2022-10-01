@@ -23,7 +23,7 @@ public class Robot implements RobotConstants {
         private Hashtable<String, Integer> vars = new Hashtable<String, Integer>();
         private ArrayList<String> declaredVars = new ArrayList<String>();
 
-  final public boolean program(Console sistema) throws ParseException {
+  final public boolean command(Console sistema) throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case PROG:
       jj_consume_token(PROG);
@@ -117,6 +117,7 @@ public class Robot implements RobotConstants {
 
   final public ArrayList<String> params() throws ParseException {
                 ArrayList<String> localVars = new ArrayList<String>();
+                String name;
     name = name();
                         localVars.add(name);
     label_3:
@@ -169,7 +170,7 @@ public class Robot implements RobotConstants {
     case DMOVE:
     case OMOVE:
     case NAME:
-      command();
+      cmd();
       break;
     case IF:
     case WHILE:
@@ -183,7 +184,7 @@ public class Robot implements RobotConstants {
     }
   }
 
-  final public void command() throws ParseException {
+  final public void cmd() throws ParseException {
                 String name;
                 Integer n, m;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -344,7 +345,6 @@ public class Robot implements RobotConstants {
     bool = condition();
     jj_consume_token(51);
     jj_consume_token(DO);
-    instrBlock(bool);
     jj_consume_token(OD);
                         /*TODO : Lógica Java while. Implementar instrBlockWhile*/
                         salida="'while' loop control structure";
@@ -479,12 +479,13 @@ public class Robot implements RobotConstants {
 
   final public void dMove() throws ParseException {
                 Integer n;
+    n = num();
+    jj_consume_token(48);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case NUM:
-      n = num();
-      jj_consume_token(48);
+    case FRONT:
       jj_consume_token(FRONT);
-                                            world.moveForward(n, false);salida = "Command: Move to the front, face original direction ";
+                        world.moveForward(n, false);
+                        salida = "Command: Move to the front, face original direction ";
       break;
     case RIGHT:
       jj_consume_token(RIGHT);
@@ -516,10 +517,10 @@ public class Robot implements RobotConstants {
 
   final public void oMove() throws ParseException {
                 Integer n;
+    n = num();
+    jj_consume_token(48);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case NUM:
-      num();
-      jj_consume_token(48);
+    case NORTH:
       jj_consume_token(NORTH);
                         if (world.facingWest()) {
                                 world.turnRight();
@@ -604,49 +605,124 @@ public class Robot implements RobotConstants {
 
   final public boolean isValid() throws ParseException {
                 Integer n;
-                boolean bool;
+                boolean bool = true;
+                int pasos;
+                int posX;
+                int posY;
+                boolean outOfBounds;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case STEP:
       jj_consume_token(STEP);
       jj_consume_token(48);
       n = num();
+                        pasos = n;
+                        posX = (int) world.getPosition().getX();
+                        posY = (int) world.getPosition().getY();
+                        /* Check if final position is on board */
+                        outOfBounds = false;
+                        if(world.facingNorth()) {
+                                if (posY-pasos < 1) { outOfBounds = true; }
+                        }
+                        else if(world.facingSouth()) {
+                                if (posY+pasos > 8) { outOfBounds = true; }
+                        }
+                        else if(world.facingEast()) {
+                                if (posX+pasos > 8) { outOfBounds = true; }
+                        }
+                        else if(world.facingWest()) {
+                                if (posX-pasos < 1) { outOfBounds = true; }
+                        }
 
+                        if (outOfBounds) {
+                                bool = false;
+                        } else {
+                                /*Check if path is blocked*/
+                                if(world.facingNorth())
+                                        bool = world.blockedInRange(posX, posY, posY-pasos, 0);
+                                else if(world.facingSouth())
+                                        bool = world.blockedInRange(posX, posY, posY+pasos, 1);
+                                else if(world.facingEast())
+                                        bool = world.blockedInRange(posX, posY, posX+pasos, 2);
+                                else if(world.facingWest())
+                                        bool = world.blockedInRange(posX, posY, posX-pasos, 3);
+                        }
       break;
     case JUMP:
       jj_consume_token(JUMP);
       jj_consume_token(48);
       n = num();
+                        pasos = n;
+                        posX = (int) world.getPosition().getX();
+                        posY = (int) world.getPosition().getY();
+                        /* Check if final position is on board */
+                        outOfBounds = false;
+                        if(world.facingNorth()) {
+                                if (posY-pasos < 1) { outOfBounds = true; }
+                        }
+                        else if(world.facingSouth()) {
+                                if (posY+pasos > 8) { outOfBounds = true; }
+                        }
+                        else if(world.facingEast()) {
+                                if (posX+pasos > 8) { outOfBounds = true; }
+                        }
+                        else if(world.facingWest()) {
+                                if (posX-pasos < 1) { outOfBounds = true; }
+                        }
 
+                        if (outOfBounds) {
+                                bool = false;
+                        } else {
+                                /*Check if final position is blocked*/
+                                if(world.facingNorth())
+                                        bool = !world.isBlocked(new Point(posX, posY-pasos));
+                                else if(world.facingSouth())
+                                        bool = !world.isBlocked(new Point(posX, posY+pasos));
+                                else if(world.facingEast())
+                                        bool = !world.isBlocked(new Point(posX, posX+pasos));
+                                else if(world.facingWest())
+                                        bool = !world.isBlocked(new Point(posX, posX-pasos));
+                        }
       break;
     case GRAB:
       jj_consume_token(GRAB);
       jj_consume_token(48);
       n = num();
-
+                        if ((n < 0) || (world.countBalloons(world.getPosition()) < n)) {
+                                bool = false;
+                        }
       break;
     case POP:
       jj_consume_token(POP);
       jj_consume_token(48);
       n = num();
-
+                        if ((n < 0) || (world.countBalloons(world.getPosition()) < n)) {
+                                bool = false;
+                        }
       break;
     case PICK:
       jj_consume_token(PICK);
       jj_consume_token(48);
       n = num();
-
+                                         /* Equivalent to 'grab' */
+                        if ((n < 0) || (world.countBalloons(world.getPosition()) < n)) {
+                                bool = false;
+                        }
       break;
     case FREE:
       jj_consume_token(FREE);
       jj_consume_token(48);
       n = num();
-
+                        if ((n < 0) || (world.getMyBalloons()< n)) {
+                                bool = false;
+                        }
       break;
     case DROP:
       jj_consume_token(DROP);
       jj_consume_token(48);
       n = num();
-
+                        if ((n < 0) || (n > world.freeSpacesForChips()) || (world.getMyChips()< n)) {
+                                bool = false;
+                        }
       break;
     default:
       jj_la1[14] = jj_gen;
@@ -657,20 +733,6 @@ public class Robot implements RobotConstants {
     throw new Error("Missing return statement in function");
   }
 
-        /*
-	|	< STEP >  "(" n=num() ")" {world.moveForward(n, false); salida = "Command: Move steps forward ";}  
-	|	< JUMP >  "(" n=num() ")" {world.moveForward(n, true); salida = "Command: Jump steps forward ";}
-	|	< JUMPTO >  "(" n=num() "," m=num()")" {world.setPostion(n,m); salida = "Command: Jump to position ";}
-	|	< VEER >  "(" veer() ")"
-	|	< LOOK >  "(" look() ")"
-	|	< DROP >  "(" n=num() ")" {world.putChips(n); salida = "Command: Drop chips from its position ";}
-	|	< GRAB >  "(" n=num() ")" {world.grabBalloons(n); salida = "Command: Grab balloons from its position ";}
-	|	< GET >  "(" n=num() ")" {world.pickChips(n); salida = "Command: Get chips from its position ";}
-	|	< FREE >  "(" n=num() ")" {world.putBalloons(n); salida = "Command: Put balloons from its position ";}
-	|	< POP >  "(" n=num() ")" {world.popBalloons(n); salida = "Command: Pop balloons from its position ";}
-	|	< DMOVE >  "(" dMove() ")"
-	|	< OMOVE >  "(" oMove() ")"
-	*/
   final public boolean canMove() throws ParseException {
                 Integer n;
                 boolean bool;
@@ -727,6 +789,7 @@ public class Robot implements RobotConstants {
 	 * @error  corresponding value is too large
 	 */
   final public Integer num() throws ParseException, Error {
+                int total_;
                 Integer total;
     jj_consume_token(NUM);
                         try
@@ -763,11 +826,6 @@ public class Robot implements RobotConstants {
     finally { jj_save(2, xla); }
   }
 
-  private boolean jj_3R_25() {
-    if (jj_3R_28()) return true;
-    return false;
-  }
-
   private boolean jj_3R_24() {
     if (jj_3R_27()) return true;
     return false;
@@ -783,6 +841,11 @@ public class Robot implements RobotConstants {
     if (jj_3R_26()) return true;
     }
     }
+    return false;
+  }
+
+  private boolean jj_3R_5() {
+    if (jj_scan_token(NAME)) return true;
     return false;
   }
 
@@ -849,11 +912,6 @@ public class Robot implements RobotConstants {
 
   private boolean jj_3R_13() {
     if (jj_scan_token(JUMP)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_5() {
-    if (jj_scan_token(NAME)) return true;
     return false;
   }
 
@@ -957,6 +1015,11 @@ public class Robot implements RobotConstants {
     return false;
   }
 
+  private boolean jj_3R_25() {
+    if (jj_3R_28()) return true;
+    return false;
+  }
+
   /** Generated Token Manager. */
   public RobotTokenManager token_source;
   SimpleCharStream jj_input_stream;
@@ -976,10 +1039,10 @@ public class Robot implements RobotConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x0,0x0,0x1,0x0,0x93ffe0,0x1ffe0,0x920000,0x80000,0x1e000000,0x0,0xc0000000,0x0,0x80000000,0xc0000000,0x20006c60,0xc0000000,};
+      jj_la1_0 = new int[] {0x0,0x0,0x1,0x0,0x93ffe0,0x1ffe0,0x920000,0x80000,0x1e000000,0x0,0xc0000000,0x0,0xc0000000,0xc0000000,0x20006c60,0xc0000000,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x200,0x400,0x80,0x1000,0x1000,0x1000,0x0,0x0,0x0,0x1c,0x3,0x4058,0x4003,0x3,0x0,0x3,};
+      jj_la1_1 = new int[] {0x200,0x400,0x80,0x1000,0x1000,0x1000,0x0,0x0,0x0,0x1c,0x3,0x78,0x3,0x3,0x0,0x3,};
    }
   final private JJCalls[] jj_2_rtns = new JJCalls[3];
   private boolean jj_rescan = false;
