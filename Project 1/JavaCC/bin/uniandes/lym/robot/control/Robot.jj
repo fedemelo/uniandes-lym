@@ -239,6 +239,14 @@ TOKEN :
 	}
 
 
+	void uselessInstrBlock():
+	{
+	}
+	{
+		"{" uselessInstr() (  ";" uselessInstr() )* "}"
+	}
+
+
 	void instr():
 	{
 	}
@@ -246,6 +254,16 @@ TOKEN :
 		LOOKAHEAD(2) cmd()
 	|	ctrlStruct()
 	|	procCall()
+	}
+
+
+	void uselessInstr():
+	{
+	}
+	{
+		LOOKAHEAD(2) uselessCmd()
+	|	uselessCtrlStruct()
+	|	uselessProcCall()
 	}
 
 
@@ -278,6 +296,26 @@ TOKEN :
 	}
 
 
+	void uselessCmd():
+	{
+	}
+	{
+		( < NAME > ":=" < NUM >)
+	|	(< STEP >  "(" numVar() ")" )
+	|	(< JUMP >  "(" numVar() ")")
+	|	(< JUMPTO >  "(" numVar() "," numVar() ")")
+	|	(< VEER >  "(" veer() ")")
+	|	(< LOOK >  "(" look() ")")
+	|	(< DROP >  "(" numVar() ")")
+	|	(< GRAB >  "(" numVar() ")")
+	|	(< GET >  "(" numVar() ")")
+	|	(< FREE >  "(" numVar() ")")
+	|	(< POP >  "(" numVar() ")")
+	|	(< DMOVE >  "(" dMove() ")")
+	|	(< OMOVE >  "(" oMove() ")")
+	}
+
+
 	void ctrlStruct():
 	{
 	}
@@ -288,33 +326,47 @@ TOKEN :
 	}
 
 
+	void uselessCtrlStruct():
+	{
+	}
+	{
+		uselessifFi()
+	|	uselesswhileDoOd()
+	|	uselessrepeatTimes()
+	}
+
+
 	void ifFi():
 	{
 		boolean bool;
 	}
 	{
-		(< IF > "(" bool=condition() ")" instrBlockTrue(bool) [< ELSE > instrBlockFalse(bool)] < FI >) {
-			this.salida = this.salida + "\n'if' conditional control structure";
-			}
-	}
-
-
-JAVACODE
-	private void instrBlockTrue(boolean bool) {
-		if (bool) {
-			instrBlock();
-		} else {
-			token = getNextToken();
+		(< IF > "(" bool=condition() ")"
+			"{" instrIf(bool) ( ";" instrIf(bool) )* "}"
+		[< ELSE > 
+			"{" instrIf(!bool) (  ";" instrIf(!bool) )* "}"
+		] < FI >) {
+		this.salida = this.salida + "\n'if' conditional control structure";
 		}
 	}
 
 
+	void uselessifFi():
+	{
+		boolean bool;
+	}
+	{
+		(< IF > "(" condition() ")" uselessInstrBlock()
+		[< ELSE > uselessInstrBlock()	] < FI >) 
+	}
+
+
 JAVACODE
-	private void instrBlockFalse(boolean bool) {
-		if (!bool) {
-			instrBlock();
+	private void instrIf(boolean bool) {
+		if (bool) {
+			instr();
 		} else {
-			token = getNextToken();
+			uselessInstr();
 		}
 	}
 
@@ -331,6 +383,14 @@ JAVACODE
 	}
 
 
+	void uselesswhileDoOd():
+	{
+	}
+	{
+		< WHILE > "(" condition() ")" < DO > uselessInstrBlock() < OD >
+	}
+
+
 	void repeatTimes():
 	{
 		Integer n;
@@ -344,6 +404,16 @@ JAVACODE
 			this.salida = this.salida + "\n'repeatTimes' loop control structure";
 		}
 	}
+
+
+	void uselessrepeatTimes():
+	{
+	}
+	{
+		< REPEATTIMES > numVar() uselessInstrBlock() < PER > 
+	}
+
+
 
 
 	boolean condition():
@@ -375,6 +445,14 @@ JAVACODE
 				
 			}
 		}
+	}
+
+
+	void uselessProcCall():
+	{
+	}
+	{
+		name() "(" [params()] ")"
 	}
 
 
