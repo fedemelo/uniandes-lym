@@ -198,8 +198,8 @@ TOKEN :
 			procsNames.add(name);
 			procsParams.put(name, localVars);
 			} "{" (
-				instrProc(name, localVars)
-					(";" instrProc(name, localVars))* )
+				/*instrProc(name, localVars)*/
+					(";" /*instrProc(name, localVars) */ )*  )
 			"}" <  CORP > )
 			{ this.salida = this.salida + "Procedure definition"; }
 	}
@@ -238,26 +238,11 @@ TOKEN :
 	}
 
 
-	ArrayList<String> instrBlockProc():
-	{
-		ArrayList<String> instructions = new ArrayList<String>();
-		String instr;
-	}
-	{
-		"{" instr = instrProc() {
-			instructions.add(instr);
-		}
-		( LOOKAHEAD(2) ";" (instr = instrProc()) {
-			instructions.add(instr);
-		} )* "}" 
-	}
-
-
 	void instr():
 	{
 	}
 	{
-		cmd()
+		LOOKAHEAD(2) cmd()
 	|	ctrlStruct()
 	|	procCall()
 	}
@@ -318,7 +303,7 @@ JAVACODE
 		if (bool) {
 			instrBlock();
 		} else {
-			Robot.getToken(int index)
+			token = getNextToken();
 		}
 	}
 
@@ -327,6 +312,8 @@ JAVACODE
 	void instrBlockFalse(boolean bool) {
 		if (!bool) {
 			instrBlock();
+		} else {
+			token = getNextToken();
 		}
 	}
 
@@ -372,9 +359,11 @@ JAVACODE
 
 	void procCall():
 	{
+		String name;
+		ArrayList<String> rParams = new ArrayList<String>();
 	}
 	{
-		name = name() "(" [rParams = params()] ")" {
+		(name = name() "(") [rParams = params()] ")" {
 			if (!procsNames.contains(name)) {
 				throw new Error("Tried to call undeclared procedure");
 			}
@@ -546,7 +535,7 @@ JAVACODE
 	boolean isValid():
 	{
 		Integer n;
-		boolean bool;
+		boolean bool = true;
 		int pasos;
 		int posX;
 		int posY;
@@ -649,7 +638,7 @@ JAVACODE
 	boolean canMove():
 	{
 		Integer n;
-		boolean bool;
+		boolean bool = true;
 		int pasos;
 		int posX;
 		int posY;
@@ -745,19 +734,19 @@ JAVACODE
 			{
 				throw new Error("Number out of bounds: "+token.image);
 			}
-			return total;
 		})
-	|	(< NAME > {
-			if (vars.containsKey(token.image()) {
-				return vars.get(token.image());
+	|	( (< NAME >) {
+			if (vars.containsKey(token.image)) {
+				total_ = vars.get(token.image);
+				total = Integer.valueOf(total_);
 			} else {
 				throw new Error("Tried to use undeclared variable");
 			}
-		 })
+		 }) { return total; }
 	}
 
 
-	Integer numVarParam(Hashtable<String, ArrayList<String>> procParams) throws Error:
+	Integer numVarParam(Hashtable<String, Integer> procParams) throws Error:
 	{
 		int total_;
 		Integer total;
@@ -777,11 +766,11 @@ JAVACODE
 			return total;
 		})
 	|	(< NAME > {
-			if (procParams.containsKey(token.image()) {
-				return procParams.get(token.image());
+			if (procParams.containsKey(token.image)) {
+				return procParams.get(token.image);
 			} 
-			else if (vars.containsKey(token.image()) {
-				return vars.get(token.image());
+			else if (vars.containsKey(token.image)) {
+				return vars.get(token.image);
 			} else {
 				throw new Error("Tried to use unexsiting parameter or undeclared variable");
 			}
