@@ -396,15 +396,14 @@ JAVACODE
 		Integer n;
 	}
 	{
-		( < REPEATTIMES > n  = numVar() ) {
-			for (int i=0; i<n; i++) {
-				instrBlock();
-			}
-		} ( < PER > ) {
+		( < REPEATTIMES > n  = numVar() ) /*repeatInstrBlock(n)*/ ( < PER > ) {
 			this.salida = this.salida + "\n'repeatTimes' loop control structure";
 		}
 	}
 
+
+//	void repeatInstrBlock(n):
+//		
 
 	void uselessrepeatTimes():
 	{

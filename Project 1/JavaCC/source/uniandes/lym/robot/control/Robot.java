@@ -573,13 +573,12 @@ public class Robot implements RobotConstants {
                 Integer n;
     jj_consume_token(REPEATTIMES);
     n = numVar();
-                        for (int i=0; i<n; i++) {
-                                instrBlock();
-                        }
     jj_consume_token(PER);
                         this.salida = this.salida + "\u005cn'repeatTimes' loop control structure";
   }
 
+//	void repeatInstrBlock(n):
+//		
   final public void uselessrepeatTimes() throws ParseException {
     jj_consume_token(REPEATTIMES);
     numVar();
@@ -1417,14 +1416,14 @@ public class Robot implements RobotConstants {
     return false;
   }
 
-  private boolean jj_3R_9() {
-    if (jj_scan_token(NAME)) return true;
-    return false;
-  }
-
   private boolean jj_3R_23() {
     if (jj_scan_token(GET)) return true;
     if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_9() {
+    if (jj_scan_token(NAME)) return true;
     return false;
   }
 
