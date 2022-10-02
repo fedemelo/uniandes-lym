@@ -192,7 +192,8 @@ TOKEN :
 		ArrayList<String> instructions = new ArrayList<String>();
 	}
 	{
-		 (( < PROC > name=name() "(" [localVars=params()] ")"		 ) {
+		 (( < PROC > name=name() "(" [localVars=params()] ")"
+		 ) {
 			if (procsNames.contains(name)) {
 				throw new Error ("Procedure with name "+name+" has already been declared");
 			}
@@ -229,41 +230,6 @@ TOKEN :
 	}
 
 
-	void uselessInstrBlock():
-	{
-	}
-	{
-		"{" uselessInstr() (  ";" uselessInstr() )* "}"
-	}
-
-
-	void procInstrBlock():
-	{
-	}// TODO!!
-	{
-		"{" uselessInstr() (  ";" uselessInstr() )* "}"
-	}
-
-
-	void repeatInstrBlock(Integer n):
-	{
-	}// TODO!!
-	{
-		"{" uselessInstr() (  ";" uselessInstr() )* "}"
-	}
-//		ArrayList<Token> ts = new ArrayList<Token>;
-//		while (t.image != "(") {
-//	}
-
-
-	void whileInstrBlock(boolean bool):
-	{
-	}// TODO!!
-	{
-		"{" uselessInstr() (  ";" uselessInstr() )* "}"
-	}
-
-
 	void instr():
 	{
 	}
@@ -271,16 +237,6 @@ TOKEN :
 		LOOKAHEAD(2) cmd()
 	|	ctrlStruct()
 	|	procCall()
-	}
-
-
-	void uselessInstr():
-	{
-	}
-	{
-		LOOKAHEAD(2) uselessCmd()
-	|	uselessCtrlStruct()
-	|	uselessProcCall()
 	}
 
 
@@ -313,26 +269,6 @@ TOKEN :
 	}
 
 
-	void uselessCmd():
-	{
-	}
-	{
-		( < NAME > ":=" < NUM >)
-	|	(< STEP >  "(" numVar() ")" )
-	|	(< JUMP >  "(" numVar() ")")
-	|	(< JUMPTO >  "(" numVar() "," numVar() ")")
-	|	(< VEER >  "(" veer() ")")
-	|	(< LOOK >  "(" look() ")")
-	|	(< DROP >  "(" numVar() ")")
-	|	(< GRAB >  "(" numVar() ")")
-	|	(< GET >  "(" numVar() ")")
-	|	(< FREE >  "(" numVar() ")")
-	|	(< POP >  "(" numVar() ")")
-	|	(< DMOVE >  "(" dMove() ")")
-	|	(< OMOVE >  "(" oMove() ")")
-	}
-
-
 	void ctrlStruct():
 	{
 	}
@@ -340,16 +276,6 @@ TOKEN :
 		ifFi()
 	|	whileDoOd()
 	|	repeatTimes()
-	}
-
-
-	void uselessCtrlStruct():
-	{
-	}
-	{
-		uselessifFi()
-	|	uselesswhileDoOd()
-	|	uselessrepeatTimes()
 	}
 
 
@@ -365,16 +291,6 @@ TOKEN :
 		] < FI >) {
 		this.salida = this.salida + "\n'if' conditional control structure";
 		}
-	}
-
-
-	void uselessifFi():
-	{
-		boolean bool;
-	}
-	{
-		(< IF > "(" condition() ")" uselessInstrBlock()
-		[< ELSE > uselessInstrBlock()	] < FI >) 
 	}
 
 
@@ -399,14 +315,6 @@ JAVACODE
 	}
 
 
-	void uselesswhileDoOd():
-	{
-	}
-	{
-		< WHILE > "(" condition() ")" < DO > uselessInstrBlock() < OD >
-	}
-
-
 	void repeatTimes():
 	{
 		Integer n;
@@ -415,14 +323,6 @@ JAVACODE
 		( < REPEATTIMES > n  = numVar() ) repeatInstrBlock(n) ( < PER > ) {
 			this.salida = this.salida + "\n'repeatTimes' loop control structure";
 		}
-	}
-
-
-	void uselessrepeatTimes():
-	{
-	}
-	{
-		< REPEATTIMES > numVar() uselessInstrBlock() < PER > 
 	}
 
 
@@ -451,18 +351,7 @@ JAVACODE
 			if (rParams.size() != procsParams.get(name).size()) {
 				throw new Error("Incorrect number of parameters for "+name+" procedure");
 			}
-			for (String instr: procsInstrs.get(name)) {
-				
-			}
 		}
-	}
-
-
-	void uselessProcCall():
-	{
-	}
-	{
-		name() "(" [params()] ")"
 	}
 
 
@@ -630,8 +519,8 @@ JAVACODE
 		int posY;
 		boolean outOfBounds;
 	}
-	{ // TODO: Que n pueda ser param
-		((< STEP > ","  n  = numVar() {
+	{ 
+		((< STEP > ","  n  = numVar() { // p
 			pasos = n;
 			posX = (int) world.getPosition().getX();
 			posY = (int) world.getPosition().getY();
@@ -732,8 +621,8 @@ JAVACODE
 		int posX;
 		int posY;
 	}
-	{  // TODO: Que pueda ser param
-		((< NORTH > ","  n=numVar() {
+	{
+		((< NORTH > ","  n=numVar() { // p
 			pasos = n;
 			posX = (int) world.getPosition().getX();
 			posY = (int) world.getPosition().getY();
@@ -768,6 +657,154 @@ JAVACODE
 		bool=condition() {return !bool;}
 	}
 
+
+	void uselessInstrBlock():
+	{
+	}
+	{
+		"{" uselessInstr() (  ";" uselessInstr() )* "}"
+	}
+
+
+	void procInstrBlock():
+	{
+	}
+	{
+		"{" uselessInstr() (  ";" uselessInstr() )* "}"
+	}
+
+
+	void repeatInstrBlock(Integer n):
+	{
+		ArrayList<Token> ts = new ArrayList<Token>();
+		Token t;
+		Integer i = 1;
+		t = getToken(i);
+		while (t.image != "}") {
+			ts.add(t);
+			i++;
+			t = getToken(i);
+		}
+		for (int j = 0; j < n; j++) {
+			executeInstrTokens(ts);
+		}
+	}
+	{
+		"{" instrRepeat(n) (  ";" instrRepeat(n) )* "}"
+	}
+
+
+JAVACODE
+	private void instrRepeat(Integer n) {
+		if (n >1) {
+			instr();
+		} else {
+			uselessInstr();
+		}
+	}
+
+
+	void whileInstrBlock(boolean bool):
+	{
+	}
+	{
+		"{" instrWhile(bool) (  ";" instrWhile(bool) )* "}"
+	}
+
+
+JAVACODE
+	private void instrWhile(boolean bool) {
+		if (bool) {
+			instr();
+		} else {
+			uselessInstr();
+		}
+	}
+
+
+JAVACODE
+	private void executeInstrTokens(ArrayList<Token> ts) {
+		if (ts.get(0).image != "{") {throw new Error("Expected '{'");}
+		/* Hereinafter, tokens should be processed manually, without
+		help from JavaCC.
+		The code needed for such task would be quite large.
+		The time give for this project was insufficient to
+		implement it. */
+	}
+
+
+	void uselessInstr():
+	{
+	}
+	{
+		LOOKAHEAD(2) uselessCmd()
+	|	uselessCtrlStruct()
+	|	uselessProcCall()
+	}
+
+
+	void uselessCmd():
+	{
+	}
+	{
+		( < NAME > ":=" < NUM >)
+	|	(< STEP >  "(" numVar() ")" )
+	|	(< JUMP >  "(" numVar() ")")
+	|	(< JUMPTO >  "(" numVar() "," numVar() ")")
+	|	(< VEER >  "(" veer() ")")
+	|	(< LOOK >  "(" look() ")")
+	|	(< DROP >  "(" numVar() ")")
+	|	(< GRAB >  "(" numVar() ")")
+	|	(< GET >  "(" numVar() ")")
+	|	(< FREE >  "(" numVar() ")")
+	|	(< POP >  "(" numVar() ")")
+	|	(< DMOVE >  "(" dMove() ")")
+	|	(< OMOVE >  "(" oMove() ")")
+	}
+
+
+	void uselessCtrlStruct():
+	{
+	}
+	{
+		uselessifFi()
+	|	uselesswhileDoOd()
+	|	uselessrepeatTimes()
+	}
+
+
+	void uselessifFi():
+	{
+		boolean bool;
+	}
+	{
+		(< IF > "(" condition() ")" uselessInstrBlock()
+		[< ELSE > uselessInstrBlock()	] < FI >) 
+	}
+
+
+	void uselesswhileDoOd():
+	{
+	}
+	{
+		< WHILE > "(" condition() ")" < DO > uselessInstrBlock() < OD >
+	}
+
+
+	void uselessProcCall():
+	{
+	}
+	{
+		name() "(" [params()] ")"
+	}
+
+
+	void uselessrepeatTimes():
+	{
+	}
+	{
+		< REPEATTIMES > numVar() uselessInstrBlock() < PER > 
+	}
 
 
 	String name():

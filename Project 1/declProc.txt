@@ -1,0 +1,9 @@
+PROG
+
+VAR n;
+
+PROC ghj(a, b, c) {veer(right); veer(left)} CORP
+
+{ n:=4; n:=6; veer(right)}
+
+GORP
