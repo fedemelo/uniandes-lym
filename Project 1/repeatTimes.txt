@@ -1,0 +1,10 @@
+PROG
+
+{
+
+repeatTimes 2 {veer(right); veer(right)} per; 
+repeatTimes 4 {step(1)} per
+
+}
+
+GORP
