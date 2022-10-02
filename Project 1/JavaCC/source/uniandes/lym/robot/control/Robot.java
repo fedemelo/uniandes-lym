@@ -351,7 +351,7 @@ public class Robot implements RobotConstants {
                 }
   }
 
-  void instrBlockFalse(boolean bool) throws ParseException {
+  private void instrBlockFalse(boolean bool) throws ParseException {
                 if (!bool) {
                         instrBlock();
                 } else {
@@ -884,13 +884,13 @@ public class Robot implements RobotConstants {
                         } else {
                                 {if (true) throw new Error("Tried to use undeclared variable");}
                         }
-                      {if (true) return total;}
       break;
     default:
       jj_la1[18] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
+                       {if (true) return total;}
     throw new Error("Missing return statement in function");
   }
 
@@ -909,15 +909,14 @@ public class Robot implements RobotConstants {
                         {
                                 {if (true) throw new Error("Number out of bounds: "+token.image);}
                         }
-                        {if (true) return total;}
       break;
     case NAME:
       jj_consume_token(NAME);
                         if (procParams.containsKey(token.image)) {
-                                {if (true) return procParams.get(token.image);}
+                                total = procParams.get(token.image);
                         }
                         else if (vars.containsKey(token.image)) {
-                                {if (true) return vars.get(token.image);}
+                                total = vars.get(token.image);
                         } else {
                                 {if (true) throw new Error("Tried to use unexsiting parameter or undeclared variable");}
                         }
@@ -927,6 +926,7 @@ public class Robot implements RobotConstants {
       jj_consume_token(-1);
       throw new ParseException();
     }
+                       {if (true) return total;}
     throw new Error("Missing return statement in function");
   }
 

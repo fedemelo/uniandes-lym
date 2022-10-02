@@ -309,7 +309,7 @@ JAVACODE
 
 
 JAVACODE
-	void instrBlockFalse(boolean bool) {
+	private void instrBlockFalse(boolean bool) {
 		if (!bool) {
 			instrBlock();
 		} else {
@@ -723,7 +723,7 @@ JAVACODE
 		Integer total;
 	}
 	{
-		(<NUM>
+		((<NUM>
 		{
 			try 
 			{
@@ -742,7 +742,7 @@ JAVACODE
 			} else {
 				throw new Error("Tried to use undeclared variable");
 			}
-		 }) { return total; }
+		 })) { return total; }
 	}
 
 
@@ -752,7 +752,7 @@ JAVACODE
 		Integer total;
 	}
 	{
-		(<NUM>
+		((<NUM>
 		{
 			try 
 			{
@@ -763,18 +763,17 @@ JAVACODE
 			{
 				throw new Error("Number out of bounds: "+token.image);
 			}
-			return total;
 		})
 	|	(< NAME > {
 			if (procParams.containsKey(token.image)) {
-				return procParams.get(token.image);
+				total = procParams.get(token.image);
 			} 
 			else if (vars.containsKey(token.image)) {
-				return vars.get(token.image);
+				total = vars.get(token.image);
 			} else {
 				throw new Error("Tried to use unexsiting parameter or undeclared variable");
 			}
-		 })
+		 })) { return total; }
 	}
 	
 
