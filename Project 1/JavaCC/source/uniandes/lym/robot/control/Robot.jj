@@ -37,7 +37,7 @@ public class Robot
 	}
 
 
-	private String salida = "";
+	private String salida = new String();
 
 	private ArrayList<String> declaredVars = new ArrayList<String>();
 	private Hashtable<String, Integer> vars = new Hashtable<String, Integer>();
@@ -150,6 +150,7 @@ TOKEN :
 
 	boolean command(Console sistema):
 	{
+		salida = "";
 	}
 	{
 		( < PROG > [varDecl()] (procDef())* instrBlock() < GORP >) {
@@ -179,7 +180,7 @@ TOKEN :
 				this.declaredVars.add(name);
 			}
 		} )* ";" ) {
-			this.salida = this.salida + "Variable declaration";
+			this.salida = this.salida + "\nVariable declaration";
 		}
 	}
 
@@ -201,7 +202,7 @@ TOKEN :
 				/*instrProc(name, localVars)*/
 					(";" /*instrProc(name, localVars) */ )*  )
 			"}" <  CORP > )
-			{ this.salida = this.salida + "Procedure definition"; }
+			{ this.salida = this.salida + "\nProcedure definition"; }
 	}
 
 
@@ -260,18 +261,18 @@ TOKEN :
 			} else {
 				throw new Error("Tried to assign to undeclared variable "+name);
 			}
-			this.salida = this.salida + "Command: Variable assignment";
+			this.salida = this.salida + "\nCommand: Variable assignment";
 		})
-	|	(< STEP >  "(" n = numVar() ")" {world.moveForward(n, false); this.salida = this.salida + "Command: Move steps forward ";})
-	|	(< JUMP >  "(" n  = numVar() ")" {world.moveForward(n, true); this.salida = this.salida + "Command: Jump steps forward ";})
-	|	(< JUMPTO >  "(" n  = numVar() "," m = numVar()")" {world.setPostion(n,m); this.salida = this.salida + "Command: Jump to position ";})
+	|	(< STEP >  "(" n = numVar() ")" {world.moveForward(n, false); this.salida = this.salida + "\nCommand: Move steps forward ";})
+	|	(< JUMP >  "(" n  = numVar() ")" {world.moveForward(n, true); this.salida = this.salida + "\nCommand: Jump steps forward ";})
+	|	(< JUMPTO >  "(" n  = numVar() "," m = numVar()")" {world.setPostion(n,m); this.salida = this.salida + "\nCommand: Jump to position ";})
 	|	(< VEER >  "(" veer() ")")
 	|	(< LOOK >  "(" look() ")")
-	|	(< DROP >  "(" n  = numVar() ")" {world.putChips(n); this.salida = this.salida + "Command: Drop chips from its position ";})
-	|	(< GRAB >  "(" n  = numVar() ")" {world.grabBalloons(n); this.salida = this.salida + "Command: Grab balloons from its position ";})
-	|	(< GET >  "(" n  = numVar() ")" {world.pickChips(n); this.salida = this.salida + "Command: Get chips from its position ";})
-	|	(< FREE >  "(" n  = numVar() ")" {world.putBalloons(n); this.salida = this.salida + "Command: Put balloons from its position ";})
-	|	(< POP >  "(" n  = numVar() ")" {world.popBalloons(n); this.salida = this.salida + "Command: Pop balloons from its position ";})
+	|	(< DROP >  "(" n  = numVar() ")" {world.putChips(n); this.salida = this.salida + "\nCommand: Drop chips from its position ";})
+	|	(< GRAB >  "(" n  = numVar() ")" {world.grabBalloons(n); this.salida = this.salida + "\nCommand: Grab balloons from its position ";})
+	|	(< GET >  "(" n  = numVar() ")" {world.pickChips(n); this.salida = this.salida + "\nCommand: Get chips from its position ";})
+	|	(< FREE >  "(" n  = numVar() ")" {world.putBalloons(n); this.salida = this.salida + "\nCommand: Put balloons from its position ";})
+	|	(< POP >  "(" n  = numVar() ")" {world.popBalloons(n); this.salida = this.salida + "\nCommand: Pop balloons from its position ";})
 	|	(< DMOVE >  "(" dMove() ")")
 	|	(< OMOVE >  "(" oMove() ")")
 	}
@@ -293,7 +294,7 @@ TOKEN :
 	}
 	{
 		(< IF > "(" bool=condition() ")" instrBlockTrue(bool) [< ELSE > instrBlockFalse(bool)] < FI >) {
-			this.salida = this.salida + "'if' conditional control structure";
+			this.salida = this.salida + "\n'if' conditional control structure";
 			}
 	}
 
@@ -325,7 +326,7 @@ JAVACODE
 	{
 		< WHILE > "(" bool=condition() ")" < DO > /*instrBlockWhile(bool)*/ < OD > {
 			/*TODO : Lógica Java while. Implementar instrBlockWhile*/
-			this.salida = this.salida + "'while' loop control structure";
+			this.salida = this.salida + "\n'while' loop control structure";
 			}
 	}
 
@@ -340,7 +341,7 @@ JAVACODE
 				instrBlock();
 			}
 		} ( < PER > ) {
-			this.salida = this.salida + "'repeatTimes' loop control structure";
+			this.salida = this.salida + "\n'repeatTimes' loop control structure";
 		}
 	}
 
@@ -381,9 +382,9 @@ JAVACODE
 	{
 	}
 	{
-		(< RIGHT > {world.turnRight(); this.salida = this.salida + "Command: Veer right ";})
-	|	(< AROUND > {world.turnRight(); world.turnRight(); this.salida = this.salida + "Command: Veer around ";})
-	|	(< LEFT > {world.turnRight(); world.turnRight(); world.turnRight(); this.salida = this.salida + "Command: Veer left ";})
+		(< RIGHT > {world.turnRight(); this.salida = this.salida + "\nCommand: Veer right ";})
+	|	(< AROUND > {world.turnRight(); world.turnRight(); this.salida = this.salida + "\nCommand: Veer around ";})
+	|	(< LEFT > {world.turnRight(); world.turnRight(); world.turnRight(); this.salida = this.salida + "\nCommand: Veer left ";})
 	}
 
 
@@ -399,7 +400,7 @@ JAVACODE
 			} else if (world.facingEast()) {
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
-			this.salida = this.salida + "Command: Look north ";
+			this.salida = this.salida + "\nCommand: Look north ";
 		})
 	|	(< SOUTH > {
 			if (world.facingEast()) {
@@ -409,7 +410,7 @@ JAVACODE
 			} else if (world.facingWest()) {
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
-			this.salida = this.salida + "Command: Look south ";
+			this.salida = this.salida + "\nCommand: Look south ";
 		})
 	|	(< EAST > {
 			if (world.facingNorth()) {
@@ -419,7 +420,7 @@ JAVACODE
 			} else if (world.facingSouth()) {
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
-			this.salida = this.salida + "Command: Look east ";
+			this.salida = this.salida + "\nCommand: Look east ";
 		})
 	|	(< WEST > {
 			if (world.facingSouth()) {
@@ -429,7 +430,7 @@ JAVACODE
 			} else if (world.facingNorth()) {
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
-			this.salida = this.salida + "Command: Look west ";
+			this.salida = this.salida + "\nCommand: Look west ";
 		})
 	}
 
@@ -441,25 +442,25 @@ JAVACODE
 	{ n = numVar() ","
 		(( < FRONT > {
 			world.moveForward(n, false);
-			this.salida = this.salida + "Command: Move to the front, face original direction ";
+			this.salida = this.salida + "\nCommand: Move to the front, face original direction ";
 		})
 	|	( < RIGHT > {
 			world.turnRight();
 			world.moveForward(n, false);
 			world.turnRight(); world.turnRight(); world.turnRight();
-			this.salida = this.salida + "Command: Move to the right, face original direction ";
+			this.salida = this.salida + "\nCommand: Move to the right, face original direction ";
 		})
 	|	( < BACK > {
 			world.turnRight(); world.turnRight();
 			world.moveForward(n, false);
 			world.turnRight(); world.turnRight();
-			this.salida = this.salida + "Command: Move to the back, face original direction ";
+			this.salida = this.salida + "\nCommand: Move to the back, face original direction ";
 		})
 	|	( < LEFT > {
 			world.turnRight(); world.turnRight(); world.turnRight();
 			world.moveForward(n, false);
 			world.turnRight();
-			this.salida = this.salida + "Command: Move to the left, face original direction ";
+			this.salida = this.salida + "\nCommand: Move to the left, face original direction ";
 		}))
 	}
 
@@ -478,7 +479,7 @@ JAVACODE
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
 			world.moveForward(n, false);
-			this.salida = this.salida + "Command: Face north, move steps";
+			this.salida = this.salida + "\nCommand: Face north, move steps";
 		})
 	|	(< SOUTH > {
 			if (world.facingEast()) {
@@ -489,7 +490,7 @@ JAVACODE
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
 			world.moveForward(n, false);
-			this.salida = this.salida + "Command: Face south, move steps";
+			this.salida = this.salida + "\nCommand: Face south, move steps";
 		})
 	|	(< EAST > {
 			if (world.facingNorth()) {
@@ -500,7 +501,7 @@ JAVACODE
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
 			world.moveForward(n, false);
-			this.salida = this.salida + "Command: Face east, move steps";
+			this.salida = this.salida + "\nCommand: Face east, move steps";
 		})
 	|	(< WEST > {
 			if (world.facingSouth()) {
@@ -511,7 +512,7 @@ JAVACODE
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
 			world.moveForward(n, false);
-			this.salida = this.salida + "Command: Face west, move steps";
+			this.salida = this.salida + "\nCommand: Face west, move steps";
 		}))
 	}
 
