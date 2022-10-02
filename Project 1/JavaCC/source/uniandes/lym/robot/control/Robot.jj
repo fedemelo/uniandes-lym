@@ -21,7 +21,7 @@ package uniandes.lym.robot.control;
 
 import uniandes.lym.robot.kernel.*;
 import uniandes.lym.robot.view.Console;
- 
+
 import java.awt.Point;
 import java.io.*;
 import java.util.*;
@@ -153,7 +153,7 @@ TOKEN :
 		salida = "";
 	}
 	{
-		( < PROG > [varDecl()] (procDef())* instrBlock() < GORP >) {
+		( < PROG > [varDecl()] (procDef())*  	instrBlock() < GORP >) {
 		    try {
 	    		Thread.sleep(900);
 	    	} catch (InterruptedException e) {
@@ -192,17 +192,14 @@ TOKEN :
 		ArrayList<String> instructions = new ArrayList<String>();
 	}
 	{
-		( < PROC > name=name() "(" [localVars=params()] ")" {
+		 (( < PROC > name=name() "(" [localVars=params()] ")"		 ) {
 			if (procsNames.contains(name)) {
 				throw new Error ("Procedure with name "+name+" has already been declared");
 			}
 			procsNames.add(name);
 			procsParams.put(name, localVars);
-			} "{" (
-				/*instrProc(name, localVars)*/
-					(";" /*instrProc(name, localVars) */ )*  )
-			"}" <  CORP > )
-			{ this.salida = this.salida + "\nProcedure definition"; }
+		} ( procInstrBlock() < CORP > ))
+		{ this.salida = this.salida + "\nProcedure definition"; }
 	}
 
 
@@ -224,13 +221,6 @@ TOKEN :
 	}
 
 
-//	void instrProc(String name, ArrayList<String> localVars):
-//	{
-//	}
-//	{
-//	}
-
-
 	void instrBlock():
 	{
 	}
@@ -242,6 +232,33 @@ TOKEN :
 	void uselessInstrBlock():
 	{
 	}
+	{
+		"{" uselessInstr() (  ";" uselessInstr() )* "}"
+	}
+
+
+	void procInstrBlock():
+	{
+	}// TODO!!
+	{
+		"{" uselessInstr() (  ";" uselessInstr() )* "}"
+	}
+
+
+	void repeatInstrBlock(Integer n):
+	{
+	}// TODO!!
+	{
+		"{" uselessInstr() (  ";" uselessInstr() )* "}"
+	}
+//		ArrayList<Token> ts = new ArrayList<Token>;
+//		while (t.image != "(") {
+//	}
+
+
+	void whileInstrBlock(boolean bool):
+	{
+	}// TODO!!
 	{
 		"{" uselessInstr() (  ";" uselessInstr() )* "}"
 	}
@@ -376,8 +393,7 @@ JAVACODE
 		boolean bool;
 	}
 	{
-		< WHILE > "(" bool=condition() ")" < DO > /*instrBlockWhile(bool)*/ < OD > {
-			/*TODO : Lógica Java while. Implementar instrBlockWhile*/
+		< WHILE > "(" bool=condition() ")" < DO > whileInstrBlock(bool) < OD > {
 			this.salida = this.salida + "\n'while' loop control structure";
 			}
 	}
@@ -396,14 +412,11 @@ JAVACODE
 		Integer n;
 	}
 	{
-		( < REPEATTIMES > n  = numVar() ) /*repeatInstrBlock(n)*/ ( < PER > ) {
+		( < REPEATTIMES > n  = numVar() ) repeatInstrBlock(n) ( < PER > ) {
 			this.salida = this.salida + "\n'repeatTimes' loop control structure";
 		}
 	}
 
-
-//	void repeatInstrBlock(n):
-//		
 
 	void uselessrepeatTimes():
 	{
@@ -411,8 +424,6 @@ JAVACODE
 	{
 		< REPEATTIMES > numVar() uselessInstrBlock() < PER > 
 	}
-
-
 
 
 	boolean condition():
