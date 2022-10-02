@@ -186,20 +186,22 @@ TOKEN :
 
 	void procDef():
 	{
-		String procName;
+		String name;
 		ArrayList<String> localVars = new ArrayList<String>();
 		ArrayList<String> instructions = new ArrayList<String>();
 	}
 	{
-		< PROC > procName=name() "(" [localVars=params()] ")" instructions=instrBlockProc() < CORP > {
-			if (procsNames.contains(procName)) {
-				throw new Error ("Procedure with name "+procName+" has already been declared";
+		( < PROC > name=name() "(" [localVars=params()] ")" {
+			if (procsNames.contains(name)) {
+				throw new Error ("Procedure with name "+name+" has already been declared");
 			}
-			procsNames.add(procName);
-			procsParams.put(procName, localVars);
-			procsInstrs.put(procName, instructions);
-			this.salida = this.salida + "Procedure definition";
-		}
+			procsNames.add(name);
+			procsParams.put(name, localVars);
+			} "{" (
+				instrProc(name, localVars)
+					(";" instrProc(name, localVars))* )
+			"}" <  CORP > )
+			{ this.salida = this.salida + "Procedure definition"; }
 	}
 
 
@@ -219,6 +221,13 @@ TOKEN :
 			}
 		} )*) { return localVars; }
 	}
+
+
+//	void instrProc(String name, ArrayList<String> localVars):
+//	{
+//	}
+//	{
+//	}
 
 
 	void instrBlock():
@@ -254,24 +263,13 @@ TOKEN :
 	}
 
 
-JAVACODE
-	String instrProc():
-	{
-	}
-	{
-		cmdProc()
-	|	ctrlStructProc()
-	|	procCallProc()
-	}
-
-
 	void cmd():
 	{
 		String name;
 		Integer n, m;
 	}
 	{
-		((name=name() ":=" n=num()) {
+		((name=name() ":=" n = num()) {
 			if (declaredVars.contains(name)) {
 				vars.put(name, n);
 			} else {
@@ -279,16 +277,16 @@ JAVACODE
 			}
 			this.salida = this.salida + "Command: Variable assignment";
 		})
-	|	(< STEP >  "(" n=num() ")" {world.moveForward(n, false); this.salida = this.salida + "Command: Move steps forward ";})
-	|	(< JUMP >  "(" n=num() ")" {world.moveForward(n, true); this.salida = this.salida + "Command: Jump steps forward ";})
-	|	(< JUMPTO >  "(" n=num() "," m=num()")" {world.setPostion(n,m); this.salida = this.salida + "Command: Jump to position ";})
+	|	(< STEP >  "(" n = numVar() ")" {world.moveForward(n, false); this.salida = this.salida + "Command: Move steps forward ";})
+	|	(< JUMP >  "(" n  = numVar() ")" {world.moveForward(n, true); this.salida = this.salida + "Command: Jump steps forward ";})
+	|	(< JUMPTO >  "(" n  = numVar() "," m = numVar()")" {world.setPostion(n,m); this.salida = this.salida + "Command: Jump to position ";})
 	|	(< VEER >  "(" veer() ")")
 	|	(< LOOK >  "(" look() ")")
-	|	(< DROP >  "(" n=num() ")" {world.putChips(n); this.salida = this.salida + "Command: Drop chips from its position ";})
-	|	(< GRAB >  "(" n=num() ")" {world.grabBalloons(n); this.salida = this.salida + "Command: Grab balloons from its position ";})
-	|	(< GET >  "(" n=num() ")" {world.pickChips(n); this.salida = this.salida + "Command: Get chips from its position ";})
-	|	(< FREE >  "(" n=num() ")" {world.putBalloons(n); this.salida = this.salida + "Command: Put balloons from its position ";})
-	|	(< POP >  "(" n=num() ")" {world.popBalloons(n); this.salida = this.salida + "Command: Pop balloons from its position ";})
+	|	(< DROP >  "(" n  = numVar() ")" {world.putChips(n); this.salida = this.salida + "Command: Drop chips from its position ";})
+	|	(< GRAB >  "(" n  = numVar() ")" {world.grabBalloons(n); this.salida = this.salida + "Command: Grab balloons from its position ";})
+	|	(< GET >  "(" n  = numVar() ")" {world.pickChips(n); this.salida = this.salida + "Command: Get chips from its position ";})
+	|	(< FREE >  "(" n  = numVar() ")" {world.putBalloons(n); this.salida = this.salida + "Command: Put balloons from its position ";})
+	|	(< POP >  "(" n  = numVar() ")" {world.popBalloons(n); this.salida = this.salida + "Command: Pop balloons from its position ";})
 	|	(< DMOVE >  "(" dMove() ")")
 	|	(< OMOVE >  "(" oMove() ")")
 	}
@@ -319,6 +317,8 @@ JAVACODE
 	private void instrBlockTrue(boolean bool) {
 		if (bool) {
 			instrBlock();
+		} else {
+			Robot.getToken(int index)
 		}
 	}
 
@@ -348,7 +348,7 @@ JAVACODE
 		Integer n;
 	}
 	{
-		( < REPEATTIMES > n=num() ) {
+		( < REPEATTIMES > n  = numVar() ) {
 			for (int i=0; i<n; i++) {
 				instrBlock();
 			}
@@ -449,7 +449,7 @@ JAVACODE
 	{
 		Integer n;
 	}
-	{ n = num() ","
+	{ n = numVar() ","
 		(( < FRONT > {
 			world.moveForward(n, false);
 			this.salida = this.salida + "Command: Move to the front, face original direction ";
@@ -479,7 +479,7 @@ JAVACODE
 	{
 		Integer n;
 	}
-	{ n = num() "," 
+	{ n = numVar() "," 
 		((< NORTH > {
 			if (world.facingWest()) {
 				world.turnRight();
@@ -546,14 +546,14 @@ JAVACODE
 	boolean isValid():
 	{
 		Integer n;
-		boolean bool = true;
+		boolean bool;
 		int pasos;
 		int posX;
 		int posY;
 		boolean outOfBounds;
 	}
-	{ // TODO: Que n pueda ser tambien var o param
-		((< STEP > ","  n=num() {
+	{ // TODO: Que n pueda ser param
+		((< STEP > ","  n  = numVar() {
 			pasos = n;
 			posX = (int) world.getPosition().getX();
 			posY = (int) world.getPosition().getY();
@@ -586,7 +586,7 @@ JAVACODE
 					bool = !world.blockedInRange(posX, posY, posX-pasos, 3);
 			}
 		})
-	|	(< JUMP > ","  n=num() {
+	|	(< JUMP > ","  n  = numVar() {
 			pasos = n;
 			posX = (int) world.getPosition().getX();
 			posY = (int) world.getPosition().getY();
@@ -619,26 +619,26 @@ JAVACODE
 					bool = !world.isBlocked(new Point(posX, posX-pasos));
 			}
 		})
-	|	(< GRAB > ","  n=num() {
+	|	(< GRAB > ","  n  = numVar() {
 			if ((n < 0) || (world.countBalloons(world.getPosition()) < n)) {
 				bool = false;
 			}
 		})
-	|	(< POP > ","  n=num() {
+	|	(< POP > ","  n  = numVar() {
 			if ((n < 0) || (world.countBalloons(world.getPosition()) < n)) {
 				bool = false;
 			}		})
-	|	(< PICK > ","  n=num() { /* Equivalent to 'grab' */
+	|	(< PICK > ","  n  = numVar() { /* Equivalent to 'grab' */
 			if ((n < 0) || (world.countBalloons(world.getPosition()) < n)) {
 				bool = false;
 			}
 		}) 
-	|	(< FREE > ","  n=num() {
+	|	(< FREE > ","  n  = numVar() {
 			if ((n < 0) || (world.getMyBalloons()< n)) {
 				bool = false;
 			}
 		})
-	|	(< DROP > ","  n=num() {
+	|	(< DROP > ","  n  = numVar() {
 			if ((n < 0) || (n > world.freeSpacesForChips()) || (world.getMyChips()< n)) {
 				bool = false;
 			}
@@ -649,31 +649,31 @@ JAVACODE
 	boolean canMove():
 	{
 		Integer n;
-		boolean bool = true;
+		boolean bool;
 		int pasos;
 		int posX;
 		int posY;
 	}
-	{  // TODO: Que n pueda ser tambien var o param
-		((< NORTH > ","  n=num() {
+	{  // TODO: Que pueda ser param
+		((< NORTH > ","  n=numVar() {
 			pasos = n;
 			posX = (int) world.getPosition().getX();
 			posY = (int) world.getPosition().getY();
 			bool = !world.blockedInRange(posX, posY, posY-pasos, 0);
 		})
-	|	(< SOUTH > ","  n=num() {
+	|	(< SOUTH > ","  n=numVar() {
 			pasos = n;
 			posX = (int) world.getPosition().getX();
 			posY = (int) world.getPosition().getY();
 			bool = !world.blockedInRange(posX, posY, posY+pasos, 1);
 		})
-	|	(< EAST > ","  n=num() {
+	|	(< EAST > ","  n=numVar() {
 			pasos = n;
 			posX = (int) world.getPosition().getX();
 			posY = (int) world.getPosition().getY();
 			bool = !world.blockedInRange(posX, posY, posX+pasos, 2);
 		})
-	|	(< WEST > ","  n=num() {
+	|	(< WEST > ","  n=numVar() {
 			pasos = n;
 			posX = (int) world.getPosition().getX();
 			posY = (int) world.getPosition().getY();
@@ -726,4 +726,66 @@ JAVACODE
 			return total;
 		}
 	}
+
+
+	Integer numVar() throws Error:
+	{
+		int total_;
+		Integer total;
+	}
+	{
+		(<NUM>
+		{
+			try 
+			{
+				total_ = Integer.parseInt(token.image);
+				total = Integer.valueOf(total_);
+			} 
+			catch (NumberFormatException ee) 
+			{
+				throw new Error("Number out of bounds: "+token.image);
+			}
+			return total;
+		})
+	|	(< NAME > {
+			if (vars.containsKey(token.image()) {
+				return vars.get(token.image());
+			} else {
+				throw new Error("Tried to use undeclared variable");
+			}
+		 })
+	}
+
+
+	Integer numVarParam(Hashtable<String, ArrayList<String>> procParams) throws Error:
+	{
+		int total_;
+		Integer total;
+	}
+	{
+		(<NUM>
+		{
+			try 
+			{
+				total_ = Integer.parseInt(token.image);
+				total = Integer.valueOf(total_);
+			} 
+			catch (NumberFormatException ee) 
+			{
+				throw new Error("Number out of bounds: "+token.image);
+			}
+			return total;
+		})
+	|	(< NAME > {
+			if (procParams.containsKey(token.image()) {
+				return procParams.get(token.image());
+			} 
+			else if (vars.containsKey(token.image()) {
+				return vars.get(token.image());
+			} else {
+				throw new Error("Tried to use unexsiting parameter or undeclared variable");
+			}
+		 })
+	}
+	
 
