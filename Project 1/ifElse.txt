@@ -1,0 +1,9 @@
+PROG
+
+{
+
+if (canMove(north, 2)) {veer(left)} else {veer(right); step(4)} fi
+
+}
+
+GORP

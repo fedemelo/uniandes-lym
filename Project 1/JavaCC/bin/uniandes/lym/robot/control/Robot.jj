@@ -37,10 +37,13 @@ public class Robot
 	}
 
 
-	private String salida = new String();
+	private String salida = "";
 
-	private Hashtable<String, Integer> vars = new Hashtable<String, Integer>();
 	private ArrayList<String> declaredVars = new ArrayList<String>();
+	private Hashtable<String, Integer> vars = new Hashtable<String, Integer>();
+	private ArrayList<String> procsNames = new ArrayList<String>();
+	private Hashtable<String, ArrayList<String>> procsParams = new Hashtable<String, ArrayList<String>>();
+	private Hashtable<String, ArrayList<String>> procsInstrs = new Hashtable<String, ArrayList<String>>();
 }
 
 PARSER_END(Robot)
@@ -171,12 +174,12 @@ TOKEN :
 			this.declaredVars.add(name);
 		} ( LOOKAHEAD(2) "," (name=name()) {
 			if (this.declaredVars.contains(name)) {
-				throw new Error("Repeated variable name: "+name+" in variable declaration");
+				throw new Error("Repeated variable name: "+name+ " in variable declaration");
 			} else {
 				this.declaredVars.add(name);
 			}
 		} )* ";" ) {
-			salida="Variable declaration";
+			this.salida = this.salida + "Variable declaration";
 		}
 	}
 
@@ -184,12 +187,18 @@ TOKEN :
 	void procDef():
 	{
 		String procName;
-		ArrayList<String> localVars = new ArrayList<String>();;
+		ArrayList<String> localVars = new ArrayList<String>();
+		ArrayList<String> instructions = new ArrayList<String>();
 	}
 	{
-		< PROC > procName=name() "(" [localVars=params()] ")" instrBlock() < CORP > {
-			/*TODO : Lógica Java definición de procedimientos*/
-			salida="Procedure definition";
+		< PROC > procName=name() "(" [localVars=params()] ")" instructions=instrBlockProc() < CORP > {
+			if (procsNames.contains(procName)) {
+				throw new Error ("Procedure with name "+procName+" has already been declared";
+			}
+			procsNames.add(procName);
+			procsParams.put(procName, localVars);
+			procsInstrs.put(procName, instructions);
+			this.salida = this.salida + "Procedure definition";
 		}
 	}
 
@@ -216,7 +225,22 @@ TOKEN :
 	{
 	}
 	{
-		"{" instr() ( LOOKAHEAD(2) ";" instr())* "}"
+		"{" instr() ( LOOKAHEAD(2) ";" instr() )* "}"
+	}
+
+
+	ArrayList<String> instrBlockProc():
+	{
+		ArrayList<String> instructions = new ArrayList<String>();
+		String instr;
+	}
+	{
+		"{" instr = instrProc() {
+			instructions.add(instr);
+		}
+		( LOOKAHEAD(2) ";" (instr = instrProc()) {
+			instructions.add(instr);
+		} )* "}" 
 	}
 
 
@@ -226,7 +250,18 @@ TOKEN :
 	{
 		cmd()
 	|	ctrlStruct()
-	//|	procCall()
+	|	procCall()
+	}
+
+
+JAVACODE
+	String instrProc():
+	{
+	}
+	{
+		cmdProc()
+	|	ctrlStructProc()
+	|	procCallProc()
 	}
 
 
@@ -242,18 +277,18 @@ TOKEN :
 			} else {
 				throw new Error("Tried to assign to undeclared variable "+name);
 			}
-			salida = "Command: Variable assignment";
+			this.salida = this.salida + "Command: Variable assignment";
 		})
-	|	(< STEP >  "(" n=num() ")" {world.moveForward(n, false); salida = "Command: Move steps forward ";})
-	|	(< JUMP >  "(" n=num() ")" {world.moveForward(n, true); salida = "Command: Jump steps forward ";})
-	|	(< JUMPTO >  "(" n=num() "," m=num()")" {world.setPostion(n,m); salida = "Command: Jump to position ";})
+	|	(< STEP >  "(" n=num() ")" {world.moveForward(n, false); this.salida = this.salida + "Command: Move steps forward ";})
+	|	(< JUMP >  "(" n=num() ")" {world.moveForward(n, true); this.salida = this.salida + "Command: Jump steps forward ";})
+	|	(< JUMPTO >  "(" n=num() "," m=num()")" {world.setPostion(n,m); this.salida = this.salida + "Command: Jump to position ";})
 	|	(< VEER >  "(" veer() ")")
 	|	(< LOOK >  "(" look() ")")
-	|	(< DROP >  "(" n=num() ")" {world.putChips(n); salida = "Command: Drop chips from its position ";})
-	|	(< GRAB >  "(" n=num() ")" {world.grabBalloons(n); salida = "Command: Grab balloons from its position ";})
-	|	(< GET >  "(" n=num() ")" {world.pickChips(n); salida = "Command: Get chips from its position ";})
-	|	(< FREE >  "(" n=num() ")" {world.putBalloons(n); salida = "Command: Put balloons from its position ";})
-	|	(< POP >  "(" n=num() ")" {world.popBalloons(n); salida = "Command: Pop balloons from its position ";})
+	|	(< DROP >  "(" n=num() ")" {world.putChips(n); this.salida = this.salida + "Command: Drop chips from its position ";})
+	|	(< GRAB >  "(" n=num() ")" {world.grabBalloons(n); this.salida = this.salida + "Command: Grab balloons from its position ";})
+	|	(< GET >  "(" n=num() ")" {world.pickChips(n); this.salida = this.salida + "Command: Get chips from its position ";})
+	|	(< FREE >  "(" n=num() ")" {world.putBalloons(n); this.salida = this.salida + "Command: Put balloons from its position ";})
+	|	(< POP >  "(" n=num() ")" {world.popBalloons(n); this.salida = this.salida + "Command: Pop balloons from its position ";})
 	|	(< DMOVE >  "(" dMove() ")")
 	|	(< OMOVE >  "(" oMove() ")")
 	}
@@ -275,7 +310,7 @@ TOKEN :
 	}
 	{
 		(< IF > "(" bool=condition() ")" instrBlockTrue(bool) [< ELSE > instrBlockFalse(bool)] < FI >) {
-			salida="'if' conditional control structure";
+			this.salida = this.salida + "'if' conditional control structure";
 			}
 	}
 
@@ -303,7 +338,7 @@ JAVACODE
 	{
 		< WHILE > "(" bool=condition() ")" < DO > /*instrBlockWhile(bool)*/ < OD > {
 			/*TODO : Lógica Java while. Implementar instrBlockWhile*/
-			salida="'while' loop control structure";
+			this.salida = this.salida + "'while' loop control structure";
 			}
 	}
 
@@ -318,7 +353,7 @@ JAVACODE
 				instrBlock();
 			}
 		} ( < PER > ) {
-			salida="'repeatTimes' loop control structure";
+			this.salida = this.salida + "'repeatTimes' loop control structure";
 		}
 	}
 
@@ -335,21 +370,31 @@ JAVACODE
 	}
 
 
-//	void procCall():
-//	{
-//	}
-//	{
-//		// TODO
-//	}
+	void procCall():
+	{
+	}
+	{
+		name = name() "(" [rParams = params()] ")" {
+			if (!procsNames.contains(name)) {
+				throw new Error("Tried to call undeclared procedure");
+			}
+			if (rParams.size() != procsParams.get(name).size()) {
+				throw new Error("Incorrect number of parameters for "+name+" procedure");
+			}
+			for (String instr: procsInstrs.get(name)) {
+				
+			}
+		}
+	}
 
 
 	void veer() :
 	{
 	}
 	{
-		(< RIGHT > {world.turnRight(); salida = "Command: Veer right ";})
-	|	(< AROUND > {world.turnRight(); world.turnRight(); salida = "Command: Veer around ";})
-	|	(< LEFT > {world.turnRight(); world.turnRight(); world.turnRight(); salida = "Command: Veer left ";})
+		(< RIGHT > {world.turnRight(); this.salida = this.salida + "Command: Veer right ";})
+	|	(< AROUND > {world.turnRight(); world.turnRight(); this.salida = this.salida + "Command: Veer around ";})
+	|	(< LEFT > {world.turnRight(); world.turnRight(); world.turnRight(); this.salida = this.salida + "Command: Veer left ";})
 	}
 
 
@@ -365,7 +410,7 @@ JAVACODE
 			} else if (world.facingEast()) {
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
-			salida = "Command: Look north ";
+			this.salida = this.salida + "Command: Look north ";
 		})
 	|	(< SOUTH > {
 			if (world.facingEast()) {
@@ -375,7 +420,7 @@ JAVACODE
 			} else if (world.facingWest()) {
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
-			salida = "Command: Look south ";
+			this.salida = this.salida + "Command: Look south ";
 		})
 	|	(< EAST > {
 			if (world.facingNorth()) {
@@ -385,7 +430,7 @@ JAVACODE
 			} else if (world.facingSouth()) {
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
-			salida = "Command: Look east ";
+			this.salida = this.salida + "Command: Look east ";
 		})
 	|	(< WEST > {
 			if (world.facingSouth()) {
@@ -395,7 +440,7 @@ JAVACODE
 			} else if (world.facingNorth()) {
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
-			salida = "Command: Look west ";
+			this.salida = this.salida + "Command: Look west ";
 		})
 	}
 
@@ -407,25 +452,25 @@ JAVACODE
 	{ n = num() ","
 		(( < FRONT > {
 			world.moveForward(n, false);
-			salida = "Command: Move to the front, face original direction ";
+			this.salida = this.salida + "Command: Move to the front, face original direction ";
 		})
 	|	( < RIGHT > {
 			world.turnRight();
 			world.moveForward(n, false);
 			world.turnRight(); world.turnRight(); world.turnRight();
-			salida = "Command: Move to the right, face original direction ";
+			this.salida = this.salida + "Command: Move to the right, face original direction ";
 		})
 	|	( < BACK > {
 			world.turnRight(); world.turnRight();
 			world.moveForward(n, false);
 			world.turnRight(); world.turnRight();
-			salida = "Command: Move to the back, face original direction ";
+			this.salida = this.salida + "Command: Move to the back, face original direction ";
 		})
 	|	( < LEFT > {
 			world.turnRight(); world.turnRight(); world.turnRight();
 			world.moveForward(n, false);
 			world.turnRight();
-			salida = "Command: Move to the left, face original direction ";
+			this.salida = this.salida + "Command: Move to the left, face original direction ";
 		}))
 	}
 
@@ -444,7 +489,7 @@ JAVACODE
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
 			world.moveForward(n, false);
-			salida = "Command: Face north, move steps";
+			this.salida = this.salida + "Command: Face north, move steps";
 		})
 	|	(< SOUTH > {
 			if (world.facingEast()) {
@@ -455,7 +500,7 @@ JAVACODE
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
 			world.moveForward(n, false);
-			salida = "Command: Face south, move steps";
+			this.salida = this.salida + "Command: Face south, move steps";
 		})
 	|	(< EAST > {
 			if (world.facingNorth()) {
@@ -466,7 +511,7 @@ JAVACODE
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
 			world.moveForward(n, false);
-			salida = "Command: Face east, move steps";
+			this.salida = this.salida + "Command: Face east, move steps";
 		})
 	|	(< WEST > {
 			if (world.facingSouth()) {
@@ -477,7 +522,7 @@ JAVACODE
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
 			world.moveForward(n, false);
-			salida = "Command: Face west, move steps";
+			this.salida = this.salida + "Command: Face west, move steps";
 		}))
 	}
 
@@ -676,7 +721,7 @@ JAVACODE
 			} 
 			catch (NumberFormatException ee) 
 			{
-				throw new Error("Number out of bounds: "+token.image+" !!");
+				throw new Error("Number out of bounds: "+token.image);
 			}
 			return total;
 		}

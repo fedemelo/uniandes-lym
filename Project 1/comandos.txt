@@ -1,0 +1,15 @@
+PROG
+
+VAR x, y;
+
+{
+
+veer(right);
+x:=2 ;
+step(4)
+
+}
+
+
+
+GORP

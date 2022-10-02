@@ -18,7 +18,7 @@ public class Robot implements RobotConstants {
         }
 
 
-        private String salida = new String();
+        private String salida = "";
 
         private Hashtable<String, Integer> vars = new Hashtable<String, Integer>();
         private ArrayList<String> declaredVars = new ArrayList<String>();
@@ -90,7 +90,7 @@ public class Robot implements RobotConstants {
                         }
     }
     jj_consume_token(49);
-                        salida="Variable declaration";
+                        salida=salida+"Variable declaration";
   }
 
   final public void procDef() throws ParseException {
@@ -111,7 +111,7 @@ public class Robot implements RobotConstants {
     instrBlock();
     jj_consume_token(CORP);
                         /*TODO : Lógica Java definición de procedimientos*/
-                        salida="Procedure definition";
+                        salida=salida+"Procedure definition";
   }
 
   final public ArrayList<String> params() throws ParseException {
@@ -322,7 +322,7 @@ public class Robot implements RobotConstants {
       ;
     }
     jj_consume_token(FI);
-                        salida="'if' conditional control structure";
+                        salida=salida+"'if' conditional control structure";
   }
 
   private void instrBlockTrue(boolean bool) throws ParseException {
@@ -346,7 +346,7 @@ public class Robot implements RobotConstants {
     jj_consume_token(DO);
     jj_consume_token(OD);
                         /*TODO : Lógica Java while. Implementar instrBlockWhile*/
-                        salida="'while' loop control structure";
+                        salida=salida+"'while' loop control structure";
   }
 
   final public void repeatTimes() throws ParseException {
@@ -357,7 +357,7 @@ public class Robot implements RobotConstants {
                                 instrBlock();
                         }
     jj_consume_token(PER);
-                        salida="'repeatTimes' loop control structure";
+                        salida=salida+"'repeatTimes' loop control structure";
   }
 
   final public boolean condition() throws ParseException {
