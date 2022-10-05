@@ -33,7 +33,7 @@ import uniandes.lym.robot.kernel.*;
 public class Console extends JPanel  { 
 	//The Vector of commands for the historial
   	static Vector <String> commands = new Vector<String> ();
-
+  	
   	//The number of commands
   	static int contCom = 0;	
 	

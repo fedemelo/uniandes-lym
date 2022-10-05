@@ -153,7 +153,7 @@ TOKEN :
 		salida = "";
 	}
 	{
-		( < PROG > [varDecl()] (procDef())*  	instrBlock() < GORP >) {
+		( < PROG > [varDecl()] (procDef())* instrBlock() < GORP >) {
 		    try {
 	    		Thread.sleep(900);
 	    	} catch (InterruptedException e) {
@@ -320,7 +320,7 @@ JAVACODE
 		Integer n;
 	}
 	{
-		( < REPEATTIMES > n  = numVar() ) repeatInstrBlock(n) ( < PER > ) {
+		( < REPEATTIMES > n = numVar() ) repeatInstrBlock(n) ( < PER > ) {
 			this.salida = this.salida + "\n'repeatTimes' loop control structure";
 		}
 	}
@@ -678,9 +678,10 @@ JAVACODE
 	void repeatInstrBlock(Integer n):
 	{
 		ArrayList<String> instrs = new ArrayList<String>();
+		ArrayList<String> instr = new ArrayList<String>();
 	}
 	{
-		"{" instr = saveInstr() {instrs.addAll(instr);} (  ";" instr = saveInstr() {instrs.addAll(instr);} )* "}" {
+		"{" instr = saveInstr() {instrs.addAll(instr);} ( ";" instr = saveInstr() {instrs.addAll(instr);} )* "}" {
 			for(Integer i = 0; i < n; i++) {
 				manuallyExecuteInstrs(instrs);
 			}
@@ -706,95 +707,121 @@ JAVACODE
 
 
 JAVACODE
-	private void manuallyExecuteInstrs(ArrayList<String> instrs) {
+	private void manuallyExecuteInstrs(ArrayList<String> oInstrs) {
+		ArrayList<String> instrs = (ArrayList<String>) oInstrs.clone();
 		Integer n, m;
-		String dir;
-		
-		while (instrs.size() > 0) {
-			insName = instrs.get(0);
-			instrs.remove(0);
-			if (this.declaredVars.contains(insName)) {
-				n = Integer.valueOf(instrs.get(0));
-				instrs.remove(0);
-				this.vars.put(insName, n);
-				this.salida = this.salida + "\nCommand: Variable assignment";
-			} else if (insName == "step") {
-				n = Integer.valueOf(instrs.get(0));
-				instrs.remove(0);
+		String dir, insName;
+		for (Integer i = 0; i < instrs.size(); i++) {
+			insName = instrs.get(i).trim();
+			if (insName.equals("step")) {
+				n = Integer.valueOf(instrs.get(i+1));
 				world.moveForward(n, false);
+				instrs.remove(i);
+				instrs.remove(i+1);
+				i++;
 				this.salida = this.salida + "\nCommand: Move steps forward ";
-			} else if (insName == "jump") {
-				n = Integer.valueOf(instrs.get(0));
-				instrs.remove(0);
+			} else if (insName.equals("jump")) {
+				n = Integer.valueOf(instrs.get(i+1));
 				world.moveForward(n, true);
+				instrs.remove(i);
+				instrs.remove(i+1);
+				i++;
 				this.salida = this.salida + "\nCommand: Jump steps forward ";
-			} else if (insName == "drop") {
-				n = Integer.valueOf(instrs.get(0));
-				instrs.remove(0);
+			} else if (insName.equals("drop")) {
+				n = Integer.valueOf(instrs.get(i+1));
 				world.putChips(n);
+				instrs.remove(i);
+				instrs.remove(i+1);
+				i++;
 				this.salida = this.salida + "\nCommand: Drop chips from its position ";
-			} else if (insName == "grab") {
-				n = Integer.valueOf(instrs.get(0));
-				instrs.remove(0);
+			} else if (insName.equals("grab")) {
+				n = Integer.valueOf(instrs.get(i+1));
 				world.grabBalloons(n);
+				instrs.remove(i);
+				instrs.remove(i+1);
+				i++;
 				this.salida = this.salida + "\nCommand: Grab balloons from its position ";
-			} else if (insName == "get") {
-				n = Integer.valueOf(instrs.get(0));
-				instrs.remove(0);
+			} else if (insName.equals("get")) {
+				n = Integer.valueOf(instrs.get(i+1));
 				world.pickChips(n);
+				instrs.remove(i);
+				instrs.remove(i+1);
+				i++;
 				this.salida = this.salida + "\nCommand: Get chips from its position ";
-			} else if (insName == "free") {
-				n = Integer.valueOf(instrs.get(0));
-				instrs.remove(0);
+			} else if (insName.equals("free")) {
+				n = Integer.valueOf(instrs.get(i+1));
 				world.putBalloons(n);
+				instrs.remove(i);
+				instrs.remove(i+1);
+				i++;
 				this.salida = this.salida + "\nCommand: Put balloons from its position ";
-			} else if (insName == "pop") {
-				n = Integer.valueOf(instrs.get(0));
-				instrs.remove(0);
+			} else if (insName.equals("pop")) {
+				n = Integer.valueOf(instrs.get(i+1));
 				world.popBalloons(n);
+				instrs.remove(i);
+				instrs.remove(i+1);
+				i++;
 				this.salida = this.salida + "\nCommand: Pop balloons from its position ";
-			} else if (insName == "jumpTo") {
-				n = Integer.valueOf(instrs.get(0));
-				instrs.remove(0);
-				m = Integer.valueOf(instrs.get(0));
-				instrs.remove(0);
-				world.setPostion(n,m);
+			} else if (insName.equals("jumpTo")) {
+				this.salida += " entro!!!";
+				n = Integer.valueOf(instrs.get(i+1));
+				m = Integer.valueOf(instrs.get(i+2));
+				world.setPostion(n, m);
+				instrs.remove(i);
+				instrs.remove(i+1);
+				instrs.remove(i+2);
+				i += 2;
 				this.salida = this.salida + "\nCommand: Jump to position ";
-			} else if (insName == "veer") {
-				dir = instrs.get(0);
-				instrs.remove(0);
+			} else if (insName.equals("veer")) {
+				dir = instrs.get(i+1);
 				manualVeer(dir);
-			} else if (insName == "look") {
-				dir = instrs.get(0);
-				instrs.remove(0);
+				instrs.remove(i);
+				instrs.remove(i+1);
+				i++;
+			} else if (insName.equals("look")) {
+				dir = instrs.get(i+1);
 				manualLook(dir);
-			} else if (insName == "Dmove") {
-				n = Integer.valueOf(instrs.get(0));
-				instrs.remove(0);
-				dir = instrs.get(0);
-				instrs.remove(0);
+				instrs.remove(i);
+				instrs.remove(i+1);
+				i++;
+			} else if (insName.equals("Dmove")) {
+				n = Integer.valueOf(instrs.get(i+1));
+				dir = instrs.get(i+2);
 				manualDMove(n, dir);
-			} else if (insName == "Omove") {
-				n = Integer.valueOf(instrs.get(0));
-				instrs.remove(0);
-				dir = instrs.get(0);
-				instrs.remove(0);
+				instrs.remove(i);
+				instrs.remove(i+1);
+				instrs.remove(i+2);
+				i+=2;
+			} else if (insName.equals("Omove")) {
+				n = Integer.valueOf(instrs.get(i+1));
+				dir = instrs.get(i+2);
 				manualOMove(n, dir);
-			} // TODO: ctrl_struct & proc
+				instrs.remove(i);
+				instrs.remove(i+1);
+				instrs.remove(i+2);
+				i+=2;
+			} else if (this.declaredVars.contains(insName)) {
+				n = Integer.valueOf(instrs.get(i+1));
+				this.vars.put(insName, n);
+				instrs.remove(i);
+				instrs.remove(i+1);
+				this.salida = this.salida + "\nCommand: Variable assignment";
+				i++;
+			}// TODO: ctrl_struct & proc
 		}
 	}
 
 
 JAVACODE
 	private void manualVeer(String dir) {
-		if (dir == "right") {
+		if (dir.equals("right")) {
 			world.turnRight();
 			this.salida = this.salida + "\nCommand: Veer right ";
-		} else if (dir == "around") { 
+		} else if (dir.equals("around")) { 
 			world.turnRight();
 			world.turnRight();
 			this.salida = this.salida + "\nCommand: Veer around ";
-		} else if (dir == "left") {
+		} else if (dir.equals("left")) {
 			world.turnRight();
 			world.turnRight();
 			world.turnRight();
@@ -805,7 +832,7 @@ JAVACODE
 
 JAVACODE
 	private void manualLook(String dir)	{
-		if (dir == "north") {
+		if (dir.equals("north")) {
 			if (world.facingWest()) {
 				world.turnRight();
 			} else if (world.facingSouth()) {
@@ -814,7 +841,7 @@ JAVACODE
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
 			this.salida = this.salida + "\nCommand: Look north ";
-		} else if (dir == "south") {
+		} else if (dir.equals("south")) {
 			if (world.facingEast()) {
 				world.turnRight();
 			} else if (world.facingNorth()) {
@@ -823,7 +850,7 @@ JAVACODE
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
 			this.salida = this.salida + "\nCommand: Look south ";
-		} else if (dir == "east") {
+		} else if (dir.equals("east")) {
 			if (world.facingNorth()) {
 				world.turnRight();
 			} else if (world.facingWest()) {
@@ -832,7 +859,7 @@ JAVACODE
 				world.turnRight(); world.turnRight(); world.turnRight();
 			}
 			this.salida = this.salida + "\nCommand: Look east ";
-		} else if (dir == "west") {
+		} else if (dir.equals("west")) {
 			if (world.facingSouth()) {
 				world.turnRight();
 			} else if (world.facingEast()) {
@@ -848,20 +875,20 @@ JAVACODE
 
 JAVACODE
 	private void manualDMove(Integer n, String dir) { 
-		if (dir == "front") {
+		if (dir.equals("front")) {
 			world.moveForward(n, false);
 			this.salida = this.salida + "\nCommand: Move to the front, face original direction ";
-		} else if (dir == "right") {
+		} else if (dir.equals("right")) {
 			world.turnRight();
 			world.moveForward(n, false);
 			world.turnRight(); world.turnRight(); world.turnRight();
 			this.salida = this.salida + "\nCommand: Move to the right, face original direction ";
-		} else if (dir == "back") {
+		} else if (dir.equals("back")) {
 			world.turnRight(); world.turnRight();
 			world.moveForward(n, false);
 			world.turnRight(); world.turnRight();
 			this.salida = this.salida + "\nCommand: Move to the back, face original direction ";
-		} else if (dir == "left") {
+		} else if (dir.equals("left")) {
 			world.turnRight(); world.turnRight(); world.turnRight();
 			world.moveForward(n, false);
 			world.turnRight();
@@ -872,7 +899,7 @@ JAVACODE
 
 JAVACODE
 	private void manualOMove(Integer n, String dir) {
-		if (dir == "north") {
+		if (dir.equals("north")) {
 			if (world.facingWest()) {
 				world.turnRight();
 			} else if (world.facingSouth()) {
@@ -882,7 +909,7 @@ JAVACODE
 			}
 			world.moveForward(n, false);
 			this.salida = this.salida + "\nCommand: Face north, move steps";
-		} else if (dir == "south") {
+		} else if (dir.equals("south")) {
 			if (world.facingEast()) {
 				world.turnRight();
 			} else if (world.facingNorth()) {
@@ -892,7 +919,7 @@ JAVACODE
 			}
 			world.moveForward(n, false);
 			this.salida = this.salida + "\nCommand: Face south, move steps";
-		} else if (dir == "east") {
+		} else if (dir.equals("east")) {
 			if (world.facingNorth()) {
 				world.turnRight();
 			} else if (world.facingWest()) {
@@ -902,7 +929,7 @@ JAVACODE
 			}
 			world.moveForward(n, false);
 			this.salida = this.salida + "\nCommand: Face east, move steps";
-		} else if (dir == "west") {
+		} else if (dir.equals("west")) {
 			if (world.facingSouth()) {
 				world.turnRight();
 			} else if (world.facingEast()) {
@@ -1040,24 +1067,28 @@ JAVACODE
 	}
 
 
-	void saveWhileDoOd():
+	ArrayList<String> saveWhileDoOd():
 	{
 		boolean bool;
+		ArrayList<String> l = new ArrayList<String>();
 	}
 	{
 		< WHILE > "(" bool=condition() ")" < DO > /* TODO: saveWhileInstrBlock(bool) */ < OD > {
 			this.salida = this.salida + "\n'while' loop control structure";
+			return l;
 			}
 	}
 
 
-	void saveRepeatTimes():
+	ArrayList<String> saveRepeatTimes():
 	{
 		Integer n;
+		ArrayList<String> l = new ArrayList<String>();
 	}
 	{
 		( < REPEATTIMES > n = numVar() ) /* TODO: saveRepeatInstrBlock(n) */ ( < PER > ) {
 			this.salida = this.salida + "\n'repeatTimes' loop control structure";
+			return l;
 		}
 	}
 

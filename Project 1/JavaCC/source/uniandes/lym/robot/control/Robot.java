@@ -876,6 +876,7 @@ public class Robot implements RobotConstants {
 
   final public void repeatInstrBlock(Integer n) throws ParseException {
                 ArrayList<String> instrs = new ArrayList<String>();
+                ArrayList<String> instr = new ArrayList<String>();
     jj_consume_token(52);
     instr = saveInstr();
                                          instrs.addAll(instr);
@@ -891,7 +892,7 @@ public class Robot implements RobotConstants {
       }
       jj_consume_token(49);
       instr = saveInstr();
-                                                                                            instrs.addAll(instr);
+                                                                                           instrs.addAll(instr);
     }
     jj_consume_token(53);
                         for(Integer i = 0; i < n; i++) {
@@ -926,93 +927,119 @@ public class Robot implements RobotConstants {
                 }
   }
 
-  private void manuallyExecuteInstrs(ArrayList<String> instrs) throws ParseException {
+  private void manuallyExecuteInstrs(ArrayList<String> oInstrs) throws ParseException {
+                ArrayList<String> instrs = (ArrayList<String>) oInstrs.clone();
                 Integer n, m;
-                String dir;
-
-                while (instrs.size() > 0) {
-                        insName = instrs.get(0);
-                        instrs.remove(0);
-                        if (this.declaredVars.contains(insName)) {
-                                n = Integer.valueOf(instrs.get(0));
-                                instrs.remove(0);
-                                this.vars.put(insName, n);
-                                this.salida = this.salida + "\u005cnCommand: Variable assignment";
-                        } else if (insName == "step") {
-                                n = Integer.valueOf(instrs.get(0));
-                                instrs.remove(0);
+                String dir, insName;
+                for (Integer i = 0; i < instrs.size(); i++) {
+                        insName = instrs.get(i).trim();
+                        if (insName.equals("step")) {
+                                n = Integer.valueOf(instrs.get(i+1));
                                 world.moveForward(n, false);
+                                instrs.remove(i);
+                                instrs.remove(i+1);
+                                i++;
                                 this.salida = this.salida + "\u005cnCommand: Move steps forward ";
-                        } else if (insName == "jump") {
-                                n = Integer.valueOf(instrs.get(0));
-                                instrs.remove(0);
+                        } else if (insName.equals("jump")) {
+                                n = Integer.valueOf(instrs.get(i+1));
                                 world.moveForward(n, true);
+                                instrs.remove(i);
+                                instrs.remove(i+1);
+                                i++;
                                 this.salida = this.salida + "\u005cnCommand: Jump steps forward ";
-                        } else if (insName == "drop") {
-                                n = Integer.valueOf(instrs.get(0));
-                                instrs.remove(0);
+                        } else if (insName.equals("drop")) {
+                                n = Integer.valueOf(instrs.get(i+1));
                                 world.putChips(n);
+                                instrs.remove(i);
+                                instrs.remove(i+1);
+                                i++;
                                 this.salida = this.salida + "\u005cnCommand: Drop chips from its position ";
-                        } else if (insName == "grab") {
-                                n = Integer.valueOf(instrs.get(0));
-                                instrs.remove(0);
+                        } else if (insName.equals("grab")) {
+                                n = Integer.valueOf(instrs.get(i+1));
                                 world.grabBalloons(n);
+                                instrs.remove(i);
+                                instrs.remove(i+1);
+                                i++;
                                 this.salida = this.salida + "\u005cnCommand: Grab balloons from its position ";
-                        } else if (insName == "get") {
-                                n = Integer.valueOf(instrs.get(0));
-                                instrs.remove(0);
+                        } else if (insName.equals("get")) {
+                                n = Integer.valueOf(instrs.get(i+1));
                                 world.pickChips(n);
+                                instrs.remove(i);
+                                instrs.remove(i+1);
+                                i++;
                                 this.salida = this.salida + "\u005cnCommand: Get chips from its position ";
-                        } else if (insName == "free") {
-                                n = Integer.valueOf(instrs.get(0));
-                                instrs.remove(0);
+                        } else if (insName.equals("free")) {
+                                n = Integer.valueOf(instrs.get(i+1));
                                 world.putBalloons(n);
+                                instrs.remove(i);
+                                instrs.remove(i+1);
+                                i++;
                                 this.salida = this.salida + "\u005cnCommand: Put balloons from its position ";
-                        } else if (insName == "pop") {
-                                n = Integer.valueOf(instrs.get(0));
-                                instrs.remove(0);
+                        } else if (insName.equals("pop")) {
+                                n = Integer.valueOf(instrs.get(i+1));
                                 world.popBalloons(n);
+                                instrs.remove(i);
+                                instrs.remove(i+1);
+                                i++;
                                 this.salida = this.salida + "\u005cnCommand: Pop balloons from its position ";
-                        } else if (insName == "jumpTo") {
-                                n = Integer.valueOf(instrs.get(0));
-                                instrs.remove(0);
-                                m = Integer.valueOf(instrs.get(0));
-                                instrs.remove(0);
-                                world.setPostion(n,m);
+                        } else if (insName.equals("jumpTo")) {
+                                this.salida += " entro!!!";
+                                n = Integer.valueOf(instrs.get(i+1));
+                                m = Integer.valueOf(instrs.get(i+2));
+                                world.setPostion(n, m);
+                                instrs.remove(i);
+                                instrs.remove(i+1);
+                                instrs.remove(i+2);
+                                i += 2;
                                 this.salida = this.salida + "\u005cnCommand: Jump to position ";
-                        } else if (insName == "veer") {
-                                dir = instrs.get(0);
-                                instrs.remove(0);
+                        } else if (insName.equals("veer")) {
+                                dir = instrs.get(i+1);
                                 manualVeer(dir);
-                        } else if (insName == "look") {
-                                dir = instrs.get(0);
-                                instrs.remove(0);
+                                instrs.remove(i);
+                                instrs.remove(i+1);
+                                i++;
+                        } else if (insName.equals("look")) {
+                                dir = instrs.get(i+1);
                                 manualLook(dir);
-                        } else if (insName == "Dmove") {
-                                n = Integer.valueOf(instrs.get(0));
-                                instrs.remove(0);
-                                dir = instrs.get(0);
-                                instrs.remove(0);
+                                instrs.remove(i);
+                                instrs.remove(i+1);
+                                i++;
+                        } else if (insName.equals("Dmove")) {
+                                n = Integer.valueOf(instrs.get(i+1));
+                                dir = instrs.get(i+2);
                                 manualDMove(n, dir);
-                        } else if (insName == "Omove") {
-                                n = Integer.valueOf(instrs.get(0));
-                                instrs.remove(0);
-                                dir = instrs.get(0);
-                                instrs.remove(0);
+                                instrs.remove(i);
+                                instrs.remove(i+1);
+                                instrs.remove(i+2);
+                                i+=2;
+                        } else if (insName.equals("Omove")) {
+                                n = Integer.valueOf(instrs.get(i+1));
+                                dir = instrs.get(i+2);
                                 manualOMove(n, dir);
-                        } // TODO: ctrl_struct & proc
+                                instrs.remove(i);
+                                instrs.remove(i+1);
+                                instrs.remove(i+2);
+                                i+=2;
+                        } else if (this.declaredVars.contains(insName)) {
+                                n = Integer.valueOf(instrs.get(i+1));
+                                this.vars.put(insName, n);
+                                instrs.remove(i);
+                                instrs.remove(i+1);
+                                this.salida = this.salida + "\u005cnCommand: Variable assignment";
+                                i++;
+                        }// TODO: ctrl_struct & proc
                 }
   }
 
   private void manualVeer(String dir) throws ParseException {
-                if (dir == "right") {
+                if (dir.equals("right")) {
                         world.turnRight();
                         this.salida = this.salida + "\u005cnCommand: Veer right ";
-                } else if (dir == "around") {
+                } else if (dir.equals("around")) {
                         world.turnRight();
                         world.turnRight();
                         this.salida = this.salida + "\u005cnCommand: Veer around ";
-                } else if (dir == "left") {
+                } else if (dir.equals("left")) {
                         world.turnRight();
                         world.turnRight();
                         world.turnRight();
@@ -1021,7 +1048,7 @@ public class Robot implements RobotConstants {
   }
 
   private void manualLook(String dir) throws ParseException {
-                if (dir == "north") {
+                if (dir.equals("north")) {
                         if (world.facingWest()) {
                                 world.turnRight();
                         } else if (world.facingSouth()) {
@@ -1030,7 +1057,7 @@ public class Robot implements RobotConstants {
                                 world.turnRight(); world.turnRight(); world.turnRight();
                         }
                         this.salida = this.salida + "\u005cnCommand: Look north ";
-                } else if (dir == "south") {
+                } else if (dir.equals("south")) {
                         if (world.facingEast()) {
                                 world.turnRight();
                         } else if (world.facingNorth()) {
@@ -1039,7 +1066,7 @@ public class Robot implements RobotConstants {
                                 world.turnRight(); world.turnRight(); world.turnRight();
                         }
                         this.salida = this.salida + "\u005cnCommand: Look south ";
-                } else if (dir == "east") {
+                } else if (dir.equals("east")) {
                         if (world.facingNorth()) {
                                 world.turnRight();
                         } else if (world.facingWest()) {
@@ -1048,7 +1075,7 @@ public class Robot implements RobotConstants {
                                 world.turnRight(); world.turnRight(); world.turnRight();
                         }
                         this.salida = this.salida + "\u005cnCommand: Look east ";
-                } else if (dir == "west") {
+                } else if (dir.equals("west")) {
                         if (world.facingSouth()) {
                                 world.turnRight();
                         } else if (world.facingEast()) {
@@ -1061,20 +1088,20 @@ public class Robot implements RobotConstants {
   }
 
   private void manualDMove(Integer n, String dir) throws ParseException {
-                if (dir == "front") {
+                if (dir.equals("front")) {
                         world.moveForward(n, false);
                         this.salida = this.salida + "\u005cnCommand: Move to the front, face original direction ";
-                } else if (dir == "right") {
+                } else if (dir.equals("right")) {
                         world.turnRight();
                         world.moveForward(n, false);
                         world.turnRight(); world.turnRight(); world.turnRight();
                         this.salida = this.salida + "\u005cnCommand: Move to the right, face original direction ";
-                } else if (dir == "back") {
+                } else if (dir.equals("back")) {
                         world.turnRight(); world.turnRight();
                         world.moveForward(n, false);
                         world.turnRight(); world.turnRight();
                         this.salida = this.salida + "\u005cnCommand: Move to the back, face original direction ";
-                } else if (dir == "left") {
+                } else if (dir.equals("left")) {
                         world.turnRight(); world.turnRight(); world.turnRight();
                         world.moveForward(n, false);
                         world.turnRight();
@@ -1083,7 +1110,7 @@ public class Robot implements RobotConstants {
   }
 
   private void manualOMove(Integer n, String dir) throws ParseException {
-                if (dir == "north") {
+                if (dir.equals("north")) {
                         if (world.facingWest()) {
                                 world.turnRight();
                         } else if (world.facingSouth()) {
@@ -1093,7 +1120,7 @@ public class Robot implements RobotConstants {
                         }
                         world.moveForward(n, false);
                         this.salida = this.salida + "\u005cnCommand: Face north, move steps";
-                } else if (dir == "south") {
+                } else if (dir.equals("south")) {
                         if (world.facingEast()) {
                                 world.turnRight();
                         } else if (world.facingNorth()) {
@@ -1103,7 +1130,7 @@ public class Robot implements RobotConstants {
                         }
                         world.moveForward(n, false);
                         this.salida = this.salida + "\u005cnCommand: Face south, move steps";
-                } else if (dir == "east") {
+                } else if (dir.equals("east")) {
                         if (world.facingNorth()) {
                                 world.turnRight();
                         } else if (world.facingWest()) {
@@ -1113,7 +1140,7 @@ public class Robot implements RobotConstants {
                         }
                         world.moveForward(n, false);
                         this.salida = this.salida + "\u005cnCommand: Face east, move steps";
-                } else if (dir == "west") {
+                } else if (dir.equals("west")) {
                         if (world.facingSouth()) {
                                 world.turnRight();
                         } else if (world.facingEast()) {
@@ -1475,8 +1502,9 @@ public class Robot implements RobotConstants {
                 return l;
   }
 
-  final public void saveWhileDoOd() throws ParseException {
+  final public ArrayList<String> saveWhileDoOd() throws ParseException {
                 boolean bool;
+                ArrayList<String> l = new ArrayList<String>();
     jj_consume_token(WHILE);
     jj_consume_token(50);
     bool = condition();
@@ -1484,14 +1512,19 @@ public class Robot implements RobotConstants {
     jj_consume_token(DO);
     jj_consume_token(OD);
                         this.salida = this.salida + "\u005cn'while' loop control structure";
+                        {if (true) return l;}
+    throw new Error("Missing return statement in function");
   }
 
-  final public void saveRepeatTimes() throws ParseException {
+  final public ArrayList<String> saveRepeatTimes() throws ParseException {
                 Integer n;
+                ArrayList<String> l = new ArrayList<String>();
     jj_consume_token(REPEATTIMES);
     n = numVar();
     jj_consume_token(PER);
                         this.salida = this.salida + "\u005cn'repeatTimes' loop control structure";
+                        {if (true) return l;}
+    throw new Error("Missing return statement in function");
   }
 
   final public ArrayList<String> saveProcCall() throws ParseException {
@@ -1860,6 +1893,11 @@ public class Robot implements RobotConstants {
     return false;
   }
 
+  private boolean jj_3_6() {
+    if (jj_3R_17()) return true;
+    return false;
+  }
+
   private boolean jj_3R_27() {
     if (jj_scan_token(GRAB)) return true;
     if (jj_scan_token(50)) return true;
@@ -1875,11 +1913,6 @@ public class Robot implements RobotConstants {
   private boolean jj_3R_25() {
     if (jj_scan_token(LOOK)) return true;
     if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3_5() {
-    if (jj_3R_16()) return true;
     return false;
   }
 
@@ -1907,44 +1940,8 @@ public class Robot implements RobotConstants {
     return false;
   }
 
-  private boolean jj_3R_58() {
-    if (jj_scan_token(OMOVE)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_57() {
-    if (jj_scan_token(DMOVE)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
   private boolean jj_3R_60() {
     if (jj_3R_13()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_56() {
-    if (jj_scan_token(POP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_55() {
-    if (jj_scan_token(FREE)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_54() {
-    if (jj_scan_token(GET)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_53() {
-    if (jj_scan_token(GRAB)) return true;
-    if (jj_scan_token(50)) return true;
     return false;
   }
 
@@ -1997,94 +1994,14 @@ public class Robot implements RobotConstants {
     return false;
   }
 
-  private boolean jj_3R_52() {
-    if (jj_scan_token(DROP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_51() {
-    if (jj_scan_token(LOOK)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_50() {
-    if (jj_scan_token(VEER)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_49() {
-    if (jj_scan_token(JUMPTO)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_48() {
-    if (jj_scan_token(JUMP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_47() {
-    if (jj_scan_token(STEP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
   private boolean jj_3_3() {
     if (jj_scan_token(49)) return true;
     if (jj_3R_14()) return true;
     return false;
   }
 
-  private boolean jj_3R_46() {
+  private boolean jj_3R_13() {
     if (jj_scan_token(NAME)) return true;
-    if (jj_scan_token(54)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_17() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_46()) {
-    jj_scanpos = xsp;
-    if (jj_3R_47()) {
-    jj_scanpos = xsp;
-    if (jj_3R_48()) {
-    jj_scanpos = xsp;
-    if (jj_3R_49()) {
-    jj_scanpos = xsp;
-    if (jj_3R_50()) {
-    jj_scanpos = xsp;
-    if (jj_3R_51()) {
-    jj_scanpos = xsp;
-    if (jj_3R_52()) {
-    jj_scanpos = xsp;
-    if (jj_3R_53()) {
-    jj_scanpos = xsp;
-    if (jj_3R_54()) {
-    jj_scanpos = xsp;
-    if (jj_3R_55()) {
-    jj_scanpos = xsp;
-    if (jj_3R_56()) {
-    jj_scanpos = xsp;
-    if (jj_3R_57()) {
-    jj_scanpos = xsp;
-    if (jj_3R_58()) return true;
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
     return false;
   }
 
@@ -2116,11 +2033,6 @@ public class Robot implements RobotConstants {
     return false;
   }
 
-  private boolean jj_3_6() {
-    if (jj_3R_17()) return true;
-    return false;
-  }
-
   private boolean jj_3R_66() {
     if (jj_scan_token(REPEATTIMES)) return true;
     return false;
@@ -2134,16 +2046,6 @@ public class Robot implements RobotConstants {
 
   private boolean jj_3R_65() {
     if (jj_scan_token(WHILE)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_13() {
-    if (jj_scan_token(NAME)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_64() {
-    if (jj_scan_token(IF)) return true;
     return false;
   }
 
@@ -2183,19 +2085,9 @@ public class Robot implements RobotConstants {
     return false;
   }
 
-  private boolean jj_3R_63() {
-    if (jj_3R_66()) return true;
-    return false;
-  }
-
   private boolean jj_3R_39() {
     if (jj_scan_token(DROP)) return true;
     if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_62() {
-    if (jj_3R_65()) return true;
     return false;
   }
 
@@ -2205,33 +2097,9 @@ public class Robot implements RobotConstants {
     return false;
   }
 
-  private boolean jj_3R_61() {
-    if (jj_3R_64()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_59() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_61()) {
-    jj_scanpos = xsp;
-    if (jj_3R_62()) {
-    jj_scanpos = xsp;
-    if (jj_3R_63()) return true;
-    }
-    }
-    return false;
-  }
-
   private boolean jj_3R_37() {
     if (jj_scan_token(VEER)) return true;
     if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3_1() {
-    if (jj_scan_token(48)) return true;
-    if (jj_3R_13()) return true;
     return false;
   }
 
@@ -2287,6 +2155,171 @@ public class Robot implements RobotConstants {
     if (jj_3R_44()) {
     jj_scanpos = xsp;
     if (jj_3R_45()) return true;
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_64() {
+    if (jj_scan_token(IF)) return true;
+    return false;
+  }
+
+  private boolean jj_3_5() {
+    if (jj_3R_16()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_58() {
+    if (jj_scan_token(OMOVE)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_57() {
+    if (jj_scan_token(DMOVE)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_56() {
+    if (jj_scan_token(POP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_55() {
+    if (jj_scan_token(FREE)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_54() {
+    if (jj_scan_token(GET)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_53() {
+    if (jj_scan_token(GRAB)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_52() {
+    if (jj_scan_token(DROP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_63() {
+    if (jj_3R_66()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_51() {
+    if (jj_scan_token(LOOK)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_62() {
+    if (jj_3R_65()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_50() {
+    if (jj_scan_token(VEER)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_61() {
+    if (jj_3R_64()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_59() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_61()) {
+    jj_scanpos = xsp;
+    if (jj_3R_62()) {
+    jj_scanpos = xsp;
+    if (jj_3R_63()) return true;
+    }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_49() {
+    if (jj_scan_token(JUMPTO)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_48() {
+    if (jj_scan_token(JUMP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3_1() {
+    if (jj_scan_token(48)) return true;
+    if (jj_3R_13()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_47() {
+    if (jj_scan_token(STEP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_46() {
+    if (jj_scan_token(NAME)) return true;
+    if (jj_scan_token(54)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_17() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_46()) {
+    jj_scanpos = xsp;
+    if (jj_3R_47()) {
+    jj_scanpos = xsp;
+    if (jj_3R_48()) {
+    jj_scanpos = xsp;
+    if (jj_3R_49()) {
+    jj_scanpos = xsp;
+    if (jj_3R_50()) {
+    jj_scanpos = xsp;
+    if (jj_3R_51()) {
+    jj_scanpos = xsp;
+    if (jj_3R_52()) {
+    jj_scanpos = xsp;
+    if (jj_3R_53()) {
+    jj_scanpos = xsp;
+    if (jj_3R_54()) {
+    jj_scanpos = xsp;
+    if (jj_3R_55()) {
+    jj_scanpos = xsp;
+    if (jj_3R_56()) {
+    jj_scanpos = xsp;
+    if (jj_3R_57()) {
+    jj_scanpos = xsp;
+    if (jj_3R_58()) return true;
     }
     }
     }
