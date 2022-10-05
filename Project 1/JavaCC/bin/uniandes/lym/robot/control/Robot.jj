@@ -807,7 +807,7 @@ JAVACODE
 				instrs.remove(i+1);
 				this.salida = this.salida + "\nCommand: Variable assignment";
 				i++;
-			}// TODO: ctrl_struct & proc
+			} 
 		}
 	}
 
@@ -1047,7 +1047,7 @@ JAVACODE
 		(< IF > "(" bool=condition() ")"
 			"{" l = saveInstrIf(bool) { instrs.addAll(l); } ( ";" l = saveInstrIf(bool) { instrs.addAll(l); } )* "}"
 		[< ELSE > 
-			"{" l = saveInstrIf(!bool) { instrs.addAll(l); } (  ";" l = saveInstrIf(!bool) { instrs.addAll(l); } )* "}"
+			"{" l = saveInstrIf(!bool) { instrs.addAll(l); } ( ";" l = saveInstrIf(!bool) { instrs.addAll(l); } )* "}"
 		] < FI >) {
 		this.salida = this.salida + "\n'if' conditional control structure";
 		return instrs;

@@ -1027,7 +1027,7 @@ public class Robot implements RobotConstants {
                                 instrs.remove(i+1);
                                 this.salida = this.salida + "\u005cnCommand: Variable assignment";
                                 i++;
-                        }// TODO: ctrl_struct & proc
+                        }
                 }
   }
 
@@ -1478,7 +1478,7 @@ public class Robot implements RobotConstants {
         }
         jj_consume_token(49);
         l = saveInstrIf(!bool);
-                                                                                                         instrs.addAll(l);
+                                                                                                        instrs.addAll(l);
       }
       jj_consume_token(53);
       break;
