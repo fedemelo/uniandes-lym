@@ -351,6 +351,7 @@ JAVACODE
 			if (rParams.size() != procsParams.get(name).size()) {
 				throw new Error("Incorrect number of parameters for "+name+" procedure");
 			}
+			// TODO: Ejecutar el proc llamado
 		}
 	}
 
@@ -676,29 +677,17 @@ JAVACODE
 
 	void repeatInstrBlock(Integer n):
 	{
-		ArrayList<Token> instrs = new ArrayList<Token>();
+		ArrayList<String> instrs = new ArrayList<String>();
 	}
 	{
-		"{" instr = saveInstr() {instrs.addAll(instr)} (  ";" instr = saveInstr() {instrs.addAll(instr)} )* "}" {
+		"{" instr = saveInstr() {instrs.addAll(instr);} (  ";" instr = saveInstr() {instrs.addAll(instr);} )* "}" {
 			for(Integer i = 0; i < n; i++) {
-				manuallyExecuteInstrs(instrs)// TODO: Nombre? Ejecuta una instrucción manual
+				manuallyExecuteInstrs(instrs);
 			}
 		}
 	}
 
-
-	ArrayList<Token> saveInstr():
-	{
-		ArrayList<Token> instr = new ArrayList<Token>();
-	}
-	{
-		(LOOKAHEAD(2) instr = saveCmd()
-	|	instr = saveCtrlStruct()
-	|	instr = saveProcCall()) { return instr; }
-	}
-
-
-	void whileInstrBlock(boolean bool):
+		void whileInstrBlock(boolean bool):
 	{
 	}
 	{
@@ -716,90 +705,378 @@ JAVACODE
 	}
 
 
-
-
-
-	void saveCmd():
-	{
-		ArrayList<Token> cmd = new ArrayList<Token>();
-		ArrayList<Token> l = new ArrayList<Token>();
-		int n, m;
+JAVACODE
+	private void manuallyExecuteInstrs(ArrayList<String> instrs) {
+		Integer n, m;
+		String dir;
+		
+		while (instrs.size() > 0) {
+			insName = instrs.get(0);
+			instrs.remove(0);
+			if (this.declaredVars.contains(insName)) {
+				n = Integer.valueOf(instrs.get(0));
+				instrs.remove(0);
+				this.vars.put(insName, n);
+				this.salida = this.salida + "\nCommand: Variable assignment";
+			} else if (insName == "step") {
+				n = Integer.valueOf(instrs.get(0));
+				instrs.remove(0);
+				world.moveForward(n, false);
+				this.salida = this.salida + "\nCommand: Move steps forward ";
+			} else if (insName == "jump") {
+				n = Integer.valueOf(instrs.get(0));
+				instrs.remove(0);
+				world.moveForward(n, true);
+				this.salida = this.salida + "\nCommand: Jump steps forward ";
+			} else if (insName == "drop") {
+				n = Integer.valueOf(instrs.get(0));
+				instrs.remove(0);
+				world.putChips(n);
+				this.salida = this.salida + "\nCommand: Drop chips from its position ";
+			} else if (insName == "grab") {
+				n = Integer.valueOf(instrs.get(0));
+				instrs.remove(0);
+				world.grabBalloons(n);
+				this.salida = this.salida + "\nCommand: Grab balloons from its position ";
+			} else if (insName == "get") {
+				n = Integer.valueOf(instrs.get(0));
+				instrs.remove(0);
+				world.pickChips(n);
+				this.salida = this.salida + "\nCommand: Get chips from its position ";
+			} else if (insName == "free") {
+				n = Integer.valueOf(instrs.get(0));
+				instrs.remove(0);
+				world.putBalloons(n);
+				this.salida = this.salida + "\nCommand: Put balloons from its position ";
+			} else if (insName == "pop") {
+				n = Integer.valueOf(instrs.get(0));
+				instrs.remove(0);
+				world.popBalloons(n);
+				this.salida = this.salida + "\nCommand: Pop balloons from its position ";
+			} else if (insName == "jumpTo") {
+				n = Integer.valueOf(instrs.get(0));
+				instrs.remove(0);
+				m = Integer.valueOf(instrs.get(0));
+				instrs.remove(0);
+				world.setPostion(n,m);
+				this.salida = this.salida + "\nCommand: Jump to position ";
+			} else if (insName == "veer") {
+				dir = instrs.get(0);
+				instrs.remove(0);
+				manualVeer(dir);
+			} else if (insName == "look") {
+				dir = instrs.get(0);
+				instrs.remove(0);
+				manualLook(dir);
+			} else if (insName == "Dmove") {
+				n = Integer.valueOf(instrs.get(0));
+				instrs.remove(0);
+				dir = instrs.get(0);
+				instrs.remove(0);
+				manualDMove(n, dir);
+			} else if (insName == "Omove") {
+				n = Integer.valueOf(instrs.get(0));
+				instrs.remove(0);
+				dir = instrs.get(0);
+				instrs.remove(0);
+				manualOMove(n, dir);
+			} // TODO: ctrl_struct & proc
+		}
 	}
-	{
-		((< NAME > { cmd.add(token.image) } ":=" n = num() { cmd.add(n) } )
-	|	(< STEP > { cmd.add(token.image) } "(" n = numVar() { cmd.add(n) } ")" )
-	|	(< JUMP > { cmd.add(token.image) } "(" n = numVar() { cmd.add(n) } ")")
-	|	(< JUMPTO > { cmd.add(token.image) } "(" n = numVar() { cmd.add(n) } "," m = numVar() { cmd.add(m) } ")")
-	|	(< VEER > { cmd.add(token.image) } "(" l = saveVeer() { cmd.addAll(l) } ")")
-	|	(< LOOK > { cmd.add(token.image) } "(" l = saveLook() { cmd.addAll(l) } ")")
-	|	(< DROP > { cmd.add(token.image) } "(" n = numVar() { cmd.add(n) } ")")
-	|	(< GRAB > { cmd.add(token.image) } "(" n = numVar() { cmd.add(n) } ")")
-	|	(< GET > { cmd.add(token.image) } "(" n = numVar() { cmd.add(n) } ")")
-	|	(< FREE > { cmd.add(token.image) } "(" n = numVar() { cmd.add(n) } ")")
-	|	(< POP > { cmd.add(token.image) } "(" n = numVar() { cmd.add(n) } ")")
-	|	(< DMOVE > { cmd.add(token.image) } "(" l = saveDMove() { cmd.addAll(l) } ")")
-	|	(< OMOVE > { cmd.add(token.image) } "(" l = saveOMove() { cmd.addAll(l) } ")")) { return cmd; }
+
+
+JAVACODE
+	private void manualVeer(String dir) {
+		if (dir == "right") {
+			world.turnRight();
+			this.salida = this.salida + "\nCommand: Veer right ";
+		} else if (dir == "around") { 
+			world.turnRight();
+			world.turnRight();
+			this.salida = this.salida + "\nCommand: Veer around ";
+		} else if (dir == "left") {
+			world.turnRight();
+			world.turnRight();
+			world.turnRight();
+			this.salida = this.salida + "\nCommand: Veer left ";
+		}
 	}
 
 
-	ArrayList<Token> saveVeer() :
-	{
-		ArrayList<Token> l = new ArrayList<Token>();
-	}
-	{
-		((< RIGHT > { l.add(token.image) } )
-	|	(< AROUND > { l.add(token.image) })
-	|	(< LEFT > { l.add(token.image) })) { return l; }
-	}
-
-
-	ArrayList<Token> saveLook() :
-	{
-		ArrayList<Token> l = new ArrayList<Token>();
-	}
-	{
-		((< NORTH > { l.add(token.image) })
-	|	(< SOUTH > { l.add(token.image) })
-	|	(< EAST > { l.add(token.image) })
-	|	(< WEST > { l.add(token.image) } )) { return l; }
-	}
-
-
-	ArrayList<Token> saveDMove() :
-	{
-		Integer n;
-		ArrayList<Token> l = new ArrayList<Token>();
-	}
-	{ (n = numVar() { l.add(n) } ","
-		(( < FRONT > { l.add(token.image) })
-	|	( < RIGHT > { l.add(token.image) })
-	|	( < BACK > { l.add(token.image) })
-	|	( < LEFT > { l.add(token.image) }))) { return l; }
-	}
-
-
-	ArrayList<Token> saveOMove() :
-	{
-		Integer n;
-		ArrayList<Token> l = new ArrayList<Token>();
-	}
-	{ (n = numVar() { l.add(n) } "," 
-		((< NORTH > { l.add(token.image) })
-	|	(< SOUTH > { l.add(token.image) })
-	|	(< EAST > { l.add(token.image) })
-	|	(< WEST > { l.add(token.image) }))) { return l; }
+JAVACODE
+	private void manualLook(String dir)	{
+		if (dir == "north") {
+			if (world.facingWest()) {
+				world.turnRight();
+			} else if (world.facingSouth()) {
+				world.turnRight(); world.turnRight();
+			} else if (world.facingEast()) {
+				world.turnRight(); world.turnRight(); world.turnRight();
+			}
+			this.salida = this.salida + "\nCommand: Look north ";
+		} else if (dir == "south") {
+			if (world.facingEast()) {
+				world.turnRight();
+			} else if (world.facingNorth()) {
+				world.turnRight(); world.turnRight();
+			} else if (world.facingWest()) {
+				world.turnRight(); world.turnRight(); world.turnRight();
+			}
+			this.salida = this.salida + "\nCommand: Look south ";
+		} else if (dir == "east") {
+			if (world.facingNorth()) {
+				world.turnRight();
+			} else if (world.facingWest()) {
+				world.turnRight(); world.turnRight();
+			} else if (world.facingSouth()) {
+				world.turnRight(); world.turnRight(); world.turnRight();
+			}
+			this.salida = this.salida + "\nCommand: Look east ";
+		} else if (dir == "west") {
+			if (world.facingSouth()) {
+				world.turnRight();
+			} else if (world.facingEast()) {
+				world.turnRight(); world.turnRight();
+			} else if (world.facingNorth()) {
+				world.turnRight(); world.turnRight(); world.turnRight();
+			}
+			this.salida = this.salida + "\nCommand: Look west ";
+		}
 	}
 
 
 
 JAVACODE
-	private void executeInstrTokens(ArrayList<Token> ts) {
-		if (ts.get(0).image != "{") {throw new Error("Expected '{'");}
-		/* Hereinafter, tokens should be processed manually, without
-		help from JavaCC.
-		The code needed for such task would be quite large.
-		The time give for this project was insufficient to
-		implement it. */
+	private void manualDMove(Integer n, String dir) { 
+		if (dir == "front") {
+			world.moveForward(n, false);
+			this.salida = this.salida + "\nCommand: Move to the front, face original direction ";
+		} else if (dir == "right") {
+			world.turnRight();
+			world.moveForward(n, false);
+			world.turnRight(); world.turnRight(); world.turnRight();
+			this.salida = this.salida + "\nCommand: Move to the right, face original direction ";
+		} else if (dir == "back") {
+			world.turnRight(); world.turnRight();
+			world.moveForward(n, false);
+			world.turnRight(); world.turnRight();
+			this.salida = this.salida + "\nCommand: Move to the back, face original direction ";
+		} else if (dir == "left") {
+			world.turnRight(); world.turnRight(); world.turnRight();
+			world.moveForward(n, false);
+			world.turnRight();
+			this.salida = this.salida + "\nCommand: Move to the left, face original direction ";
+		}
+	}
+
+
+JAVACODE
+	private void manualOMove(Integer n, String dir) {
+		if (dir == "north") {
+			if (world.facingWest()) {
+				world.turnRight();
+			} else if (world.facingSouth()) {
+				world.turnRight(); world.turnRight();
+			} else if (world.facingEast()) {
+				world.turnRight(); world.turnRight(); world.turnRight();
+			}
+			world.moveForward(n, false);
+			this.salida = this.salida + "\nCommand: Face north, move steps";
+		} else if (dir == "south") {
+			if (world.facingEast()) {
+				world.turnRight();
+			} else if (world.facingNorth()) {
+				world.turnRight(); world.turnRight();
+			} else if (world.facingWest()) {
+				world.turnRight(); world.turnRight(); world.turnRight();
+			}
+			world.moveForward(n, false);
+			this.salida = this.salida + "\nCommand: Face south, move steps";
+		} else if (dir == "east") {
+			if (world.facingNorth()) {
+				world.turnRight();
+			} else if (world.facingWest()) {
+				world.turnRight(); world.turnRight();
+			} else if (world.facingSouth()) {
+				world.turnRight(); world.turnRight(); world.turnRight();
+			}
+			world.moveForward(n, false);
+			this.salida = this.salida + "\nCommand: Face east, move steps";
+		} else if (dir == "west") {
+			if (world.facingSouth()) {
+				world.turnRight();
+			} else if (world.facingEast()) {
+				world.turnRight(); world.turnRight();
+			} else if (world.facingNorth()) {
+				world.turnRight(); world.turnRight(); world.turnRight();
+			}
+			world.moveForward(n, false);
+			this.salida = this.salida + "\nCommand: Face west, move steps";
+		}
+	}
+
+
+	ArrayList<String> saveInstr():
+	{
+		ArrayList<String> instr = new ArrayList<String>();
+	}
+	{
+		(LOOKAHEAD(2) instr = saveCmd()
+	|	instr = saveCtrlStruct()
+	|	instr = saveProcCall()) { return instr; }
+	}
+
+
+	ArrayList<String> saveCmd():
+	{
+		ArrayList<String> cmd = new ArrayList<String>();
+		ArrayList<String> l = new ArrayList<String>();
+		int n, m;
+	}
+	{
+		(( < NAME > { cmd.add(token.image); } ":=" n = num() { cmd.add(Integer.toString(n)); } )
+	|	(< STEP > { cmd.add(token.image); } "(" n = numVar() { cmd.add(Integer.toString(n)); } ")" )
+	|	(< JUMP > { cmd.add(token.image); } "(" n = numVar() { cmd.add(Integer.toString(n)); } ")")
+	|	(< JUMPTO > { cmd.add(token.image); } "(" n = numVar() { cmd.add(Integer.toString(n)); } "," m = numVar() { cmd.add(Integer.toString(m)); } ")")
+	|	(< VEER > { cmd.add(token.image); } "(" l = saveVeer() { cmd.addAll(l); } ")")
+	|	(< LOOK > { cmd.add(token.image); } "(" l = saveLook() { cmd.addAll(l); } ")")
+	|	(< DROP > { cmd.add(token.image); } "(" n = numVar() { cmd.add(Integer.toString(n)); } ")")
+	|	(< GRAB > { cmd.add(token.image); } "(" n = numVar() { cmd.add(Integer.toString(n)); } ")")
+	|	(< GET > { cmd.add(token.image); } "(" n = numVar() { cmd.add(Integer.toString(n)); } ")")
+	|	(< FREE > { cmd.add(token.image); } "(" n = numVar() { cmd.add(Integer.toString(n)); } ")")
+	|	(< POP > { cmd.add(token.image); } "(" n = numVar() { cmd.add(Integer.toString(n)); } ")")
+	|	(< DMOVE > { cmd.add(token.image); } "(" l = saveDMove() { cmd.addAll(l); } ")")
+	|	(< OMOVE > { cmd.add(token.image); } "(" l = saveOMove() { cmd.addAll(l); } ")")) { return cmd; }
+	}
+
+
+	ArrayList<String> saveVeer() :
+	{
+		ArrayList<String> l = new ArrayList<String>();
+	}
+	{
+		((< RIGHT > { l.add(token.image); } )
+	|	(< AROUND > { l.add(token.image); })
+	|	(< LEFT > { l.add(token.image); })) { return l; }
+	}
+
+
+	ArrayList<String> saveLook() :
+	{
+		ArrayList<String> l = new ArrayList<String>();
+	}
+	{
+		((< NORTH > { l.add(token.image); })
+	|	(< SOUTH > { l.add(token.image); })
+	|	(< EAST > { l.add(token.image); })
+	|	(< WEST > { l.add(token.image); } )) { return l; }
+	}
+
+
+	ArrayList<String> saveDMove() :
+	{
+		Integer n;
+		ArrayList<String> l = new ArrayList<String>();
+	}
+	{ (n = numVar() { l.add(Integer.toString(n)); } ","
+		(( < FRONT > { l.add(token.image); })
+	|	( < RIGHT > { l.add(token.image); })
+	|	( < BACK > { l.add(token.image); })
+	|	( < LEFT > { l.add(token.image); }))) { return l; }
+	}
+
+
+	ArrayList<String> saveOMove() :
+	{
+		Integer n;
+		ArrayList<String> l = new ArrayList<String>();
+	}
+	{ (n = numVar() { l.add(Integer.toString(n)); } "," 
+		((< NORTH > { l.add(token.image); })
+	|	(< SOUTH > { l.add(token.image); })
+	|	(< EAST > { l.add(token.image); })
+	|	(< WEST > { l.add(token.image); }))) { return l; }
+	}
+
+
+	ArrayList<String> saveCtrlStruct():
+	{
+		ArrayList<String> ctrlStruct = new ArrayList<String>();
+	}
+	{
+		(ctrlStruct = saveIfFi()
+	|	ctrlStruct = saveWhileDoOd()
+	|	ctrlStruct = saveRepeatTimes()) { return ctrlStruct;}
+	}
+
+
+	ArrayList<String> saveIfFi():
+	{
+		boolean bool;
+		ArrayList<String> instrs = new ArrayList<String>();
+		ArrayList<String> l = new ArrayList<String>();
+	}
+	{
+		(< IF > "(" bool=condition() ")"
+			"{" l = saveInstrIf(bool) { instrs.addAll(l); } ( ";" l = saveInstrIf(bool) { instrs.addAll(l); } )* "}"
+		[< ELSE > 
+			"{" l = saveInstrIf(!bool) { instrs.addAll(l); } (  ";" l = saveInstrIf(!bool) { instrs.addAll(l); } )* "}"
+		] < FI >) {
+		this.salida = this.salida + "\n'if' conditional control structure";
+		return instrs;
+		}
+	}
+
+
+JAVACODE
+	private ArrayList<String> saveInstrIf(boolean bool) {
+		ArrayList<String> l = new ArrayList<String>();
+		if (bool) {
+			l = saveInstr();
+		} else {
+			uselessInstr();
+		}
+		return l;
+	}
+
+
+	void saveWhileDoOd():
+	{
+		boolean bool;
+	}
+	{
+		< WHILE > "(" bool=condition() ")" < DO > /* TODO: saveWhileInstrBlock(bool) */ < OD > {
+			this.salida = this.salida + "\n'while' loop control structure";
+			}
+	}
+
+
+	void saveRepeatTimes():
+	{
+		Integer n;
+	}
+	{
+		( < REPEATTIMES > n = numVar() ) /* TODO: saveRepeatInstrBlock(n) */ ( < PER > ) {
+			this.salida = this.salida + "\n'repeatTimes' loop control structure";
+		}
+	}
+
+
+	ArrayList<String> saveProcCall():
+	{
+		String name;
+		ArrayList<String> rParams = new ArrayList<String>();
+	}
+	{
+		(name = name() "(") [rParams = params()] ")" {
+			if (!procsNames.contains(name)) {
+				throw new Error("Tried to call undeclared procedure");
+			}
+			if (rParams.size() != procsParams.get(name).size()) {
+				throw new Error("Incorrect number of parameters for "+name+" procedure");
+			}
+			// TODO: Guardar el llamado del procedimiento
+		}
 	}
 
 

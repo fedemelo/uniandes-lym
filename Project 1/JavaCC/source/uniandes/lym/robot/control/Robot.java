@@ -441,6 +441,8 @@ public class Robot implements RobotConstants {
                         if (rParams.size() != procsParams.get(name).size()) {
                                 {if (true) throw new Error("Incorrect number of parameters for "+name+" procedure");}
                         }
+                        // TODO: Ejecutar el proc llamado
+
   }
 
   final public void veer() throws ParseException {
@@ -873,20 +875,10 @@ public class Robot implements RobotConstants {
   }
 
   final public void repeatInstrBlock(Integer n) throws ParseException {
-                ArrayList<Token> ts = new ArrayList<Token>();
-                Token t;
-                Integer i = 1;
-                t = getToken(i);
-                while (t.image != "}") {
-                        ts.add(t);
-                        i++;
-                        t = getToken(i);
-                }
-                for (int j = 0; j < n; j++) {
-                        executeInstrTokens(ts);
-                }
+                ArrayList<String> instrs = new ArrayList<String>();
     jj_consume_token(52);
-    instrRepeat(n);
+    instr = saveInstr();
+                                         instrs.addAll(instr);
     label_9:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -898,17 +890,13 @@ public class Robot implements RobotConstants {
         break label_9;
       }
       jj_consume_token(49);
-      instrRepeat(n);
+      instr = saveInstr();
+                                                                                            instrs.addAll(instr);
     }
     jj_consume_token(53);
-  }
-
-  private void instrRepeat(Integer n) throws ParseException {
-                if (n >1) {
-                        instr();
-                } else {
-                        uselessInstr();
-                }
+                        for(Integer i = 0; i < n; i++) {
+                                manuallyExecuteInstrs(instrs);
+                        }
   }
 
   final public void whileInstrBlock(boolean bool) throws ParseException {
@@ -938,12 +926,601 @@ public class Robot implements RobotConstants {
                 }
   }
 
-  private void executeInstrTokens(ArrayList<Token> ts) throws ParseException {
-                if (ts.get(0).image != "{") {throw new Error("Expected '{'");}
+  private void manuallyExecuteInstrs(ArrayList<String> instrs) throws ParseException {
+                Integer n, m;
+                String dir;
+
+                while (instrs.size() > 0) {
+                        insName = instrs.get(0);
+                        instrs.remove(0);
+                        if (this.declaredVars.contains(insName)) {
+                                n = Integer.valueOf(instrs.get(0));
+                                instrs.remove(0);
+                                this.vars.put(insName, n);
+                                this.salida = this.salida + "\u005cnCommand: Variable assignment";
+                        } else if (insName == "step") {
+                                n = Integer.valueOf(instrs.get(0));
+                                instrs.remove(0);
+                                world.moveForward(n, false);
+                                this.salida = this.salida + "\u005cnCommand: Move steps forward ";
+                        } else if (insName == "jump") {
+                                n = Integer.valueOf(instrs.get(0));
+                                instrs.remove(0);
+                                world.moveForward(n, true);
+                                this.salida = this.salida + "\u005cnCommand: Jump steps forward ";
+                        } else if (insName == "drop") {
+                                n = Integer.valueOf(instrs.get(0));
+                                instrs.remove(0);
+                                world.putChips(n);
+                                this.salida = this.salida + "\u005cnCommand: Drop chips from its position ";
+                        } else if (insName == "grab") {
+                                n = Integer.valueOf(instrs.get(0));
+                                instrs.remove(0);
+                                world.grabBalloons(n);
+                                this.salida = this.salida + "\u005cnCommand: Grab balloons from its position ";
+                        } else if (insName == "get") {
+                                n = Integer.valueOf(instrs.get(0));
+                                instrs.remove(0);
+                                world.pickChips(n);
+                                this.salida = this.salida + "\u005cnCommand: Get chips from its position ";
+                        } else if (insName == "free") {
+                                n = Integer.valueOf(instrs.get(0));
+                                instrs.remove(0);
+                                world.putBalloons(n);
+                                this.salida = this.salida + "\u005cnCommand: Put balloons from its position ";
+                        } else if (insName == "pop") {
+                                n = Integer.valueOf(instrs.get(0));
+                                instrs.remove(0);
+                                world.popBalloons(n);
+                                this.salida = this.salida + "\u005cnCommand: Pop balloons from its position ";
+                        } else if (insName == "jumpTo") {
+                                n = Integer.valueOf(instrs.get(0));
+                                instrs.remove(0);
+                                m = Integer.valueOf(instrs.get(0));
+                                instrs.remove(0);
+                                world.setPostion(n,m);
+                                this.salida = this.salida + "\u005cnCommand: Jump to position ";
+                        } else if (insName == "veer") {
+                                dir = instrs.get(0);
+                                instrs.remove(0);
+                                manualVeer(dir);
+                        } else if (insName == "look") {
+                                dir = instrs.get(0);
+                                instrs.remove(0);
+                                manualLook(dir);
+                        } else if (insName == "Dmove") {
+                                n = Integer.valueOf(instrs.get(0));
+                                instrs.remove(0);
+                                dir = instrs.get(0);
+                                instrs.remove(0);
+                                manualDMove(n, dir);
+                        } else if (insName == "Omove") {
+                                n = Integer.valueOf(instrs.get(0));
+                                instrs.remove(0);
+                                dir = instrs.get(0);
+                                instrs.remove(0);
+                                manualOMove(n, dir);
+                        } // TODO: ctrl_struct & proc
+                }
+  }
+
+  private void manualVeer(String dir) throws ParseException {
+                if (dir == "right") {
+                        world.turnRight();
+                        this.salida = this.salida + "\u005cnCommand: Veer right ";
+                } else if (dir == "around") {
+                        world.turnRight();
+                        world.turnRight();
+                        this.salida = this.salida + "\u005cnCommand: Veer around ";
+                } else if (dir == "left") {
+                        world.turnRight();
+                        world.turnRight();
+                        world.turnRight();
+                        this.salida = this.salida + "\u005cnCommand: Veer left ";
+                }
+  }
+
+  private void manualLook(String dir) throws ParseException {
+                if (dir == "north") {
+                        if (world.facingWest()) {
+                                world.turnRight();
+                        } else if (world.facingSouth()) {
+                                world.turnRight(); world.turnRight();
+                        } else if (world.facingEast()) {
+                                world.turnRight(); world.turnRight(); world.turnRight();
+                        }
+                        this.salida = this.salida + "\u005cnCommand: Look north ";
+                } else if (dir == "south") {
+                        if (world.facingEast()) {
+                                world.turnRight();
+                        } else if (world.facingNorth()) {
+                                world.turnRight(); world.turnRight();
+                        } else if (world.facingWest()) {
+                                world.turnRight(); world.turnRight(); world.turnRight();
+                        }
+                        this.salida = this.salida + "\u005cnCommand: Look south ";
+                } else if (dir == "east") {
+                        if (world.facingNorth()) {
+                                world.turnRight();
+                        } else if (world.facingWest()) {
+                                world.turnRight(); world.turnRight();
+                        } else if (world.facingSouth()) {
+                                world.turnRight(); world.turnRight(); world.turnRight();
+                        }
+                        this.salida = this.salida + "\u005cnCommand: Look east ";
+                } else if (dir == "west") {
+                        if (world.facingSouth()) {
+                                world.turnRight();
+                        } else if (world.facingEast()) {
+                                world.turnRight(); world.turnRight();
+                        } else if (world.facingNorth()) {
+                                world.turnRight(); world.turnRight(); world.turnRight();
+                        }
+                        this.salida = this.salida + "\u005cnCommand: Look west ";
+                }
+  }
+
+  private void manualDMove(Integer n, String dir) throws ParseException {
+                if (dir == "front") {
+                        world.moveForward(n, false);
+                        this.salida = this.salida + "\u005cnCommand: Move to the front, face original direction ";
+                } else if (dir == "right") {
+                        world.turnRight();
+                        world.moveForward(n, false);
+                        world.turnRight(); world.turnRight(); world.turnRight();
+                        this.salida = this.salida + "\u005cnCommand: Move to the right, face original direction ";
+                } else if (dir == "back") {
+                        world.turnRight(); world.turnRight();
+                        world.moveForward(n, false);
+                        world.turnRight(); world.turnRight();
+                        this.salida = this.salida + "\u005cnCommand: Move to the back, face original direction ";
+                } else if (dir == "left") {
+                        world.turnRight(); world.turnRight(); world.turnRight();
+                        world.moveForward(n, false);
+                        world.turnRight();
+                        this.salida = this.salida + "\u005cnCommand: Move to the left, face original direction ";
+                }
+  }
+
+  private void manualOMove(Integer n, String dir) throws ParseException {
+                if (dir == "north") {
+                        if (world.facingWest()) {
+                                world.turnRight();
+                        } else if (world.facingSouth()) {
+                                world.turnRight(); world.turnRight();
+                        } else if (world.facingEast()) {
+                                world.turnRight(); world.turnRight(); world.turnRight();
+                        }
+                        world.moveForward(n, false);
+                        this.salida = this.salida + "\u005cnCommand: Face north, move steps";
+                } else if (dir == "south") {
+                        if (world.facingEast()) {
+                                world.turnRight();
+                        } else if (world.facingNorth()) {
+                                world.turnRight(); world.turnRight();
+                        } else if (world.facingWest()) {
+                                world.turnRight(); world.turnRight(); world.turnRight();
+                        }
+                        world.moveForward(n, false);
+                        this.salida = this.salida + "\u005cnCommand: Face south, move steps";
+                } else if (dir == "east") {
+                        if (world.facingNorth()) {
+                                world.turnRight();
+                        } else if (world.facingWest()) {
+                                world.turnRight(); world.turnRight();
+                        } else if (world.facingSouth()) {
+                                world.turnRight(); world.turnRight(); world.turnRight();
+                        }
+                        world.moveForward(n, false);
+                        this.salida = this.salida + "\u005cnCommand: Face east, move steps";
+                } else if (dir == "west") {
+                        if (world.facingSouth()) {
+                                world.turnRight();
+                        } else if (world.facingEast()) {
+                                world.turnRight(); world.turnRight();
+                        } else if (world.facingNorth()) {
+                                world.turnRight(); world.turnRight(); world.turnRight();
+                        }
+                        world.moveForward(n, false);
+                        this.salida = this.salida + "\u005cnCommand: Face west, move steps";
+                }
+  }
+
+  final public ArrayList<String> saveInstr() throws ParseException {
+                ArrayList<String> instr = new ArrayList<String>();
+    if (jj_2_5(2)) {
+      instr = saveCmd();
+    } else {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case IF:
+      case WHILE:
+      case REPEATTIMES:
+        instr = saveCtrlStruct();
+        break;
+      case NAME:
+        instr = saveProcCall();
+        break;
+      default:
+        jj_la1[23] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    }
+                                          {if (true) return instr;}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public ArrayList<String> saveCmd() throws ParseException {
+                ArrayList<String> cmd = new ArrayList<String>();
+                ArrayList<String> l = new ArrayList<String>();
+                int n, m;
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case NAME:
+      jj_consume_token(NAME);
+                              cmd.add(token.image);
+      jj_consume_token(54);
+      n = num();
+                                                                       cmd.add(Integer.toString(n));
+      break;
+    case STEP:
+      jj_consume_token(STEP);
+                            cmd.add(token.image);
+      jj_consume_token(50);
+      n = numVar();
+                                                                       cmd.add(Integer.toString(n));
+      jj_consume_token(51);
+      break;
+    case JUMP:
+      jj_consume_token(JUMP);
+                            cmd.add(token.image);
+      jj_consume_token(50);
+      n = numVar();
+                                                                       cmd.add(Integer.toString(n));
+      jj_consume_token(51);
+      break;
+    case JUMPTO:
+      jj_consume_token(JUMPTO);
+                              cmd.add(token.image);
+      jj_consume_token(50);
+      n = numVar();
+                                                                         cmd.add(Integer.toString(n));
+      jj_consume_token(48);
+      m = numVar();
+                                                                                                                            cmd.add(Integer.toString(m));
+      jj_consume_token(51);
+      break;
+    case VEER:
+      jj_consume_token(VEER);
+                            cmd.add(token.image);
+      jj_consume_token(50);
+      l = saveVeer();
+                                                                         cmd.addAll(l);
+      jj_consume_token(51);
+      break;
+    case LOOK:
+      jj_consume_token(LOOK);
+                            cmd.add(token.image);
+      jj_consume_token(50);
+      l = saveLook();
+                                                                         cmd.addAll(l);
+      jj_consume_token(51);
+      break;
+    case DROP:
+      jj_consume_token(DROP);
+                            cmd.add(token.image);
+      jj_consume_token(50);
+      n = numVar();
+                                                                       cmd.add(Integer.toString(n));
+      jj_consume_token(51);
+      break;
+    case GRAB:
+      jj_consume_token(GRAB);
+                            cmd.add(token.image);
+      jj_consume_token(50);
+      n = numVar();
+                                                                       cmd.add(Integer.toString(n));
+      jj_consume_token(51);
+      break;
+    case GET:
+      jj_consume_token(GET);
+                           cmd.add(token.image);
+      jj_consume_token(50);
+      n = numVar();
+                                                                      cmd.add(Integer.toString(n));
+      jj_consume_token(51);
+      break;
+    case FREE:
+      jj_consume_token(FREE);
+                            cmd.add(token.image);
+      jj_consume_token(50);
+      n = numVar();
+                                                                       cmd.add(Integer.toString(n));
+      jj_consume_token(51);
+      break;
+    case POP:
+      jj_consume_token(POP);
+                           cmd.add(token.image);
+      jj_consume_token(50);
+      n = numVar();
+                                                                      cmd.add(Integer.toString(n));
+      jj_consume_token(51);
+      break;
+    case DMOVE:
+      jj_consume_token(DMOVE);
+                             cmd.add(token.image);
+      jj_consume_token(50);
+      l = saveDMove();
+                                                                           cmd.addAll(l);
+      jj_consume_token(51);
+      break;
+    case OMOVE:
+      jj_consume_token(OMOVE);
+                             cmd.add(token.image);
+      jj_consume_token(50);
+      l = saveOMove();
+                                                                           cmd.addAll(l);
+      jj_consume_token(51);
+      break;
+    default:
+      jj_la1[24] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+                                                                                                    {if (true) return cmd;}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public ArrayList<String> saveVeer() throws ParseException {
+                ArrayList<String> l = new ArrayList<String>();
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case RIGHT:
+      jj_consume_token(RIGHT);
+                              l.add(token.image);
+      break;
+    case AROUND:
+      jj_consume_token(AROUND);
+                              l.add(token.image);
+      break;
+    case LEFT:
+      jj_consume_token(LEFT);
+                            l.add(token.image);
+      break;
+    default:
+      jj_la1[25] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+                                                      {if (true) return l;}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public ArrayList<String> saveLook() throws ParseException {
+                ArrayList<String> l = new ArrayList<String>();
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case NORTH:
+      jj_consume_token(NORTH);
+                              l.add(token.image);
+      break;
+    case SOUTH:
+      jj_consume_token(SOUTH);
+                             l.add(token.image);
+      break;
+    case EAST:
+      jj_consume_token(EAST);
+                            l.add(token.image);
+      break;
+    case WEST:
+      jj_consume_token(WEST);
+                            l.add(token.image);
+      break;
+    default:
+      jj_la1[26] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+                                                       {if (true) return l;}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public ArrayList<String> saveDMove() throws ParseException {
+                Integer n;
+                ArrayList<String> l = new ArrayList<String>();
+    n = numVar();
+                          l.add(Integer.toString(n));
+    jj_consume_token(48);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case FRONT:
+      jj_consume_token(FRONT);
+                               l.add(token.image);
+      break;
+    case RIGHT:
+      jj_consume_token(RIGHT);
+                              l.add(token.image);
+      break;
+    case BACK:
+      jj_consume_token(BACK);
+                             l.add(token.image);
+      break;
+    case LEFT:
+      jj_consume_token(LEFT);
+                             l.add(token.image);
+      break;
+    default:
+      jj_la1[27] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+                                                        {if (true) return l;}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public ArrayList<String> saveOMove() throws ParseException {
+                Integer n;
+                ArrayList<String> l = new ArrayList<String>();
+    n = numVar();
+                          l.add(Integer.toString(n));
+    jj_consume_token(48);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case NORTH:
+      jj_consume_token(NORTH);
+                              l.add(token.image);
+      break;
+    case SOUTH:
+      jj_consume_token(SOUTH);
+                             l.add(token.image);
+      break;
+    case EAST:
+      jj_consume_token(EAST);
+                            l.add(token.image);
+      break;
+    case WEST:
+      jj_consume_token(WEST);
+                            l.add(token.image);
+      break;
+    default:
+      jj_la1[28] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+                                                       {if (true) return l;}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public ArrayList<String> saveCtrlStruct() throws ParseException {
+                ArrayList<String> ctrlStruct = new ArrayList<String>();
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case IF:
+      ctrlStruct = saveIfFi();
+      break;
+    case WHILE:
+      ctrlStruct = saveWhileDoOd();
+      break;
+    case REPEATTIMES:
+      ctrlStruct = saveRepeatTimes();
+      break;
+    default:
+      jj_la1[29] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+                                                  {if (true) return ctrlStruct;}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public ArrayList<String> saveIfFi() throws ParseException {
+                boolean bool;
+                ArrayList<String> instrs = new ArrayList<String>();
+                ArrayList<String> l = new ArrayList<String>();
+    jj_consume_token(IF);
+    jj_consume_token(50);
+    bool = condition();
+    jj_consume_token(51);
+    jj_consume_token(52);
+    l = saveInstrIf(bool);
+                                                    instrs.addAll(l);
+    label_11:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case 49:
+        ;
+        break;
+      default:
+        jj_la1[30] = jj_gen;
+        break label_11;
+      }
+      jj_consume_token(49);
+      l = saveInstrIf(bool);
+                                                                                                      instrs.addAll(l);
+    }
+    jj_consume_token(53);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case ELSE:
+      jj_consume_token(ELSE);
+      jj_consume_token(52);
+      l = saveInstrIf(!bool);
+                                                     instrs.addAll(l);
+      label_12:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case 49:
+          ;
+          break;
+        default:
+          jj_la1[31] = jj_gen;
+          break label_12;
+        }
+        jj_consume_token(49);
+        l = saveInstrIf(!bool);
+                                                                                                         instrs.addAll(l);
+      }
+      jj_consume_token(53);
+      break;
+    default:
+      jj_la1[32] = jj_gen;
+      ;
+    }
+    jj_consume_token(FI);
+                this.salida = this.salida + "\u005cn'if' conditional control structure";
+                {if (true) return instrs;}
+    throw new Error("Missing return statement in function");
+  }
+
+  private ArrayList<String> saveInstrIf(boolean bool) throws ParseException {
+                ArrayList<String> l = new ArrayList<String>();
+                if (bool) {
+                        l = saveInstr();
+                } else {
+                        uselessInstr();
+                }
+                return l;
+  }
+
+  final public void saveWhileDoOd() throws ParseException {
+                boolean bool;
+    jj_consume_token(WHILE);
+    jj_consume_token(50);
+    bool = condition();
+    jj_consume_token(51);
+    jj_consume_token(DO);
+    jj_consume_token(OD);
+                        this.salida = this.salida + "\u005cn'while' loop control structure";
+  }
+
+  final public void saveRepeatTimes() throws ParseException {
+                Integer n;
+    jj_consume_token(REPEATTIMES);
+    n = numVar();
+    jj_consume_token(PER);
+                        this.salida = this.salida + "\u005cn'repeatTimes' loop control structure";
+  }
+
+  final public ArrayList<String> saveProcCall() throws ParseException {
+                String name;
+                ArrayList<String> rParams = new ArrayList<String>();
+    name = name();
+    jj_consume_token(50);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case NAME:
+      rParams = params();
+      break;
+    default:
+      jj_la1[33] = jj_gen;
+      ;
+    }
+    jj_consume_token(51);
+                        if (!procsNames.contains(name)) {
+                                {if (true) throw new Error("Tried to call undeclared procedure");}
+                        }
+                        if (rParams.size() != procsParams.get(name).size()) {
+                                {if (true) throw new Error("Incorrect number of parameters for "+name+" procedure");}
+                        }
+                        // TODO: Guardar el llamado del procedimiento
+
+    throw new Error("Missing return statement in function");
   }
 
   final public void uselessInstr() throws ParseException {
-    if (jj_2_5(2)) {
+    if (jj_2_6(2)) {
       uselessCmd();
     } else {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -956,7 +1533,7 @@ public class Robot implements RobotConstants {
         uselessProcCall();
         break;
       default:
-        jj_la1[23] = jj_gen;
+        jj_la1[34] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1045,7 +1622,7 @@ public class Robot implements RobotConstants {
       jj_consume_token(51);
       break;
     default:
-      jj_la1[24] = jj_gen;
+      jj_la1[35] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1063,7 +1640,7 @@ public class Robot implements RobotConstants {
       uselessrepeatTimes();
       break;
     default:
-      jj_la1[25] = jj_gen;
+      jj_la1[36] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1082,7 +1659,7 @@ public class Robot implements RobotConstants {
       uselessInstrBlock();
       break;
     default:
-      jj_la1[26] = jj_gen;
+      jj_la1[37] = jj_gen;
       ;
     }
     jj_consume_token(FI);
@@ -1106,7 +1683,7 @@ public class Robot implements RobotConstants {
       params();
       break;
     default:
-      jj_la1[27] = jj_gen;
+      jj_la1[38] = jj_gen;
       ;
     }
     jj_consume_token(51);
@@ -1173,7 +1750,7 @@ public class Robot implements RobotConstants {
                         }
       break;
     default:
-      jj_la1[28] = jj_gen;
+      jj_la1[39] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1209,7 +1786,7 @@ public class Robot implements RobotConstants {
                         }
       break;
     default:
-      jj_la1[29] = jj_gen;
+      jj_la1[40] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1252,97 +1829,134 @@ public class Robot implements RobotConstants {
     finally { jj_save(4, xla); }
   }
 
-  private boolean jj_3R_28() {
+  private boolean jj_2_6(int xla) {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return !jj_3_6(); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(5, xla); }
+  }
+
+  private boolean jj_3R_31() {
     if (jj_scan_token(DMOVE)) return true;
     if (jj_scan_token(50)) return true;
     return false;
   }
 
-  private boolean jj_3R_27() {
+  private boolean jj_3R_30() {
     if (jj_scan_token(POP)) return true;
     if (jj_scan_token(50)) return true;
     return false;
   }
 
-  private boolean jj_3R_26() {
+  private boolean jj_3R_29() {
     if (jj_scan_token(FREE)) return true;
     if (jj_scan_token(50)) return true;
     return false;
   }
 
-  private boolean jj_3_5() {
-    if (jj_3R_14()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_25() {
+  private boolean jj_3R_28() {
     if (jj_scan_token(GET)) return true;
     if (jj_scan_token(50)) return true;
     return false;
   }
 
-  private boolean jj_3R_24() {
+  private boolean jj_3R_27() {
     if (jj_scan_token(GRAB)) return true;
     if (jj_scan_token(50)) return true;
     return false;
   }
 
-  private boolean jj_3R_23() {
+  private boolean jj_3R_26() {
     if (jj_scan_token(DROP)) return true;
     if (jj_scan_token(50)) return true;
     return false;
   }
 
-  private boolean jj_3R_22() {
+  private boolean jj_3R_25() {
     if (jj_scan_token(LOOK)) return true;
     if (jj_scan_token(50)) return true;
     return false;
   }
 
-  private boolean jj_3R_21() {
+  private boolean jj_3_5() {
+    if (jj_3R_16()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_24() {
     if (jj_scan_token(VEER)) return true;
     if (jj_scan_token(50)) return true;
     return false;
   }
 
-  private boolean jj_3R_20() {
+  private boolean jj_3R_23() {
     if (jj_scan_token(JUMPTO)) return true;
     if (jj_scan_token(50)) return true;
     return false;
   }
 
-  private boolean jj_3R_19() {
+  private boolean jj_3R_22() {
     if (jj_scan_token(JUMP)) return true;
     if (jj_scan_token(50)) return true;
     return false;
   }
 
-  private boolean jj_3R_18() {
+  private boolean jj_3R_21() {
     if (jj_scan_token(STEP)) return true;
     if (jj_scan_token(50)) return true;
     return false;
   }
 
-  private boolean jj_3R_44() {
-    if (jj_3R_11()) return true;
+  private boolean jj_3R_58() {
+    if (jj_scan_token(OMOVE)) return true;
+    if (jj_scan_token(50)) return true;
     return false;
   }
 
-  private boolean jj_3R_17() {
-    if (jj_3R_11()) return true;
+  private boolean jj_3R_57() {
+    if (jj_scan_token(DMOVE)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_60() {
+    if (jj_3R_13()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_56() {
+    if (jj_scan_token(POP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_55() {
+    if (jj_scan_token(FREE)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_54() {
+    if (jj_scan_token(GET)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_53() {
+    if (jj_scan_token(GRAB)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_20() {
+    if (jj_3R_13()) return true;
     if (jj_scan_token(54)) return true;
     return false;
   }
 
-  private boolean jj_3R_13() {
+  private boolean jj_3R_15() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_17()) {
-    jj_scanpos = xsp;
-    if (jj_3R_18()) {
-    jj_scanpos = xsp;
-    if (jj_3R_19()) {
-    jj_scanpos = xsp;
     if (jj_3R_20()) {
     jj_scanpos = xsp;
     if (jj_3R_21()) {
@@ -1361,197 +1975,293 @@ public class Robot implements RobotConstants {
     jj_scanpos = xsp;
     if (jj_3R_28()) {
     jj_scanpos = xsp;
-    if (jj_3R_29()) return true;
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_11() {
-    if (jj_scan_token(NAME)) return true;
-    return false;
-  }
-
-  private boolean jj_3_3() {
-    if (jj_scan_token(49)) return true;
-    if (jj_3R_12()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_16() {
-    if (jj_3R_44()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_15() {
-    if (jj_3R_43()) return true;
-    return false;
-  }
-
-  private boolean jj_3_4() {
-    if (jj_3R_13()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_12() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3_4()) {
+    if (jj_3R_29()) {
     jj_scanpos = xsp;
-    if (jj_3R_15()) {
+    if (jj_3R_30()) {
     jj_scanpos = xsp;
-    if (jj_3R_16()) return true;
+    if (jj_3R_31()) {
+    jj_scanpos = xsp;
+    if (jj_3R_32()) return true;
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
     }
     }
     return false;
   }
 
-  private boolean jj_3R_50() {
-    if (jj_scan_token(REPEATTIMES)) return true;
-    return false;
-  }
-
-  private boolean jj_3_2() {
-    if (jj_scan_token(48)) return true;
-    if (jj_3R_11()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_49() {
-    if (jj_scan_token(WHILE)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_48() {
-    if (jj_scan_token(IF)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_42() {
-    if (jj_scan_token(OMOVE)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_41() {
-    if (jj_scan_token(DMOVE)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_40() {
-    if (jj_scan_token(POP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_39() {
-    if (jj_scan_token(FREE)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_38() {
-    if (jj_scan_token(GET)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_37() {
-    if (jj_scan_token(GRAB)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_36() {
+  private boolean jj_3R_52() {
     if (jj_scan_token(DROP)) return true;
     if (jj_scan_token(50)) return true;
     return false;
   }
 
-  private boolean jj_3R_35() {
+  private boolean jj_3R_51() {
     if (jj_scan_token(LOOK)) return true;
     if (jj_scan_token(50)) return true;
     return false;
   }
 
-  private boolean jj_3R_34() {
+  private boolean jj_3R_50() {
     if (jj_scan_token(VEER)) return true;
     if (jj_scan_token(50)) return true;
     return false;
   }
 
-  private boolean jj_3R_47() {
-    if (jj_3R_50()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_33() {
+  private boolean jj_3R_49() {
     if (jj_scan_token(JUMPTO)) return true;
     if (jj_scan_token(50)) return true;
     return false;
   }
 
-  private boolean jj_3R_46() {
-    if (jj_3R_49()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_32() {
+  private boolean jj_3R_48() {
     if (jj_scan_token(JUMP)) return true;
     if (jj_scan_token(50)) return true;
     return false;
   }
 
-  private boolean jj_3R_45() {
-    if (jj_3R_48()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_43() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_45()) {
-    jj_scanpos = xsp;
-    if (jj_3R_46()) {
-    jj_scanpos = xsp;
-    if (jj_3R_47()) return true;
-    }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_31() {
+  private boolean jj_3R_47() {
     if (jj_scan_token(STEP)) return true;
     if (jj_scan_token(50)) return true;
     return false;
   }
 
-  private boolean jj_3_1() {
-    if (jj_scan_token(48)) return true;
-    if (jj_3R_11()) return true;
+  private boolean jj_3_3() {
+    if (jj_scan_token(49)) return true;
+    if (jj_3R_14()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_46() {
+    if (jj_scan_token(NAME)) return true;
+    if (jj_scan_token(54)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_17() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_46()) {
+    jj_scanpos = xsp;
+    if (jj_3R_47()) {
+    jj_scanpos = xsp;
+    if (jj_3R_48()) {
+    jj_scanpos = xsp;
+    if (jj_3R_49()) {
+    jj_scanpos = xsp;
+    if (jj_3R_50()) {
+    jj_scanpos = xsp;
+    if (jj_3R_51()) {
+    jj_scanpos = xsp;
+    if (jj_3R_52()) {
+    jj_scanpos = xsp;
+    if (jj_3R_53()) {
+    jj_scanpos = xsp;
+    if (jj_3R_54()) {
+    jj_scanpos = xsp;
+    if (jj_3R_55()) {
+    jj_scanpos = xsp;
+    if (jj_3R_56()) {
+    jj_scanpos = xsp;
+    if (jj_3R_57()) {
+    jj_scanpos = xsp;
+    if (jj_3R_58()) return true;
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_19() {
+    if (jj_3R_60()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_18() {
+    if (jj_3R_59()) return true;
+    return false;
+  }
+
+  private boolean jj_3_4() {
+    if (jj_3R_15()) return true;
     return false;
   }
 
   private boolean jj_3R_14() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_30()) {
+    if (jj_3_4()) {
     jj_scanpos = xsp;
-    if (jj_3R_31()) {
+    if (jj_3R_18()) {
     jj_scanpos = xsp;
-    if (jj_3R_32()) {
+    if (jj_3R_19()) return true;
+    }
+    }
+    return false;
+  }
+
+  private boolean jj_3_6() {
+    if (jj_3R_17()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_66() {
+    if (jj_scan_token(REPEATTIMES)) return true;
+    return false;
+  }
+
+  private boolean jj_3_2() {
+    if (jj_scan_token(48)) return true;
+    if (jj_3R_13()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_65() {
+    if (jj_scan_token(WHILE)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_13() {
+    if (jj_scan_token(NAME)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_64() {
+    if (jj_scan_token(IF)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_45() {
+    if (jj_scan_token(OMOVE)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_44() {
+    if (jj_scan_token(DMOVE)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_43() {
+    if (jj_scan_token(POP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_42() {
+    if (jj_scan_token(FREE)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_41() {
+    if (jj_scan_token(GET)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_40() {
+    if (jj_scan_token(GRAB)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_63() {
+    if (jj_3R_66()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_39() {
+    if (jj_scan_token(DROP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_62() {
+    if (jj_3R_65()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_38() {
+    if (jj_scan_token(LOOK)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_61() {
+    if (jj_3R_64()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_59() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_61()) {
     jj_scanpos = xsp;
+    if (jj_3R_62()) {
+    jj_scanpos = xsp;
+    if (jj_3R_63()) return true;
+    }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_37() {
+    if (jj_scan_token(VEER)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3_1() {
+    if (jj_scan_token(48)) return true;
+    if (jj_3R_13()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_36() {
+    if (jj_scan_token(JUMPTO)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_35() {
+    if (jj_scan_token(JUMP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_33() {
+    if (jj_scan_token(NAME)) return true;
+    if (jj_scan_token(54)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_34() {
+    if (jj_scan_token(STEP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_16() {
+    Token xsp;
+    xsp = jj_scanpos;
     if (jj_3R_33()) {
     jj_scanpos = xsp;
     if (jj_3R_34()) {
@@ -1570,7 +2280,13 @@ public class Robot implements RobotConstants {
     jj_scanpos = xsp;
     if (jj_3R_41()) {
     jj_scanpos = xsp;
-    if (jj_3R_42()) return true;
+    if (jj_3R_42()) {
+    jj_scanpos = xsp;
+    if (jj_3R_43()) {
+    jj_scanpos = xsp;
+    if (jj_3R_44()) {
+    jj_scanpos = xsp;
+    if (jj_3R_45()) return true;
     }
     }
     }
@@ -1586,13 +2302,7 @@ public class Robot implements RobotConstants {
     return false;
   }
 
-  private boolean jj_3R_30() {
-    if (jj_scan_token(NAME)) return true;
-    if (jj_scan_token(54)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_29() {
+  private boolean jj_3R_32() {
     if (jj_scan_token(OMOVE)) return true;
     if (jj_scan_token(50)) return true;
     return false;
@@ -1609,7 +2319,7 @@ public class Robot implements RobotConstants {
   private Token jj_scanpos, jj_lastpos;
   private int jj_la;
   private int jj_gen;
-  final private int[] jj_la1 = new int[30];
+  final private int[] jj_la1 = new int[41];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -1617,12 +2327,12 @@ public class Robot implements RobotConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x0,0x0,0x1,0x0,0x920000,0x1ffe0,0x920000,0x0,0x0,0x80000,0x1e000000,0x0,0x0,0xc0000000,0x0,0xc0000000,0xc0000000,0x20006c60,0xc0000000,0x0,0x0,0x0,0x0,0x920000,0x1ffe0,0x920000,0x80000,0x0,0x0,0x0,};
+      jj_la1_0 = new int[] {0x0,0x0,0x1,0x0,0x920000,0x1ffe0,0x920000,0x0,0x0,0x80000,0x1e000000,0x0,0x0,0xc0000000,0x0,0xc0000000,0xc0000000,0x20006c60,0xc0000000,0x0,0x0,0x0,0x0,0x920000,0x1ffe0,0x0,0xc0000000,0x0,0xc0000000,0x920000,0x0,0x0,0x80000,0x0,0x920000,0x1ffe0,0x920000,0x80000,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x200,0x400,0x80,0x1000,0x1000,0x1000,0x0,0x20000,0x20000,0x0,0x0,0x1000,0x1c,0x3,0x78,0x3,0x3,0x0,0x3,0x20000,0x20000,0x20000,0x20000,0x1000,0x1000,0x0,0x0,0x1000,0x5000,0x5000,};
+      jj_la1_1 = new int[] {0x200,0x400,0x80,0x1000,0x1000,0x1000,0x0,0x20000,0x20000,0x0,0x0,0x1000,0x1c,0x3,0x78,0x3,0x3,0x0,0x3,0x20000,0x20000,0x20000,0x20000,0x1000,0x1000,0x1c,0x3,0x78,0x3,0x0,0x20000,0x20000,0x0,0x1000,0x1000,0x1000,0x0,0x0,0x1000,0x5000,0x5000,};
    }
-  final private JJCalls[] jj_2_rtns = new JJCalls[5];
+  final private JJCalls[] jj_2_rtns = new JJCalls[6];
   private boolean jj_rescan = false;
   private int jj_gc = 0;
 
@@ -1637,7 +2347,7 @@ public class Robot implements RobotConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 30; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 41; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1652,7 +2362,7 @@ public class Robot implements RobotConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 30; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 41; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1663,7 +2373,7 @@ public class Robot implements RobotConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 30; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 41; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1674,7 +2384,7 @@ public class Robot implements RobotConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 30; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 41; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1684,7 +2394,7 @@ public class Robot implements RobotConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 30; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 41; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1694,7 +2404,7 @@ public class Robot implements RobotConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 30; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 41; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1811,7 +2521,7 @@ public class Robot implements RobotConstants {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 30; i++) {
+    for (int i = 0; i < 41; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -1850,7 +2560,7 @@ public class Robot implements RobotConstants {
 
   private void jj_rescan_token() {
     jj_rescan = true;
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 6; i++) {
     try {
       JJCalls p = jj_2_rtns[i];
       do {
@@ -1862,6 +2572,7 @@ public class Robot implements RobotConstants {
             case 2: jj_3_3(); break;
             case 3: jj_3_4(); break;
             case 4: jj_3_5(); break;
+            case 5: jj_3_6(); break;
           }
         }
         p = p.next;
