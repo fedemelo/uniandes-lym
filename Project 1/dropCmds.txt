@@ -1,0 +1,9 @@
+PROG
+VAR a;
+{
+look(south);
+a := 5;
+step(a);
+drop(a)
+}
+GORP

@@ -1,0 +1,6 @@
+PROG
+{
+Dmove(3,right);
+Dmove(3,back)
+}
+GORP

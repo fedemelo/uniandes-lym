@@ -1,0 +1,9 @@
+PROG
+PROC goSouth()
+{
+	while (canMove(south,1)) do {Omove(1,south)} od
+}
+{
+goSouth()
+}
+GORP

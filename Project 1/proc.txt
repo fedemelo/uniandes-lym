@@ -1,0 +1,13 @@
+PROG
+VAR n, x, y;
+PROC putCB(c,b)
+{
+	drop(c);
+	free(b);
+	step(n)
+}
+{
+n:=6;
+putCB(2,1)
+}
+GORP

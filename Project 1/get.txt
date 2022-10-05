@@ -1,0 +1,6 @@
+PROG
+{
+drop(5);
+get(5)
+}
+GORP

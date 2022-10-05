@@ -1,0 +1,15 @@
+PROG
+VAR x;
+{
+	x := 3;
+	repeatTimes x 
+	{
+		jumpTo(2,2);
+		look(west);
+		free(x);
+		jumpTo(0,0)
+	}
+	per
+}
+
+GORP

@@ -1,0 +1,9 @@
+PROG
+PROC goEast()
+{
+	if (canMove(east,1)) {move(1,east)} fi
+}
+{
+goEast()
+}
+GORP

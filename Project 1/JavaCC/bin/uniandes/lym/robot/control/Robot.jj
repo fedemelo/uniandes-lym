@@ -676,31 +676,25 @@ JAVACODE
 
 	void repeatInstrBlock(Integer n):
 	{
-		ArrayList<Token> ts = new ArrayList<Token>();
-		Token t;
-		Integer i = 1;
-		t = getToken(i);
-		while (t.image != "}") {
-			ts.add(t);
-			i++;
-			t = getToken(i);
-		}
-		for (int j = 0; j < n; j++) {
-			executeInstrTokens(ts);
-		}
+		ArrayList<Token> instrs = new ArrayList<Token>();
 	}
 	{
-		"{" instrRepeat(n) (  ";" instrRepeat(n) )* "}"
+		"{" instr = saveInstr() {instrs.addAll(instr)} (  ";" instr = saveInstr() {instrs.addAll(instr)} )* "}" {
+			for(Integer i = 0; i < n; i++) {
+				manuallyExecuteInstrs(instrs)// TODO: Nombre? Ejecuta una instrucción manual
+			}
+		}
 	}
 
 
-JAVACODE
-	private void instrRepeat(Integer n) {
-		if (n >1) {
-			instr();
-		} else {
-			uselessInstr();
-		}
+	ArrayList<Token> saveInstr():
+	{
+		ArrayList<Token> instr = new ArrayList<Token>();
+	}
+	{
+		(LOOKAHEAD(2) instr = saveCmd()
+	|	instr = saveCtrlStruct()
+	|	instr = saveProcCall()) { return instr; }
 	}
 
 
@@ -720,6 +714,82 @@ JAVACODE
 			uselessInstr();
 		}
 	}
+
+
+
+
+
+	void saveCmd():
+	{
+		ArrayList<Token> cmd = new ArrayList<Token>();
+		ArrayList<Token> l = new ArrayList<Token>();
+		int n, m;
+	}
+	{
+		((< NAME > { cmd.add(token.image) } ":=" n = num() { cmd.add(n) } )
+	|	(< STEP > { cmd.add(token.image) } "(" n = numVar() { cmd.add(n) } ")" )
+	|	(< JUMP > { cmd.add(token.image) } "(" n = numVar() { cmd.add(n) } ")")
+	|	(< JUMPTO > { cmd.add(token.image) } "(" n = numVar() { cmd.add(n) } "," m = numVar() { cmd.add(m) } ")")
+	|	(< VEER > { cmd.add(token.image) } "(" l = saveVeer() { cmd.addAll(l) } ")")
+	|	(< LOOK > { cmd.add(token.image) } "(" l = saveLook() { cmd.addAll(l) } ")")
+	|	(< DROP > { cmd.add(token.image) } "(" n = numVar() { cmd.add(n) } ")")
+	|	(< GRAB > { cmd.add(token.image) } "(" n = numVar() { cmd.add(n) } ")")
+	|	(< GET > { cmd.add(token.image) } "(" n = numVar() { cmd.add(n) } ")")
+	|	(< FREE > { cmd.add(token.image) } "(" n = numVar() { cmd.add(n) } ")")
+	|	(< POP > { cmd.add(token.image) } "(" n = numVar() { cmd.add(n) } ")")
+	|	(< DMOVE > { cmd.add(token.image) } "(" l = saveDMove() { cmd.addAll(l) } ")")
+	|	(< OMOVE > { cmd.add(token.image) } "(" l = saveOMove() { cmd.addAll(l) } ")")) { return cmd; }
+	}
+
+
+	ArrayList<Token> saveVeer() :
+	{
+		ArrayList<Token> l = new ArrayList<Token>();
+	}
+	{
+		((< RIGHT > { l.add(token.image) } )
+	|	(< AROUND > { l.add(token.image) })
+	|	(< LEFT > { l.add(token.image) })) { return l; }
+	}
+
+
+	ArrayList<Token> saveLook() :
+	{
+		ArrayList<Token> l = new ArrayList<Token>();
+	}
+	{
+		((< NORTH > { l.add(token.image) })
+	|	(< SOUTH > { l.add(token.image) })
+	|	(< EAST > { l.add(token.image) })
+	|	(< WEST > { l.add(token.image) } )) { return l; }
+	}
+
+
+	ArrayList<Token> saveDMove() :
+	{
+		Integer n;
+		ArrayList<Token> l = new ArrayList<Token>();
+	}
+	{ (n = numVar() { l.add(n) } ","
+		(( < FRONT > { l.add(token.image) })
+	|	( < RIGHT > { l.add(token.image) })
+	|	( < BACK > { l.add(token.image) })
+	|	( < LEFT > { l.add(token.image) }))) { return l; }
+	}
+
+
+	ArrayList<Token> saveOMove() :
+	{
+		Integer n;
+		ArrayList<Token> l = new ArrayList<Token>();
+	}
+	{ (n = numVar() { l.add(n) } "," 
+		((< NORTH > { l.add(token.image) })
+	|	(< SOUTH > { l.add(token.image) })
+	|	(< EAST > { l.add(token.image) })
+	|	(< WEST > { l.add(token.image) }))) { return l; }
+	}
+
 
 
 JAVACODE

@@ -1,0 +1,8 @@
+PROG
+{
+veer(left);
+veer(left);
+veer(right);
+veer(around)
+}
+GORP

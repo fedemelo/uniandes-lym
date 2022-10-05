@@ -1,0 +1,8 @@
+PROG
+{
+look(north);
+look(south);
+look(east);
+look(west)
+}
+GORP

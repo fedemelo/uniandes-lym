@@ -1,0 +1,7 @@
+PROG
+VAR a;
+{
+a := 5;
+step(a)
+}
+GORP

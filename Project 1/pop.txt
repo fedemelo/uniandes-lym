@@ -1,0 +1,7 @@
+PROG
+{
+free(9);
+grab(4);
+pop(5)
+}
+GORP
