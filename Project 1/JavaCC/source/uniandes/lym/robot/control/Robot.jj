@@ -299,7 +299,7 @@ JAVACODE
 		if (bool) {
 			instr();
 		} else {
-			uselessInstr();
+			checkSintaxInstr();
 		}
 	}
 
@@ -659,11 +659,11 @@ JAVACODE
 	}
 
 
-	void uselessInstrBlock():
+	void checkSintaxInstrBlock():
 	{
 	}
 	{
-		"{" uselessInstr() (  ";" uselessInstr() )* "}"
+		"{" checkSintaxInstr() (  ";" checkSintaxInstr() )* "}"
 	}
 
 
@@ -671,7 +671,7 @@ JAVACODE
 	{
 	}
 	{
-		"{" uselessInstr() (  ";" uselessInstr() )* "}"
+		"{" checkSintaxInstr() (  ";" checkSintaxInstr() )* "}"
 	}
 
 
@@ -701,7 +701,7 @@ JAVACODE
 		if (bool) {
 			instr();
 		} else {
-			uselessInstr();
+			checkSintaxInstr();
 		}
 	}
 
@@ -716,98 +716,70 @@ JAVACODE
 			if (insName.equals("step")) {
 				n = Integer.valueOf(instrs.get(i+1));
 				world.moveForward(n, false);
-				instrs.remove(i);
-				instrs.remove(i+1);
 				i++;
 				this.salida = this.salida + "\nCommand: Move steps forward ";
 			} else if (insName.equals("jump")) {
 				n = Integer.valueOf(instrs.get(i+1));
 				world.moveForward(n, true);
-				instrs.remove(i);
-				instrs.remove(i+1);
 				i++;
 				this.salida = this.salida + "\nCommand: Jump steps forward ";
 			} else if (insName.equals("drop")) {
 				n = Integer.valueOf(instrs.get(i+1));
 				world.putChips(n);
-				instrs.remove(i);
-				instrs.remove(i+1);
 				i++;
 				this.salida = this.salida + "\nCommand: Drop chips from its position ";
 			} else if (insName.equals("grab")) {
 				n = Integer.valueOf(instrs.get(i+1));
 				world.grabBalloons(n);
-				instrs.remove(i);
-				instrs.remove(i+1);
 				i++;
 				this.salida = this.salida + "\nCommand: Grab balloons from its position ";
 			} else if (insName.equals("get")) {
 				n = Integer.valueOf(instrs.get(i+1));
 				world.pickChips(n);
-				instrs.remove(i);
-				instrs.remove(i+1);
 				i++;
 				this.salida = this.salida + "\nCommand: Get chips from its position ";
 			} else if (insName.equals("free")) {
 				n = Integer.valueOf(instrs.get(i+1));
 				world.putBalloons(n);
-				instrs.remove(i);
-				instrs.remove(i+1);
 				i++;
 				this.salida = this.salida + "\nCommand: Put balloons from its position ";
 			} else if (insName.equals("pop")) {
 				n = Integer.valueOf(instrs.get(i+1));
 				world.popBalloons(n);
-				instrs.remove(i);
-				instrs.remove(i+1);
 				i++;
 				this.salida = this.salida + "\nCommand: Pop balloons from its position ";
 			} else if (insName.equals("jumpTo")) {
-				this.salida += " entro!!!";
 				n = Integer.valueOf(instrs.get(i+1));
 				m = Integer.valueOf(instrs.get(i+2));
 				world.setPostion(n, m);
-				instrs.remove(i);
-				instrs.remove(i+1);
-				instrs.remove(i+2);
 				i += 2;
 				this.salida = this.salida + "\nCommand: Jump to position ";
 			} else if (insName.equals("veer")) {
 				dir = instrs.get(i+1);
 				manualVeer(dir);
-				instrs.remove(i);
-				instrs.remove(i+1);
 				i++;
 			} else if (insName.equals("look")) {
 				dir = instrs.get(i+1);
 				manualLook(dir);
-				instrs.remove(i);
-				instrs.remove(i+1);
 				i++;
 			} else if (insName.equals("Dmove")) {
 				n = Integer.valueOf(instrs.get(i+1));
 				dir = instrs.get(i+2);
 				manualDMove(n, dir);
-				instrs.remove(i);
-				instrs.remove(i+1);
-				instrs.remove(i+2);
 				i+=2;
 			} else if (insName.equals("Omove")) {
 				n = Integer.valueOf(instrs.get(i+1));
 				dir = instrs.get(i+2);
 				manualOMove(n, dir);
-				instrs.remove(i);
-				instrs.remove(i+1);
-				instrs.remove(i+2);
 				i+=2;
+			} else if (insName.equals("if")) {
+				; // Skip the 'if', beca
 			} else if (this.declaredVars.contains(insName)) {
 				n = Integer.valueOf(instrs.get(i+1));
 				this.vars.put(insName, n);
-				instrs.remove(i);
-				instrs.remove(i+1);
 				this.salida = this.salida + "\nCommand: Variable assignment";
 				i++;
-			} 
+			}
 		}
 	}
 
@@ -1044,7 +1016,7 @@ JAVACODE
 		ArrayList<String> l = new ArrayList<String>();
 	}
 	{
-		(< IF > "(" bool=condition() ")"
+		(< IF > { instrs.add(token.image); } "(" bool=condition() ")"
 			"{" l = saveInstrIf(bool) { instrs.addAll(l); } ( ";" l = saveInstrIf(bool) { instrs.addAll(l); } )* "}"
 		[< ELSE > 
 			"{" l = saveInstrIf(!bool) { instrs.addAll(l); } ( ";" l = saveInstrIf(!bool) { instrs.addAll(l); } )* "}"
@@ -1061,7 +1033,7 @@ JAVACODE
 		if (bool) {
 			l = saveInstr();
 		} else {
-			uselessInstr();
+			checkSintaxInstr();
 		}
 		return l;
 	}
@@ -1111,17 +1083,17 @@ JAVACODE
 	}
 
 
-	void uselessInstr():
+	void checkSintaxInstr():
 	{
 	}
 	{
-		LOOKAHEAD(2) uselessCmd()
-	|	uselessCtrlStruct()
-	|	uselessProcCall()
+		LOOKAHEAD(2) checkSintaxCmd()
+	|	checkSintaxCtrlStruct()
+	|	checkSintaxProcCall()
 	}
 
 
-	void uselessCmd():
+	void checkSintaxCmd():
 	{
 	}
 	{
@@ -1141,35 +1113,35 @@ JAVACODE
 	}
 
 
-	void uselessCtrlStruct():
+	void checkSintaxCtrlStruct():
 	{
 	}
 	{
-		uselessifFi()
-	|	uselesswhileDoOd()
-	|	uselessrepeatTimes()
+		checkSintaxifFi()
+	|	checkSintaxwhileDoOd()
+	|	checkSintaxrepeatTimes()
 	}
 
 
-	void uselessifFi():
+	void checkSintaxifFi():
 	{
 		boolean bool;
 	}
 	{
-		(< IF > "(" condition() ")" uselessInstrBlock()
-		[< ELSE > uselessInstrBlock()	] < FI >) 
+		(< IF > "(" condition() ")" checkSintaxInstrBlock()
+		[< ELSE > checkSintaxInstrBlock()	] < FI >) 
 	}
 
 
-	void uselesswhileDoOd():
+	void checkSintaxwhileDoOd():
 	{
 	}
 	{
-		< WHILE > "(" condition() ")" < DO > uselessInstrBlock() < OD >
+		< WHILE > "(" condition() ")" < DO > checkSintaxInstrBlock() < OD >
 	}
 
 
-	void uselessProcCall():
+	void checkSintaxProcCall():
 	{
 	}
 	{
@@ -1177,11 +1149,11 @@ JAVACODE
 	}
 
 
-	void uselessrepeatTimes():
+	void checkSintaxrepeatTimes():
 	{
 	}
 	{
-		< REPEATTIMES > numVar() uselessInstrBlock() < PER > 
+		< REPEATTIMES > numVar() checkSintaxInstrBlock() < PER > 
 	}
 
 

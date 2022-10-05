@@ -360,7 +360,7 @@ public class Robot implements RobotConstants {
                 if (bool) {
                         instr();
                 } else {
-                        uselessInstr();
+                        checkSintaxInstr();
                 }
   }
 
@@ -836,9 +836,9 @@ public class Robot implements RobotConstants {
     throw new Error("Missing return statement in function");
   }
 
-  final public void uselessInstrBlock() throws ParseException {
+  final public void checkSintaxInstrBlock() throws ParseException {
     jj_consume_token(52);
-    uselessInstr();
+    checkSintaxInstr();
     label_7:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -850,14 +850,14 @@ public class Robot implements RobotConstants {
         break label_7;
       }
       jj_consume_token(49);
-      uselessInstr();
+      checkSintaxInstr();
     }
     jj_consume_token(53);
   }
 
   final public void procInstrBlock() throws ParseException {
     jj_consume_token(52);
-    uselessInstr();
+    checkSintaxInstr();
     label_8:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -869,7 +869,7 @@ public class Robot implements RobotConstants {
         break label_8;
       }
       jj_consume_token(49);
-      uselessInstr();
+      checkSintaxInstr();
     }
     jj_consume_token(53);
   }
@@ -923,7 +923,7 @@ public class Robot implements RobotConstants {
                 if (bool) {
                         instr();
                 } else {
-                        uselessInstr();
+                        checkSintaxInstr();
                 }
   }
 
@@ -936,95 +936,67 @@ public class Robot implements RobotConstants {
                         if (insName.equals("step")) {
                                 n = Integer.valueOf(instrs.get(i+1));
                                 world.moveForward(n, false);
-                                instrs.remove(i);
-                                instrs.remove(i+1);
                                 i++;
                                 this.salida = this.salida + "\u005cnCommand: Move steps forward ";
                         } else if (insName.equals("jump")) {
                                 n = Integer.valueOf(instrs.get(i+1));
                                 world.moveForward(n, true);
-                                instrs.remove(i);
-                                instrs.remove(i+1);
                                 i++;
                                 this.salida = this.salida + "\u005cnCommand: Jump steps forward ";
                         } else if (insName.equals("drop")) {
                                 n = Integer.valueOf(instrs.get(i+1));
                                 world.putChips(n);
-                                instrs.remove(i);
-                                instrs.remove(i+1);
                                 i++;
                                 this.salida = this.salida + "\u005cnCommand: Drop chips from its position ";
                         } else if (insName.equals("grab")) {
                                 n = Integer.valueOf(instrs.get(i+1));
                                 world.grabBalloons(n);
-                                instrs.remove(i);
-                                instrs.remove(i+1);
                                 i++;
                                 this.salida = this.salida + "\u005cnCommand: Grab balloons from its position ";
                         } else if (insName.equals("get")) {
                                 n = Integer.valueOf(instrs.get(i+1));
                                 world.pickChips(n);
-                                instrs.remove(i);
-                                instrs.remove(i+1);
                                 i++;
                                 this.salida = this.salida + "\u005cnCommand: Get chips from its position ";
                         } else if (insName.equals("free")) {
                                 n = Integer.valueOf(instrs.get(i+1));
                                 world.putBalloons(n);
-                                instrs.remove(i);
-                                instrs.remove(i+1);
                                 i++;
                                 this.salida = this.salida + "\u005cnCommand: Put balloons from its position ";
                         } else if (insName.equals("pop")) {
                                 n = Integer.valueOf(instrs.get(i+1));
                                 world.popBalloons(n);
-                                instrs.remove(i);
-                                instrs.remove(i+1);
                                 i++;
                                 this.salida = this.salida + "\u005cnCommand: Pop balloons from its position ";
                         } else if (insName.equals("jumpTo")) {
-                                this.salida += " entro!!!";
                                 n = Integer.valueOf(instrs.get(i+1));
                                 m = Integer.valueOf(instrs.get(i+2));
                                 world.setPostion(n, m);
-                                instrs.remove(i);
-                                instrs.remove(i+1);
-                                instrs.remove(i+2);
                                 i += 2;
                                 this.salida = this.salida + "\u005cnCommand: Jump to position ";
                         } else if (insName.equals("veer")) {
                                 dir = instrs.get(i+1);
                                 manualVeer(dir);
-                                instrs.remove(i);
-                                instrs.remove(i+1);
                                 i++;
                         } else if (insName.equals("look")) {
                                 dir = instrs.get(i+1);
                                 manualLook(dir);
-                                instrs.remove(i);
-                                instrs.remove(i+1);
                                 i++;
                         } else if (insName.equals("Dmove")) {
                                 n = Integer.valueOf(instrs.get(i+1));
                                 dir = instrs.get(i+2);
                                 manualDMove(n, dir);
-                                instrs.remove(i);
-                                instrs.remove(i+1);
-                                instrs.remove(i+2);
                                 i+=2;
                         } else if (insName.equals("Omove")) {
                                 n = Integer.valueOf(instrs.get(i+1));
                                 dir = instrs.get(i+2);
                                 manualOMove(n, dir);
-                                instrs.remove(i);
-                                instrs.remove(i+1);
-                                instrs.remove(i+2);
                                 i+=2;
+                        } else if (insName.equals("if")) {
+                                ; // Skip the 'if', beca
                         } else if (this.declaredVars.contains(insName)) {
                                 n = Integer.valueOf(instrs.get(i+1));
                                 this.vars.put(insName, n);
-                                instrs.remove(i);
-                                instrs.remove(i+1);
                                 this.salida = this.salida + "\u005cnCommand: Variable assignment";
                                 i++;
                         }
@@ -1439,6 +1411,7 @@ public class Robot implements RobotConstants {
                 ArrayList<String> instrs = new ArrayList<String>();
                 ArrayList<String> l = new ArrayList<String>();
     jj_consume_token(IF);
+                          instrs.add(token.image);
     jj_consume_token(50);
     bool = condition();
     jj_consume_token(51);
@@ -1497,7 +1470,7 @@ public class Robot implements RobotConstants {
                 if (bool) {
                         l = saveInstr();
                 } else {
-                        uselessInstr();
+                        checkSintaxInstr();
                 }
                 return l;
   }
@@ -1552,18 +1525,18 @@ public class Robot implements RobotConstants {
     throw new Error("Missing return statement in function");
   }
 
-  final public void uselessInstr() throws ParseException {
+  final public void checkSintaxInstr() throws ParseException {
     if (jj_2_6(2)) {
-      uselessCmd();
+      checkSintaxCmd();
     } else {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case IF:
       case WHILE:
       case REPEATTIMES:
-        uselessCtrlStruct();
+        checkSintaxCtrlStruct();
         break;
       case NAME:
-        uselessProcCall();
+        checkSintaxProcCall();
         break;
       default:
         jj_la1[34] = jj_gen;
@@ -1573,7 +1546,7 @@ public class Robot implements RobotConstants {
     }
   }
 
-  final public void uselessCmd() throws ParseException {
+  final public void checkSintaxCmd() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case NAME:
       jj_consume_token(NAME);
@@ -1661,16 +1634,16 @@ public class Robot implements RobotConstants {
     }
   }
 
-  final public void uselessCtrlStruct() throws ParseException {
+  final public void checkSintaxCtrlStruct() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case IF:
-      uselessifFi();
+      checkSintaxifFi();
       break;
     case WHILE:
-      uselesswhileDoOd();
+      checkSintaxwhileDoOd();
       break;
     case REPEATTIMES:
-      uselessrepeatTimes();
+      checkSintaxrepeatTimes();
       break;
     default:
       jj_la1[36] = jj_gen;
@@ -1679,17 +1652,17 @@ public class Robot implements RobotConstants {
     }
   }
 
-  final public void uselessifFi() throws ParseException {
+  final public void checkSintaxifFi() throws ParseException {
                 boolean bool;
     jj_consume_token(IF);
     jj_consume_token(50);
     condition();
     jj_consume_token(51);
-    uselessInstrBlock();
+    checkSintaxInstrBlock();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case ELSE:
       jj_consume_token(ELSE);
-      uselessInstrBlock();
+      checkSintaxInstrBlock();
       break;
     default:
       jj_la1[37] = jj_gen;
@@ -1698,17 +1671,17 @@ public class Robot implements RobotConstants {
     jj_consume_token(FI);
   }
 
-  final public void uselesswhileDoOd() throws ParseException {
+  final public void checkSintaxwhileDoOd() throws ParseException {
     jj_consume_token(WHILE);
     jj_consume_token(50);
     condition();
     jj_consume_token(51);
     jj_consume_token(DO);
-    uselessInstrBlock();
+    checkSintaxInstrBlock();
     jj_consume_token(OD);
   }
 
-  final public void uselessProcCall() throws ParseException {
+  final public void checkSintaxProcCall() throws ParseException {
     name();
     jj_consume_token(50);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1722,10 +1695,10 @@ public class Robot implements RobotConstants {
     jj_consume_token(51);
   }
 
-  final public void uselessrepeatTimes() throws ParseException {
+  final public void checkSintaxrepeatTimes() throws ParseException {
     jj_consume_token(REPEATTIMES);
     numVar();
-    uselessInstrBlock();
+    checkSintaxInstrBlock();
     jj_consume_token(PER);
   }
 
@@ -1893,11 +1866,6 @@ public class Robot implements RobotConstants {
     return false;
   }
 
-  private boolean jj_3_6() {
-    if (jj_3R_17()) return true;
-    return false;
-  }
-
   private boolean jj_3R_27() {
     if (jj_scan_token(GRAB)) return true;
     if (jj_scan_token(50)) return true;
@@ -1922,6 +1890,11 @@ public class Robot implements RobotConstants {
     return false;
   }
 
+  private boolean jj_3_5() {
+    if (jj_3R_16()) return true;
+    return false;
+  }
+
   private boolean jj_3R_23() {
     if (jj_scan_token(JUMPTO)) return true;
     if (jj_scan_token(50)) return true;
@@ -1934,14 +1907,68 @@ public class Robot implements RobotConstants {
     return false;
   }
 
+  private boolean jj_3R_58() {
+    if (jj_scan_token(OMOVE)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
   private boolean jj_3R_21() {
     if (jj_scan_token(STEP)) return true;
     if (jj_scan_token(50)) return true;
     return false;
   }
 
+  private boolean jj_3R_57() {
+    if (jj_scan_token(DMOVE)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_56() {
+    if (jj_scan_token(POP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_55() {
+    if (jj_scan_token(FREE)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_54() {
+    if (jj_scan_token(GET)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
   private boolean jj_3R_60() {
     if (jj_3R_13()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_53() {
+    if (jj_scan_token(GRAB)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_52() {
+    if (jj_scan_token(DROP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_51() {
+    if (jj_scan_token(LOOK)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_50() {
+    if (jj_scan_token(VEER)) return true;
+    if (jj_scan_token(50)) return true;
     return false;
   }
 
@@ -1994,14 +2021,76 @@ public class Robot implements RobotConstants {
     return false;
   }
 
-  private boolean jj_3_3() {
-    if (jj_scan_token(49)) return true;
-    if (jj_3R_14()) return true;
+  private boolean jj_3R_49() {
+    if (jj_scan_token(JUMPTO)) return true;
+    if (jj_scan_token(50)) return true;
     return false;
   }
 
-  private boolean jj_3R_13() {
+  private boolean jj_3R_48() {
+    if (jj_scan_token(JUMP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_47() {
+    if (jj_scan_token(STEP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_46() {
     if (jj_scan_token(NAME)) return true;
+    if (jj_scan_token(54)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_17() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_46()) {
+    jj_scanpos = xsp;
+    if (jj_3R_47()) {
+    jj_scanpos = xsp;
+    if (jj_3R_48()) {
+    jj_scanpos = xsp;
+    if (jj_3R_49()) {
+    jj_scanpos = xsp;
+    if (jj_3R_50()) {
+    jj_scanpos = xsp;
+    if (jj_3R_51()) {
+    jj_scanpos = xsp;
+    if (jj_3R_52()) {
+    jj_scanpos = xsp;
+    if (jj_3R_53()) {
+    jj_scanpos = xsp;
+    if (jj_3R_54()) {
+    jj_scanpos = xsp;
+    if (jj_3R_55()) {
+    jj_scanpos = xsp;
+    if (jj_3R_56()) {
+    jj_scanpos = xsp;
+    if (jj_3R_57()) {
+    jj_scanpos = xsp;
+    if (jj_3R_58()) return true;
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    return false;
+  }
+
+  private boolean jj_3_3() {
+    if (jj_scan_token(49)) return true;
+    if (jj_3R_14()) return true;
     return false;
   }
 
@@ -2033,6 +2122,11 @@ public class Robot implements RobotConstants {
     return false;
   }
 
+  private boolean jj_3_6() {
+    if (jj_3R_17()) return true;
+    return false;
+  }
+
   private boolean jj_3R_66() {
     if (jj_scan_token(REPEATTIMES)) return true;
     return false;
@@ -2046,6 +2140,16 @@ public class Robot implements RobotConstants {
 
   private boolean jj_3R_65() {
     if (jj_scan_token(WHILE)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_13() {
+    if (jj_scan_token(NAME)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_64() {
+    if (jj_scan_token(IF)) return true;
     return false;
   }
 
@@ -2079,9 +2183,19 @@ public class Robot implements RobotConstants {
     return false;
   }
 
+  private boolean jj_3R_63() {
+    if (jj_3R_66()) return true;
+    return false;
+  }
+
   private boolean jj_3R_40() {
     if (jj_scan_token(GRAB)) return true;
     if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_62() {
+    if (jj_3R_65()) return true;
     return false;
   }
 
@@ -2091,9 +2205,33 @@ public class Robot implements RobotConstants {
     return false;
   }
 
+  private boolean jj_3R_61() {
+    if (jj_3R_64()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_59() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_61()) {
+    jj_scanpos = xsp;
+    if (jj_3R_62()) {
+    jj_scanpos = xsp;
+    if (jj_3R_63()) return true;
+    }
+    }
+    return false;
+  }
+
   private boolean jj_3R_38() {
     if (jj_scan_token(LOOK)) return true;
     if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3_1() {
+    if (jj_scan_token(48)) return true;
+    if (jj_3R_13()) return true;
     return false;
   }
 
@@ -2155,171 +2293,6 @@ public class Robot implements RobotConstants {
     if (jj_3R_44()) {
     jj_scanpos = xsp;
     if (jj_3R_45()) return true;
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_64() {
-    if (jj_scan_token(IF)) return true;
-    return false;
-  }
-
-  private boolean jj_3_5() {
-    if (jj_3R_16()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_58() {
-    if (jj_scan_token(OMOVE)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_57() {
-    if (jj_scan_token(DMOVE)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_56() {
-    if (jj_scan_token(POP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_55() {
-    if (jj_scan_token(FREE)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_54() {
-    if (jj_scan_token(GET)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_53() {
-    if (jj_scan_token(GRAB)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_52() {
-    if (jj_scan_token(DROP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_63() {
-    if (jj_3R_66()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_51() {
-    if (jj_scan_token(LOOK)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_62() {
-    if (jj_3R_65()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_50() {
-    if (jj_scan_token(VEER)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_61() {
-    if (jj_3R_64()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_59() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_61()) {
-    jj_scanpos = xsp;
-    if (jj_3R_62()) {
-    jj_scanpos = xsp;
-    if (jj_3R_63()) return true;
-    }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_49() {
-    if (jj_scan_token(JUMPTO)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_48() {
-    if (jj_scan_token(JUMP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3_1() {
-    if (jj_scan_token(48)) return true;
-    if (jj_3R_13()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_47() {
-    if (jj_scan_token(STEP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_46() {
-    if (jj_scan_token(NAME)) return true;
-    if (jj_scan_token(54)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_17() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_46()) {
-    jj_scanpos = xsp;
-    if (jj_3R_47()) {
-    jj_scanpos = xsp;
-    if (jj_3R_48()) {
-    jj_scanpos = xsp;
-    if (jj_3R_49()) {
-    jj_scanpos = xsp;
-    if (jj_3R_50()) {
-    jj_scanpos = xsp;
-    if (jj_3R_51()) {
-    jj_scanpos = xsp;
-    if (jj_3R_52()) {
-    jj_scanpos = xsp;
-    if (jj_3R_53()) {
-    jj_scanpos = xsp;
-    if (jj_3R_54()) {
-    jj_scanpos = xsp;
-    if (jj_3R_55()) {
-    jj_scanpos = xsp;
-    if (jj_3R_56()) {
-    jj_scanpos = xsp;
-    if (jj_3R_57()) {
-    jj_scanpos = xsp;
-    if (jj_3R_58()) return true;
     }
     }
     }
