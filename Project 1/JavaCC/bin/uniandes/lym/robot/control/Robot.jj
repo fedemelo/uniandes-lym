@@ -44,6 +44,7 @@ public class Robot
 	private ArrayList<String> procsNames = new ArrayList<String>();
 	private Hashtable<String, ArrayList<String>> procsParams = new Hashtable<String, ArrayList<String>>();
 	private Hashtable<String, ArrayList<String>> procsInstrs = new Hashtable<String, ArrayList<String>>();
+	private Hashtable<String, Integer> currentParams = new Hashtable<String, Integer>();
 }
 
 PARSER_END(Robot)
@@ -189,7 +190,8 @@ TOKEN :
 	{
 		String name;
 		ArrayList<String> localVars = new ArrayList<String>();
-		ArrayList<String> instructions = new ArrayList<String>();
+		ArrayList<String> instrs = new ArrayList<String>();
+		ArrayList<String> l = new ArrayList<String>();
 	}
 	{
 		 (( < PROC > name=name() "(" [localVars=params()] ")"
@@ -199,8 +201,9 @@ TOKEN :
 			}
 			procsNames.add(name);
 			procsParams.put(name, localVars);
-		} ( procInstrBlock() < CORP > ))
-		{ this.salida = this.salida + "\nProcedure definition"; }
+		} (  "{" l = saveInstr() { instrs.addAll(l); } (  ";" l = saveInstr() { instrs.addAll(l); } )* "}" < CORP > ))
+		{	this.procsInstrs.put(name, instrs); // TODO: Meterle params
+			this.salida = this.salida + "\nProcedure definition"; }
 	}
 
 
@@ -254,16 +257,16 @@ TOKEN :
 			}
 			this.salida = this.salida + "\nCommand: Variable assignment";
 		})
-	|	(< STEP >  "(" n = numVar() ")" {world.moveForward(n, false); this.salida = this.salida + "\nCommand: Move steps forward ";})
-	|	(< JUMP >  "(" n  = numVar() ")" {world.moveForward(n, true); this.salida = this.salida + "\nCommand: Jump steps forward ";})
-	|	(< JUMPTO >  "(" n  = numVar() "," m = numVar()")" {world.setPostion(n,m); this.salida = this.salida + "\nCommand: Jump to position ";})
+	|	(< STEP >  "(" n = numVarParam() ")" {world.moveForward(n, false); this.salida = this.salida + "\nCommand: Move steps forward ";})
+	|	(< JUMP >  "(" n  = numVarParam() ")" {world.moveForward(n, true); this.salida = this.salida + "\nCommand: Jump steps forward ";})
+	|	(< JUMPTO >  "(" n  = numVarParam() "," m = numVarParam()")" {world.setPostion(n,m); this.salida = this.salida + "\nCommand: Jump to position ";})
 	|	(< VEER >  "(" veer() ")")
 	|	(< LOOK >  "(" look() ")")
-	|	(< DROP >  "(" n  = numVar() ")" {world.putChips(n); this.salida = this.salida + "\nCommand: Drop chips from its position ";})
-	|	(< GRAB >  "(" n  = numVar() ")" {world.grabBalloons(n); this.salida = this.salida + "\nCommand: Grab balloons from its position ";})
-	|	(< GET >  "(" n  = numVar() ")" {world.pickChips(n); this.salida = this.salida + "\nCommand: Get chips from its position ";})
-	|	(< FREE >  "(" n  = numVar() ")" {world.putBalloons(n); this.salida = this.salida + "\nCommand: Put balloons from its position ";})
-	|	(< POP >  "(" n  = numVar() ")" {world.popBalloons(n); this.salida = this.salida + "\nCommand: Pop balloons from its position ";})
+	|	(< DROP >  "(" n  = numVarParam() ")" {world.putChips(n); this.salida = this.salida + "\nCommand: Drop chips from its position ";})
+	|	(< GRAB >  "(" n  = numVarParam() ")" {world.grabBalloons(n); this.salida = this.salida + "\nCommand: Grab balloons from its position ";})
+	|	(< GET >  "(" n  = numVarParam() ")" {world.pickChips(n); this.salida = this.salida + "\nCommand: Get chips from its position ";})
+	|	(< FREE >  "(" n  = numVarParam() ")" {world.putBalloons(n); this.salida = this.salida + "\nCommand: Put balloons from its position ";})
+	|	(< POP >  "(" n  = numVarParam() ")" {world.popBalloons(n); this.salida = this.salida + "\nCommand: Pop balloons from its position ";})
 	|	(< DMOVE >  "(" dMove() ")")
 	|	(< OMOVE >  "(" oMove() ")")
 	}
@@ -320,7 +323,7 @@ JAVACODE
 		Integer n;
 	}
 	{
-		( < REPEATTIMES > n = numVar() ) repeatInstrBlock(n) ( < PER > ) {
+		( < REPEATTIMES > n = numVarParam() ) repeatInstrBlock(n) ( < PER > ) {
 			this.salida = this.salida + "\n'repeatTimes' loop control structure";
 		}
 	}
@@ -341,18 +344,42 @@ JAVACODE
 	void procCall():
 	{
 		String name;
-		ArrayList<String> rParams = new ArrayList<String>();
+		ArrayList<Integer> numsParams = new ArrayList<Integer>();
 	}
 	{
-		(name = name() "(") [rParams = params()] ")" {
+		name = name() "(" [numsParams = numParams()] ")" {
 			if (!procsNames.contains(name)) {
 				throw new Error("Tried to call undeclared procedure");
 			}
-			if (rParams.size() != procsParams.get(name).size()) {
+			if (numsParams.size() != procsParams.get(name).size()) {
 				throw new Error("Incorrect number of parameters for "+name+" procedure");
 			}
-			// TODO: Ejecutar el proc llamado
+			callProcedure(name, numsParams);
 		}
+	}
+
+
+	ArrayList<Integer> numParams():
+	{
+		ArrayList<Integer> nums = new ArrayList<Integer>();
+		Integer n;
+	}
+	{
+		n = numVarParam() {nums.add(n);} ( "," n = numVarParam() {nums.add(n);} )* { return nums; }
+	}
+
+
+JAVACODE
+	private void callProcedure(String name, ArrayList<Integer> nums) {
+		ArrayList<String> params = this.procsParams.get(name);
+		this.currentParams = new Hashtable<String, Integer>();
+		
+		for (Integer i = 0; i < params.size(); i++) {
+			this.currentParams.put(params.get(i), nums.get(i));
+		}
+		ArrayList<String> instrs = this.procsInstrs.get(name);
+		manuallyExecuteInstrs(instrs);
+		this.currentParams = new Hashtable<String, Integer>();
 	}
 
 
@@ -417,7 +444,7 @@ JAVACODE
 	{
 		Integer n;
 	}
-	{ n = numVar() ","
+	{ n = numVarParam() ","
 		(( < FRONT > {
 			world.moveForward(n, false);
 			this.salida = this.salida + "\nCommand: Move to the front, face original direction ";
@@ -447,7 +474,7 @@ JAVACODE
 	{
 		Integer n;
 	}
-	{ n = numVar() "," 
+	{ n = numVarParam() "," 
 		((< NORTH > {
 			if (world.facingWest()) {
 				world.turnRight();
@@ -521,7 +548,7 @@ JAVACODE
 		boolean outOfBounds;
 	}
 	{ 
-		((< STEP > ","  n  = numVar() { // p
+		((< STEP > ","  n  = numVarParam() { // p
 			pasos = n;
 			posX = (int) world.getPosition().getX();
 			posY = (int) world.getPosition().getY();
@@ -554,7 +581,7 @@ JAVACODE
 					bool = !world.blockedInRange(posX, posY, posX-pasos, 3);
 			}
 		})
-	|	(< JUMP > ","  n  = numVar() {
+	|	(< JUMP > ","  n  = numVarParam() {
 			pasos = n;
 			posX = (int) world.getPosition().getX();
 			posY = (int) world.getPosition().getY();
@@ -587,26 +614,26 @@ JAVACODE
 					bool = !world.isBlocked(new Point(posX, posX-pasos));
 			}
 		})
-	|	(< GRAB > ","  n  = numVar() {
+	|	(< GRAB > ","  n  = numVarParam() {
 			if ((n < 0) || (world.countBalloons(world.getPosition()) < n)) {
 				bool = false;
 			}
 		})
-	|	(< POP > ","  n  = numVar() {
+	|	(< POP > ","  n  = numVarParam() {
 			if ((n < 0) || (world.countBalloons(world.getPosition()) < n)) {
 				bool = false;
 			}		})
-	|	(< PICK > ","  n  = numVar() { /* Equivalent to 'grab' */
+	|	(< PICK > ","  n  = numVarParam() { /* Equivalent to 'grab' */
 			if ((n < 0) || (world.countBalloons(world.getPosition()) < n)) {
 				bool = false;
 			}
 		}) 
-	|	(< FREE > ","  n  = numVar() {
+	|	(< FREE > ","  n  = numVarParam() {
 			if ((n < 0) || (world.getMyBalloons()< n)) {
 				bool = false;
 			}
 		})
-	|	(< DROP > ","  n  = numVar() {
+	|	(< DROP > ","  n  = numVarParam() {
 			if ((n < 0) || (n > world.freeSpacesForChips()) || (world.getMyChips()< n)) {
 				bool = false;
 			}
@@ -623,7 +650,7 @@ JAVACODE
 		int posY;
 	}
 	{
-		((< NORTH > ","  n=numVar() { // p
+		((< NORTH > ","  n=numVarParam() { // p
 			pasos = n;
 			posX = (int) world.getPosition().getX();
 			posY = (int) world.getPosition().getY();
@@ -633,7 +660,7 @@ JAVACODE
 				bool = false;
 			}
 		})
-	|	(< SOUTH > ","  n=numVar() {
+	|	(< SOUTH > ","  n=numVarParam() {
 			pasos = n;
 			posX = (int) world.getPosition().getX();
 			posY = (int) world.getPosition().getY();
@@ -643,7 +670,7 @@ JAVACODE
 				bool = false;
 			}
 		})
-	|	(< EAST > ","  n=numVar() {
+	|	(< EAST > ","  n=numVarParam() {
 			pasos = n;
 			posX = (int) world.getPosition().getX();
 			posY = (int) world.getPosition().getY();
@@ -653,7 +680,7 @@ JAVACODE
 				bool = false;
 			}
 		})
-	|	(< WEST > ","  n=numVar() {
+	|	(< WEST > ","  n=numVarParam() {
 			pasos = n;
 			posX = (int) world.getPosition().getX();
 			posY = (int) world.getPosition().getY();
@@ -686,14 +713,6 @@ JAVACODE
 
 
 	void checkSintaxInstrBlock():
-	{
-	}
-	{
-		"{" checkSintaxInstr() (  ";" checkSintaxInstr() )* "}"
-	}
-
-
-	void procInstrBlock():
 	{
 	}
 	{
@@ -1192,16 +1211,16 @@ JAVACODE
 	}
 	{
 		(( < NAME > { cmd.add(token.image); } ":=" n = num() { cmd.add(Integer.toString(n)); } )
-	|	(< STEP > { cmd.add(token.image); } "(" n = numVar() { cmd.add(Integer.toString(n)); } ")" )
-	|	(< JUMP > { cmd.add(token.image); } "(" n = numVar() { cmd.add(Integer.toString(n)); } ")")
-	|	(< JUMPTO > { cmd.add(token.image); } "(" n = numVar() { cmd.add(Integer.toString(n)); } "," m = numVar() { cmd.add(Integer.toString(m)); } ")")
+	|	(< STEP > { cmd.add(token.image); } "(" n = numVarParam() { cmd.add(Integer.toString(n)); } ")" )
+	|	(< JUMP > { cmd.add(token.image); } "(" n = numVarParam() { cmd.add(Integer.toString(n)); } ")")
+	|	(< JUMPTO > { cmd.add(token.image); } "(" n = numVarParam() { cmd.add(Integer.toString(n)); } "," m = numVarParam() { cmd.add(Integer.toString(m)); } ")")
 	|	(< VEER > { cmd.add(token.image); } "(" l = saveVeer() { cmd.addAll(l); } ")")
 	|	(< LOOK > { cmd.add(token.image); } "(" l = saveLook() { cmd.addAll(l); } ")")
-	|	(< DROP > { cmd.add(token.image); } "(" n = numVar() { cmd.add(Integer.toString(n)); } ")")
-	|	(< GRAB > { cmd.add(token.image); } "(" n = numVar() { cmd.add(Integer.toString(n)); } ")")
-	|	(< GET > { cmd.add(token.image); } "(" n = numVar() { cmd.add(Integer.toString(n)); } ")")
-	|	(< FREE > { cmd.add(token.image); } "(" n = numVar() { cmd.add(Integer.toString(n)); } ")")
-	|	(< POP > { cmd.add(token.image); } "(" n = numVar() { cmd.add(Integer.toString(n)); } ")")
+	|	(< DROP > { cmd.add(token.image); } "(" n = numVarParam() { cmd.add(Integer.toString(n)); } ")")
+	|	(< GRAB > { cmd.add(token.image); } "(" n = numVarParam() { cmd.add(Integer.toString(n)); } ")")
+	|	(< GET > { cmd.add(token.image); } "(" n = numVarParam() { cmd.add(Integer.toString(n)); } ")")
+	|	(< FREE > { cmd.add(token.image); } "(" n = numVarParam() { cmd.add(Integer.toString(n)); } ")")
+	|	(< POP > { cmd.add(token.image); } "(" n = numVarParam() { cmd.add(Integer.toString(n)); } ")")
 	|	(< DMOVE > { cmd.add(token.image); } "(" l = saveDMove() { cmd.addAll(l); } ")")
 	|	(< OMOVE > { cmd.add(token.image); } "(" l = saveOMove() { cmd.addAll(l); } ")")) { return cmd; }
 	}
@@ -1235,7 +1254,7 @@ JAVACODE
 		Integer n;
 		ArrayList<String> l = new ArrayList<String>();
 	}
-	{ (n = numVar() { l.add(Integer.toString(n)); } ","
+	{ (n = numVarParam() { l.add(Integer.toString(n)); } ","
 		(( < FRONT > { l.add(token.image); })
 	|	( < RIGHT > { l.add(token.image); })
 	|	( < BACK > { l.add(token.image); })
@@ -1248,7 +1267,7 @@ JAVACODE
 		Integer n;
 		ArrayList<String> l = new ArrayList<String>();
 	}
-	{ (n = numVar() { l.add(Integer.toString(n)); } "," 
+	{ (n = numVarParam() { l.add(Integer.toString(n)); } "," 
 		((< NORTH > { l.add(token.image); })
 	|	(< SOUTH > { l.add(token.image); })
 	|	(< EAST > { l.add(token.image); })
@@ -1323,11 +1342,11 @@ JAVACODE
 	|	(< ISVALID > { cond.add(token.image); } "(" (
 			< STEP >|< JUMP >|< GRAB >|< POP >|< PICK >|< FREE >|< DROP >
 			) { cond.add(token.image); }
-		 "," n = numVar() { cond.add(Integer.toString(n)); } ")")
+		 "," n = numVarParam() { cond.add(Integer.toString(n)); } ")")
 	|	(< CANMOVE > { cond.add(token.image); } "(" (
 			< NORTH >| < SOUTH >|< EAST >|< WEST >
 			) { cond.add(token.image); }
-			"," n = numVar() { cond.add(Integer.toString(n)); } ")")
+			"," n = numVarParam() { cond.add(Integer.toString(n)); } ")")
 	|	(< NOT > { cond.add(token.image); } "(" l = saveCond() {cond.addAll(l); } ")")
 	) { cond.add("fincond"); return cond;}
 	}
@@ -1340,7 +1359,7 @@ JAVACODE
 		ArrayList<String> l = new ArrayList<String>();
 	}
 	{
-		( < REPEATTIMES > n = numVar() ) /* TODO: saveRepeatInstrBlock(n) */ ( < PER > ) {
+		( < REPEATTIMES > n = numVarParam() ) /* TODO: saveRepeatInstrBlock(n) */ ( < PER > ) {
 			this.salida = this.salida + "\n'repeatTimes' loop control structure";
 			return l;
 		}
@@ -1350,14 +1369,14 @@ JAVACODE
 	ArrayList<String> saveProcCall():
 	{
 		String name;
-		ArrayList<String> rParams = new ArrayList<String>();
+		ArrayList<Integer> numsParams = new ArrayList<Integer>();
 	}
 	{
-		(name = name() "(") [rParams = params()] ")" {
+		(name = name() "(") [numsParams = numParams()] ")" {
 			if (!procsNames.contains(name)) {
 				throw new Error("Tried to call undeclared procedure");
 			}
-			if (rParams.size() != procsParams.get(name).size()) {
+			if (numsParams.size() != procsParams.get(name).size()) {
 				throw new Error("Incorrect number of parameters for "+name+" procedure");
 			}
 			// TODO: Guardar el llamado del procedimiento
@@ -1380,18 +1399,18 @@ JAVACODE
 	}
 	{
 		( < NAME > ":=" < NUM >)
-	|	(< STEP >  "(" numVar() ")" )
-	|	(< JUMP >  "(" numVar() ")")
-	|	(< JUMPTO >  "(" numVar() "," numVar() ")")
+	|	(< STEP >  "(" numVarParam() ")" )
+	|	(< JUMP >  "(" numVarParam() ")")
+	|	(< JUMPTO >  "(" numVarParam() "," numVarParam() ")")
 	|	(< VEER >  "(" (< RIGHT >|< AROUND >|< LEFT >) ")")
 	|	(< LOOK >  "(" (< NORTH >|< SOUTH >|< EAST >|< WEST >) ")")
-	|	(< DROP >  "(" numVar() ")")
-	|	(< GRAB >  "(" numVar() ")")
-	|	(< GET >  "(" numVar() ")")
-	|	(< FREE >  "(" numVar() ")")
-	|	(< POP >  "(" numVar() ")")
-	|	(< DMOVE >  "(" numVar() "," (< FRONT >|< RIGHT >|< LEFT >|< BACK >) ")")
-	|	(< OMOVE >  "(" numVar() "," (< NORTH >|< SOUTH >|< EAST >|< WEST >) ")")
+	|	(< DROP >  "(" numVarParam() ")")
+	|	(< GRAB >  "(" numVarParam() ")")
+	|	(< GET >  "(" numVarParam() ")")
+	|	(< FREE >  "(" numVarParam() ")")
+	|	(< POP >  "(" numVarParam() ")")
+	|	(< DMOVE >  "(" numVarParam() "," (< FRONT >|< RIGHT >|< LEFT >|< BACK >) ")")
+	|	(< OMOVE >  "(" numVarParam() "," (< NORTH >|< SOUTH >|< EAST >|< WEST >) ")")
 	}
 
 
@@ -1444,7 +1463,7 @@ JAVACODE
 	{
 	}
 	{
-		< REPEATTIMES > numVar() checkSintaxInstrBlock() < PER > 
+		< REPEATTIMES > numVarParam() checkSintaxInstrBlock() < PER > 
 	}
 
 
@@ -1484,36 +1503,7 @@ JAVACODE
 	}
 
 
-	Integer numVar() throws Error:
-	{
-		int total_;
-		Integer total;
-	}
-	{
-		((<NUM>
-		{
-			try 
-			{
-				total_ = Integer.parseInt(token.image);
-				total = Integer.valueOf(total_);
-			} 
-			catch (NumberFormatException ee) 
-			{
-				throw new Error("Number out of bounds: "+token.image);
-			}
-		})
-	|	( (< NAME >) {
-			if (vars.containsKey(token.image)) {
-				total_ = vars.get(token.image);
-				total = Integer.valueOf(total_);
-			} else {
-				throw new Error("Tried to use undeclared variable");
-			}
-		 })) { return total; }
-	}
-
-
-	Integer numVarParam(Hashtable<String, Integer> procParams) throws Error:
+	Integer numVarParam() throws Error:
 	{
 		int total_;
 		Integer total;
@@ -1532,11 +1522,13 @@ JAVACODE
 			}
 		})
 	|	(< NAME > {
-			if (procParams.containsKey(token.image)) {
-				total = procParams.get(token.image);
+			if (this.currentParams.containsKey(token.image)) {
+				total_ = this.currentParams.get(token.image);
+				total = Integer.valueOf(total_);
 			} 
-			else if (vars.containsKey(token.image)) {
-				total = vars.get(token.image);
+			else if (this.vars.containsKey(token.image)) {
+				total_ = this.vars.get(token.image);
+				total = Integer.valueOf(total_);
 			} else {
 				throw new Error("Tried to use unexsiting parameter or undeclared variable");
 			}
