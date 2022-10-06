@@ -838,11 +838,12 @@ JAVACODE
 			} else if (condName.equals("not")) {
 				ArrayList<String> condNot = new ArrayList<String >();
 				i++;
-				while (!cond.get(i).equals("fincond")) {
+				int parar = cond.indexOf("fincond");
+				while (i < parar) {
 					condNot.add(cond.get(i));
 					i++;
 				}
-				bool = !manuallyEvaluateCond(condNot);
+				bool = manuallyEvaluateCond(condNot);
 			}
 		}
 		return bool;

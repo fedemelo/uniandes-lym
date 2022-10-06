@@ -1056,11 +1056,12 @@ public class Robot implements RobotConstants {
                         } else if (condName.equals("not")) {
                                 ArrayList<String> condNot = new ArrayList<String >();
                                 i++;
-                                while (!cond.get(i).equals("fincond")) {
+                                int parar = cond.indexOf("fincond");
+                                while (i < parar) {
                                         condNot.add(cond.get(i));
                                         i++;
                                 }
-                                bool = !manuallyEvaluateCond(condNot);
+                                bool = manuallyEvaluateCond(condNot);
                         }
                 }
                 return bool;
@@ -2452,11 +2453,6 @@ public class Robot implements RobotConstants {
     return false;
   }
 
-  private boolean jj_3R_64() {
-    if (jj_scan_token(IF)) return true;
-    return false;
-  }
-
   private boolean jj_3R_49() {
     if (jj_scan_token(JUMPTO)) return true;
     if (jj_scan_token(50)) return true;
@@ -2472,6 +2468,11 @@ public class Robot implements RobotConstants {
   private boolean jj_3R_34() {
     if (jj_scan_token(STEP)) return true;
     if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_64() {
+    if (jj_scan_token(IF)) return true;
     return false;
   }
 
