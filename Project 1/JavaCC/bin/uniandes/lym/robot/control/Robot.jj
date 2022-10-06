@@ -306,10 +306,10 @@ JAVACODE
 
 	void whileDoOd():
 	{
-		boolean bool;
+		ArrayList<String> cond = new ArrayList<String>();
 	}
 	{
-		< WHILE > "(" bool=condition() ")" < DO > whileInstrBlock(bool) < OD > {
+		< WHILE > "(" cond = saveCond() ")" < DO > whileInstrBlock(cond) < OD > {
 			this.salida = this.salida + "\n'while' loop control structure";
 			}
 	}
@@ -627,26 +627,52 @@ JAVACODE
 			pasos = n;
 			posX = (int) world.getPosition().getX();
 			posY = (int) world.getPosition().getY();
-			bool = !world.blockedInRange(posX, posY, posY-pasos, 0);
+			if (isOnBoard(posX, posY-pasos)) {
+				bool = !world.blockedInRange(posX, posY, posY-pasos, 0);
+			} else {
+				bool = false;
+			}
 		})
 	|	(< SOUTH > ","  n=numVar() {
 			pasos = n;
 			posX = (int) world.getPosition().getX();
 			posY = (int) world.getPosition().getY();
-			bool = !world.blockedInRange(posX, posY, posY+pasos, 1);
+			if (isOnBoard(posX, posY+pasos)) {
+				bool = !world.blockedInRange(posX, posY, posY+pasos, 1);
+			} else {
+				bool = false;
+			}
 		})
 	|	(< EAST > ","  n=numVar() {
 			pasos = n;
 			posX = (int) world.getPosition().getX();
 			posY = (int) world.getPosition().getY();
-			bool = !world.blockedInRange(posX, posY, posX+pasos, 2);
+			if (isOnBoard(posX+pasos, posY)) {
+				bool = !world.blockedInRange(posX, posY, posX+pasos, 2);
+			} else {
+				bool = false;
+			}
 		})
 	|	(< WEST > ","  n=numVar() {
 			pasos = n;
 			posX = (int) world.getPosition().getX();
 			posY = (int) world.getPosition().getY();
-			bool = !world.blockedInRange(posX, posY, posX-pasos, 3);
+			if (isOnBoard(posX-pasos, posY)) {
+				bool = !world.blockedInRange(posX, posY, posX-pasos, 3);
+			} else {
+				bool = false;
+			}
 		})) { return bool; }
+	}
+
+
+JAVACODE
+	private boolean isOnBoard(int x, int y) {
+		boolean bool = true;
+		if (x<1 || x >8 || y<1 || y >8) { 
+			bool = false;
+		}
+		return bool;
 	}
 
 
@@ -688,11 +714,21 @@ JAVACODE
 		}
 	}
 
-		void whileInstrBlock(boolean bool):
+	void whileInstrBlock(ArrayList<String> cond):
 	{
+		ArrayList<String> instrs = new ArrayList<String>();
+		ArrayList<String> instr = new ArrayList<String>();
+		boolean bool = false;
 	}
 	{
-		"{" instrWhile(bool) (  ";" instrWhile(bool) )* "}"
+		"{" instr = saveInstr() {instrs.addAll(instr);} (  ";" instr = saveInstr() {instrs.addAll(instr);} )* "}"
+		{
+			bool = manuallyEvaluateCond(cond);
+			while(bool) {
+				manuallyExecuteInstrs(instrs);
+				bool = manuallyEvaluateCond(cond);
+			}
+		}
 	}
 
 
@@ -972,19 +1008,35 @@ JAVACODE
 		if (dir.equals("north")) {
 			posX = (int) world.getPosition().getX();
 			posY = (int) world.getPosition().getY();
-			bool = !world.blockedInRange(posX, posY, posY-pasos, 0);
+			if (isOnBoard(posX, posY-pasos)) {
+				bool = !world.blockedInRange(posX, posY, posY-pasos, 0);
+			} else {
+				bool = false;
+			}
 		} else if (dir.equals("south")) {
 			posX = (int) world.getPosition().getX();
 			posY = (int) world.getPosition().getY();
-			bool = !world.blockedInRange(posX, posY, posY+pasos, 1);
+			if (isOnBoard(posX, posY+pasos)) {
+				bool = !world.blockedInRange(posX, posY, posY+pasos, 1);
+			} else {
+				bool = false;
+			}
 		} else if (dir.equals("east")) {
 			posX = (int) world.getPosition().getX();
 			posY = (int) world.getPosition().getY();
-			bool = !world.blockedInRange(posX, posY, posX+pasos, 2);
+			if (isOnBoard(posX+pasos, posY)) {
+				bool = !world.blockedInRange(posX, posY, posX+pasos, 2);
+			} else {
+				bool = false;
+			}
 		} else if (dir.equals("west")) {
 			posX = (int) world.getPosition().getX();
 			posY = (int) world.getPosition().getY();
-			bool = !world.blockedInRange(posX, posY, posX-pasos, 3);
+			if (isOnBoard(posX-pasos, posY)) {
+				bool = !world.blockedInRange(posX, posY, posX-pasos, 3);
+			} else {
+				bool = false;
+			}
 		}
 		return bool;
 	}
@@ -1331,15 +1383,15 @@ JAVACODE
 	|	(< STEP >  "(" numVar() ")" )
 	|	(< JUMP >  "(" numVar() ")")
 	|	(< JUMPTO >  "(" numVar() "," numVar() ")")
-	|	(< VEER >  "(" veer() ")")
-	|	(< LOOK >  "(" look() ")")
+	|	(< VEER >  "(" (< RIGHT >|< AROUND >|< LEFT >) ")")
+	|	(< LOOK >  "(" (< NORTH >|< SOUTH >|< EAST >|< WEST >) ")")
 	|	(< DROP >  "(" numVar() ")")
 	|	(< GRAB >  "(" numVar() ")")
 	|	(< GET >  "(" numVar() ")")
 	|	(< FREE >  "(" numVar() ")")
 	|	(< POP >  "(" numVar() ")")
-	|	(< DMOVE >  "(" dMove() ")")
-	|	(< OMOVE >  "(" oMove() ")")
+	|	(< DMOVE >  "(" numVar() "," (< FRONT >|< RIGHT >|< LEFT >|< BACK >) ")")
+	|	(< OMOVE >  "(" numVar() "," (< NORTH >|< SOUTH >|< EAST >|< WEST >) ")")
 	}
 
 
@@ -1375,7 +1427,14 @@ JAVACODE
 	{
 	}
 	{
-		name() "(" [params()] ")"
+		(name = name() "(") [rParams = params()] ")" {
+			if (!procsNames.contains(name)) {
+				throw new Error("Tried to call undeclared procedure");
+			}
+			if (rParams.size() != procsParams.get(name).size()) {
+				throw new Error("Incorrect number of parameters for "+name+" procedure");
+			}
+		}
 	}
 
 

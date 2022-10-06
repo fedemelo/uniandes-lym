@@ -365,13 +365,13 @@ public class Robot implements RobotConstants {
   }
 
   final public void whileDoOd() throws ParseException {
-                boolean bool;
+                ArrayList<String> cond = new ArrayList<String>();
     jj_consume_token(WHILE);
     jj_consume_token(50);
-    bool = condition();
+    cond = saveCond();
     jj_consume_token(51);
     jj_consume_token(DO);
-    whileInstrBlock(bool);
+    whileInstrBlock(cond);
     jj_consume_token(OD);
                         this.salida = this.salida + "\u005cn'while' loop control structure";
   }
@@ -791,7 +791,11 @@ public class Robot implements RobotConstants {
                         pasos = n;
                         posX = (int) world.getPosition().getX();
                         posY = (int) world.getPosition().getY();
-                        bool = !world.blockedInRange(posX, posY, posY-pasos, 0);
+                        if (isOnBoard(posX, posY-pasos)) {
+                                bool = !world.blockedInRange(posX, posY, posY-pasos, 0);
+                        } else {
+                                bool = false;
+                        }
       break;
     case SOUTH:
       jj_consume_token(SOUTH);
@@ -800,7 +804,11 @@ public class Robot implements RobotConstants {
                         pasos = n;
                         posX = (int) world.getPosition().getX();
                         posY = (int) world.getPosition().getY();
-                        bool = !world.blockedInRange(posX, posY, posY+pasos, 1);
+                        if (isOnBoard(posX, posY+pasos)) {
+                                bool = !world.blockedInRange(posX, posY, posY+pasos, 1);
+                        } else {
+                                bool = false;
+                        }
       break;
     case EAST:
       jj_consume_token(EAST);
@@ -809,7 +817,11 @@ public class Robot implements RobotConstants {
                         pasos = n;
                         posX = (int) world.getPosition().getX();
                         posY = (int) world.getPosition().getY();
-                        bool = !world.blockedInRange(posX, posY, posX+pasos, 2);
+                        if (isOnBoard(posX+pasos, posY)) {
+                                bool = !world.blockedInRange(posX, posY, posX+pasos, 2);
+                        } else {
+                                bool = false;
+                        }
       break;
     case WEST:
       jj_consume_token(WEST);
@@ -818,7 +830,11 @@ public class Robot implements RobotConstants {
                         pasos = n;
                         posX = (int) world.getPosition().getX();
                         posY = (int) world.getPosition().getY();
-                        bool = !world.blockedInRange(posX, posY, posX-pasos, 3);
+                        if (isOnBoard(posX-pasos, posY)) {
+                                bool = !world.blockedInRange(posX, posY, posX-pasos, 3);
+                        } else {
+                                bool = false;
+                        }
       break;
     default:
       jj_la1[18] = jj_gen;
@@ -827,6 +843,14 @@ public class Robot implements RobotConstants {
     }
                       {if (true) return bool;}
     throw new Error("Missing return statement in function");
+  }
+
+  private boolean isOnBoard(int x, int y) throws ParseException {
+                boolean bool = true;
+                if (x<1 || x >8 || y<1 || y >8) {
+                        bool = false;
+                }
+                return bool;
   }
 
   final public boolean not() throws ParseException {
@@ -900,9 +924,13 @@ public class Robot implements RobotConstants {
                         }
   }
 
-  final public void whileInstrBlock(boolean bool) throws ParseException {
+  final public void whileInstrBlock(ArrayList<String> cond) throws ParseException {
+                ArrayList<String> instrs = new ArrayList<String>();
+                ArrayList<String> instr = new ArrayList<String>();
+                boolean bool = false;
     jj_consume_token(52);
-    instrWhile(bool);
+    instr = saveInstr();
+                                         instrs.addAll(instr);
     label_10:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -914,9 +942,15 @@ public class Robot implements RobotConstants {
         break label_10;
       }
       jj_consume_token(49);
-      instrWhile(bool);
+      instr = saveInstr();
+                                                                                            instrs.addAll(instr);
     }
     jj_consume_token(53);
+                        bool = manuallyEvaluateCond(cond);
+                        while(bool) {
+                                manuallyExecuteInstrs(instrs);
+                                bool = manuallyEvaluateCond(cond);
+                        }
   }
 
   private void instrWhile(boolean bool) throws ParseException {
@@ -1185,19 +1219,35 @@ public class Robot implements RobotConstants {
                 if (dir.equals("north")) {
                         posX = (int) world.getPosition().getX();
                         posY = (int) world.getPosition().getY();
-                        bool = !world.blockedInRange(posX, posY, posY-pasos, 0);
+                        if (isOnBoard(posX, posY-pasos)) {
+                                bool = !world.blockedInRange(posX, posY, posY-pasos, 0);
+                        } else {
+                                bool = false;
+                        }
                 } else if (dir.equals("south")) {
                         posX = (int) world.getPosition().getX();
                         posY = (int) world.getPosition().getY();
-                        bool = !world.blockedInRange(posX, posY, posY+pasos, 1);
+                        if (isOnBoard(posX, posY+pasos)) {
+                                bool = !world.blockedInRange(posX, posY, posY+pasos, 1);
+                        } else {
+                                bool = false;
+                        }
                 } else if (dir.equals("east")) {
                         posX = (int) world.getPosition().getX();
                         posY = (int) world.getPosition().getY();
-                        bool = !world.blockedInRange(posX, posY, posX+pasos, 2);
+                        if (isOnBoard(posX+pasos, posY)) {
+                                bool = !world.blockedInRange(posX, posY, posX+pasos, 2);
+                        } else {
+                                bool = false;
+                        }
                 } else if (dir.equals("west")) {
                         posX = (int) world.getPosition().getX();
                         posY = (int) world.getPosition().getY();
-                        bool = !world.blockedInRange(posX, posY, posX-pasos, 3);
+                        if (isOnBoard(posX-pasos, posY)) {
+                                bool = !world.blockedInRange(posX, posY, posX-pasos, 3);
+                        } else {
+                                bool = false;
+                        }
                 }
                 return bool;
   }
@@ -1892,13 +1942,44 @@ public class Robot implements RobotConstants {
     case VEER:
       jj_consume_token(VEER);
       jj_consume_token(50);
-      veer();
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case RIGHT:
+        jj_consume_token(RIGHT);
+        break;
+      case AROUND:
+        jj_consume_token(AROUND);
+        break;
+      case LEFT:
+        jj_consume_token(LEFT);
+        break;
+      default:
+        jj_la1[39] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
       jj_consume_token(51);
       break;
     case LOOK:
       jj_consume_token(LOOK);
       jj_consume_token(50);
-      look();
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case NORTH:
+        jj_consume_token(NORTH);
+        break;
+      case SOUTH:
+        jj_consume_token(SOUTH);
+        break;
+      case EAST:
+        jj_consume_token(EAST);
+        break;
+      case WEST:
+        jj_consume_token(WEST);
+        break;
+      default:
+        jj_la1[40] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
       jj_consume_token(51);
       break;
     case DROP:
@@ -1934,17 +2015,55 @@ public class Robot implements RobotConstants {
     case DMOVE:
       jj_consume_token(DMOVE);
       jj_consume_token(50);
-      dMove();
+      numVar();
+      jj_consume_token(48);
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case FRONT:
+        jj_consume_token(FRONT);
+        break;
+      case RIGHT:
+        jj_consume_token(RIGHT);
+        break;
+      case LEFT:
+        jj_consume_token(LEFT);
+        break;
+      case BACK:
+        jj_consume_token(BACK);
+        break;
+      default:
+        jj_la1[41] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
       jj_consume_token(51);
       break;
     case OMOVE:
       jj_consume_token(OMOVE);
       jj_consume_token(50);
-      oMove();
+      numVar();
+      jj_consume_token(48);
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case NORTH:
+        jj_consume_token(NORTH);
+        break;
+      case SOUTH:
+        jj_consume_token(SOUTH);
+        break;
+      case EAST:
+        jj_consume_token(EAST);
+        break;
+      case WEST:
+        jj_consume_token(WEST);
+        break;
+      default:
+        jj_la1[42] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
       jj_consume_token(51);
       break;
     default:
-      jj_la1[39] = jj_gen;
+      jj_la1[43] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1962,7 +2081,7 @@ public class Robot implements RobotConstants {
       checkSintaxrepeatTimes();
       break;
     default:
-      jj_la1[40] = jj_gen;
+      jj_la1[44] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1981,7 +2100,7 @@ public class Robot implements RobotConstants {
       checkSintaxInstrBlock();
       break;
     default:
-      jj_la1[41] = jj_gen;
+      jj_la1[45] = jj_gen;
       ;
     }
     jj_consume_token(FI);
@@ -1998,17 +2117,23 @@ public class Robot implements RobotConstants {
   }
 
   final public void checkSintaxProcCall() throws ParseException {
-    name();
+    name = name();
     jj_consume_token(50);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case NAME:
-      params();
+      rParams = params();
       break;
     default:
-      jj_la1[42] = jj_gen;
+      jj_la1[46] = jj_gen;
       ;
     }
     jj_consume_token(51);
+                        if (!procsNames.contains(name)) {
+                                {if (true) throw new Error("Tried to call undeclared procedure");}
+                        }
+                        if (rParams.size() != procsParams.get(name).size()) {
+                                {if (true) throw new Error("Incorrect number of parameters for "+name+" procedure");}
+                        }
   }
 
   final public void checkSintaxrepeatTimes() throws ParseException {
@@ -2072,7 +2197,7 @@ public class Robot implements RobotConstants {
                         }
       break;
     default:
-      jj_la1[43] = jj_gen;
+      jj_la1[47] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -2108,7 +2233,7 @@ public class Robot implements RobotConstants {
                         }
       break;
     default:
-      jj_la1[44] = jj_gen;
+      jj_la1[48] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -2224,13 +2349,86 @@ public class Robot implements RobotConstants {
     return false;
   }
 
-  private boolean jj_3R_13() {
-    if (jj_scan_token(NAME)) return true;
+  private boolean jj_3R_45() {
+    if (jj_scan_token(OMOVE)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_44() {
+    if (jj_scan_token(DMOVE)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_58() {
+    if (jj_scan_token(OMOVE)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_43() {
+    if (jj_scan_token(POP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_57() {
+    if (jj_scan_token(DMOVE)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_42() {
+    if (jj_scan_token(FREE)) return true;
+    if (jj_scan_token(50)) return true;
     return false;
   }
 
   private boolean jj_3R_60() {
     if (jj_3R_13()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_56() {
+    if (jj_scan_token(POP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_41() {
+    if (jj_scan_token(GET)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_55() {
+    if (jj_scan_token(FREE)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_40() {
+    if (jj_scan_token(GRAB)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_54() {
+    if (jj_scan_token(GET)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_39() {
+    if (jj_scan_token(DROP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_53() {
+    if (jj_scan_token(GRAB)) return true;
+    if (jj_scan_token(50)) return true;
     return false;
   }
 
@@ -2280,134 +2478,6 @@ public class Robot implements RobotConstants {
     }
     }
     }
-    return false;
-  }
-
-  private boolean jj_3_3() {
-    if (jj_scan_token(49)) return true;
-    if (jj_3R_14()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_19() {
-    if (jj_3R_60()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_18() {
-    if (jj_3R_59()) return true;
-    return false;
-  }
-
-  private boolean jj_3_4() {
-    if (jj_3R_15()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_14() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3_4()) {
-    jj_scanpos = xsp;
-    if (jj_3R_18()) {
-    jj_scanpos = xsp;
-    if (jj_3R_19()) return true;
-    }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_66() {
-    if (jj_scan_token(REPEATTIMES)) return true;
-    return false;
-  }
-
-  private boolean jj_3_2() {
-    if (jj_scan_token(48)) return true;
-    if (jj_3R_13()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_65() {
-    if (jj_scan_token(WHILE)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_45() {
-    if (jj_scan_token(OMOVE)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_44() {
-    if (jj_scan_token(DMOVE)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_58() {
-    if (jj_scan_token(OMOVE)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_43() {
-    if (jj_scan_token(POP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_57() {
-    if (jj_scan_token(DMOVE)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_42() {
-    if (jj_scan_token(FREE)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_56() {
-    if (jj_scan_token(POP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_41() {
-    if (jj_scan_token(GET)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_55() {
-    if (jj_scan_token(FREE)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_40() {
-    if (jj_scan_token(GRAB)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_54() {
-    if (jj_scan_token(GET)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_39() {
-    if (jj_scan_token(DROP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_53() {
-    if (jj_scan_token(GRAB)) return true;
-    if (jj_scan_token(50)) return true;
     return false;
   }
 
@@ -2471,11 +2541,6 @@ public class Robot implements RobotConstants {
     return false;
   }
 
-  private boolean jj_3R_64() {
-    if (jj_scan_token(IF)) return true;
-    return false;
-  }
-
   private boolean jj_3R_48() {
     if (jj_scan_token(JUMP)) return true;
     if (jj_scan_token(50)) return true;
@@ -2531,6 +2596,12 @@ public class Robot implements RobotConstants {
     return false;
   }
 
+  private boolean jj_3_3() {
+    if (jj_scan_token(49)) return true;
+    if (jj_3R_14()) return true;
+    return false;
+  }
+
   private boolean jj_3R_46() {
     if (jj_scan_token(NAME)) return true;
     if (jj_scan_token(54)) return true;
@@ -2580,6 +2651,70 @@ public class Robot implements RobotConstants {
     return false;
   }
 
+  private boolean jj_3R_19() {
+    if (jj_3R_60()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_18() {
+    if (jj_3R_59()) return true;
+    return false;
+  }
+
+  private boolean jj_3_4() {
+    if (jj_3R_15()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_14() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3_4()) {
+    jj_scanpos = xsp;
+    if (jj_3R_18()) {
+    jj_scanpos = xsp;
+    if (jj_3R_19()) return true;
+    }
+    }
+    return false;
+  }
+
+  private boolean jj_3_5() {
+    if (jj_3R_16()) return true;
+    return false;
+  }
+
+  private boolean jj_3_6() {
+    if (jj_3R_17()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_66() {
+    if (jj_scan_token(REPEATTIMES)) return true;
+    return false;
+  }
+
+  private boolean jj_3_2() {
+    if (jj_scan_token(48)) return true;
+    if (jj_3R_13()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_13() {
+    if (jj_scan_token(NAME)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_65() {
+    if (jj_scan_token(WHILE)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_64() {
+    if (jj_scan_token(IF)) return true;
+    return false;
+  }
+
   private boolean jj_3R_63() {
     if (jj_3R_66()) return true;
     return false;
@@ -2614,16 +2749,6 @@ public class Robot implements RobotConstants {
     return false;
   }
 
-  private boolean jj_3_5() {
-    if (jj_3R_16()) return true;
-    return false;
-  }
-
-  private boolean jj_3_6() {
-    if (jj_3R_17()) return true;
-    return false;
-  }
-
   private boolean jj_3R_32() {
     if (jj_scan_token(OMOVE)) return true;
     if (jj_scan_token(50)) return true;
@@ -2641,7 +2766,7 @@ public class Robot implements RobotConstants {
   private Token jj_scanpos, jj_lastpos;
   private int jj_la;
   private int jj_gen;
-  final private int[] jj_la1 = new int[45];
+  final private int[] jj_la1 = new int[49];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -2649,10 +2774,10 @@ public class Robot implements RobotConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x0,0x0,0x1,0x0,0x920000,0x1ffe0,0x920000,0x0,0x0,0x80000,0x1e000000,0x0,0x0,0xc0000000,0x0,0xc0000000,0xc0000000,0x20006c60,0xc0000000,0x0,0x0,0x0,0x0,0x920000,0x1ffe0,0x0,0xc0000000,0x0,0xc0000000,0x920000,0x0,0x0,0x80000,0xc0000000,0x20006c60,0xc0000000,0x1e000000,0x0,0x920000,0x1ffe0,0x920000,0x80000,0x0,0x0,0x0,};
+      jj_la1_0 = new int[] {0x0,0x0,0x1,0x0,0x920000,0x1ffe0,0x920000,0x0,0x0,0x80000,0x1e000000,0x0,0x0,0xc0000000,0x0,0xc0000000,0xc0000000,0x20006c60,0xc0000000,0x0,0x0,0x0,0x0,0x920000,0x1ffe0,0x0,0xc0000000,0x0,0xc0000000,0x920000,0x0,0x0,0x80000,0xc0000000,0x20006c60,0xc0000000,0x1e000000,0x0,0x920000,0x0,0xc0000000,0x0,0xc0000000,0x1ffe0,0x920000,0x80000,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x200,0x400,0x80,0x1000,0x1000,0x1000,0x0,0x20000,0x20000,0x0,0x0,0x1000,0x1c,0x3,0x78,0x3,0x3,0x0,0x3,0x20000,0x20000,0x20000,0x20000,0x1000,0x1000,0x1c,0x3,0x78,0x3,0x0,0x20000,0x20000,0x0,0x3,0x0,0x3,0x0,0x1000,0x1000,0x1000,0x0,0x0,0x1000,0x5000,0x5000,};
+      jj_la1_1 = new int[] {0x200,0x400,0x80,0x1000,0x1000,0x1000,0x0,0x20000,0x20000,0x0,0x0,0x1000,0x1c,0x3,0x78,0x3,0x3,0x0,0x3,0x20000,0x20000,0x20000,0x20000,0x1000,0x1000,0x1c,0x3,0x78,0x3,0x0,0x20000,0x20000,0x0,0x3,0x0,0x3,0x0,0x1000,0x1000,0x1c,0x3,0x78,0x3,0x1000,0x0,0x0,0x1000,0x5000,0x5000,};
    }
   final private JJCalls[] jj_2_rtns = new JJCalls[6];
   private boolean jj_rescan = false;
@@ -2669,7 +2794,7 @@ public class Robot implements RobotConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 45; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 49; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -2684,7 +2809,7 @@ public class Robot implements RobotConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 45; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 49; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -2695,7 +2820,7 @@ public class Robot implements RobotConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 45; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 49; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -2706,7 +2831,7 @@ public class Robot implements RobotConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 45; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 49; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -2716,7 +2841,7 @@ public class Robot implements RobotConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 45; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 49; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -2726,7 +2851,7 @@ public class Robot implements RobotConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 45; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 49; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -2843,7 +2968,7 @@ public class Robot implements RobotConstants {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 45; i++) {
+    for (int i = 0; i < 49; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
