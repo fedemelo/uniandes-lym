@@ -44,7 +44,7 @@ public class Robot
 	private ArrayList<String> procsNames = new ArrayList<String>();
 	private Hashtable<String, ArrayList<String>> procsParams = new Hashtable<String, ArrayList<String>>();
 	private Hashtable<String, ArrayList<String>> procsInstrs = new Hashtable<String, ArrayList<String>>();
-	private Hashtable<String, Integer> currentParams = new Hashtable<String, Integer>();
+	private Hashtable<String, String> currentParams = new Hashtable<String, String>();
 }
 
 PARSER_END(Robot)
@@ -151,7 +151,13 @@ TOKEN :
 
 	boolean command(Console sistema):
 	{
-		salida = "";
+		this.salida = "";
+		this.declaredVars = new ArrayList<String>();
+	 	this.vars = new Hashtable<String, Integer>();
+		this.procsNames = new ArrayList<String>();
+		this.procsParams = new Hashtable<String, ArrayList<String>>();
+		this.procsInstrs = new Hashtable<String, ArrayList<String>>();
+		this.currentParams = new Hashtable<String, String>();
 	}
 	{
 		( < PROG > [varDecl()] (procDef())* instrBlock() < GORP >) {
@@ -192,6 +198,7 @@ TOKEN :
 		ArrayList<String> localVars = new ArrayList<String>();
 		ArrayList<String> instrs = new ArrayList<String>();
 		ArrayList<String> l = new ArrayList<String>();
+		this.currentParams = new Hashtable<String, String>();
 	}
 	{
 		 (( < PROC > name=name() "(" [localVars=params()] ")"
@@ -202,8 +209,9 @@ TOKEN :
 			procsNames.add(name);
 			procsParams.put(name, localVars);
 		} (  "{" l = saveInstr() { instrs.addAll(l); } (  ";" l = saveInstr() { instrs.addAll(l); } )* "}" < CORP > ))
-		{	this.procsInstrs.put(name, instrs); // TODO: Meterle params
-			this.salida = this.salida + "\nProcedure definition"; }
+		{	this.procsInstrs.put(name, instrs); 
+			this.salida = this.salida + "\nProcedure definition";
+			this.currentParams = new Hashtable<String, String>();}
 	}
 
 
@@ -215,11 +223,13 @@ TOKEN :
 	{
 		((name=name()) {
 			localVars.add(name);
+			this.currentParams.put(name, name);
 		} ( LOOKAHEAD(2) "," (name=name()) {
 			if (localVars.contains(name)) {
 				throw new Error("Repeated parameter name: "+name);
 			} else {
 				localVars.add(name);
+				this.currentParams.put(name, name);
 			}
 		} )*) { return localVars; }
 	}
@@ -372,14 +382,14 @@ JAVACODE
 JAVACODE
 	private void callProcedure(String name, ArrayList<Integer> nums) {
 		ArrayList<String> params = this.procsParams.get(name);
-		this.currentParams = new Hashtable<String, Integer>();
+		this.currentParams = new Hashtable<String, String>();
 		
 		for (Integer i = 0; i < params.size(); i++) {
-			this.currentParams.put(params.get(i), nums.get(i));
+			this.currentParams.put(params.get(i), Integer.toString(nums.get(i)));
 		}
 		ArrayList<String> instrs = this.procsInstrs.get(name);
 		manuallyExecuteInstrs(instrs);
-		this.currentParams = new Hashtable<String, Integer>();
+		this.currentParams = new Hashtable<String, String>();
 	}
 
 
@@ -1505,7 +1515,6 @@ JAVACODE
 
 	Integer numVarParam() throws Error:
 	{
-		int total_;
 		Integer total;
 	}
 	{
@@ -1513,8 +1522,7 @@ JAVACODE
 		{
 			try 
 			{
-				total_ = Integer.parseInt(token.image);
-				total = Integer.valueOf(total_);
+				total = Integer.valueOf(Integer.parseInt(token.image));
 			} 
 			catch (NumberFormatException ee) 
 			{
@@ -1523,12 +1531,10 @@ JAVACODE
 		})
 	|	(< NAME > {
 			if (this.currentParams.containsKey(token.image)) {
-				total_ = this.currentParams.get(token.image);
-				total = Integer.valueOf(total_);
+				total = Integer.valueOf(this.currentParams.get(token.image));
 			} 
 			else if (this.vars.containsKey(token.image)) {
-				total_ = this.vars.get(token.image);
-				total = Integer.valueOf(total_);
+				total = Integer.valueOf(this.vars.get(token.image));
 			} else {
 				throw new Error("Tried to use unexsiting parameter or undeclared variable");
 			}

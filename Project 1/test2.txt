@@ -1,93 +1,15 @@
 PROG
 
+VAR x, y, z;
 
-VAR x    ,y;
+PROC ifg() { if (isValid(step, 3)) {step(3)} else {veer(right)} fi } CORP
 
-PROC jumBO ( o )
-{
-    jump(  x);
-
-
-    walk   ( north , y )
-}
-CORP
-
-
-
-PROC chipB(	a,b	)
-{
-    pop(a	);
-    	drop(	b)
-}
-CORP
-
-
-PROC baCH(b)
-{
-    get(	b);
-    free(	b	)
-}
-CORP
-PROC mrMusculo(c,d)
-{
- 	   get(c	);
-  	  pop(	d);
-  	  grab(y		)
-}
-CORP
-	
-
-PROC ballP(   z  )
-{
-    if ( isValid	(pop, 6)) {pop(z  )} 	fi
-}
-CORP
-
-PROC caminA()
-{
-    while (canWalk(   west,   2)) do { walk(west,1)} od
-    
-}
-CORP
-
-PROC camDir()
-{
-    while (canWalk(   right,4   )) do    { walk   (right,1)} od
-    
-}
-
-
-
-CORP 
-
-
-
-
-PROC movER()
-{
-    if not(   isfacing(south)    ) {veer(  around  )} fi
-}
-CORP
-
-
-PROC pollo()
-{
-    if not(   isfacing(south)    ) {veer(  around  )} fi
-}
-CORP
+PROC moveLeft(a) { veer(left); step(a) } CORP
 
 {
-
-caminA()  ;
-movER  ();
-	x:=1 ;
-y := 1;
-jumBO (north  );
-
-
-mrMusculo(2,1);
-	ballP(3)
-
+veer(around);
+ifg();
+moveLeft(2)
 }
 
 GORP

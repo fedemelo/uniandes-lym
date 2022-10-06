@@ -25,10 +25,16 @@ public class Robot implements RobotConstants {
         private ArrayList<String> procsNames = new ArrayList<String>();
         private Hashtable<String, ArrayList<String>> procsParams = new Hashtable<String, ArrayList<String>>();
         private Hashtable<String, ArrayList<String>> procsInstrs = new Hashtable<String, ArrayList<String>>();
-        private Hashtable<String, Integer> currentParams = new Hashtable<String, Integer>();
+        private Hashtable<String, String> currentParams = new Hashtable<String, String>();
 
   final public boolean command(Console sistema) throws ParseException {
-                salida = "";
+                this.salida = "";
+                this.declaredVars = new ArrayList<String>();
+                this.vars = new Hashtable<String, Integer>();
+                this.procsNames = new ArrayList<String>();
+                this.procsParams = new Hashtable<String, ArrayList<String>>();
+                this.procsInstrs = new Hashtable<String, ArrayList<String>>();
+                this.currentParams = new Hashtable<String, String>();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case PROG:
       jj_consume_token(PROG);
@@ -103,6 +109,7 @@ public class Robot implements RobotConstants {
                 ArrayList<String> localVars = new ArrayList<String>();
                 ArrayList<String> instrs = new ArrayList<String>();
                 ArrayList<String> l = new ArrayList<String>();
+                this.currentParams = new Hashtable<String, String>();
     jj_consume_token(PROC);
     name = name();
     jj_consume_token(50);
@@ -139,8 +146,9 @@ public class Robot implements RobotConstants {
     }
     jj_consume_token(53);
     jj_consume_token(CORP);
-                        this.procsInstrs.put(name, instrs); // TODO: Meterle params
+                        this.procsInstrs.put(name, instrs);
                         this.salida = this.salida + "\u005cnProcedure definition";
+                        this.currentParams = new Hashtable<String, String>();
   }
 
   final public ArrayList<String> params() throws ParseException {
@@ -148,6 +156,7 @@ public class Robot implements RobotConstants {
                 String name;
     name = name();
                         localVars.add(name);
+                        this.currentParams.put(name, name);
     label_4:
     while (true) {
       if (jj_2_2(2)) {
@@ -161,6 +170,7 @@ public class Robot implements RobotConstants {
                                 {if (true) throw new Error("Repeated parameter name: "+name);}
                         } else {
                                 localVars.add(name);
+                                this.currentParams.put(name, name);
                         }
     }
                         {if (true) return localVars;}
@@ -490,14 +500,14 @@ public class Robot implements RobotConstants {
 
   private void callProcedure(String name, ArrayList<Integer> nums) throws ParseException {
                 ArrayList<String> params = this.procsParams.get(name);
-                this.currentParams = new Hashtable<String, Integer>();
+                this.currentParams = new Hashtable<String, String>();
 
                 for (Integer i = 0; i < params.size(); i++) {
-                        this.currentParams.put(params.get(i), nums.get(i));
+                        this.currentParams.put(params.get(i), Integer.toString(nums.get(i)));
                 }
                 ArrayList<String> instrs = this.procsInstrs.get(name);
                 manuallyExecuteInstrs(instrs);
-                this.currentParams = new Hashtable<String, Integer>();
+                this.currentParams = new Hashtable<String, String>();
   }
 
   final public void veer() throws ParseException {
@@ -2211,15 +2221,13 @@ public class Robot implements RobotConstants {
   }
 
   final public Integer numVarParam() throws ParseException, Error {
-                int total_;
                 Integer total;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case NUM:
       jj_consume_token(NUM);
                         try
                         {
-                                total_ = Integer.parseInt(token.image);
-                                total = Integer.valueOf(total_);
+                                total = Integer.valueOf(Integer.parseInt(token.image));
                         }
                         catch (NumberFormatException ee)
                         {
@@ -2229,12 +2237,10 @@ public class Robot implements RobotConstants {
     case NAME:
       jj_consume_token(NAME);
                         if (this.currentParams.containsKey(token.image)) {
-                                total_ = this.currentParams.get(token.image);
-                                total = Integer.valueOf(total_);
+                                total = Integer.valueOf(this.currentParams.get(token.image));
                         }
                         else if (this.vars.containsKey(token.image)) {
-                                total_ = this.vars.get(token.image);
-                                total = Integer.valueOf(total_);
+                                total = Integer.valueOf(this.vars.get(token.image));
                         } else {
                                 {if (true) throw new Error("Tried to use unexsiting parameter or undeclared variable");}
                         }
@@ -2288,212 +2294,6 @@ public class Robot implements RobotConstants {
     try { return !jj_3_6(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(5, xla); }
-  }
-
-  private boolean jj_3R_53() {
-    if (jj_scan_token(DROP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_29() {
-    if (jj_scan_token(GET)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_38() {
-    if (jj_scan_token(VEER)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_52() {
-    if (jj_scan_token(LOOK)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_28() {
-    if (jj_scan_token(GRAB)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_37() {
-    if (jj_scan_token(JUMPTO)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_51() {
-    if (jj_scan_token(VEER)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_27() {
-    if (jj_scan_token(DROP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_36() {
-    if (jj_scan_token(JUMP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_50() {
-    if (jj_scan_token(JUMPTO)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_34() {
-    if (jj_scan_token(NAME)) return true;
-    if (jj_scan_token(54)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_35() {
-    if (jj_scan_token(STEP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_26() {
-    if (jj_scan_token(LOOK)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_49() {
-    if (jj_scan_token(JUMP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_17() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_34()) {
-    jj_scanpos = xsp;
-    if (jj_3R_35()) {
-    jj_scanpos = xsp;
-    if (jj_3R_36()) {
-    jj_scanpos = xsp;
-    if (jj_3R_37()) {
-    jj_scanpos = xsp;
-    if (jj_3R_38()) {
-    jj_scanpos = xsp;
-    if (jj_3R_39()) {
-    jj_scanpos = xsp;
-    if (jj_3R_40()) {
-    jj_scanpos = xsp;
-    if (jj_3R_41()) {
-    jj_scanpos = xsp;
-    if (jj_3R_42()) {
-    jj_scanpos = xsp;
-    if (jj_3R_43()) {
-    jj_scanpos = xsp;
-    if (jj_3R_44()) {
-    jj_scanpos = xsp;
-    if (jj_3R_45()) {
-    jj_scanpos = xsp;
-    if (jj_3R_46()) return true;
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_25() {
-    if (jj_scan_token(VEER)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_48() {
-    if (jj_scan_token(STEP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_24() {
-    if (jj_scan_token(JUMPTO)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_47() {
-    if (jj_scan_token(NAME)) return true;
-    if (jj_scan_token(54)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_18() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_47()) {
-    jj_scanpos = xsp;
-    if (jj_3R_48()) {
-    jj_scanpos = xsp;
-    if (jj_3R_49()) {
-    jj_scanpos = xsp;
-    if (jj_3R_50()) {
-    jj_scanpos = xsp;
-    if (jj_3R_51()) {
-    jj_scanpos = xsp;
-    if (jj_3R_52()) {
-    jj_scanpos = xsp;
-    if (jj_3R_53()) {
-    jj_scanpos = xsp;
-    if (jj_3R_54()) {
-    jj_scanpos = xsp;
-    if (jj_3R_55()) {
-    jj_scanpos = xsp;
-    if (jj_3R_56()) {
-    jj_scanpos = xsp;
-    if (jj_3R_57()) {
-    jj_scanpos = xsp;
-    if (jj_3R_58()) {
-    jj_scanpos = xsp;
-    if (jj_3R_59()) return true;
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_23() {
-    if (jj_scan_token(JUMP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_22() {
-    if (jj_scan_token(STEP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
   }
 
   private boolean jj_3R_61() {
@@ -2648,12 +2448,6 @@ public class Robot implements RobotConstants {
     return false;
   }
 
-  private boolean jj_3_1() {
-    if (jj_scan_token(48)) return true;
-    if (jj_3R_14()) return true;
-    return false;
-  }
-
   private boolean jj_3R_46() {
     if (jj_scan_token(OMOVE)) return true;
     if (jj_scan_token(50)) return true;
@@ -2687,6 +2481,12 @@ public class Robot implements RobotConstants {
   private boolean jj_3R_43() {
     if (jj_scan_token(FREE)) return true;
     if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3_1() {
+    if (jj_scan_token(48)) return true;
+    if (jj_3R_14()) return true;
     return false;
   }
 
@@ -2758,6 +2558,212 @@ public class Robot implements RobotConstants {
 
   private boolean jj_3R_39() {
     if (jj_scan_token(LOOK)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_53() {
+    if (jj_scan_token(DROP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_29() {
+    if (jj_scan_token(GET)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_38() {
+    if (jj_scan_token(VEER)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_52() {
+    if (jj_scan_token(LOOK)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_28() {
+    if (jj_scan_token(GRAB)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_37() {
+    if (jj_scan_token(JUMPTO)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_51() {
+    if (jj_scan_token(VEER)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_27() {
+    if (jj_scan_token(DROP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_36() {
+    if (jj_scan_token(JUMP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_50() {
+    if (jj_scan_token(JUMPTO)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_26() {
+    if (jj_scan_token(LOOK)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_34() {
+    if (jj_scan_token(NAME)) return true;
+    if (jj_scan_token(54)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_35() {
+    if (jj_scan_token(STEP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_49() {
+    if (jj_scan_token(JUMP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_25() {
+    if (jj_scan_token(VEER)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_17() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_34()) {
+    jj_scanpos = xsp;
+    if (jj_3R_35()) {
+    jj_scanpos = xsp;
+    if (jj_3R_36()) {
+    jj_scanpos = xsp;
+    if (jj_3R_37()) {
+    jj_scanpos = xsp;
+    if (jj_3R_38()) {
+    jj_scanpos = xsp;
+    if (jj_3R_39()) {
+    jj_scanpos = xsp;
+    if (jj_3R_40()) {
+    jj_scanpos = xsp;
+    if (jj_3R_41()) {
+    jj_scanpos = xsp;
+    if (jj_3R_42()) {
+    jj_scanpos = xsp;
+    if (jj_3R_43()) {
+    jj_scanpos = xsp;
+    if (jj_3R_44()) {
+    jj_scanpos = xsp;
+    if (jj_3R_45()) {
+    jj_scanpos = xsp;
+    if (jj_3R_46()) return true;
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_48() {
+    if (jj_scan_token(STEP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_24() {
+    if (jj_scan_token(JUMPTO)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_47() {
+    if (jj_scan_token(NAME)) return true;
+    if (jj_scan_token(54)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_23() {
+    if (jj_scan_token(JUMP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_18() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_47()) {
+    jj_scanpos = xsp;
+    if (jj_3R_48()) {
+    jj_scanpos = xsp;
+    if (jj_3R_49()) {
+    jj_scanpos = xsp;
+    if (jj_3R_50()) {
+    jj_scanpos = xsp;
+    if (jj_3R_51()) {
+    jj_scanpos = xsp;
+    if (jj_3R_52()) {
+    jj_scanpos = xsp;
+    if (jj_3R_53()) {
+    jj_scanpos = xsp;
+    if (jj_3R_54()) {
+    jj_scanpos = xsp;
+    if (jj_3R_55()) {
+    jj_scanpos = xsp;
+    if (jj_3R_56()) {
+    jj_scanpos = xsp;
+    if (jj_3R_57()) {
+    jj_scanpos = xsp;
+    if (jj_3R_58()) {
+    jj_scanpos = xsp;
+    if (jj_3R_59()) return true;
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_22() {
+    if (jj_scan_token(STEP)) return true;
     if (jj_scan_token(50)) return true;
     return false;
   }
