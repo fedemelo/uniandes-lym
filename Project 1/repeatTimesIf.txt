@@ -2,8 +2,8 @@ PROG
 
 {
 
-repeatTimes 2 {if (isValid(step, 6)) {jumpTo(1,1)} else {jumpTo(8,8)} fi
-} per; 
+repeatTimes 2 {if (isValid(step, 3)) {step(3)} else {veer(right)} fi
+} per
 
 }
 

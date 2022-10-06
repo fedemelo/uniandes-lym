@@ -773,7 +773,35 @@ JAVACODE
 				manualOMove(n, dir);
 				i+=2;
 			} else if (insName.equals("if")) {
-				; // Skip the 'if', beca
+				ArrayList<String> cond = new ArrayList<String >();
+				ArrayList<String> doIfTrue = new ArrayList<String >();
+				ArrayList<String> doIfFalse = new ArrayList<String >();
+				boolean bool;
+				i++;
+				while (!instrs.get(i).equals("fincond")) {
+					cond.add(instrs.get(i));
+					i++;
+				}
+				i++;
+				bool = manuallyEvaluateCond(cond);
+				boolean meterAdoIfTrue = true;
+				while (!instrs.get(i).equals("fi")) {
+					if (instrs.get(i).equals("else")) {
+						meterAdoIfTrue = false;
+					} else {
+						if (meterAdoIfTrue) {
+							doIfTrue.add(instrs.get(i));
+						} else {
+							doIfFalse.add(instrs.get(i));
+						}
+					}
+					i++;
+				}
+				if (bool) {
+					manuallyExecuteInstrs(doIfTrue);
+				} else {
+					manuallyExecuteInstrs(doIfFalse);
+				}
 			} else if (this.declaredVars.contains(insName)) {
 				n = Integer.valueOf(instrs.get(i+1));
 				this.vars.put(insName, n);
@@ -781,6 +809,183 @@ JAVACODE
 				i++;
 			}
 		}
+	}
+
+
+JAVACODE
+	private boolean manuallyEvaluateCond(ArrayList<String> cond) {
+		boolean bool = true;
+		String cmd;
+		String dir;
+		String condName;
+		Integer n;
+		for (Integer i = 0; i < cond.size(); i++) {
+			condName = cond.get(i).trim();
+			if (condName.equals("isfacing")) {
+				dir = cond.get(i+1);
+				bool = manualIsFacing(dir);
+				i++;
+			} else if (condName.equals("isValid")) {
+				cmd = cond.get(i+1);
+				n = Integer.valueOf(cond.get(i+2));
+				bool = manualIsValid(cmd, n);
+				i+=2;
+			} else if (condName.equals("canMove")) {
+				dir = cond.get(i+1);
+				n = Integer.valueOf(cond.get(i+2));
+				bool = manualCanMove(dir, n);
+				i+=2;
+			} else if (condName.equals("not")) {
+				ArrayList<String> condNot = new ArrayList<String >();
+				i++;
+				while (!cond.get(i).equals("fincond")) {
+					condNot.add(cond.get(i));
+					i++;
+				}
+				bool = !manuallyEvaluateCond(condNot);
+			}
+		}
+		return bool;
+	}
+
+JAVACODE
+	boolean manualIsFacing(String dir) {
+		boolean bool = true;
+		if (dir.equals("north")) {
+			bool=world.facingNorth();
+		} else if (dir.equals("south")) {
+			bool=world.facingSouth();
+		} else if (dir.equals("east")) {
+			bool=world.facingEast();
+		} else if (dir.equals("west")) {
+			bool=world.facingWest();
+		}
+		return bool;
+	}
+
+
+JAVACODE
+	boolean manualIsValid(String cmd, Integer n) {
+		boolean bool = true;
+		int pasos;
+		int posX;
+		int posY;
+		boolean outOfBounds;
+
+		if (cmd.equals("step")) {
+			pasos = n;
+			posX = (int) world.getPosition().getX();
+			posY = (int) world.getPosition().getY();
+			/* Check if final position is on board */
+			outOfBounds = false;
+			if(world.facingNorth()) {
+				if (posY-pasos < 1) { outOfBounds = true; }
+			}	
+			else if(world.facingSouth()) {
+				if (posY+pasos > 8) { outOfBounds = true; }
+			}
+			else if(world.facingEast()) { 
+				if (posX+pasos > 8) { outOfBounds = true; }
+			}
+			else if(world.facingWest()) { 
+				if (posX-pasos < 1) { outOfBounds = true; }
+			}
+			
+			if (outOfBounds) {
+				bool = false;
+			} else {
+				/*Check if path is blocked*/
+				if(world.facingNorth())
+					bool = !world.blockedInRange(posX, posY, posY-pasos, 0);
+				else if(world.facingSouth()) 
+					bool = !world.blockedInRange(posX, posY, posY+pasos, 1);
+				else if(world.facingEast())
+					bool = !world.blockedInRange(posX, posY, posX+pasos, 2);
+				else if(world.facingWest())
+					bool = !world.blockedInRange(posX, posY, posX-pasos, 3);
+			}
+		} else if (cmd.equals("jump")) {
+			pasos = n;
+			posX = (int) world.getPosition().getX();
+			posY = (int) world.getPosition().getY();
+			/* Check if final position is on board */
+			outOfBounds = false;
+			if(world.facingNorth()) {
+				if (posY-pasos < 1) { outOfBounds = true; }
+			}	
+			else if(world.facingSouth()) {
+				if (posY+pasos > 8) { outOfBounds = true; }
+			}
+			else if(world.facingEast()) { 
+				if (posX+pasos > 8) { outOfBounds = true; }
+			}
+			else if(world.facingWest()) { 
+				if (posX-pasos < 1) { outOfBounds = true; }
+			}
+			
+			if (outOfBounds) {
+				bool = false;
+			} else {
+				/*Check if final position is blocked*/
+				if(world.facingNorth())
+					bool = !world.isBlocked(new Point(posX, posY-pasos));
+				else if(world.facingSouth()) 
+					bool = !world.isBlocked(new Point(posX, posY+pasos));
+				else if(world.facingEast())
+					bool = !world.isBlocked(new Point(posX, posX+pasos));
+				else if(world.facingWest())
+					bool = !world.isBlocked(new Point(posX, posX-pasos));
+			}
+		} else if (cmd.equals("grab")) {
+			if ((n < 0) || (world.countBalloons(world.getPosition()) < n)) {
+				bool = false;
+			}
+		} else if (cmd.equals("pop")) {
+			if ((n < 0) || (world.countBalloons(world.getPosition()) < n)) {
+				bool = false;
+			}
+		} else if (cmd.equals("pick")) {
+			if ((n < 0) || (world.countBalloons(world.getPosition()) < n)) {
+				bool = false;
+			}
+		} else if (cmd.equals("free")) {
+			if ((n < 0) || (world.getMyBalloons()< n)) {
+				bool = false;
+			}
+		} else if (cmd.equals("drop")) {
+			if ((n < 0) || (n > world.freeSpacesForChips()) || (world.getMyChips()< n)) {
+				bool = false;
+			}
+		}
+		return bool;
+	}
+
+
+JAVACODE
+	boolean manualCanMove (String dir, Integer n) {
+		boolean bool = true;
+		int pasos;
+		int posX;
+		int posY;
+		pasos = n;
+		if (dir.equals("north")) {
+			posX = (int) world.getPosition().getX();
+			posY = (int) world.getPosition().getY();
+			bool = !world.blockedInRange(posX, posY, posY-pasos, 0);
+		} else if (dir.equals("south")) {
+			posX = (int) world.getPosition().getX();
+			posY = (int) world.getPosition().getY();
+			bool = !world.blockedInRange(posX, posY, posY+pasos, 1);
+		} else if (dir.equals("east")) {
+			posX = (int) world.getPosition().getX();
+			posY = (int) world.getPosition().getY();
+			bool = !world.blockedInRange(posX, posY, posX+pasos, 2);
+		} else if (dir.equals("west")) {
+			posX = (int) world.getPosition().getX();
+			posY = (int) world.getPosition().getY();
+			bool = !world.blockedInRange(posX, posY, posX-pasos, 3);
+		}
+		return bool;
 	}
 
 
@@ -1016,11 +1221,11 @@ JAVACODE
 		ArrayList<String> l = new ArrayList<String>();
 	}
 	{
-		(< IF > { instrs.add(token.image); } "(" bool=condition() ")"
-			"{" l = saveInstrIf(bool) { instrs.addAll(l); } ( ";" l = saveInstrIf(bool) { instrs.addAll(l); } )* "}"
-		[< ELSE > 
-			"{" l = saveInstrIf(!bool) { instrs.addAll(l); } ( ";" l = saveInstrIf(!bool) { instrs.addAll(l); } )* "}"
-		] < FI >) {
+		(< IF > { instrs.add(token.image); } "(" l = saveCond() { instrs.addAll(l); } ")"
+			"{" l = saveInstr() { instrs.addAll(l); } ( ";" l = saveInstr() { instrs.addAll(l); } )* "}"
+		[< ELSE > { instrs.add(token.image); }
+			"{" l = saveInstr() { instrs.addAll(l); } ( ";" l = saveInstr() { instrs.addAll(l); } )* "}"
+		] < FI > { instrs.add(token.image); }) {
 		this.salida = this.salida + "\n'if' conditional control structure";
 		return instrs;
 		}
@@ -1043,13 +1248,37 @@ JAVACODE
 	{
 		boolean bool;
 		ArrayList<String> l = new ArrayList<String>();
+		ArrayList<String> ins = new ArrayList<String>();
 	}
 	{
-		< WHILE > "(" bool=condition() ")" < DO > /* TODO: saveWhileInstrBlock(bool) */ < OD > {
+		< WHILE > "(" l = saveCond() { ins.addAll(l); } ")" < DO > /* TODO: saveWhileInstrBlock(bool) */ < OD > {
 			this.salida = this.salida + "\n'while' loop control structure";
-			return l;
+			return ins;
 			}
 	}
+
+
+	ArrayList<String> saveCond():
+	{
+		ArrayList<String> cond = new ArrayList<String>();
+		ArrayList<String> l = new ArrayList<String>();
+		Integer n;
+	}
+	{
+		((< ISFACING > { cond.add(token.image); } "(" (
+			< NORTH >| < SOUTH >|< EAST >|< WEST >) { cond.add(token.image); } ")")
+	|	(< ISVALID > { cond.add(token.image); } "(" (
+			< STEP >|< JUMP >|< GRAB >|< POP >|< PICK >|< FREE >|< DROP >
+			) { cond.add(token.image); }
+		 "," n = numVar() { cond.add(Integer.toString(n)); } ")")
+	|	(< CANMOVE > { cond.add(token.image); } "(" (
+			< NORTH >| < SOUTH >|< EAST >|< WEST >
+			) { cond.add(token.image); }
+			"," n = numVar() { cond.add(Integer.toString(n)); } ")")
+	|	(< NOT > { cond.add(token.image); } "(" l = saveCond() {cond.addAll(l); } ")")
+	) { cond.add("fincond"); return cond;}
+	}
+
 
 
 	ArrayList<String> saveRepeatTimes():
