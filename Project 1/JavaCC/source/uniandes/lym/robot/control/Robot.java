@@ -2117,6 +2117,8 @@ public class Robot implements RobotConstants {
   }
 
   final public void checkSintaxProcCall() throws ParseException {
+                String name;
+                ArrayList<String > rParams = new ArrayList<String >();
     name = name();
     jj_consume_token(50);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -2694,14 +2696,14 @@ public class Robot implements RobotConstants {
     return false;
   }
 
-  private boolean jj_3_2() {
-    if (jj_scan_token(48)) return true;
-    if (jj_3R_13()) return true;
+  private boolean jj_3R_13() {
+    if (jj_scan_token(NAME)) return true;
     return false;
   }
 
-  private boolean jj_3R_13() {
-    if (jj_scan_token(NAME)) return true;
+  private boolean jj_3_2() {
+    if (jj_scan_token(48)) return true;
+    if (jj_3R_13()) return true;
     return false;
   }
 

@@ -1425,6 +1425,8 @@ JAVACODE
 
 	void checkSintaxProcCall():
 	{
+		String name;
+		ArrayList<String > rParams = new ArrayList<String >();
 	}
 	{
 		(name = name() "(") [rParams = params()] ")" {
