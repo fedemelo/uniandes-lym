@@ -25,7 +25,9 @@ public class Robot implements RobotConstants {
         private ArrayList<String> procsNames = new ArrayList<String>();
         private Hashtable<String, ArrayList<String>> procsParams = new Hashtable<String, ArrayList<String>>();
         private Hashtable<String, ArrayList<String>> procsInstrs = new Hashtable<String, ArrayList<String>>();
-        private Hashtable<String, String> currentParams = new Hashtable<String, String>();
+        private Hashtable<String, Integer> currentParams = new Hashtable<String, Integer>();
+        private Hashtable<Integer, String> numToParam = new Hashtable<Integer, String>();
+        private String currentProc = new String();
 
   final public boolean command(Console sistema) throws ParseException {
                 this.salida = "";
@@ -34,7 +36,9 @@ public class Robot implements RobotConstants {
                 this.procsNames = new ArrayList<String>();
                 this.procsParams = new Hashtable<String, ArrayList<String>>();
                 this.procsInstrs = new Hashtable<String, ArrayList<String>>();
-                this.currentParams = new Hashtable<String, String>();
+                this.currentParams = new Hashtable<String, Integer>();
+                this.currentProc = "";
+                this.numToParam.clear();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case PROG:
       jj_consume_token(PROG);
@@ -109,7 +113,6 @@ public class Robot implements RobotConstants {
                 ArrayList<String> localVars = new ArrayList<String>();
                 ArrayList<String> instrs = new ArrayList<String>();
                 ArrayList<String> l = new ArrayList<String>();
-                this.currentParams = new Hashtable<String, String>();
     jj_consume_token(PROC);
     name = name();
     jj_consume_token(50);
@@ -125,8 +128,9 @@ public class Robot implements RobotConstants {
                         if (procsNames.contains(name)) {
                                 {if (true) throw new Error ("Procedure with name "+name+" has already been declared");}
                         }
-                        procsNames.add(name);
-                        procsParams.put(name, localVars);
+                        this.procsNames.add(name);
+                        this.currentProc = name;
+                        this.procsParams.put(name, localVars);
     jj_consume_token(52);
     l = saveInstr();
                                            instrs.addAll(l);
@@ -148,7 +152,6 @@ public class Robot implements RobotConstants {
     jj_consume_token(CORP);
                         this.procsInstrs.put(name, instrs);
                         this.salida = this.salida + "\u005cnProcedure definition";
-                        this.currentParams = new Hashtable<String, String>();
   }
 
   final public ArrayList<String> params() throws ParseException {
@@ -156,7 +159,6 @@ public class Robot implements RobotConstants {
                 String name;
     name = name();
                         localVars.add(name);
-                        this.currentParams.put(name, name);
     label_4:
     while (true) {
       if (jj_2_2(2)) {
@@ -170,7 +172,6 @@ public class Robot implements RobotConstants {
                                 {if (true) throw new Error("Repeated parameter name: "+name);}
                         } else {
                                 localVars.add(name);
-                                this.currentParams.put(name, name);
                         }
     }
                         {if (true) return localVars;}
@@ -500,14 +501,15 @@ public class Robot implements RobotConstants {
 
   private void callProcedure(String name, ArrayList<Integer> nums) throws ParseException {
                 ArrayList<String> params = this.procsParams.get(name);
-                this.currentParams = new Hashtable<String, String>();
+                this.currentProc = name;
+                this.currentParams.clear();
 
                 for (Integer i = 0; i < params.size(); i++) {
-                        this.currentParams.put(params.get(i), Integer.toString(nums.get(i)));
+                        this.currentParams.put(params.get(i), nums.get(i));
                 }
                 ArrayList<String> instrs = this.procsInstrs.get(name);
                 manuallyExecuteInstrs(instrs);
-                this.currentParams = new Hashtable<String, String>();
+                this.currentParams.clear();
   }
 
   final public void veer() throws ParseException {
@@ -1014,43 +1016,43 @@ public class Robot implements RobotConstants {
                 for (Integer i = 0; i < instrs.size(); i++) {
                         insName = instrs.get(i).trim();
                         if (insName.equals("step")) {
-                                n = Integer.valueOf(instrs.get(i+1));
+                                n = checkIfParam(instrs.get(i+1));
                                 world.moveForward(n, false);
                                 i++;
                                 this.salida = this.salida + "\u005cnCommand: Move steps forward ";
                         } else if (insName.equals("jump")) {
-                                n = Integer.valueOf(instrs.get(i+1));
+                                n = checkIfParam(instrs.get(i+1));
                                 world.moveForward(n, true);
                                 i++;
                                 this.salida = this.salida + "\u005cnCommand: Jump steps forward ";
                         } else if (insName.equals("drop")) {
-                                n = Integer.valueOf(instrs.get(i+1));
+                                n = checkIfParam(instrs.get(i+1));
                                 world.putChips(n);
                                 i++;
                                 this.salida = this.salida + "\u005cnCommand: Drop chips from its position ";
                         } else if (insName.equals("grab")) {
-                                n = Integer.valueOf(instrs.get(i+1));
+                                n = checkIfParam(instrs.get(i+1));
                                 world.grabBalloons(n);
                                 i++;
                                 this.salida = this.salida + "\u005cnCommand: Grab balloons from its position ";
                         } else if (insName.equals("get")) {
-                                n = Integer.valueOf(instrs.get(i+1));
+                                n = checkIfParam(instrs.get(i+1));
                                 world.pickChips(n);
                                 i++;
                                 this.salida = this.salida + "\u005cnCommand: Get chips from its position ";
                         } else if (insName.equals("free")) {
-                                n = Integer.valueOf(instrs.get(i+1));
+                                n = checkIfParam(instrs.get(i+1));
                                 world.putBalloons(n);
                                 i++;
                                 this.salida = this.salida + "\u005cnCommand: Put balloons from its position ";
                         } else if (insName.equals("pop")) {
-                                n = Integer.valueOf(instrs.get(i+1));
+                                n = checkIfParam(instrs.get(i+1));
                                 world.popBalloons(n);
                                 i++;
                                 this.salida = this.salida + "\u005cnCommand: Pop balloons from its position ";
                         } else if (insName.equals("jumpTo")) {
-                                n = Integer.valueOf(instrs.get(i+1));
-                                m = Integer.valueOf(instrs.get(i+2));
+                                n = checkIfParam(instrs.get(i+1));
+                                m = checkIfParam(instrs.get(i+2));
                                 world.setPostion(n, m);
                                 i += 2;
                                 this.salida = this.salida + "\u005cnCommand: Jump to position ";
@@ -1063,12 +1065,12 @@ public class Robot implements RobotConstants {
                                 manualLook(dir);
                                 i++;
                         } else if (insName.equals("Dmove")) {
-                                n = Integer.valueOf(instrs.get(i+1));
+                                n = checkIfParam(instrs.get(i+1));
                                 dir = instrs.get(i+2);
                                 manualDMove(n, dir);
                                 i+=2;
                         } else if (insName.equals("Omove")) {
-                                n = Integer.valueOf(instrs.get(i+1));
+                                n = checkIfParam(instrs.get(i+1));
                                 dir = instrs.get(i+2);
                                 manualOMove(n, dir);
                                 i+=2;
@@ -1103,12 +1105,22 @@ public class Robot implements RobotConstants {
                                         manuallyExecuteInstrs(doIfFalse);
                                 }
                         } else if (this.declaredVars.contains(insName)) {
-                                n = Integer.valueOf(instrs.get(i+1));
+                                n = checkIfParam(instrs.get(i+1));
                                 this.vars.put(insName, n);
                                 this.salida = this.salida + "\u005cnCommand: Variable assignment";
                                 i++;
                         }
                 }
+  }
+
+  private Integer checkIfParam(String s) throws ParseException {
+                Integer n = Integer.valueOf(s);
+                if (7483647 <= n && n <= 2040483647) {
+                        String param = this.numToParam.get(n);
+                        Integer m = this.currentParams.get(param);
+                        return m;
+                }
+                return n;
   }
 
   private boolean manuallyEvaluateCond(ArrayList<String> cond) throws ParseException {
@@ -1783,6 +1795,7 @@ public class Robot implements RobotConstants {
                                                ins.addAll(l);
     jj_consume_token(51);
     jj_consume_token(DO);
+    checkSintaxInstrBlock();
     jj_consume_token(OD);
                         this.salida = this.salida + "\u005cn'while' loop control structure";
                         {if (true) return ins;}
@@ -1906,6 +1919,7 @@ public class Robot implements RobotConstants {
                 ArrayList<String> l = new ArrayList<String>();
     jj_consume_token(REPEATTIMES);
     n = numVarParam();
+    checkSintaxInstrBlock();
     jj_consume_token(PER);
                         this.salida = this.salida + "\u005cn'repeatTimes' loop control structure";
                         {if (true) return l;}
@@ -1933,8 +1947,6 @@ public class Robot implements RobotConstants {
                         if (numsParams.size() != procsParams.get(name).size()) {
                                 {if (true) throw new Error("Incorrect number of parameters for "+name+" procedure");}
                         }
-                        // TODO: Guardar el llamado del procedimiento
-
     throw new Error("Missing return statement in function");
   }
 
@@ -2236,10 +2248,17 @@ public class Robot implements RobotConstants {
       break;
     case NAME:
       jj_consume_token(NAME);
-                        if (this.currentParams.containsKey(token.image)) {
+                        if (this.vars.containsKey(token.image)) {
+                                total = Integer.valueOf(this.vars.get(token.image));
+                        } else if (procsParams.get(currentProc).contains(token.image)) {
+                                int min = 7483647;
+                                int max = 2040483647;
+                        Integer randInt = Integer.valueOf((int) Math.floor(Math.random()*(max-min+1)+min));
+                        this.numToParam.put(randInt, token.image);
+                                total = randInt;
+                        } else if (this.currentParams.containsKey(token.image)) {
                                 total = Integer.valueOf(this.currentParams.get(token.image));
-                        }
-                        else if (this.vars.containsKey(token.image)) {
+                        } else if (this.vars.containsKey(token.image)) {
                                 total = Integer.valueOf(this.vars.get(token.image));
                         } else {
                                 {if (true) throw new Error("Tried to use unexsiting parameter or undeclared variable");}
@@ -2350,13 +2369,8 @@ public class Robot implements RobotConstants {
     return false;
   }
 
-  private boolean jj_3_5() {
-    if (jj_3R_17()) return true;
-    return false;
-  }
-
-  private boolean jj_3_6() {
-    if (jj_3R_18()) return true;
+  private boolean jj_3R_14() {
+    if (jj_scan_token(NAME)) return true;
     return false;
   }
 
@@ -2394,11 +2408,6 @@ public class Robot implements RobotConstants {
     return false;
   }
 
-  private boolean jj_3R_14() {
-    if (jj_scan_token(NAME)) return true;
-    return false;
-  }
-
   private boolean jj_3R_67() {
     if (jj_scan_token(REPEATTIMES)) return true;
     return false;
@@ -2420,13 +2429,103 @@ public class Robot implements RobotConstants {
     return false;
   }
 
+  private boolean jj_3R_46() {
+    if (jj_scan_token(OMOVE)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_45() {
+    if (jj_scan_token(DMOVE)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_44() {
+    if (jj_scan_token(POP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_59() {
+    if (jj_scan_token(OMOVE)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_43() {
+    if (jj_scan_token(FREE)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_58() {
+    if (jj_scan_token(DMOVE)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_42() {
+    if (jj_scan_token(GET)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_57() {
+    if (jj_scan_token(POP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_41() {
+    if (jj_scan_token(GRAB)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_56() {
+    if (jj_scan_token(FREE)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_40() {
+    if (jj_scan_token(DROP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
   private boolean jj_3R_64() {
     if (jj_3R_67()) return true;
     return false;
   }
 
+  private boolean jj_3R_55() {
+    if (jj_scan_token(GET)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_39() {
+    if (jj_scan_token(LOOK)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
   private boolean jj_3R_63() {
     if (jj_3R_66()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_54() {
+    if (jj_scan_token(GRAB)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_38() {
+    if (jj_scan_token(VEER)) return true;
+    if (jj_scan_token(50)) return true;
     return false;
   }
 
@@ -2448,146 +2547,8 @@ public class Robot implements RobotConstants {
     return false;
   }
 
-  private boolean jj_3R_46() {
-    if (jj_scan_token(OMOVE)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_45() {
-    if (jj_scan_token(DMOVE)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_59() {
-    if (jj_scan_token(OMOVE)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_44() {
-    if (jj_scan_token(POP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_58() {
-    if (jj_scan_token(DMOVE)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_43() {
-    if (jj_scan_token(FREE)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3_1() {
-    if (jj_scan_token(48)) return true;
-    if (jj_3R_14()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_57() {
-    if (jj_scan_token(POP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_33() {
-    if (jj_scan_token(OMOVE)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_42() {
-    if (jj_scan_token(GET)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_56() {
-    if (jj_scan_token(FREE)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_32() {
-    if (jj_scan_token(DMOVE)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_41() {
-    if (jj_scan_token(GRAB)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_55() {
-    if (jj_scan_token(GET)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_31() {
-    if (jj_scan_token(POP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_40() {
-    if (jj_scan_token(DROP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_54() {
-    if (jj_scan_token(GRAB)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_30() {
-    if (jj_scan_token(FREE)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_39() {
-    if (jj_scan_token(LOOK)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
   private boolean jj_3R_53() {
     if (jj_scan_token(DROP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_29() {
-    if (jj_scan_token(GET)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_38() {
-    if (jj_scan_token(VEER)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_52() {
-    if (jj_scan_token(LOOK)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_28() {
-    if (jj_scan_token(GRAB)) return true;
     if (jj_scan_token(50)) return true;
     return false;
   }
@@ -2598,14 +2559,8 @@ public class Robot implements RobotConstants {
     return false;
   }
 
-  private boolean jj_3R_51() {
-    if (jj_scan_token(VEER)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_27() {
-    if (jj_scan_token(DROP)) return true;
+  private boolean jj_3R_52() {
+    if (jj_scan_token(LOOK)) return true;
     if (jj_scan_token(50)) return true;
     return false;
   }
@@ -2616,14 +2571,8 @@ public class Robot implements RobotConstants {
     return false;
   }
 
-  private boolean jj_3R_50() {
-    if (jj_scan_token(JUMPTO)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_26() {
-    if (jj_scan_token(LOOK)) return true;
+  private boolean jj_3R_51() {
+    if (jj_scan_token(VEER)) return true;
     if (jj_scan_token(50)) return true;
     return false;
   }
@@ -2640,14 +2589,8 @@ public class Robot implements RobotConstants {
     return false;
   }
 
-  private boolean jj_3R_49() {
-    if (jj_scan_token(JUMP)) return true;
-    if (jj_scan_token(50)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_25() {
-    if (jj_scan_token(VEER)) return true;
+  private boolean jj_3R_50() {
+    if (jj_scan_token(JUMPTO)) return true;
     if (jj_scan_token(50)) return true;
     return false;
   }
@@ -2695,14 +2638,20 @@ public class Robot implements RobotConstants {
     return false;
   }
 
-  private boolean jj_3R_48() {
-    if (jj_scan_token(STEP)) return true;
+  private boolean jj_3R_49() {
+    if (jj_scan_token(JUMP)) return true;
     if (jj_scan_token(50)) return true;
     return false;
   }
 
-  private boolean jj_3R_24() {
-    if (jj_scan_token(JUMPTO)) return true;
+  private boolean jj_3_1() {
+    if (jj_scan_token(48)) return true;
+    if (jj_3R_14()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_48() {
+    if (jj_scan_token(STEP)) return true;
     if (jj_scan_token(50)) return true;
     return false;
   }
@@ -2710,12 +2659,6 @@ public class Robot implements RobotConstants {
   private boolean jj_3R_47() {
     if (jj_scan_token(NAME)) return true;
     if (jj_scan_token(54)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_23() {
-    if (jj_scan_token(JUMP)) return true;
-    if (jj_scan_token(50)) return true;
     return false;
   }
 
@@ -2759,6 +2702,82 @@ public class Robot implements RobotConstants {
     }
     }
     }
+    return false;
+  }
+
+  private boolean jj_3R_33() {
+    if (jj_scan_token(OMOVE)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_32() {
+    if (jj_scan_token(DMOVE)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_31() {
+    if (jj_scan_token(POP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_30() {
+    if (jj_scan_token(FREE)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_29() {
+    if (jj_scan_token(GET)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_28() {
+    if (jj_scan_token(GRAB)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_27() {
+    if (jj_scan_token(DROP)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_26() {
+    if (jj_scan_token(LOOK)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3_5() {
+    if (jj_3R_17()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_25() {
+    if (jj_scan_token(VEER)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3_6() {
+    if (jj_3R_18()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_24() {
+    if (jj_scan_token(JUMPTO)) return true;
+    if (jj_scan_token(50)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_23() {
+    if (jj_scan_token(JUMP)) return true;
+    if (jj_scan_token(50)) return true;
     return false;
   }
 

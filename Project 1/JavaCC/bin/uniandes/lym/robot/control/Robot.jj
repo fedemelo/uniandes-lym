@@ -44,7 +44,9 @@ public class Robot
 	private ArrayList<String> procsNames = new ArrayList<String>();
 	private Hashtable<String, ArrayList<String>> procsParams = new Hashtable<String, ArrayList<String>>();
 	private Hashtable<String, ArrayList<String>> procsInstrs = new Hashtable<String, ArrayList<String>>();
-	private Hashtable<String, String> currentParams = new Hashtable<String, String>();
+	private Hashtable<String, Integer> currentParams = new Hashtable<String, Integer>();
+	private Hashtable<Integer, String> numToParam = new Hashtable<Integer, String>();
+	private String currentProc = new String();
 }
 
 PARSER_END(Robot)
@@ -157,7 +159,9 @@ TOKEN :
 		this.procsNames = new ArrayList<String>();
 		this.procsParams = new Hashtable<String, ArrayList<String>>();
 		this.procsInstrs = new Hashtable<String, ArrayList<String>>();
-		this.currentParams = new Hashtable<String, String>();
+		this.currentParams = new Hashtable<String, Integer>();
+		this.currentProc = "";
+		this.numToParam.clear();
 	}
 	{
 		( < PROG > [varDecl()] (procDef())* instrBlock() < GORP >) {
@@ -198,7 +202,6 @@ TOKEN :
 		ArrayList<String> localVars = new ArrayList<String>();
 		ArrayList<String> instrs = new ArrayList<String>();
 		ArrayList<String> l = new ArrayList<String>();
-		this.currentParams = new Hashtable<String, String>();
 	}
 	{
 		 (( < PROC > name=name() "(" [localVars=params()] ")"
@@ -206,12 +209,12 @@ TOKEN :
 			if (procsNames.contains(name)) {
 				throw new Error ("Procedure with name "+name+" has already been declared");
 			}
-			procsNames.add(name);
-			procsParams.put(name, localVars);
+			this.procsNames.add(name);
+			this.currentProc = name;
+			this.procsParams.put(name, localVars);
 		} (  "{" l = saveInstr() { instrs.addAll(l); } (  ";" l = saveInstr() { instrs.addAll(l); } )* "}" < CORP > ))
 		{	this.procsInstrs.put(name, instrs); 
-			this.salida = this.salida + "\nProcedure definition";
-			this.currentParams = new Hashtable<String, String>();}
+			this.salida = this.salida + "\nProcedure definition"; }
 	}
 
 
@@ -223,13 +226,11 @@ TOKEN :
 	{
 		((name=name()) {
 			localVars.add(name);
-			this.currentParams.put(name, name);
 		} ( LOOKAHEAD(2) "," (name=name()) {
 			if (localVars.contains(name)) {
 				throw new Error("Repeated parameter name: "+name);
 			} else {
 				localVars.add(name);
-				this.currentParams.put(name, name);
 			}
 		} )*) { return localVars; }
 	}
@@ -382,14 +383,15 @@ JAVACODE
 JAVACODE
 	private void callProcedure(String name, ArrayList<Integer> nums) {
 		ArrayList<String> params = this.procsParams.get(name);
-		this.currentParams = new Hashtable<String, String>();
+		this.currentProc = name;
+		this.currentParams.clear();
 		
 		for (Integer i = 0; i < params.size(); i++) {
-			this.currentParams.put(params.get(i), Integer.toString(nums.get(i)));
+			this.currentParams.put(params.get(i), nums.get(i));
 		}
 		ArrayList<String> instrs = this.procsInstrs.get(name);
 		manuallyExecuteInstrs(instrs);
-		this.currentParams = new Hashtable<String, String>();
+		this.currentParams.clear();
 	}
 
 
@@ -779,43 +781,43 @@ JAVACODE
 		for (Integer i = 0; i < instrs.size(); i++) {
 			insName = instrs.get(i).trim();
 			if (insName.equals("step")) {
-				n = Integer.valueOf(instrs.get(i+1));
+				n = checkIfParam(instrs.get(i+1));
 				world.moveForward(n, false);
 				i++;
 				this.salida = this.salida + "\nCommand: Move steps forward ";
 			} else if (insName.equals("jump")) {
-				n = Integer.valueOf(instrs.get(i+1));
+				n = checkIfParam(instrs.get(i+1));
 				world.moveForward(n, true);
 				i++;
 				this.salida = this.salida + "\nCommand: Jump steps forward ";
 			} else if (insName.equals("drop")) {
-				n = Integer.valueOf(instrs.get(i+1));
+				n = checkIfParam(instrs.get(i+1));
 				world.putChips(n);
 				i++;
 				this.salida = this.salida + "\nCommand: Drop chips from its position ";
 			} else if (insName.equals("grab")) {
-				n = Integer.valueOf(instrs.get(i+1));
+				n = checkIfParam(instrs.get(i+1));
 				world.grabBalloons(n);
 				i++;
 				this.salida = this.salida + "\nCommand: Grab balloons from its position ";
 			} else if (insName.equals("get")) {
-				n = Integer.valueOf(instrs.get(i+1));
+				n = checkIfParam(instrs.get(i+1));
 				world.pickChips(n);
 				i++;
 				this.salida = this.salida + "\nCommand: Get chips from its position ";
 			} else if (insName.equals("free")) {
-				n = Integer.valueOf(instrs.get(i+1));
+				n = checkIfParam(instrs.get(i+1));
 				world.putBalloons(n);
 				i++;
 				this.salida = this.salida + "\nCommand: Put balloons from its position ";
 			} else if (insName.equals("pop")) {
-				n = Integer.valueOf(instrs.get(i+1));
+				n = checkIfParam(instrs.get(i+1));
 				world.popBalloons(n);
 				i++;
 				this.salida = this.salida + "\nCommand: Pop balloons from its position ";
 			} else if (insName.equals("jumpTo")) {
-				n = Integer.valueOf(instrs.get(i+1));
-				m = Integer.valueOf(instrs.get(i+2));
+				n = checkIfParam(instrs.get(i+1));
+				m = checkIfParam(instrs.get(i+2));
 				world.setPostion(n, m);
 				i += 2;
 				this.salida = this.salida + "\nCommand: Jump to position ";
@@ -828,12 +830,12 @@ JAVACODE
 				manualLook(dir);
 				i++;
 			} else if (insName.equals("Dmove")) {
-				n = Integer.valueOf(instrs.get(i+1));
+				n = checkIfParam(instrs.get(i+1));
 				dir = instrs.get(i+2);
 				manualDMove(n, dir);
 				i+=2;
 			} else if (insName.equals("Omove")) {
-				n = Integer.valueOf(instrs.get(i+1));
+				n = checkIfParam(instrs.get(i+1));
 				dir = instrs.get(i+2);
 				manualOMove(n, dir);
 				i+=2;
@@ -868,12 +870,24 @@ JAVACODE
 					manuallyExecuteInstrs(doIfFalse);
 				}
 			} else if (this.declaredVars.contains(insName)) {
-				n = Integer.valueOf(instrs.get(i+1));
+				n = checkIfParam(instrs.get(i+1));
 				this.vars.put(insName, n);
 				this.salida = this.salida + "\nCommand: Variable assignment";
 				i++;
 			}
 		}
+	}
+
+
+JAVACODE
+	private Integer checkIfParam(String s) {
+		Integer n = Integer.valueOf(s);
+		if (7483647 <= n && n <= 2040483647) {
+			String param = this.numToParam.get(n);
+			Integer m = this.currentParams.get(param);
+			return m;
+		}
+		return n;
 	}
 
 
@@ -1333,7 +1347,7 @@ JAVACODE
 		ArrayList<String> ins = new ArrayList<String>();
 	}
 	{
-		< WHILE > "(" l = saveCond() { ins.addAll(l); } ")" < DO > /* TODO: saveWhileInstrBlock(bool) */ < OD > {
+		< WHILE > "(" l = saveCond() { ins.addAll(l); } ")" < DO > checkSintaxInstrBlock() < OD > {
 			this.salida = this.salida + "\n'while' loop control structure";
 			return ins;
 			}
@@ -1369,7 +1383,7 @@ JAVACODE
 		ArrayList<String> l = new ArrayList<String>();
 	}
 	{
-		( < REPEATTIMES > n = numVarParam() ) /* TODO: saveRepeatInstrBlock(n) */ ( < PER > ) {
+		( < REPEATTIMES > n = numVarParam() ) checkSintaxInstrBlock() ( < PER > ) {
 			this.salida = this.salida + "\n'repeatTimes' loop control structure";
 			return l;
 		}
@@ -1389,7 +1403,6 @@ JAVACODE
 			if (numsParams.size() != procsParams.get(name).size()) {
 				throw new Error("Incorrect number of parameters for "+name+" procedure");
 			}
-			// TODO: Guardar el llamado del procedimiento
 		}
 	}
 
@@ -1530,10 +1543,17 @@ JAVACODE
 			}
 		})
 	|	(< NAME > {
-			if (this.currentParams.containsKey(token.image)) {
+			if (this.vars.containsKey(token.image)) {
+				total = Integer.valueOf(this.vars.get(token.image));
+			} else if (procsParams.get(currentProc).contains(token.image)) {
+				int min = 7483647;
+				int max = 2040483647;
+      			Integer randInt = Integer.valueOf((int) Math.floor(Math.random()*(max-min+1)+min));
+      			this.numToParam.put(randInt, token.image);
+				total = randInt;
+			} else if (this.currentParams.containsKey(token.image)) {
 				total = Integer.valueOf(this.currentParams.get(token.image));
-			} 
-			else if (this.vars.containsKey(token.image)) {
+			} else if (this.vars.containsKey(token.image)) {
 				total = Integer.valueOf(this.vars.get(token.image));
 			} else {
 				throw new Error("Tried to use unexsiting parameter or undeclared variable");
