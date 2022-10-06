@@ -1095,7 +1095,7 @@ public class Robot implements RobotConstants {
                                         condNot.add(cond.get(i));
                                         i++;
                                 }
-                                bool = manuallyEvaluateCond(condNot);
+                                bool = !manuallyEvaluateCond(condNot);
                         }
                 }
                 return bool;
