@@ -1,0 +1,50 @@
+using gold.structures.automaton.*
+using gold.visualization.automaton.*
+
+procedure main(args:String[]) begin
+	Q := {"q_", "q0", "q1", "q2", "q3", "q4",
+		  "q$", "B"}
+	Σ := ('a'‥'z')∪{' ', '$'}
+	Γ := ('a'‥'z')∪{'*', '$', '@', '#'}∪('0'‥'9')
+	q := "q1"
+	F := {"q$"}
+	
+	A := GDeterministicTransducer(Q, Σ, Γ, q, F, δ, g, h)
+	GAutomataFrame.show(A)
+end
+
+function δ(q, σ) begin
+	// Acepta que el primer caracter sea un espacio o una letra
+	if q = "q0" and σ in ('a'‥'z') then
+        return "q2"
+
+ 
+    else
+        return "B"
+    end
+end
+
+function g(q) begin
+	return λ
+end
+
+function h(q, σ) begin
+	if q in {"q_", "q0", "q1", "q2", "q3"} and σ in ('a'‥'z') then
+        return σ
+    
+    elseif q = "q1" and σ = ' ' then
+        return "###N*" // concat 1
+    elseif q = "q2" and σ = ' ' then
+        return "##N*"
+    elseif q = "q3" and σ = ' ' then
+        return "#N*"
+    elseif q = "q4" and σ = ' ' then
+        return "N*"
+
+    elseif q = "q4" and σ in ('a'‥'z') then
+    	return σ+"@"
+    	
+    else
+    	return λ
+    end
+end
