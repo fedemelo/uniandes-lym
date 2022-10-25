@@ -79,7 +79,7 @@ function h(q, σ) begin
     elseif q = "q2" and σ = '$' then
         answ := "###" + count%3 + "$"
         count := 1
-        return answ // concat 1
+        return answ
     elseif q = "q3" and σ = '$' then
         answ := "##" + count%3 + "$"
         count := 1
