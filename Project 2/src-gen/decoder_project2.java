@@ -21,34 +21,23 @@ public final class decoder_project2 {
       $rethrow($throwable,decoder_project2.class,null,$line);
     }
   }
-  public static String sCount=null;
-  static {
-    int $line=0;
-    $line=5;
-    $try:try {
-      sCount=$defaultValue(String.class);
-    }
-    catch (Throwable $throwable) {
-      $rethrow($throwable,decoder_project2.class,null,$line);
-    }
-  }
   public static void main(String[] args) {
     int $line=0;
     Object $result=null;
     $try:try {
-      $line=8;
+      $line=7;
       Object Q=$fix(GCollections.asSet("q_","q0","q1","q2","q3","q4","q5","q6","q2#","q3#","q4#","q$","B"));
-      $line=11;
+      $line=10;
       Object \u03A3=$fix($opUnionY($opUnionY($opIntvlY('a','z'),GCollections.asSet('*','$','@','#')),$opIntvlY('0','9')));
-      $line=12;
+      $line=11;
       Object \u0393=$fix($opUnionY($opIntvlY('a','z'),GCollections.asSet(' ','$')));
-      $line=13;
+      $line=12;
       Object q=$fix("q0");
-      $line=14;
+      $line=13;
       Object F=$fix(GCollections.asSet("q$"));
-      $line=16;
+      $line=15;
       Object A=$fix($invokeConstructor(GDeterministicTransducer.class,new Object[]{Q,\u03A3,\u0393,q,F,new GMethod(decoder_project2.class,"\u03B4"),new GMethod(decoder_project2.class,"g"),new GMethod(decoder_project2.class,"h")}));
-      $line=17;
+      $line=16;
       GAutomataFrame.show($cast(gold.structures.automaton.IAutomaton.class,A));
     }
     catch (Throwable $throwable) {
@@ -59,135 +48,149 @@ public final class decoder_project2 {
     int $line=0;
     Object $result=null;
     $try:try {
-      $line=24;
+      $line=23;
       if (($opEqualY(q,"q0")&&$opMembrY(\u03C3,$opIntvlY('a','z')))) {
-        $line=25;
+        $line=24;
         count=$cast(Integer.class,$fix(1));
-        $line=26;
+        $line=25;
         $result="q2";
         if (true) break $try;
       }
       else {
-        $line=27;
+        $line=26;
         if (($opEqualY(q,"q0")&&$opEqualY(\u03C3,' '))) {
-          $line=28;
+          $line=27;
           count=$cast(Integer.class,$fix(1));
-          $line=29;
+          $line=28;
           $result="q1";
           if (true) break $try;
         }
         else {
-          $line=32;
+          $line=31;
           if (($opEqualY(q,"q1")&&$opMembrY(\u03C3,$opIntvlY('a','z')))) {
-            $line=33;
+            $line=32;
             $result="q2";
             if (true) break $try;
           }
           else {
-            $line=34;
+            $line=33;
             if (($opEqualY(q,"q2")&&$opMembrY(\u03C3,$opIntvlY('a','z')))) {
-              $line=35;
+              $line=34;
               $result="q3";
               if (true) break $try;
             }
             else {
-              $line=36;
+              $line=35;
               if (($opEqualY(q,"q3")&&$opMembrY(\u03C3,$opIntvlY('a','z')))) {
-                $line=37;
+                $line=36;
                 $result="q4";
                 if (true) break $try;
               }
               else {
-                $line=38;
+                $line=37;
                 if (($opEqualY(q,"q4")&&$opMembrY(\u03C3,$opIntvlY('a','z')))) {
-                  $line=39;
+                  $line=38;
                   $result="q5";
                   if (true) break $try;
                 }
                 else {
-                  $line=40;
+                  $line=39;
                   if (($opEqualY(q,"q5")&&$opEqualY(\u03C3,'@'))) {
-                    $line=41;
+                    $line=40;
                     count=$cast(Integer.class,$fix($opAdditY(count,1)));
-                    $line=42;
+                    $line=41;
                     $result="q1";
                     if (true) break $try;
                   }
                   else {
-                    $line=48;
+                    $line=47;
                     if (($opEqualY(q,"q2")&&$opEqualY(\u03C3,'#'))) {
-                      $line=49;
+                      $line=48;
                       $result="q3#";
                       if (true) break $try;
                     }
                     else {
-                      $line=50;
+                      $line=49;
                       if (($opEqualY(q,"q3")&&$opEqualY(\u03C3,'#'))) {
-                        $line=51;
+                        $line=50;
                         $result="q4#";
                         if (true) break $try;
                       }
                       else {
-                        $line=52;
+                        $line=51;
                         if (($opEqualY(q,"q4")&&$opEqualY(\u03C3,'#'))) {
-                          $line=53;
+                          $line=52;
                           $result="q5";
                           if (true) break $try;
                         }
                         else {
-                          $line=55;
+                          $line=54;
                           if (($opEqualY(q,"q2#")&&$opEqualY(\u03C3,'#'))) {
-                            $line=56;
+                            $line=55;
                             $result="q3#";
                             if (true) break $try;
                           }
                           else {
-                            $line=57;
+                            $line=56;
                             if (($opEqualY(q,"q3#")&&$opEqualY(\u03C3,'#'))) {
-                              $line=58;
+                              $line=57;
                               $result="q4#";
                               if (true) break $try;
                             }
                             else {
-                              $line=59;
+                              $line=58;
                               if (($opEqualY(q,"q4#")&&$opEqualY(\u03C3,'#'))) {
-                                $line=60;
+                                $line=59;
                                 $result="q5";
                                 if (true) break $try;
                               }
                               else {
-                                $line=62;
+                                $line=61;
                                 if (($opEqualY(q,"q5")&&$opMembrY(\u03C3,$opIntvlY('0','9')))) {
-                                  $line=64;
-                                   sCount = new String(count%3); 
-                                  $line=65;
-                                  if ($opEqualY(\u03C3,sCount)) {
-                                    $line=66;
+                                  $line=63;
+                                  if (($opEqualY(\u03C3,'0')&&$opEqualY($opModulY(count,3),0))) {
+                                    $line=64;
                                     $result="q6";
                                     if (true) break $try;
                                   }
                                   else {
-                                    $line=68;
-                                    $result="B";
-                                    if (true) break $try;
+                                    $line=65;
+                                    if (($opEqualY(\u03C3,'1')&&$opEqualY($opModulY(count,3),1))) {
+                                      $line=66;
+                                      $result="q6";
+                                      if (true) break $try;
+                                    }
+                                    else {
+                                      $line=67;
+                                      if (($opEqualY(\u03C3,'2')&&$opEqualY($opModulY(count,3),2))) {
+                                        $line=68;
+                                        $result="q6";
+                                        if (true) break $try;
+                                      }
+                                      else {
+                                        $line=70;
+                                        $result="B";
+                                        if (true) break $try;
+                                      }
+                                    }
                                   }
                                 }
                                 else {
-                                  $line=70;
+                                  $line=72;
                                   if (($opEqualY(q,"q6")&&$opEqualY(\u03C3,'*'))) {
-                                    $line=71;
+                                    $line=73;
                                     $result="q1";
                                     if (true) break $try;
                                   }
                                   else {
-                                    $line=72;
+                                    $line=74;
                                     if (($opEqualY(q,"q6")&&$opEqualY(\u03C3,'$'))) {
-                                      $line=73;
+                                      $line=75;
                                       $result="q$";
                                       if (true) break $try;
                                     }
                                     else {
-                                      $line=77;
+                                      $line=79;
                                       $result="B";
                                       if (true) break $try;
                                     }
@@ -206,7 +209,7 @@ public final class decoder_project2 {
           }
         }
       }
-      $line=80;
+      $line=82;
       $rethrow(new RuntimeException("The function \"\u03B4(q:Object,\u03C3:Object)\" did not return a value."));
     }
     catch (Throwable $throwable) {
@@ -218,10 +221,10 @@ public final class decoder_project2 {
     int $line=0;
     Object $result=null;
     $try:try {
-      $line=83;
+      $line=85;
       $result="";
       if (true) break $try;
-      $line=84;
+      $line=86;
       $rethrow(new RuntimeException("The function \"g(q:Object)\" did not return a value."));
     }
     catch (Throwable $throwable) {
@@ -233,34 +236,36 @@ public final class decoder_project2 {
     int $line=0;
     Object $result=null;
     $try:try {
-      $line=89;
+      $line=91;
       if (($opMembrY(q,GCollections.asSet("q0","q1","q2","q3","q4"))&&$opMembrY(\u03C3,$opIntvlY('a','z')))) {
-        $line=90;
+        $line=92;
         $result=\u03C3;
         if (true) break $try;
       }
       else {
-        $line=92;
+        $line=94;
         if (($opEqualY(q,"q6")&&$opEqualY(\u03C3,'*'))) {
-          $line=93;
+          $line=95;
+          count=$cast(Integer.class,$fix(1));
+          $line=96;
           $result=" ";
           if (true) break $try;
         }
         else {
-          $line=95;
+          $line=98;
           if (($opEqualY(q,"q6")&&$opEqualY(\u03C3,'$'))) {
-            $line=96;
+            $line=99;
             $result="$";
             if (true) break $try;
           }
           else {
-            $line=99;
+            $line=102;
             $result="";
             if (true) break $try;
           }
         }
       }
-      $line=102;
+      $line=105;
       $rethrow(new RuntimeException("The function \"h(q:Object,\u03C3:Object)\" did not return a value."));
     }
     catch (Throwable $throwable) {

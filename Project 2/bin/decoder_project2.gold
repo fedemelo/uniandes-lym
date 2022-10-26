@@ -2,7 +2,6 @@ using gold.structures.automaton.*
 using gold.visualization.automaton.*
 
 var count: Integer
-var sCount: String
 
 procedure main(args:String[]) begin
 	Q := {"q_", "q0", "q1", "q2", "q3", "q4", "q5", "q6",
@@ -61,9 +60,12 @@ function δ(q, σ) begin
 
 	elseif q = "q5" and σ in ('0'‥'9') then
 		/* Si el conteo es incorrecto, a la basura */
-		/? sCount = new String(count%3); ?/
-	    if σ = sCount then
-		    return "q6"
+	    if σ = '0' and count%3 = 0 then
+            return "q6"
+        elseif σ = '1' and count%3 = 1 then
+            return "q6"
+        elseif σ = '2' and count%3 = 2 then
+            return "q6"
 		else
 		    return "B"
 		end
@@ -90,6 +92,7 @@ function h(q, σ) begin
         return σ
     
     elseif q = "q6" and σ = '*' then
+    	count := 1
     	return " "
     
     elseif q = "q6" and σ = '$' then
