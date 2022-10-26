@@ -59,20 +59,20 @@ public final class coder_project2 {
     int $line=0;
     Object $result=null;
     $try:try {
-      $line=24;
+      $line=23;
       if (($opEqualY(q,"q0")&&$opMembrY(\u03C3,$opIntvlY('a','z')))) {
-        $line=25;
+        $line=24;
         count=$cast(Integer.class,$fix(1));
-        $line=26;
+        $line=25;
         $result="q2";
         if (true) break $try;
       }
       else {
-        $line=27;
+        $line=26;
         if (($opEqualY(q,"q0")&&$opEqualY(\u03C3,' '))) {
-          $line=28;
+          $line=27;
           count=$cast(Integer.class,$fix(1));
-          $line=29;
+          $line=28;
           $result="q1";
           if (true) break $try;
         }
@@ -112,21 +112,21 @@ public final class coder_project2 {
                     if (true) break $try;
                   }
                   else {
-                    $line=42;
+                    $line=44;
                     if (($opMembrY(q,GCollections.asSet("q2","q3","q4","q5"))&&$opEqualY(\u03C3,' '))) {
-                      $line=43;
+                      $line=45;
                       $result="q1";
                       if (true) break $try;
                     }
                     else {
-                      $line=44;
+                      $line=46;
                       if (($opMembrY(q,GCollections.asSet("q2","q3","q4","q5"))&&$opEqualY(\u03C3,'$'))) {
-                        $line=45;
+                        $line=47;
                         $result="q$";
                         if (true) break $try;
                       }
                       else {
-                        $line=48;
+                        $line=51;
                         $result="B";
                         if (true) break $try;
                       }
@@ -138,7 +138,7 @@ public final class coder_project2 {
           }
         }
       }
-      $line=51;
+      $line=54;
       $rethrow(new RuntimeException("The function \"\u03B4(q:Object,\u03C3:Object)\" did not return a value."));
     }
     catch (Throwable $throwable) {
@@ -150,10 +150,10 @@ public final class coder_project2 {
     int $line=0;
     Object $result=null;
     $try:try {
-      $line=54;
+      $line=57;
       $result="";
       if (true) break $try;
-      $line=55;
+      $line=58;
       $rethrow(new RuntimeException("The function \"g(q:Object)\" did not return a value."));
     }
     catch (Throwable $throwable) {
@@ -165,111 +165,111 @@ public final class coder_project2 {
     int $line=0;
     Object $result=null;
     $try:try {
-      $line=59;
+      $line=63;
       if (($opMembrY(q,GCollections.asSet("q0","q1","q2","q3","q4"))&&$opMembrY(\u03C3,$opIntvlY('a','z')))) {
-        $line=60;
+        $line=64;
         $result=\u03C3;
         if (true) break $try;
       }
       else {
-        $line=62;
+        $line=67;
         if (($opEqualY(q,"q2")&&$opEqualY(\u03C3,' '))) {
-          $line=63;
+          $line=68;
           answ=$cast(String.class,$fix($opAdditY($opAdditY("###",$opModulY(count,3)),"*")));
-          $line=64;
+          $line=69;
           count=$cast(Integer.class,$fix(1));
-          $line=65;
+          $line=70;
           $result=answ;
           if (true) break $try;
         }
         else {
-          $line=66;
+          $line=71;
           if (($opEqualY(q,"q3")&&$opEqualY(\u03C3,' '))) {
-            $line=67;
+            $line=72;
             answ=$cast(String.class,$fix($opAdditY($opAdditY("##",$opModulY(count,3)),"*")));
-            $line=68;
+            $line=73;
             count=$cast(Integer.class,$fix(1));
-            $line=69;
+            $line=74;
             $result=answ;
             if (true) break $try;
           }
           else {
-            $line=70;
+            $line=75;
             if (($opEqualY(q,"q4")&&$opEqualY(\u03C3,' '))) {
-              $line=71;
+              $line=76;
               answ=$cast(String.class,$fix($opAdditY($opAdditY("#",$opModulY(count,3)),"*")));
-              $line=72;
+              $line=77;
               count=$cast(Integer.class,$fix(1));
-              $line=73;
+              $line=78;
               $result=answ;
               if (true) break $try;
             }
             else {
-              $line=74;
+              $line=79;
               if (($opEqualY(q,"q5")&&$opEqualY(\u03C3,' '))) {
-                $line=75;
+                $line=80;
                 answ=$cast(String.class,$fix($opAdditY($opModulY(count,3),"*")));
-                $line=76;
+                $line=81;
                 count=$cast(Integer.class,$fix(1));
-                $line=77;
+                $line=82;
                 $result=answ;
                 if (true) break $try;
               }
               else {
-                $line=79;
+                $line=85;
                 if (($opEqualY(q,"q2")&&$opEqualY(\u03C3,'$'))) {
-                  $line=80;
+                  $line=86;
                   answ=$cast(String.class,$fix($opAdditY($opAdditY("###",$opModulY(count,3)),"$")));
-                  $line=81;
+                  $line=87;
                   count=$cast(Integer.class,$fix(1));
-                  $line=82;
+                  $line=88;
                   $result=answ;
                   if (true) break $try;
                 }
                 else {
-                  $line=83;
+                  $line=89;
                   if (($opEqualY(q,"q3")&&$opEqualY(\u03C3,'$'))) {
-                    $line=84;
+                    $line=90;
                     answ=$cast(String.class,$fix($opAdditY($opAdditY("##",$opModulY(count,3)),"$")));
-                    $line=85;
+                    $line=91;
                     count=$cast(Integer.class,$fix(1));
-                    $line=86;
+                    $line=92;
                     $result=answ;
                     if (true) break $try;
                   }
                   else {
-                    $line=87;
+                    $line=93;
                     if (($opEqualY(q,"q4")&&$opEqualY(\u03C3,'$'))) {
-                      $line=88;
+                      $line=94;
                       answ=$cast(String.class,$fix($opAdditY($opAdditY("#",$opModulY(count,3)),"$")));
-                      $line=89;
+                      $line=95;
                       count=$cast(Integer.class,$fix(1));
-                      $line=90;
+                      $line=96;
                       $result=answ;
                       if (true) break $try;
                     }
                     else {
-                      $line=91;
+                      $line=97;
                       if (($opEqualY(q,"q5")&&$opEqualY(\u03C3,'$'))) {
-                        $line=92;
+                        $line=98;
                         answ=$cast(String.class,$fix($opAdditY($opModulY(count,3),"$")));
-                        $line=93;
+                        $line=99;
                         count=$cast(Integer.class,$fix(1));
-                        $line=94;
+                        $line=100;
                         $result=answ;
                         if (true) break $try;
                       }
                       else {
-                        $line=96;
+                        $line=103;
                         if (($opEqualY(q,"q5")&&$opMembrY(\u03C3,$opIntvlY('a','z')))) {
-                          $line=97;
+                          $line=104;
                           count=$cast(Integer.class,$fix($opAdditY(count,1)));
-                          $line=98;
+                          $line=105;
                           $result=$opAdditY("@",\u03C3);
                           if (true) break $try;
                         }
                         else {
-                          $line=101;
+                          $line=108;
                           $result="";
                           if (true) break $try;
                         }
@@ -282,7 +282,7 @@ public final class coder_project2 {
           }
         }
       }
-      $line=104;
+      $line=111;
       $rethrow(new RuntimeException("The function \"h(q:Object,\u03C3:Object)\" did not return a value."));
     }
     catch (Throwable $throwable) {

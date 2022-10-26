@@ -20,7 +20,6 @@ end
 function δ(q, σ) begin
 	
 	// Acepta que el primer caracter sea una letra o un espacio
-	
 	if q = "q0" and σ in ('a'‥'z') then
 		count := 1
     	return "q2"
@@ -28,6 +27,7 @@ function δ(q, σ) begin
 		count := 1
 		return "q1"
 
+	/* Los caracteres de la palabra deben ser letras minúsculas */
 	elseif q = "q1" and σ in ('a'‥'z') then
         return "q2"
     elseif q = "q2" and σ in ('a'‥'z') then
@@ -39,11 +39,14 @@ function δ(q, σ) begin
     elseif q = "q5" and σ in ('a'‥'z') then
         return "q2"
 
+	/* Si hay un espacio, se reinicia la cuenta de caracteres.
+	 * Si hay un $, fin de la cadena	 */
     elseif q in {"q2", "q3", "q4", "q5"} and σ = ' ' then
         return "q1"
     elseif q in {"q2", "q3", "q4", "q5"} and σ = '$' then
         return "q$"
 
+	/* En cualquier otro caso, a la basura! */
     else
         return "B"
     end
@@ -56,9 +59,11 @@ end
 
 function h(q, σ) begin
 	
+	/* Las letras las cifro como sí mismas */
 	if q in {"q0", "q1", "q2", "q3", "q4"} and σ in ('a'‥'z') then
         return σ
     
+    /* Si hay un espacio, lleno hasta 4 caracteres con # */
     elseif q = "q2" and σ = ' ' then
         answ := "###" + count%3 + "*"
         count := 1
@@ -75,7 +80,8 @@ function h(q, σ) begin
         answ := count%3 + "*"
         count := 1
         return answ
-        
+
+    /* Similar si hay un $ */
     elseif q = "q2" and σ = '$' then
         answ := "###" + count%3 + "$"
         count := 1
@@ -93,6 +99,7 @@ function h(q, σ) begin
         count := 1
         return answ
 
+	/* Cuento cada vez que hay más de cuatro letras seguidas */
     elseif q = "q5" and σ in ('a'‥'z') then
     	count := count + 1
     	return "@"+σ
