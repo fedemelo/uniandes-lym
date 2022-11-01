@@ -1,10 +1,21 @@
 a bb ccc ddd abcdefg xyzxyzxyzxyzdddd gh$
-
-try a long word abcdefghijklmnopqrstuuvwxyz aha$
-
-
-
 a###1*bb##1*ccc#1*ddd#1*abcd@efg#2*xyzx@yzxy@zxyz@dddd1*gh##1$
 
+try a long word abcdefghijklmnopqrstuuvwxyz aha$
 try#1*a###1*long1*word1*abcd@efgh@ijkl@mnop@qrst@uuvw@xyz#1*aha#1$
+
+aio$
+aio#1$
+
+aut o mati co$
+aut#1*o###1*mati1*co##1$
+
+probandoun acad enamaslarga$
+prob@ando@un##0*acad1*enam@asla@rga#0$
+
+aquisepruebaunacadenamuylargaperosinespacios$
+aqui@sepr@ueba@unac@aden@amas@larg@aper@osin@espa@cios2$
+
+aqui se prueba una cadena larga con espacios$
+aqui1*se##1*prue@ba##2*una#1*cade@na##2*larg@a###2*con#1*espa@cios2$
 
