@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map>
+	<bundle bundleID="724" localization="OSGI-INF/l10n/bundle" name="LexerParserExample" project="LexerParserExampleMiniLisp" provider="My Company"/>
+	<bundle bundleID="723" localization="OSGI-INF/l10n/bundle" name="LexerParserExample" project="LexerParserRobot202220" provider="My Company"/>
+</map>
