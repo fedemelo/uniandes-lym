@@ -1,3 +1,11 @@
+/* Project 3
+ * 
+ * Lexer
+ *
+ * Federico Melo Barrero
+ * 
+ */
+
 using gold.**
 
 var currentString: String
@@ -246,50 +254,52 @@ end
     
     // Most strings in the keywords are translated as their initial letter
     
-    
-    // TOKENS IN ALPHABETICALL ORDER
-    
-    // '#': "Num"
-    // '=': ":="
-    // 'A': "VAR"
-    // 'B': "back"
-    // 'C': "CORP"
-    // 'D': "PROG"
-    // 'E': "east"
-    // 'F': "front"
-    // 'G': "GORP"
-    // 'L': "left"
-    // 'N': "north"
-    // 'O': "around"
-    // 'P': "PROC"
-    // 'R': "right"
-    // 'S': "south"
-    // 'V': "IdU"
-    // 'W': "west"
-    // 'a': "grab"
-    // 'b': "isfacing"
-    // 'c': "canWalk"
-    // 'd': "drop"
-    // 'e': "free"
-    // 'f': "fi"
-    // 'g': "get"
-    // 'h': "isValid"
-    // 'i': "if"
-    // 'j': "jump"
-    // 'k': "walk"
-    // 'l': "look"
-    // 'm': "pick"
-    // 'n': "not"
-    // 'o': "pop"
-    // 'p': "per"
-    // 'q': "veer"
-    // 'r': "repeatTimes"
-    // 's': "else"
-    // 't': "jumpTo"
-    // 'v': "IdL"
-    // 'w': "while"
-    // 'x': "do"
-    // 'y': "od"
+  /*
+    TOKENS IN ALPHABETICAL ORDER
+
+       '#': 1, 2, 3, 4, 5, 6, 7, 8, 9, 0
+	'=': ":="
+	'A': "VAR"
+	'B': "back"
+	'C': "CORP"
+	'D': "PROG"
+	'E': "east"
+	'F': "front"
+	'G': "GORP"
+	'L': "left"
+	'N': "north"
+	'O': "around"
+	'P': "PROC"
+	'R': "right"
+	'S': "south"
+	'V': "IdU"
+	'W': "west"
+	'a': "grab"
+	'b': "isfacing"
+	'c': "canWalk"
+	'd': "drop"
+	'e': "free"
+	'f': "fi"
+	'g': "get"
+	'h': "isValid"
+	'i': "if"
+	'j': "jump"
+	'k': "walk"
+	'l': "look"
+	'm': "pick"
+	'n': "not"
+	'o': "pop"
+	'p': "per"
+	'q': "veer"
+	'r': "repeatTimes"
+	's': "else"
+	't': "jumpTo"
+	'v': "IdL"
+	'w': "while"
+	'x': "do"
+	'y': "od"
+
+    */
     
     translation.put("PROG",'D')  // 'P' is already used for "PROC"
     translation.put("GORP",'G')

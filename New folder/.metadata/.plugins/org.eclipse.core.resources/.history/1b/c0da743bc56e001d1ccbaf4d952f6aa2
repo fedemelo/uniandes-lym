@@ -1,0 +1,149 @@
+/* Project 3
+ * 
+ * Parser
+ * 
+ * Federico Melo Barrero
+ * 
+ */
+
+using gold.**
+
+toSet(C) :=  {x|  x in C}
+
+function createParser(A):IPushdownAutomaton begin
+	// States
+	Q := {0, 1}
+	// Tokens (Automaton's alphabet)
+	Σ := toSet(A) ∪ {' ', '\n', '\t'}
+	// Stack's alphabet
+	Γ := {'1'}
+	q₀ := 0
+	F := {0}
+	M := GPushdownAutomaton(Q,Σ,Γ,q₀,F)
+
+
+	// Declare each token as a variable (I'm not memorizing 39 tokens‥.)
+	var PROG: char
+	var GORP: char
+	var VAR: char
+	var PROC: char
+	var CORP: char
+	var if_: char
+	var else_: char
+	var fi: char
+	var while_: char
+	var do_: char
+	var od: char
+	var repeatTimes: char
+	var per: char
+	var isfacing: char
+	var isValid: char
+	var canWalk: char
+	var not_: char
+	var walk: char
+	var jump: char
+	var jumpTo: char
+	var veer: char
+	var look: char
+	var drop: char
+	var grab: char
+	var get: char
+	var free: char
+	var pop: char
+	var pick: char
+	var left: char
+	var right: char
+	var around: char
+	var north: char
+	var south: char
+	var east: char
+	var west: char
+	var front: char
+	var back: char
+	
+	PROG := 'D'
+	GORP := 'G'
+	VAR := 'A'
+	PROC := 'P'
+	CORP := 'C'
+	if_ := 'i'
+	else_ := 's'
+	fi := 'f'
+	while_ := 'w'
+	do_ := 'x'
+	od := 'y'
+	repeatTimes := 'r'
+	per := 'p'
+	isfacing := 'b'
+	isValid := 'h'
+	canWalk := 'c'
+	not_ := 'n'
+	walk := 'k'
+	jump := 'j'
+	jumpTo := 't'
+	veer := 'q'
+	look := 'l'
+	drop := 'd'
+	grab := 'a'
+	get := 'g'
+	free := 'e'
+	pop := 'o'
+	pick := 'm'
+	left := 'L'
+	right := 'R'
+	around := 'O'
+	north := 'N'
+	south := 'S'
+	east := 'E'
+	west := 'W'
+	front := 'F'
+	back := 'B'
+
+SkipChars := {' ', '\n', '\t'}   // this will only  be used when testing only the parser, as the lexer removes SkipChars
+
+// Only valid first token: PROG ('D')
+M.delta(0, 1, 'D').push('D')
+
+// Possible declaration of variables
+// VAR
+M.delta("1", "2", 'A').ignore()
+M.delta(1, 2, 'D').push('D')
+
+// Only valid last token: GORP ('G')
+M.delta(,0,'G').pop('D')
+	
+M.delta(0,1,'w').ignore()
+M.delta(1,2,'(').ignore()
+M.delta(2,7,'#').ignore()
+M.delta(2,7,'V').ignore()
+M.delta(2,7,'v').ignore()
+
+M.delta(2,3,'r').ignore()
+M.delta(3,6,',').ignore()
+
+M.delta(0,4,'k').ignore()
+
+M.delta(4,5,'(').ignore()
+M.delta(5,7,'N').ignore()
+
+
+M.delta(6,7,'#').ignore()
+M.delta(6,7,'V').ignore()
+
+M.delta(6,7,'v').ignore()
+M.delta(7,0,')').ignore()
+
+
+ // this will only  be used when testing only the parser as the lexer removes  SkipChars
+ 
+ for each q in Q do
+ 	for each s in SkipChars do
+ 	   M.delta(q,q,λ+s).ignore()
+ 	end
+ end
+
+
+return M
+
+end
+

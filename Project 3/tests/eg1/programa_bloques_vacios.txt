@@ -1,0 +1,18 @@
+PROG
+VAR n, x, y;
+PROC putCB (c, b)
+{
+}
+CORP
+PROC goNorth ()
+{
+}
+CORP
+PROC goWest ()
+{
+}
+CORP
+{
+
+}
+GORP
