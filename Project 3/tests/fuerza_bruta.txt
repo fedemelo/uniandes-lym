@@ -1,0 +1,518 @@
+/* Project 3
+ * 
+ * Parser
+ * 
+ * Federico Melo Barrero
+ * 
+ */
+
+using gold.**
+
+toSet(C) :=  {x|  x in C}
+
+function createParser(A):IPushdownAutomaton begin
+	
+	// Declare each token as a variable, both as String and as char
+	// (I'm not memorizing 40 tokens‥.)
+	var PROG: String
+	var GORP: String
+	var VAR: String
+	var PROC: String
+	var CORP: String
+	var if_: String
+	var else_: String
+	var fi: String
+	var while_: String
+	var do_: String
+	var od: String
+	var repeatTimes: String
+	var per: String
+	var isfacing: String
+	var isValid: String
+	var canWalk: String
+	var not_: String
+	var walk: String
+	var jump: String
+	var jumpTo: String
+	var veer: String
+	var look: String
+	var drop: String
+	var grab: String
+	var get: String
+	var free: String
+	var pop: String
+	var pick: String
+	var left: String
+	var right: String
+	var around: String
+	var north: String
+	var south: String
+	var east: String
+	var west: String
+	var front: String
+	var back: String
+	
+	var cPROG: char
+	var cGORP: char
+	var cVAR: char
+	var cPROC: char
+	var cCORP: char
+	var cif_: char
+	var celse_: char
+	var cfi: char
+	var cwhile_: char
+	var cdo_: char
+	var cod: char
+	var crepeatTimes: char
+	var cper: char
+	var cisfacing: char
+	var cisValid: char
+	var ccanWalk: char
+	var cnot_: char
+	var cwalk: char
+	var cjump: char
+	var cjumpTo: char
+	var cveer: char
+	var clook: char
+	var cdrop: char
+	var cgrab: char
+	var cget: char
+	var cfree: char
+	var cpop: char
+	var cpick: char
+	var cleft: char
+	var cright: char
+	var caround: char
+	var cnorth: char
+	var csouth: char
+	var ceast: char
+	var cwest: char
+	var cfront: char
+	var cback: char
+	
+	PROG := "D"
+	GORP := "G"
+	VAR := "A"
+	PROC := "P"
+	CORP := "C"
+	if_ := "i"
+	else_ := "s"
+	fi := "f"
+	while_ := "w"
+	do_ := "x"
+	od := "y"
+	repeatTimes := "r"
+	per := "p"
+	isfacing := "b"
+	isValid := "h"
+	canWalk := "c"
+	not_ := "n"
+	walk := "k"
+	jump := "j"
+	jumpTo := "t"
+	veer := "q"
+	look := "l"
+	drop := "d"
+	grab := "a"
+	get := "g"
+	free := "e"
+	pop := "o"
+	pick := "m"
+	left := "L"
+	right := "R"
+	around := "O"
+	north := "N"
+	south := "S"
+	east := "E"
+	west := "W"
+	front := "F"
+	back := "B"
+	
+	cPROG := 'D'
+	cGORP := 'G'
+	cVAR := 'A'
+	cPROC := 'P'
+	cCORP := 'C'
+	cif_ := 'i'
+	celse_ := 's'
+	cfi := 'f'
+	cwhile_ := 'w'
+	cdo_ := 'x'
+	cod := 'y'
+	crepeatTimes := 'r'
+	cper := 'p'
+	cisfacing := 'b'
+	cisValid := 'h'
+	ccanWalk := 'c'
+	cnot_ := 'n'
+	cwalk := 'k'
+	cjump := 'j'
+	cjumpTo := 't'
+	cveer := 'q'
+	clook := 'l'
+	cdrop := 'd'
+	cgrab := 'a'
+	cget := 'g'
+	cfree := 'e'
+	cpop := 'o'
+	cpick := 'm'
+	cleft := 'L'
+	cright := 'R'
+	caround := 'O'
+	cnorth := 'N'
+	csouth := 'S'
+	ceast := 'E'
+	cwest := 'W'
+	cfront := 'F'
+	cback := 'B'
+	
+	
+	// Extra variables
+	var par: String
+	par = "("
+	var key: String
+	key = "{"
+	var num: String
+	num := "#"
+	var v: String
+	v := "v"
+	var V: String
+	V := "V"
+	var sep: String
+	sep := ";"
+	
+	var cpar: char
+	cpar = '('
+	var ckey: char
+	ckey = '{'
+	var cnum: char
+	cnum := '#'
+	var cv: char
+	cv := 'v'
+	var cV: char
+	cV := 'V'
+	var csep: char
+	csep := ';'
+	
+	
+	// States
+	Q := {"q,",
+          "q1",
+          "q2",
+          "q;",
+          "qBlock",
+          "qBlockEnd",
+          "qCORP",
+          "qCORP",
+          "qDrop",
+          "qDrop(",
+          "qDrop)",
+          "qDropP",
+          "qFree",
+          "qFree(",
+          "qFree)",
+          "qFreeP",
+          "qGet",
+          "qGet(",
+          "qGet)",
+          "qGetP",
+          "qGrab",
+          "qGrab(",
+          "qGrab)",
+          "qGrabP",
+          "qJump",
+          "qJump(",
+          "qJump)",
+          "qJumpP",
+          "qJumpTo",
+          "qJumpTo(",
+          "qJumpTo)",
+          "qJumpToP1",
+          "qJumpToP1,",
+          "qJumpToP2",
+          "qLook",
+          "qLook(",
+          "qLook)",
+          "qLookP",
+          "qPROC",
+          "qPROC(",
+          "qPROC)",
+          "qPROC,",
+          "qPROCinstrs",
+          "qPROCinstrs",
+          "qPROCp",
+          "qPROCv",
+          "qPROG",
+          "qPROCdrop",
+          "qPROCdrop(",
+          "qPROCdrop)",
+          "qPROCdropP",
+          "qPROCfree",
+          "qPROCfree(",
+          "qPROCfree)",
+          "qPROCfreeP",
+          "qPROCget",
+          "qPROCget(",
+          "qPROCget)",
+          "qPROCgetP",
+          "qPROCgrab",
+          "qPROCgrab(",
+          "qPROCgrab)",
+          "qPROCgrabP",
+          "qPROCinstrs",
+          "qPROCjump",
+          "qPROCjump(",
+          "qPROCjump)",
+          "qPROCjumpP",
+          "qPROCjumpTo",
+          "qPROCjumpTo(",
+          "qPROCjumpTo)",
+          "qPROCjumpToP1",
+          "qPROCjumpToP1,",
+          "qPROCjumpToP2",
+          "qPROClook",
+          "qPROClook(",
+          "qPROClook)",
+          "qPROClookP",
+          "qPROCpick",
+          "qPROCpick(",
+          "qPROCpick)",
+          "qPROCpickP",
+          "qPROCpop",
+          "qPROCpop(",
+          "qPROCpop)",
+          "qPROCpopP",
+          "qPROCveer",
+          "qPROCveer(",
+          "qPROCveer)",
+          "qPROCveerP",
+          "qPROCwalk",
+          "qPROCwalk(",
+          "qPROCwalk)",
+          "qPROCwalkP",
+          "qPROCwalkP1",
+          "qPROCwalkP1,",
+          "qPROCwalkP2",
+          "qPick",
+          "qPick(",
+          "qPick)",
+          "qPickP",
+          "qPop",
+          "qPop(",
+          "qPop)",
+          "qPopP",
+          "qVAR",
+          "qVeer",
+          "qVeer(",
+          "qVeer)",
+          "qVeerP",
+          "qWalk",
+          "qWalk(",
+          "qWalk)",
+          "qWalkP",
+          "qWalkP1",
+          "qWalkP1,",
+          "qWalkP2",
+          "qv",
+          "q;"}
+	
+	// Tokens (Automaton's alphabet)
+	Σ := toSet(A) ∪ {' ', '\n', '\t'}
+	// Stack's alphabet
+	Γ := {cPROG, cPROC, cv, cVAR, cCORP, cpar, ckey, 
+		  cwalk,
+		  cjump,
+		  cjumpTo,
+		  cveer,
+		  clook,
+		  cdrop,
+		  cgrab,
+		  cget,
+		  cfree,
+		  cpop,
+		  cpick,
+		  csep}
+	// Initial state
+	q₀ := "qPROG"
+	// Final state
+	F := {"qPROG"}
+	
+	M := GPushdownAutomaton(Q, Σ, Γ, q₀, F)
+
+	SkipChars := {' ', '\n', '\t'}   // this will only  be used when testing only the parser, as the lexer removes SkipChars
+
+	
+	// AUTOMATON
+
+	// A program defintion begins with the keyword PROG 
+	M.delta("qPROG", "q1", PROG).push(PROG)
+	// It ends the keyword GORP
+	M.delta("qBlockEnd", "qPROG", GORP).pop(PROG)
+	
+	// A declaration of variables is the keyword VAR
+	M.delta("q1", "qVAR", VAR).push(VAR)
+	// followed by a list of names separated  by commas
+	M.delta("qVAR", "qv", v).ignore()
+	M.delta("qv", "q,", ',').push(v)
+	M.delta("q,", "qv", v).pop(v)
+	// The list is followed by ;
+	M.delta("qVAR", "q2", ';').pop(VAR)  // Valid empty variable declaration: VAR ;
+	M.delta("qv", "q2", ';').pop(VAR)
+	
+	// A procedure defintion is a the word PROC
+	M.delta("q1", "qPROC", PROC).push(PROC)
+	M.delta("q2", "qPROC", PROC).push(PROC)
+	// followed by a name
+	M.delta("qPROC", "qPROCv", v).changeTop(PROC, CORP)
+	// followed by a list of parameters within parenthesis separated by commas
+	M.delta("qPROCv", "qPROC(", '(').push(par)
+	M.delta("qPROC(", "qPROCp", v).ignore()
+	M.delta("qPROC(", "qPROC)", ')').pop(par)  // Procedure with no parameters: PROC hello( ) {‥.} CORP
+	M.delta("qPROCp", "qPROC)", ')').pop(par)
+	M.delta("qPROCp", "qPROC,", ',').push(v)
+	M.delta("qPROC,", "qPROCp", v).pop(v)
+	// followed by a block of instructions
+	M.delta("qPROC)", "qPROCinstrs", '{').push(key)
+	// and ending with the word CORP
+	M.delta("qCORP", "q2", CORP).pop(CORP)
+	
+	
+	// Block of instructions inside procedure
+	// A block of instructions is a sequence of instructions separated by semicolons within curly brackets
+	M.delta("qPROCinstrs", "qCORP", '}').pop(key)  // Empty block of instructions in procedure: PROC hi(‥.) { } CORP
+	
+	// Single block of instructions in program, outside procedures
+	// A block of instructions is a sequence of instructions separated by semicolons within curly brackets
+	M.delta("q1", "qBlock", '{').push(key)
+	M.delta("q2", "qBlock", '{').push(key)
+	M.delta("qBlock", "qBlockEnd", '}').pop(key) // Empty instruction block : PROG ‥. { } GORP
+	
+	
+    // ------- Commands inside procedures -------
+
+    // Commands with one parameter 
+
+    // jump command
+    M.delta("qPROCinstrs", "qPROCjump", jump).push(jump)
+    M.delta("qPROCjump", "qPROCjump(", '(').push(par)
+    M.delta("qPROCjump(", "qPROCjumpP", v).pop(par)
+    M.delta("qPROCjumpP", "qPROCjump)", ')').pop(jump)
+    M.delta("qPROCjump)", "q;", ';').push(sep)
+    M.delta("q;", "qPROCjump", jump).changeTop(sep, jump)
+    M.delta("qPROCjump)", "qCORP", '}').pop(key)
+
+    // veer command
+    M.delta("qPROCinstrs", "qPROCveer", veer).push(veer)
+    M.delta("qPROCveer", "qPROCveer(", '(').push(par)
+    M.delta("qPROCveer(", "qPROCveerP", v).pop(par)
+    M.delta("qPROCveerP", "qPROCveer)", ')').pop(veer)
+    M.delta("qPROCveer)", "q;", ';').push(sep)
+    M.delta("q;", "qPROCveer", veer).changeTop(sep, veer)
+    M.delta("qPROCveer)", "qCORP", '}').pop(key)
+
+    // look command
+    M.delta("qPROCinstrs", "qPROClook", look).push(look)
+    M.delta("qPROClook", "qPROClook(", '(').push(par)
+    M.delta("qPROClook(", "qPROClookP", v).pop(par)
+    M.delta("qPROClookP", "qPROClook)", ')').pop(look)
+    M.delta("qPROClook)", "q;", ';').push(sep)
+    M.delta("q;", "qPROClook", look).changeTop(sep, look)
+    M.delta("qPROClook)", "qCORP", '}').pop(key)
+
+    // drop command
+    M.delta("qPROCinstrs", "qPROCdrop", drop).push(drop)
+    M.delta("qPROCdrop", "qPROCdrop(", '(').push(par)
+    M.delta("qPROCdrop(", "qPROCdropP", v).pop(par)
+    M.delta("qPROCdropP", "qPROCdrop)", ')').pop(drop)
+    M.delta("qPROCdrop)", "q;", ';').push(sep)
+    M.delta("q;", "qPROCdrop", drop).changeTop(sep, drop)
+    M.delta("qPROCdrop)", "qCORP", '}').pop(key)
+
+    // grab command
+    M.delta("qPROCinstrs", "qPROCgrab", grab).push(grab)
+    M.delta("qPROCgrab", "qPROCgrab(", '(').push(par)
+    M.delta("qPROCgrab(", "qPROCgrabP", v).pop(par)
+    M.delta("qPROCgrabP", "qPROCgrab)", ')').pop(grab)
+    M.delta("qPROCgrab)", "q;", ';').push(sep)
+    M.delta("q;", "qPROCgrab", grab).changeTop(sep, grab)
+    M.delta("qPROCgrab)", "qCORP", '}').pop(key)
+
+    // get command
+    M.delta("qPROCinstrs", "qPROCget", get).push(get)
+    M.delta("qPROCget", "qPROCget(", '(').push(par)
+    M.delta("qPROCget(", "qPROCgetP", v).pop(par)
+    M.delta("qPROCgetP", "qPROCget)", ')').pop(get)
+    M.delta("qPROCget)", "q;", ';').push(sep)
+    M.delta("q;", "qPROCget", get).changeTop(sep, get)
+    M.delta("qPROCget)", "qCORP", '}').pop(key)
+
+    // free command
+    M.delta("qPROCinstrs", "qPROCfree", free).push(free)
+    M.delta("qPROCfree", "qPROCfree(", '(').push(par)
+    M.delta("qPROCfree(", "qPROCfreeP", v).pop(par)
+    M.delta("qPROCfreeP", "qPROCfree)", ')').pop(free)
+    M.delta("qPROCfree)", "q;", ';').push(sep)
+    M.delta("q;", "qPROCfree", free).changeTop(sep, free)
+    M.delta("qPROCfree)", "qCORP", '}').pop(key)
+
+    // pop command
+    M.delta("qPROCinstrs", "qPROCpop", pop).push(pop)
+    M.delta("qPROCpop", "qPROCpop(", '(').push(par)
+    M.delta("qPROCpop(", "qPROCpopP", v).pop(par)
+    M.delta("qPROCpopP", "qPROCpop)", ')').pop(pop)
+    M.delta("qPROCpop)", "q;", ';').push(sep)
+    M.delta("q;", "qPROCpop", pop).changeTop(sep, pop)
+    M.delta("qPROCpop)", "qCORP", '}').pop(key)
+
+    // pick command
+    M.delta("qPROCinstrs", "qPROCpick", pick).push(pick)
+    M.delta("qPROCpick", "qPROCpick(", '(').push(par)
+    M.delta("qPROCpick(", "qPROCpickP", v).pop(par)
+    M.delta("qPROCpickP", "qPROCpick)", ')').pop(pick)
+    M.delta("qPROCpick)", "q;", ';').push(sep)
+    M.delta("q;", "qPROCpick", pick).changeTop(sep, pick)
+    M.delta("qPROCpick)", "qCORP", '}').pop(key)
+
+    // Commands with two parameters 
+
+
+    // walk command
+    M.delta("qPROCinstrs", "qPROCwalk", walk).push(walk)
+    M.delta("qPROCwalk", "qPROCwalk(", '(').push(par)
+    M.delta("qPROCwalk(", "qPROCwalkP1", v).pop(par)    
+    M.delta("qPROCwalkP1", "qPROCwalk)", ')').pop(walk)
+    M.delta("qPROCwalkP1", "qPROCwalkP1,", ',').push(v)
+    M.delta("qPROCwalkP1,", "qPROCwalkP2", v).pop(v)
+    M.delta("qPROCwalkP2", "qPROCwalk)", ')').pop(walk)
+    M.delta("qPROCwalk)", "q;", ';').push(sep)
+    M.delta("q;", "qPROCwalk", walk).changeTop(sep, walk)
+    M.delta("qPROCwalk)", "qCORP", '}').pop(key)
+
+    // jumpTo command
+    M.delta("qPROCinstrs", "qPROCjumpTo", jumpTo).push(jumpTo)
+    M.delta("qPROCjumpTo", "qPROCjumpTo(", '(').push(par)
+    M.delta("qPROCjumpTo(", "qPROCjumpToP1", v).pop(par)
+    M.delta("qPROCjumpToP1", "qPROCjumpToP1,", ',').push(v)
+    M.delta("qPROCjumpToP1,", "qPROCjumpToP2", v).pop(v)
+    M.delta("qPROCjumpToP2", "qPROCjumpTo)", ')').pop(jumpTo)
+    M.delta("qPROCjumpTo)", "q;", ';').push(sep)
+    M.delta("q;", "qPROCjumpTo", jumpTo).changeTop(sep, jumpTo)
+    M.delta("qPROCjumpTo)", "qCORP", '}').pop(key)
+	
+	
+	
+	 // this will only  be used when testing only the parser as the lexer removes  SkipChars
+	 
+	 // ????????
+	 
+	 for each q in Q do
+	 	for each s in SkipChars do
+	 	   M.delta(q,q,λ+s).ignore()
+	 	end
+	 end
+	
+	
+	return M
+
+end
+

@@ -1,0 +1,22 @@
+PROG
+VAR n, x, y;
+PROC putCB (c, b)
+{
+}
+CORP
+PROC goNorth ()
+{
+	fgh := 567
+}
+CORP
+PROC goWest (e, r, ttre, we)
+{
+	fgh := 567;
+	g := 4567;
+	ghj := 919
+}
+CORP
+{
+	a := 6
+}
+GORP

@@ -1,0 +1,201 @@
+/* Project 3
+ * 
+ * Parser
+ * 
+ * Federico Melo Barrero
+ * 
+ */
+
+using gold.**
+
+toSet(C) :=  {x|  x in C}
+
+function createParser(A):IPushdownAutomaton begin
+	
+	// Declare each token as a variable (I'm not memorizing 40 tokens‥.)
+	var PROG: String
+	var GORP: String
+	var VAR: String
+	var PROC: String
+	var CORP: String
+	var if_: String
+	var else_: String
+	var fi: String
+	var while_: String
+	var do_: String
+	var od: String
+	var repeatTimes: String
+	var per: String
+	var isfacing: String
+	var isValid: String
+	var canWalk: String
+	var not_: String
+	var walk: String
+	var jump: String
+	var jumpTo: String
+	var veer: String
+	var look: String
+	var drop: String
+	var grab: String
+	var get: String
+	var free: String
+	var pop: String
+	var pick: String
+	var left: String
+	var right: String
+	var around: String
+	var north: String
+	var south: String
+	var east: String
+	var west: String
+	var front: String
+	var back: String
+	
+	PROG := "D"
+	GORP := "G"
+	VAR := "A"
+	PROC := "P"
+	CORP := "C"
+	if_ := "i"
+	else_ := "s"
+	fi := "f"
+	while_ := "w"
+	do_ := "x"
+	od := "y"
+	repeatTimes := "r"
+	per := "p"
+	isfacing := "b"
+	isValid := "h"
+	canWalk := "c"
+	not_ := "n"
+	walk := "k"
+	jump := "j"
+	jumpTo := "t"
+	veer := "q"
+	look := "l"
+	drop := "d"
+	grab := "a"
+	get := "g"
+	free := "e"
+	pop := "o"
+	pick := "m"
+	left := "L"
+	right := "R"
+	around := "O"
+	north := "N"
+	south := "S"
+	east := "E"
+	west := "W"
+	front := "F"
+	back := "B"
+	
+	
+	// Extra variables
+	var par: String
+	par = "("
+	var key: String
+	key = "{"
+	var num: String
+	num := "#"
+	var v: String
+	v := "v"
+	var V: String
+	V := "V"
+	
+	// States
+	Q := {"qPROG","q,", "qCORP", "q2",
+		 "q1",
+		 "q;",
+		 "qPROC",
+		 "qPROC(",
+		 "qPROC)",
+		 "qPROC,",
+		 "qPROCinstrs",
+		 "qPROCp",
+		 "qPROCv",
+		 "qVAR",
+		 "qv",
+		 "qCORP",
+		 "qBlock",
+		 "qBlockEnd",
+		 "qASSIGN", "q:="}
+	
+	// Tokens (Automaton's alphabet)
+	Σ := toSet(A) ∪ {' ', '\n', '\t'}
+	// Stack's alphabet
+	Γ := {'D', 'P', 'C', 'A', '(', 'v', '{'}
+	// Initial state
+	q₀ := "qPROG"
+	// Final state
+	F := {"qPROG"}
+	
+	M := GPushdownAutomaton(Q, Σ, Γ, q₀, F)
+
+	SkipChars := {' ', '\n', '\t'}   // this will only  be used when testing only the parser, as the lexer removes SkipChars
+
+	
+	// AUTOMATON
+
+	// A program defintion begins with the keyword PROG 
+	M.delta("qPROG", "q1", PROG).push(PROG)
+	// It ends the keyword GORP
+	M.delta("qBlockEnd", "qPROG", GORP).pop(PROG)
+	
+	// A declaration of variables is the keyword VAR . 
+	M.delta("q1", "qVAR", VAR).push(VAR)
+	// followed by a list of names separated  by commas
+	M.delta("qVAR", "qv", v).ignore()
+	M.delta("qv", "q,", ',').push(v)
+	M.delta("q,", "qv", v).pop(v)
+	// The list is followed by ;
+	M.delta("qVAR", "q2", ';').pop(VAR)  // Valid empty variable declaration: VAR ;
+	M.delta("qv", "q2", ';').pop(VAR)
+	
+	// A procedure defintion is a the word PROC
+	M.delta("q1", "qPROC", PROC).push(PROC)
+	M.delta("q2", "qPROC", PROC).push(PROC)
+	// followed by a name
+	M.delta("qPROC", "qPROCv", v).changeTop(PROC, CORP)
+	// followed by a list of parameters within parenthesis separated by commas
+	M.delta("qPROCv", "qPROC(", '(').push(par)
+	M.delta("qPROC(", "qPROCp", v).ignore()
+	M.delta("qPROC(", "qPROC)", ')').pop(par)  // Procedure with no parameters: PROC hello( ) {‥.} CORP
+	M.delta("qPROCp", "qPROC)", ')').pop(par)
+	M.delta("qPROCp", "qPROC,", ',').push(v)
+	M.delta("qPROC,", "qPROCp", v).pop(v)
+	// followed by a block of instructions
+	M.delta("qPROC)", "qPROCinstrs", '{').push(key)
+	// and ending with the word CORP
+	M.delta("qCORP", "q2", CORP).pop(CORP)
+	
+	
+	// Block of instructions inside procedure
+	M.delta("qPROCinstrs", "qCORP", '}').pop(key)  // Empty block of instructions in procedure: PROC hi(‥.) { } CORP
+
+	// Single block of instructions in program, outside procedures
+	M.delta("q1", "qBlock", '{').push(key)
+	M.delta("q2", "qBlock", '{').push(key)
+	M.delta("qBlock", "qBlockEnd", '}').pop(key) // Empty instruction block : PROG ‥. { } GORP
+
+	// A block of instructions is a sequence of instructions separated by semicolons within curly brackets
+	for each qBlock in {"qPROCinstrs", "qBlock"} do
+	// name := n
+	M.delta(qBlock, "qASSIGN", v).push(v)
+	M.delta("qASSIGN", "q:=", '=').ignore()
+	M.delta("q:=", "qPROCinstrs", "#").pop(v)
+	end
+
+	
+	 // this will only  be used when testing only the parser as the lexer removes  SkipChars
+	 
+	 for each q in Q do
+	 	for each s in SkipChars do
+	 	   M.delta(q,q,λ+s).ignore()
+	 	end
+	 end
+	
+	
+	return M
+
+end
+

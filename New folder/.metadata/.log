@@ -1,4 +1,4 @@
-!SESSION 2022-10-26 09:35:12.191 -----------------------------------------------
+!SESSION 2022-12-03 15:50:13.751 -----------------------------------------------
 eclipse.buildId=4.3.2.M20140221-1700
 java.version=1.8.0_231
 java.vendor=Oracle Corporation
@@ -6,16 +6,152 @@ BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
 Framework arguments:  -product org.eclipse.epp.package.dsl.product
 Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.dsl.product
 
-!ENTRY org.eclipse.ui 4 4 2022-10-26 09:35:21.506
-!MESSAGE Referenced part does not exist yet: org.eclipse.ui.views.TaskList.
+This is a continuation of log file C:\Users\feder\OneDrive\Escritorio\Uniandes\LyM\LyM\New folder\.metadata\.bak_0.log
+Created Time: 2022-12-03 15:50:46.206
 
-!ENTRY org.eclipse.egit.ui 2 0 2022-10-26 09:36:14.178
-!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
-user global configuration and to define the default location to store repositories: 'C:\Users\feder'. If this is
-not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
-EGit might behave differently since they see different configuration options.
-This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
-!SESSION 2022-10-29 15:30:40.629 -----------------------------------------------
+!ENTRY org.eclipse.jdt.core 4 2 2022-12-03 15:50:46.206
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.NumberFormatException: For input string: ""
+	at java.lang.NumberFormatException.forInputString(Unknown Source)
+	at java.lang.Integer.parseInt(Unknown Source)
+	at java.lang.Integer.parseInt(Unknown Source)
+	at org.eclipse.osgi.storagemanager.StorageManager.updateTable(StorageManager.java:512)
+	at org.eclipse.osgi.storagemanager.StorageManager.open(StorageManager.java:709)
+	at org.eclipse.core.internal.registry.ExtensionRegistry.setFileManager(ExtensionRegistry.java:109)
+	at org.eclipse.core.internal.registry.ExtensionRegistry.checkCache(ExtensionRegistry.java:888)
+	at org.eclipse.core.internal.registry.ExtensionRegistry.<init>(ExtensionRegistry.java:673)
+	at org.eclipse.core.runtime.RegistryFactory.createRegistry(RegistryFactory.java:58)
+	at org.eclipse.pde.internal.core.PDEExtensionRegistry.createRegistry(PDEExtensionRegistry.java:89)
+	at org.eclipse.pde.internal.core.PDEExtensionRegistry.getRegistry(PDEExtensionRegistry.java:81)
+	at org.eclipse.pde.internal.core.PDERegistryStrategy.createRegistry(PDERegistryStrategy.java:296)
+	at org.eclipse.pde.internal.core.PDERegistryStrategy.access$1(PDERegistryStrategy.java:295)
+	at org.eclipse.pde.internal.core.PDERegistryStrategy$ModelListener.modelsChanged(PDERegistryStrategy.java:58)
+	at org.eclipse.pde.internal.core.PluginModelManager.fireDelta(PluginModelManager.java:388)
+	at org.eclipse.pde.internal.core.PluginModelManager.modelsChanged(PluginModelManager.java:288)
+	at org.eclipse.pde.internal.core.AbstractModelManager.fireModelProviderEvent(AbstractModelManager.java:35)
+	at org.eclipse.pde.internal.core.WorkspaceModelManager.createAndFireEvent(WorkspaceModelManager.java:263)
+	at org.eclipse.pde.internal.core.WorkspacePluginModelManager.createAndFireEvent(WorkspacePluginModelManager.java:472)
+	at org.eclipse.pde.internal.core.WorkspaceModelManager.processModelChanges(WorkspaceModelManager.java:235)
+	at org.eclipse.pde.internal.core.WorkspaceModelManager.processModelChanges(WorkspaceModelManager.java:197)
+	at org.eclipse.pde.internal.core.WorkspacePluginModelManager.processModelChanges(WorkspacePluginModelManager.java:462)
+	at org.eclipse.pde.internal.core.WorkspaceModelManager.resourceChanged(WorkspaceModelManager.java:114)
+	at org.eclipse.jdt.internal.core.DeltaProcessingState$1.run(DeltaProcessingState.java:465)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.jdt.internal.core.DeltaProcessingState.resourceChanged(DeltaProcessingState.java:460)
+	at org.eclipse.core.internal.events.NotificationManager$1.run(NotificationManager.java:291)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.NotificationManager.notify(NotificationManager.java:285)
+	at org.eclipse.core.internal.events.NotificationManager.broadcastChanges(NotificationManager.java:149)
+	at org.eclipse.core.internal.resources.Workspace.broadcastPostChange(Workspace.java:396)
+	at org.eclipse.core.internal.resources.Workspace.checkpoint(Workspace.java:558)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation$1.run(PerformChangeOperation.java:263)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2345)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.executeChange(PerformChangeOperation.java:306)
+	at org.eclipse.ltk.internal.ui.refactoring.UIPerformChangeOperation.executeChange(UIPerformChangeOperation.java:92)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.run(PerformChangeOperation.java:218)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2345)
+	at org.eclipse.ltk.internal.ui.refactoring.WorkbenchRunnableAdapter.run(WorkbenchRunnableAdapter.java:87)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:121)
+
+!ENTRY org.eclipse.jdt.core 4 4 2022-12-03 15:50:46.223
+!MESSAGE Exception occurred in listener of pre Java resource change notification
+!STACK 0
+java.lang.NumberFormatException: For input string: ""
+	at java.lang.NumberFormatException.forInputString(Unknown Source)
+	at java.lang.Integer.parseInt(Unknown Source)
+	at java.lang.Integer.parseInt(Unknown Source)
+	at org.eclipse.osgi.storagemanager.StorageManager.updateTable(StorageManager.java:512)
+	at org.eclipse.osgi.storagemanager.StorageManager.open(StorageManager.java:709)
+	at org.eclipse.core.internal.registry.ExtensionRegistry.setFileManager(ExtensionRegistry.java:109)
+	at org.eclipse.core.internal.registry.ExtensionRegistry.checkCache(ExtensionRegistry.java:888)
+	at org.eclipse.core.internal.registry.ExtensionRegistry.<init>(ExtensionRegistry.java:673)
+	at org.eclipse.core.runtime.RegistryFactory.createRegistry(RegistryFactory.java:58)
+	at org.eclipse.pde.internal.core.PDEExtensionRegistry.createRegistry(PDEExtensionRegistry.java:89)
+	at org.eclipse.pde.internal.core.PDEExtensionRegistry.getRegistry(PDEExtensionRegistry.java:81)
+	at org.eclipse.pde.internal.core.PDERegistryStrategy.createRegistry(PDERegistryStrategy.java:296)
+	at org.eclipse.pde.internal.core.PDERegistryStrategy.access$1(PDERegistryStrategy.java:295)
+	at org.eclipse.pde.internal.core.PDERegistryStrategy$ModelListener.modelsChanged(PDERegistryStrategy.java:58)
+	at org.eclipse.pde.internal.core.PluginModelManager.fireDelta(PluginModelManager.java:388)
+	at org.eclipse.pde.internal.core.PluginModelManager.modelsChanged(PluginModelManager.java:288)
+	at org.eclipse.pde.internal.core.AbstractModelManager.fireModelProviderEvent(AbstractModelManager.java:35)
+	at org.eclipse.pde.internal.core.WorkspaceModelManager.createAndFireEvent(WorkspaceModelManager.java:263)
+	at org.eclipse.pde.internal.core.WorkspacePluginModelManager.createAndFireEvent(WorkspacePluginModelManager.java:472)
+	at org.eclipse.pde.internal.core.WorkspaceModelManager.processModelChanges(WorkspaceModelManager.java:235)
+	at org.eclipse.pde.internal.core.WorkspaceModelManager.processModelChanges(WorkspaceModelManager.java:197)
+	at org.eclipse.pde.internal.core.WorkspacePluginModelManager.processModelChanges(WorkspacePluginModelManager.java:462)
+	at org.eclipse.pde.internal.core.WorkspaceModelManager.resourceChanged(WorkspaceModelManager.java:114)
+	at org.eclipse.jdt.internal.core.DeltaProcessingState$1.run(DeltaProcessingState.java:465)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.jdt.internal.core.DeltaProcessingState.resourceChanged(DeltaProcessingState.java:460)
+	at org.eclipse.core.internal.events.NotificationManager$1.run(NotificationManager.java:291)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.NotificationManager.notify(NotificationManager.java:285)
+	at org.eclipse.core.internal.events.NotificationManager.broadcastChanges(NotificationManager.java:149)
+	at org.eclipse.core.internal.resources.Workspace.broadcastPostChange(Workspace.java:396)
+	at org.eclipse.core.internal.resources.Workspace.checkpoint(Workspace.java:558)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation$1.run(PerformChangeOperation.java:263)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2345)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.executeChange(PerformChangeOperation.java:306)
+	at org.eclipse.ltk.internal.ui.refactoring.UIPerformChangeOperation.executeChange(UIPerformChangeOperation.java:92)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.run(PerformChangeOperation.java:218)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2345)
+	at org.eclipse.ltk.internal.ui.refactoring.WorkbenchRunnableAdapter.run(WorkbenchRunnableAdapter.java:87)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:121)
+
+!ENTRY org.eclipse.core.resources 4 2 2022-12-03 15:50:55.176
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.core.resources".
+!STACK 1
+Java Model Exception: Java Model Status [LexerParserExampleMiniLisp does not exist]
+	at org.eclipse.jdt.internal.core.JavaElement.newNotPresentException(JavaElement.java:498)
+	at org.eclipse.jdt.internal.core.JavaModelManager.getPerProjectInfoCheckExistence(JavaModelManager.java:2309)
+	at org.eclipse.jdt.internal.core.JavaProject.getPerProjectInfo(JavaProject.java:1908)
+	at org.eclipse.jdt.internal.core.JavaProject.getResolvedClasspath(JavaProject.java:1958)
+	at org.eclipse.jdt.internal.core.JavaModelManager.getNonChainingJarsCache(JavaModelManager.java:3146)
+	at org.eclipse.jdt.internal.core.JavaModelManager.getClasspathListCache(JavaModelManager.java:3163)
+	at org.eclipse.jdt.internal.core.JavaModelManager.saveClasspathListCache(JavaModelManager.java:3986)
+	at org.eclipse.jdt.internal.core.JavaModelManager.saving(JavaModelManager.java:4254)
+	at org.eclipse.core.internal.resources.SaveManager.executeLifecycle(SaveManager.java:383)
+	at org.eclipse.core.internal.resources.SaveManager$1.run(SaveManager.java:192)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.resources.SaveManager.broadcastLifecycle(SaveManager.java:195)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1130)
+	at org.eclipse.core.internal.resources.Workspace.save(Workspace.java:2376)
+	at org.eclipse.ui.internal.ide.application.IDEWorkbenchAdvisor$5.run(IDEWorkbenchAdvisor.java:508)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:121)
+!SUBENTRY 1 org.eclipse.jdt.core 4 969 2022-12-03 15:50:55.176
+!MESSAGE LexerParserExampleMiniLisp does not exist
+!SUBENTRY 1 org.eclipse.jdt.core 4 969 2022-12-03 15:50:55.176
+!MESSAGE LexerParserExampleMiniLisp does not exist
+
+!ENTRY org.eclipse.ui.ide 4 4 2022-12-03 15:50:57.156
+!MESSAGE Problems saving workspace
+
+!ENTRY org.eclipse.ui.ide 2 1 2022-12-03 15:50:57.156
+!MESSAGE Problems occurred while trying to save the state of the workbench.
+!SUBENTRY 1 org.eclipse.core.resources 2 566 2022-12-03 15:50:57.156
+!MESSAGE Problems occurred during save.
+!STACK 1
+Java Model Exception: Java Model Status [LexerParserExampleMiniLisp does not exist]
+	at org.eclipse.jdt.internal.core.JavaElement.newNotPresentException(JavaElement.java:498)
+	at org.eclipse.jdt.internal.core.JavaModelManager.getPerProjectInfoCheckExistence(JavaModelManager.java:2309)
+	at org.eclipse.jdt.internal.core.JavaProject.getPerProjectInfo(JavaProject.java:1908)
+	at org.eclipse.jdt.internal.core.JavaProject.getResolvedClasspath(JavaProject.java:1958)
+	at org.eclipse.jdt.internal.core.JavaModelManager.getNonChainingJarsCache(JavaModelManager.java:3146)
+	at org.eclipse.jdt.internal.core.JavaModelManager.getClasspathListCache(JavaModelManager.java:3163)
+	at org.eclipse.jdt.internal.core.JavaModelManager.saveClasspathListCache(JavaModelManager.java:3986)
+	at org.eclipse.jdt.internal.core.JavaModelManager.saving(JavaModelManager.java:4254)
+	at org.eclipse.core.internal.resources.SaveManager.executeLifecycle(SaveManager.java:383)
+	at org.eclipse.core.internal.resources.SaveManager$1.run(SaveManager.java:192)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.resources.SaveManager.broadcastLifecycle(SaveManager.java:195)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1130)
+	at org.eclipse.core.internal.resources.Workspace.save(Workspace.java:2376)
+	at org.eclipse.ui.internal.ide.application.IDEWorkbenchAdvisor$5.run(IDEWorkbenchAdvisor.java:508)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:121)
+!SUBENTRY 2 org.eclipse.jdt.core 4 969 2022-12-03 15:50:57.156
+!MESSAGE LexerParserExampleMiniLisp does not exist
+!SESSION 2022-12-03 15:50:58.866 -----------------------------------------------
 eclipse.buildId=4.3.2.M20140221-1700
 java.version=1.8.0_231
 java.vendor=Oracle Corporation
@@ -23,73 +159,171 @@ BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
 Framework arguments:  -product org.eclipse.epp.package.dsl.product
 Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.dsl.product
 
-!ENTRY org.eclipse.egit.ui 2 0 2022-10-29 15:31:05.434
-!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
-user global configuration and to define the default location to store repositories: 'C:\Users\feder'. If this is
-not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
-EGit might behave differently since they see different configuration options.
-This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
-!SESSION 2022-11-01 09:50:46.048 -----------------------------------------------
-eclipse.buildId=4.3.2.M20140221-1700
-java.version=1.8.0_231
-java.vendor=Oracle Corporation
-BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
-Framework arguments:  -product org.eclipse.epp.package.dsl.product
-Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.dsl.product
+!ENTRY org.eclipse.jdt.core 4 4 2022-12-03 15:51:02.296
+!MESSAGE Unable to read non-chaining jar cache file
+!STACK 0
+java.io.EOFException
+	at java.io.DataInputStream.readInt(Unknown Source)
+	at org.eclipse.jdt.internal.core.JavaModelManager.loadClasspathListCache(JavaModelManager.java:3112)
+	at org.eclipse.jdt.internal.core.JavaModelManager.<init>(JavaModelManager.java:1578)
+	at org.eclipse.jdt.internal.core.JavaModelManager.<clinit>(JavaModelManager.java:1077)
+	at org.eclipse.jdt.core.JavaCore.start(JavaCore.java:5616)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.start(AbstractBundle.java:300)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:478)
+	at org.eclipse.osgi.internal.loader.BundleLoader.setLazyTrigger(BundleLoader.java:263)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:109)
+	at org.eclipse.osgi.baseadaptor.loader.ClasspathManager.findLocalClass(ClasspathManager.java:469)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.findLocalClass(DefaultClassLoader.java:216)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:395)
+	at org.eclipse.osgi.internal.loader.SingleSourcePackage.loadClass(SingleSourcePackage.java:35)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:461)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:421)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:412)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at java.lang.Class.getDeclaredConstructors0(Native Method)
+	at java.lang.Class.privateGetDeclaredConstructors(Unknown Source)
+	at java.lang.Class.getConstructor0(Unknown Source)
+	at java.lang.Class.newInstance(Unknown Source)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.loadBundleActivator(AbstractBundle.java:167)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:679)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.start(AbstractBundle.java:300)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:478)
+	at org.eclipse.osgi.internal.loader.BundleLoader.setLazyTrigger(BundleLoader.java:263)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:109)
+	at org.eclipse.osgi.baseadaptor.loader.ClasspathManager.findLocalClass(ClasspathManager.java:469)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.findLocalClass(DefaultClassLoader.java:216)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:395)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:464)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:421)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:412)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at org.eclipse.osgi.internal.loader.BundleLoader.loadClass(BundleLoader.java:340)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.loadClass(BundleHost.java:229)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.loadClass(AbstractBundle.java:1212)
+	at org.eclipse.core.internal.registry.osgi.RegistryStrategyOSGI.createExecutableExtension(RegistryStrategyOSGI.java:174)
+	at org.eclipse.core.internal.registry.ExtensionRegistry.createExecutableExtension(ExtensionRegistry.java:905)
+	at org.eclipse.core.internal.registry.ConfigurationElement.createExecutableExtension(ConfigurationElement.java:243)
+	at org.eclipse.core.internal.registry.ConfigurationElementHandle.createExecutableExtension(ConfigurationElementHandle.java:55)
+	at org.eclipse.ui.internal.registry.ViewDescriptor.createView(ViewDescriptor.java:62)
+	at org.eclipse.ui.internal.ViewReference.createPart(ViewReference.java:111)
+	at org.eclipse.ui.internal.e4.compatibility.CompatibilityPart.createPart(CompatibilityPart.java:266)
+	at org.eclipse.ui.internal.e4.compatibility.CompatibilityPart.create(CompatibilityPart.java:304)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:56)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.processAnnotated(InjectorImpl.java:877)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.processAnnotated(InjectorImpl.java:857)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.inject(InjectorImpl.java:119)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.internalMake(InjectorImpl.java:333)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.make(InjectorImpl.java:254)
+	at org.eclipse.e4.core.contexts.ContextInjectionFactory.make(ContextInjectionFactory.java:162)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.createFromBundle(ReflectionContributionFactory.java:102)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.doCreate(ReflectionContributionFactory.java:71)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.create(ReflectionContributionFactory.java:53)
+	at org.eclipse.e4.ui.workbench.renderers.swt.ContributedPartRenderer.createWidget(ContributedPartRenderer.java:129)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createWidget(PartRenderingEngine.java:949)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:633)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$6.run(PartRenderingEngine.java:526)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:511)
+	at org.eclipse.e4.ui.workbench.renderers.swt.ElementReferenceRenderer.createWidget(ElementReferenceRenderer.java:61)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createWidget(PartRenderingEngine.java:949)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:633)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:735)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:706)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:700)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:685)
+	at org.eclipse.e4.ui.workbench.renderers.swt.StackRenderer.showTab(StackRenderer.java:1147)
+	at org.eclipse.e4.ui.workbench.renderers.swt.LazyStackRenderer.postProcess(LazyStackRenderer.java:96)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:649)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:735)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:706)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:700)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:685)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:62)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:645)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:735)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:706)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:700)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:685)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:62)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:645)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:735)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:706)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:700)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:685)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:62)
+	at org.eclipse.e4.ui.workbench.renderers.swt.PerspectiveRenderer.processContents(PerspectiveRenderer.java:59)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:645)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:735)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:706)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:700)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:685)
+	at org.eclipse.e4.ui.workbench.renderers.swt.PerspectiveStackRenderer.showTab(PerspectiveStackRenderer.java:103)
+	at org.eclipse.e4.ui.workbench.renderers.swt.LazyStackRenderer.postProcess(LazyStackRenderer.java:96)
+	at org.eclipse.e4.ui.workbench.renderers.swt.PerspectiveStackRenderer.postProcess(PerspectiveStackRenderer.java:77)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:649)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:735)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:706)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:700)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:685)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:62)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:645)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:735)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:706)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:700)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:685)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:62)
+	at org.eclipse.e4.ui.workbench.renderers.swt.WBWRenderer.processContents(WBWRenderer.java:581)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:645)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:735)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:706)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:700)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:685)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$9.run(PartRenderingEngine.java:1042)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:997)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:140)
+	at org.eclipse.ui.internal.Workbench$5.run(Workbench.java:611)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:567)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:150)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:124)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:354)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:181)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:636)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:591)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1450)
 
-!ENTRY org.eclipse.egit.ui 2 0 2022-11-01 09:51:07.904
-!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
-user global configuration and to define the default location to store repositories: 'C:\Users\feder'. If this is
-not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
-EGit might behave differently since they see different configuration options.
-This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
-!SESSION 2022-11-10 19:48:57.830 -----------------------------------------------
-eclipse.buildId=4.3.2.M20140221-1700
-java.version=1.8.0_231
-java.vendor=Oracle Corporation
-BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
-Framework arguments:  -product org.eclipse.epp.package.dsl.product
-Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.dsl.product
-
-!ENTRY org.eclipse.egit.ui 2 0 2022-11-10 19:49:23.317
-!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
-user global configuration and to define the default location to store repositories: 'C:\Users\feder'. If this is
-not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
-EGit might behave differently since they see different configuration options.
-This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
-!SESSION 2022-11-15 12:21:20.986 -----------------------------------------------
-eclipse.buildId=4.3.2.M20140221-1700
-java.version=1.8.0_231
-java.vendor=Oracle Corporation
-BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
-Framework arguments:  -product org.eclipse.epp.package.dsl.product
-Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.dsl.product
-
-!ENTRY org.eclipse.egit.ui 2 0 2022-11-15 12:21:56.150
-!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
-user global configuration and to define the default location to store repositories: 'C:\Users\feder'. If this is
-not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
-EGit might behave differently since they see different configuration options.
-This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
-!SESSION 2022-11-27 15:14:00.766 -----------------------------------------------
-eclipse.buildId=4.3.2.M20140221-1700
-java.version=1.8.0_231
-java.vendor=Oracle Corporation
-BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
-Framework arguments:  -product org.eclipse.epp.package.dsl.product
-Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.dsl.product
-
-!ENTRY org.eclipse.egit.ui 2 0 2022-11-27 15:14:29.275
-!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
-user global configuration and to define the default location to store repositories: 'C:\Users\feder'. If this is
-not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
-EGit might behave differently since they see different configuration options.
-This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
-
-!ENTRY org.eclipse.ui 4 0 2022-11-27 15:15:50.457
+!ENTRY org.eclipse.ui 4 0 2022-12-03 15:51:04.431
 !MESSAGE FileDocumentProvider.createElementInfo
 !STACK 1
-org.eclipse.core.internal.resources.ResourceException: Resource '/qp3/src/ejemplo_anbn.gold' does not exist.
+org.eclipse.core.internal.resources.ResourceException: Resource '/qp3/src/qp4.gold' does not exist.
 	at org.eclipse.core.internal.resources.Resource.checkExists(Resource.java:341)
 	at org.eclipse.core.internal.resources.Resource.checkAccessible(Resource.java:215)
 	at org.eclipse.core.internal.resources.File.getContents(File.java:287)
@@ -106,11 +340,7 @@ org.eclipse.core.internal.resources.ResourceException: Resource '/qp3/src/ejempl
 	at org.eclipse.ui.editors.text.TextEditor.doSetInput(TextEditor.java:169)
 	at org.eclipse.xtext.ui.editor.XtextEditor.doSetInput(XtextEditor.java:232)
 	at org.eclipse.ui.texteditor.AbstractTextEditor$19.run(AbstractTextEditor.java:3217)
-	at org.eclipse.jface.operation.ModalContext.runInCurrentThread(ModalContext.java:464)
-	at org.eclipse.jface.operation.ModalContext.run(ModalContext.java:372)
-	at org.eclipse.ui.internal.WorkbenchWindow$13.run(WorkbenchWindow.java:1829)
-	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:70)
-	at org.eclipse.ui.internal.WorkbenchWindow.run(WorkbenchWindow.java:1826)
+	at org.eclipse.ui.internal.WorkbenchWindow.run(WorkbenchWindow.java:1772)
 	at org.eclipse.ui.texteditor.AbstractTextEditor.internalInit(AbstractTextEditor.java:3235)
 	at org.eclipse.ui.texteditor.AbstractTextEditor.init(AbstractTextEditor.java:3262)
 	at org.eclipse.xtext.ui.editor.XtextEditor.init(XtextEditor.java:255)
@@ -139,1445 +369,19 @@ org.eclipse.core.internal.resources.ResourceException: Resource '/qp3/src/ejempl
 	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
 	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:685)
 	at org.eclipse.e4.ui.workbench.renderers.swt.StackRenderer.showTab(StackRenderer.java:1147)
-	at org.eclipse.e4.ui.workbench.renderers.swt.LazyStackRenderer$1.handleEvent(LazyStackRenderer.java:65)
-	at org.eclipse.e4.ui.services.internal.events.UIEventHandler$1.run(UIEventHandler.java:41)
-	at org.eclipse.swt.widgets.Synchronizer.syncExec(Synchronizer.java:180)
-	at org.eclipse.ui.internal.UISynchronizer.syncExec(UISynchronizer.java:150)
-	at org.eclipse.swt.widgets.Display.syncExec(Display.java:4688)
-	at org.eclipse.e4.ui.internal.workbench.swt.E4Application$1.syncExec(E4Application.java:205)
-	at org.eclipse.e4.ui.services.internal.events.UIEventHandler.handleEvent(UIEventHandler.java:38)
-	at org.eclipse.equinox.internal.event.EventHandlerWrapper.handleEvent(EventHandlerWrapper.java:197)
-	at org.eclipse.equinox.internal.event.EventHandlerTracker.dispatchEvent(EventHandlerTracker.java:197)
-	at org.eclipse.equinox.internal.event.EventHandlerTracker.dispatchEvent(EventHandlerTracker.java:1)
-	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
-	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
-	at org.eclipse.equinox.internal.event.EventAdminImpl.dispatchEvent(EventAdminImpl.java:135)
-	at org.eclipse.equinox.internal.event.EventAdminImpl.sendEvent(EventAdminImpl.java:78)
-	at org.eclipse.equinox.internal.event.EventComponent.sendEvent(EventComponent.java:39)
-	at org.eclipse.e4.ui.services.internal.events.EventBroker.send(EventBroker.java:80)
-	at org.eclipse.e4.ui.internal.workbench.UIEventPublisher.notifyChanged(UIEventPublisher.java:58)
-	at org.eclipse.emf.common.notify.impl.BasicNotifierImpl.eNotify(BasicNotifierImpl.java:374)
-	at org.eclipse.e4.ui.model.application.ui.impl.ElementContainerImpl.setSelectedElement(ElementContainerImpl.java:171)
-	at org.eclipse.e4.ui.internal.workbench.PartServiceImpl.hidePart(PartServiceImpl.java:1159)
-	at org.eclipse.ui.internal.WorkbenchPage.hidePart(WorkbenchPage.java:1476)
-	at org.eclipse.ui.internal.WorkbenchPage.hidePart(WorkbenchPage.java:1429)
-	at org.eclipse.ui.internal.WorkbenchPage.closeEditors(WorkbenchPage.java:1399)
-	at org.eclipse.ui.internal.WorkbenchPage.closeEditor(WorkbenchPage.java:1521)
-	at org.eclipse.ui.texteditor.AbstractTextEditor$23.run(AbstractTextEditor.java:4330)
-	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)
-	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:135)
-	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:4145)
-	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3762)
-	at org.eclipse.jface.operation.ModalContext$ModalContextThread.block(ModalContext.java:173)
-	at org.eclipse.jface.operation.ModalContext.run(ModalContext.java:388)
-	at org.eclipse.ltk.internal.ui.refactoring.RefactoringWizardDialog2.run(RefactoringWizardDialog2.java:331)
-	at org.eclipse.ltk.ui.refactoring.RefactoringWizard.internalPerformFinish(RefactoringWizard.java:637)
-	at org.eclipse.ltk.ui.refactoring.UserInputWizardPage.performFinish(UserInputWizardPage.java:153)
-	at org.eclipse.ltk.ui.refactoring.resource.DeleteResourcesWizard$DeleteResourcesRefactoringConfigurationPage.performFinish(DeleteResourcesWizard.java:202)
-	at org.eclipse.ltk.ui.refactoring.RefactoringWizard.performFinish(RefactoringWizard.java:710)
-	at org.eclipse.ltk.internal.ui.refactoring.RefactoringWizardDialog2.okPressed(RefactoringWizardDialog2.java:455)
-	at org.eclipse.jface.dialogs.Dialog.buttonPressed(Dialog.java:476)
-	at org.eclipse.jface.dialogs.Dialog$2.widgetSelected(Dialog.java:628)
-	at org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:248)
-	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:84)
-	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1057)
-	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:4170)
-	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3759)
-	at org.eclipse.jface.window.Window.runEventLoop(Window.java:826)
-	at org.eclipse.jface.window.Window.open(Window.java:802)
-	at org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation$1.run(RefactoringWizardOpenOperation.java:187)
-	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:70)
-	at org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation.run(RefactoringWizardOpenOperation.java:202)
-	at org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation.run(RefactoringWizardOpenOperation.java:122)
-	at org.eclipse.ltk.internal.ui.refactoring.actions.DeleteResourcesHandler.execute(DeleteResourcesHandler.java:40)
-	at org.eclipse.ui.internal.handlers.HandlerProxy.execute(HandlerProxy.java:290)
-	at org.eclipse.ui.internal.handlers.E4HandlerProxy.execute(E4HandlerProxy.java:90)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
-	at java.lang.reflect.Method.invoke(Unknown Source)
-	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:56)
-	at org.eclipse.e4.core.internal.di.InjectorImpl.invokeUsingClass(InjectorImpl.java:243)
-	at org.eclipse.e4.core.internal.di.InjectorImpl.invoke(InjectorImpl.java:224)
-	at org.eclipse.e4.core.contexts.ContextInjectionFactory.invoke(ContextInjectionFactory.java:132)
-	at org.eclipse.e4.core.commands.internal.HandlerServiceHandler.execute(HandlerServiceHandler.java:167)
-	at org.eclipse.core.commands.Command.executeWithChecks(Command.java:499)
-	at org.eclipse.core.commands.ParameterizedCommand.executeWithChecks(ParameterizedCommand.java:508)
-	at org.eclipse.e4.core.commands.internal.HandlerServiceImpl.executeHandler(HandlerServiceImpl.java:213)
-	at org.eclipse.ui.internal.handlers.LegacyHandlerService.executeCommandInContext(LegacyHandlerService.java:480)
-	at org.eclipse.ui.internal.ide.actions.LTKLauncher.runCommand(LTKLauncher.java:95)
-	at org.eclipse.ui.internal.ide.actions.LTKLauncher.openDeleteWizard(LTKLauncher.java:47)
-	at org.eclipse.ui.actions.DeleteResourceAction.run(DeleteResourceAction.java:474)
-	at org.eclipse.jdt.internal.ui.refactoring.reorg.DeleteAction.run(DeleteAction.java:195)
-	at org.eclipse.jdt.ui.actions.SelectionDispatchAction.dispatchRun(SelectionDispatchAction.java:275)
-	at org.eclipse.jdt.ui.actions.SelectionDispatchAction.run(SelectionDispatchAction.java:251)
-	at org.eclipse.jface.action.Action.runWithEvent(Action.java:499)
-	at org.eclipse.jface.commands.ActionHandler.execute(ActionHandler.java:119)
-	at org.eclipse.ui.internal.handlers.E4HandlerProxy.execute(E4HandlerProxy.java:90)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
-	at java.lang.reflect.Method.invoke(Unknown Source)
-	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:56)
-	at org.eclipse.e4.core.internal.di.InjectorImpl.invokeUsingClass(InjectorImpl.java:243)
-	at org.eclipse.e4.core.internal.di.InjectorImpl.invoke(InjectorImpl.java:224)
-	at org.eclipse.e4.core.contexts.ContextInjectionFactory.invoke(ContextInjectionFactory.java:132)
-	at org.eclipse.e4.core.commands.internal.HandlerServiceHandler.execute(HandlerServiceHandler.java:167)
-	at org.eclipse.core.commands.Command.executeWithChecks(Command.java:499)
-	at org.eclipse.core.commands.ParameterizedCommand.executeWithChecks(ParameterizedCommand.java:508)
-	at org.eclipse.e4.core.commands.internal.HandlerServiceImpl.executeHandler(HandlerServiceImpl.java:213)
-	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.executeCommand(KeyBindingDispatcher.java:285)
-	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.press(KeyBindingDispatcher.java:504)
-	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.processKeyEvent(KeyBindingDispatcher.java:555)
-	at org.eclipse.e4.ui.bindings.keys.OutOfOrderListener.handleEvent(OutOfOrderListener.java:70)
-	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:84)
-	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1057)
-	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1081)
-	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1066)
-	at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1108)
-	at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1104)
-	at org.eclipse.swt.widgets.Widget.wmKeyDown(Widget.java:1827)
-	at org.eclipse.swt.widgets.Control.WM_KEYDOWN(Control.java:4975)
-	at org.eclipse.swt.widgets.Tree.WM_KEYDOWN(Tree.java:6137)
-	at org.eclipse.swt.widgets.Control.windowProc(Control.java:4643)
-	at org.eclipse.swt.widgets.Tree.windowProc(Tree.java:6005)
-	at org.eclipse.swt.widgets.Display.windowProc(Display.java:4977)
-	at org.eclipse.swt.internal.win32.OS.DispatchMessageW(Native Method)
-	at org.eclipse.swt.internal.win32.OS.DispatchMessage(OS.java:2549)
-	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3757)
-	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$9.run(PartRenderingEngine.java:1113)
-	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
-	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:997)
-	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:140)
-	at org.eclipse.ui.internal.Workbench$5.run(Workbench.java:611)
-	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
-	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:567)
-	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:150)
-	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:124)
-	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
-	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
-	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
-	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:354)
-	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:181)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
-	at java.lang.reflect.Method.invoke(Unknown Source)
-	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:636)
-	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:591)
-	at org.eclipse.equinox.launcher.Main.run(Main.java:1450)
-!SUBENTRY 1 org.eclipse.core.resources 4 368 2022-11-27 15:15:50.461
-!MESSAGE Resource '/qp3/src/ejemplo_anbn.gold' does not exist.
-
-!ENTRY org.apache.log4j 4 0 2022-11-27 16:40:33.541
-!MESSAGE org.eclipse.xtext.ui.editor.model.DocumentPartitioner  - Detected unexpected state in document partitioner. Please file a bug with the following information attached:
-Document content after the event was applied:
->>>using gold.**
-
-var currentString: String
-var images: GArrayList()
-
-var allSymbols: ISet
-var keyWords: ISet
-var skipChars: ISet
-
-var  preKW : ISet
-var  preOps :ISet
-
-var StartOps:ISet
-var Symbols1: ISet
-
-var CharsSymbols1: ISet
-
-var alphaUpper:ISet
-var alphaLower :ISet
-var digits :ISet
-
-var alphaNum : ISet
-
-var Out : ISet
-var diffIdents : Boolean
-
-var Ids: ISet
-var translation : GHashTableMap()
-
-
-chars(string) :=  {string.charAt(i)| 0 <= i <string.length() }
-
-charsStrings(strings) := (∪ s | s ∈ strings: chars(s) )
-
-elements(array) :=  {array[i]| 0 <= i < |array| }
-         
-prefixes(string) := {string.substring(0,i)| 1 <= i <= string.length() }
-splits(string):= { ⟨string.substring(0,i),string.substring(i,string.length())⟩| 1 <= i <= string.length()-1 }
-
-allPrefixes(strings):= (∪ s | s ∈ strings: prefixes(s) )
-
-translationGet(q) :=  ((|q|=1 and q ∈Symbols1 and q != '\n')?q:translation.get(q))
-
-function runLexer(M, input) begin 
-    currentString :=  λ
-    images := GArrayList()
-    result:=M.acceptsString(input) 
-    return ⟨result,images⟩
- end
- 
- function problems(q: String) begin
-    
-    if q in allSymbols then return false
-    elseif |q|≤1  then return true
-    else
-    	for each ⟨s,t⟩ in splits(q) do
-         if not problems(s) and not problems(t) then return false end
-       end
-       return true
-	end
-   	
- end
- 
- 
- 	function translationPreOps(state) begin
- 	 var x, y
- 	 var q: String
- 	 q:= state
- 	 n := q.length()
- 	 if n=0 then return λ
- 	 elseif q  ∈ allSymbols then 
- 	 	images.add(q)
- 	 	return translationGet(q)  
- 	 elseif n=1 then return λ
- 	 else  
- 	 	 for each ⟨s,t⟩ in splits(q) do
- 	     	x:=translationPreOps(s)
-       	y:=translationPreOps(t) 
-          	if x≠ λ  and  y≠λ then 
-            return x+y end
-        end
-        
- 	    return   λ
- 	     
-   end
-
- end
- 
-function createLexer():ITransducer begin
-	
-	initialize()
-	
-	preOps := allPrefixes(allSymbols)
- 	preKW  := allPrefixes(keyWords)
-   StartOps := (∪ x | x ∈ allSymbols: {x.charAt(0)} ) 
-	Symbols1 := ((∪ x | x ∈ StartOps: {""+x} ) ∩ allSymbols) // \ {"\n"}  add this if \n  is a token 
-	CharsSymbols1 := (∪ x | x ∈ Symbols1: {x.charAt(0)} )
-	Out   := 	CharsSymbols1 ∪ (∪ x | x ∈ translation.values(): {x} )
-
-	print Out
-   Ids:= {"IdU","IdL"}
-
-   Q:= {"INIT","IdU","Num","Err","IdL"} ∪ preKW ∪ preOps 
-	
-	print Q
-	
-	Σ:= alphaNum ∪ charsStrings(allSymbols) ∪ skipChars ∪ {':','-'}
-	
-	 
-	q₀:="INIT"
-	F:= {"INIT"}
-	return 	GDeterministicTransducer(Q,Σ,Out,q₀,F,δ,g,h)
-end
-
-function δ(state,σ) begin
-  
- 
-   var q: String
-   q := state
-   
-   if q = "Err" then return "Err" 
-   elseif q ∈ preOps  then
- 		if q+σ in preOps then   return q+σ 
-     	elseif problems(q) then  return "Err"
-    	elseif σ ∈ skipChars  then return "INIT"	
-     	elseif  σ in ('0'‥'9') then  return "Num"
-       elseif  λ+σ in preKW then return λ+σ
-       elseif  σ in alphaUpper  then return "IdU"	
-       elseif  σ in alphaLower  then return "IdL"	
-       elseif  λ+σ in preOps then	 return λ+σ
-       else return "Err"
-  		end	  	
-    elseif  σ ∈ skipChars and q ∈ preKW and not (q∈keyWords) and q.charAt(0)=':'   then return "Err"	
-    elseif  σ ∈ skipChars   then return "INIT"	
-    elseif q="INIT" and  σ in ('0'‥'9') then  return "Num"
-    elseif q="INIT" and  λ+σ in preKW then return λ+σ
-    elseif q = "INIT" and σ in alphaUpper  then return "IdU"
-    elseif q = "INIT" and σ in alphaLower  then return "IdL"	
-    elseif q = "INIT" and  λ+σ in preOps then	 return λ+σ
-    elseif q ∈ preKW  and (q+σ) in preKW then return q+σ 	
-    elseif q ∈ preKW and σ in alphaNum  and q.charAt(0) ∈ alphaUpper then return "IdU"
-    elseif q ∈ preKW and σ in alphaNum  and q.charAt(0) ∈ alphaLower then return "IdL"
-    elseif q ∈ preKW  and  λ+σ in preOps then	 return λ+σ
-    elseif q = "Num" and  σ in ('0'‥'9') then  return "Num"
-    elseif q = "Num" and  λ+σ in preOps  then return λ+σ
-    elseif q = "Num" and σ in alphaNum  then return "Err"	
-    elseif q ∈ Ids  and σ in alphaNum  then return q
-    elseif q ∈ Ids and  λ+σ in preOps  then return λ+σ
-    else return "Err"
-end	
-end 
-
- 
-
-
-function g(q) begin
-	return λ
-end
-
-function h(q,σ) begin
-	var s: String
-	s :=(σ = '\n')?"\\n": (λ+σ)  
-    
-  	if q ∈ preOps  then
-       if σ ∈ skipChars and q ∈ allSymbols then 
-       	images.add(currentString)
-       	currentString := λ
-       	return translationGet(q)
-       elseif q+σ in preOps then 
-       	currentString := currentString + s
-       	return λ
-       elseif σ ∈ (StartOps ∪ alphaNum) and q ∈ allSymbols then 
-       	images.add(currentString)
-       	currentString := λ  + s
-       	return translationGet(q)
-      elseif σ ∈ (StartOps ∪ alphaNum ∪ skipChars∪{':'})  then 
-      	   currentString := λ  + s
-      	   return translationPreOps(q)
-       else	
-       	currentString := currentString + s
-       	return λ
-       end
-     
-     
-   elseif q ∉ {"Err"} and σ ∈ skipChars  ∪ StartOps then
-		if q="INIT" then 
-		   currentString := (σ ∈ StartOps)? s:λ
-			return λ
-    	elseif translationGet(q)=null then 
-		  
-          images.add(currentString)
-          currentString := (σ ∈ skipChars  ∪ StartOps)?s:λ
-       	 f= q.charAt(0)
-       	 if f in alphaUpper then return translationGet("IdU")
-       	 elseif f in alphaLower then 
-       	 return translationGet("IdL")
-       	 else  return null
-       	end
-    	else 
-    		images.add(currentString)
-       	currentString := (σ ∈ skipChars  ∪ StartOps)?s:λ
-    		return translationGet(q)
-    	end
-    else 
-    	 currentString := currentString + s
-    	return  λ
-
-end
-end
-
-// **************  This is the only  procedure you have to change for your lexer 
- 
- procedure initialize() begin
- 
-    skipChars := {' ', '\t', '\n'}
-    alphaUpper := ('A'‥'Z')
-    alphaLower := ('a' ‥ 'z') 
-    digits :=  ('0'‥'9')
-    alphaNum := alphaUpper ∪ alphaLower ∪ digits  ∪ {'-'}  // Alphanumeric characters
-
-    keyWords := {"VAR", "PROC", "CORP",
-    			  // Commands
-				  "walk", "jump", "jumpTo", "veer",
-				  "left", "right", "around",
-				  "look",
-				  "look", "south", "east", "west",
-				  "drop", "grab", "get", "free", "pop", "walk",
-				  "front", "back",
-				  // Control structures
-				  "if", "else", "fi",
-				  "while", "do", "od",
-				  "repeatTimes", "per",
-				  // Conditions
-				  "isfacing", "isValid", // "pick", 
-				  "canWalk", "not"
-				  }
-    allSymbols := {";", "(", ")" , ",", "{", "}", ":="}  // Symbols  and brackets, both single char and  multicharacter
-	
-	
-	// TRANSLATION FOR ALL STRINGS IN KEYWORDS
-	
-	// Operators (length 1) can be translated as themselves so you don't need to add it to the translation table
-	
-	// translation.put("\n",'@')  only use this if \n is part of the language and is not skipped @ must not be used for any other translation 
-    
-    
-    translation.put("VAR",'V')
-    translation.put("PROC",'P')
-    translation.put("CORP",'C')
-    
-    // Each command is translated as its first letter
-    translation.put("walk",'w')
-    translation.put("jump",'j')
-    translation.put("jumpTo",'t') // 'j' was already taken
-    translation.put("veer",'v')
-    translation.put("left",'l')
-    translation.put("right",'r')
-    translation.put("around",'a')
-    translation.put("look",'l DUPLICADO')
-
-    translation.put("south",'s')
-    translation.put("east",'e')
-    translation.put("west",'w DUPLICADO')
-    translation.put("drop",'d')
-    translation.put("grab",'g')
-    translation.put("get",'g DUPLICADO')
-    translation.put("free",'f')
-    translation.put("pop",'p')
-    translation.put("walk",'w DUPLICADO')
-    translation.put("front",'f DUPLICADO')
-    translation.put("back",'b')
-    translation.put("if",'i')
-    translation.put("else",'e DUPLICADO')
-    translation.put("fi",'f DUPLICADO')
-    translation.put("while",'w DUPLICADO')
-    translation.put("do",'d DUPLICADO')
-    translation.put("od",'o')
-    translation.put("repeatTimes",'r DUPLICADO')
-    translation.put("per",'p DUPLICADO')
-    translation.put("isfacing",'i DUPLICADO')
-    translation.put("isValid",'i DUPLICADO')
-    translation.put("pick",'p DUPLICADO')
-    translation.put("canWalk",'c')
-    translation.put("not",'n')
-
-	 
-	translation.put("north",'N')
-	translation.put("right",'r')
-	translation.put("walk",'w') 
-	translation.put("look",'k') 
-	translation.put("IdL",'v')  
-	translation.put("IdU",'V')  //if  there is no difference between names that start with caps and those that don't,
-	    							//assign the same translation
-	 
-	 translation.put("Num",'#')
-	 // **************
-	 
-end
-
-
-<<<
-Document event: offset: 7447, length: 41, timestamp: 511
-text:><
-
-
-
-!ENTRY org.apache.log4j 4 0 2022-11-27 16:45:50.620
-!MESSAGE org.eclipse.xtext.ui.editor.model.DocumentPartitioner  - Detected unexpected state in document partitioner. Please file a bug with the following information attached:
-Document content after the event was applied:
->>>using gold.**
-
-var currentString: String
-var images: GArrayList()
-
-var allSymbols: ISet
-var keyWords: ISet
-var skipChars: ISet
-
-var  preKW : ISet
-var  preOps :ISet
-
-var StartOps:ISet
-var Symbols1: ISet
-
-var CharsSymbols1: ISet
-
-var alphaUpper:ISet
-var alphaLower :ISet
-var digits :ISet
-
-var alphaNum : ISet
-
-var Out : ISet
-var diffIdents : Boolean
-
-var Ids: ISet
-var translation : GHashTableMap()
-
-
-chars(string) :=  {string.charAt(i)| 0 <= i <string.length() }
-
-charsStrings(strings) := (∪ s | s ∈ strings: chars(s) )
-
-elements(array) :=  {array[i]| 0 <= i < |array| }
-         
-prefixes(string) := {string.substring(0,i)| 1 <= i <= string.length() }
-splits(string):= { ⟨string.substring(0,i),string.substring(i,string.length())⟩| 1 <= i <= string.length()-1 }
-
-allPrefixes(strings):= (∪ s | s ∈ strings: prefixes(s) )
-
-translationGet(q) :=  ((|q|=1 and q ∈Symbols1 and q != '\n')?q:translation.get(q))
-
-function runLexer(M, input) begin 
-    currentString :=  λ
-    images := GArrayList()
-    result:=M.acceptsString(input) 
-    return ⟨result,images⟩
- end
- 
- function problems(q: String) begin
-    
-    if q in allSymbols then return false
-    elseif |q|≤1  then return true
-    else
-    	for each ⟨s,t⟩ in splits(q) do
-         if not problems(s) and not problems(t) then return false end
-       end
-       return true
-	end
-   	
- end
- 
- 
- 	function translationPreOps(state) begin
- 	 var x, y
- 	 var q: String
- 	 q:= state
- 	 n := q.length()
- 	 if n=0 then return λ
- 	 elseif q  ∈ allSymbols then 
- 	 	images.add(q)
- 	 	return translationGet(q)  
- 	 elseif n=1 then return λ
- 	 else  
- 	 	 for each ⟨s,t⟩ in splits(q) do
- 	     	x:=translationPreOps(s)
-       	y:=translationPreOps(t) 
-          	if x≠ λ  and  y≠λ then 
-            return x+y end
-        end
-        
- 	    return   λ
- 	     
-   end
-
- end
- 
-function createLexer():ITransducer begin
-	
-	initialize()
-	
-	preOps := allPrefixes(allSymbols)
- 	preKW  := allPrefixes(keyWords)
-   StartOps := (∪ x | x ∈ allSymbols: {x.charAt(0)} ) 
-	Symbols1 := ((∪ x | x ∈ StartOps: {""+x} ) ∩ allSymbols) // \ {"\n"}  add this if \n  is a token 
-	CharsSymbols1 := (∪ x | x ∈ Symbols1: {x.charAt(0)} )
-	Out   := 	CharsSymbols1 ∪ (∪ x | x ∈ translation.values(): {x} )
-
-	print Out
-   Ids:= {"IdU","IdL"}
-
-   Q:= {"INIT","IdU","Num","Err","IdL"} ∪ preKW ∪ preOps 
-	
-	print Q
-	
-	Σ:= alphaNum ∪ charsStrings(allSymbols) ∪ skipChars ∪ {':','-'}
-	
-	 
-	q₀:="INIT"
-	F:= {"INIT"}
-	return 	GDeterministicTransducer(Q,Σ,Out,q₀,F,δ,g,h)
-end
-
-function δ(state,σ) begin
-  
- 
-   var q: String
-   q := state
-   
-   if q = "Err" then return "Err" 
-   elseif q ∈ preOps  then
- 		if q+σ in preOps then   return q+σ 
-     	elseif problems(q) then  return "Err"
-    	elseif σ ∈ skipChars  then return "INIT"	
-     	elseif  σ in ('0'‥'9') then  return "Num"
-       elseif  λ+σ in preKW then return λ+σ
-       elseif  σ in alphaUpper  then return "IdU"	
-       elseif  σ in alphaLower  then return "IdL"	
-       elseif  λ+σ in preOps then	 return λ+σ
-       else return "Err"
-  		end	  	
-    elseif  σ ∈ skipChars and q ∈ preKW and not (q∈keyWords) and q.charAt(0)=':'   then return "Err"	
-    elseif  σ ∈ skipChars   then return "INIT"	
-    elseif q="INIT" and  σ in ('0'‥'9') then  return "Num"
-    elseif q="INIT" and  λ+σ in preKW then return λ+σ
-    elseif q = "INIT" and σ in alphaUpper  then return "IdU"
-    elseif q = "INIT" and σ in alphaLower  then return "IdL"	
-    elseif q = "INIT" and  λ+σ in preOps then	 return λ+σ
-    elseif q ∈ preKW  and (q+σ) in preKW then return q+σ 	
-    elseif q ∈ preKW and σ in alphaNum  and q.charAt(0) ∈ alphaUpper then return "IdU"
-    elseif q ∈ preKW and σ in alphaNum  and q.charAt(0) ∈ alphaLower then return "IdL"
-    elseif q ∈ preKW  and  λ+σ in preOps then	 return λ+σ
-    elseif q = "Num" and  σ in ('0'‥'9') then  return "Num"
-    elseif q = "Num" and  λ+σ in preOps  then return λ+σ
-    elseif q = "Num" and σ in alphaNum  then return "Err"	
-    elseif q ∈ Ids  and σ in alphaNum  then return q
-    elseif q ∈ Ids and  λ+σ in preOps  then return λ+σ
-    else return "Err"
-end	
-end 
-
- 
-
-
-function g(q) begin
-	return λ
-end
-
-function h(q,σ) begin
-	var s: String
-	s :=(σ = '\n')?"\\n": (λ+σ)  
-    
-  	if q ∈ preOps  then
-       if σ ∈ skipChars and q ∈ allSymbols then 
-       	images.add(currentString)
-       	currentString := λ
-       	return translationGet(q)
-       elseif q+σ in preOps then 
-       	currentString := currentString + s
-       	return λ
-       elseif σ ∈ (StartOps ∪ alphaNum) and q ∈ allSymbols then 
-       	images.add(currentString)
-       	currentString := λ  + s
-       	return translationGet(q)
-      elseif σ ∈ (StartOps ∪ alphaNum ∪ skipChars∪{':'})  then 
-      	   currentString := λ  + s
-      	   return translationPreOps(q)
-       else	
-       	currentString := currentString + s
-       	return λ
-       end
-     
-     
-   elseif q ∉ {"Err"} and σ ∈ skipChars  ∪ StartOps then
-		if q="INIT" then 
-		   currentString := (σ ∈ StartOps)? s:λ
-			return λ
-    	elseif translationGet(q)=null then 
-		  
-          images.add(currentString)
-          currentString := (σ ∈ skipChars  ∪ StartOps)?s:λ
-       	 f= q.charAt(0)
-       	 if f in alphaUpper then return translationGet("IdU")
-       	 elseif f in alphaLower then 
-       	 return translationGet("IdL")
-       	 else  return null
-       	end
-    	else 
-    		images.add(currentString)
-       	currentString := (σ ∈ skipChars  ∪ StartOps)?s:λ
-    		return translationGet(q)
-    	end
-    else 
-    	 currentString := currentString + s
-    	return  λ
-
-end
-end
-
-// **************  This is the only  procedure you have to change for your lexer 
- 
- procedure initialize() begin
- 
-    skipChars := {' ', '\t', '\n'}
-    alphaUpper := ('A'‥'Z')
-    alphaLower := ('a' ‥ 'z') 
-    digits :=  ('0'‥'9')
-    alphaNum := alphaUpper ∪ alphaLower ∪ digits  ∪ {'-'}  // Alphanumeric characters
-
-    keyWords := {"VAR", "PROC", "CORP",
-    			  // Commands
-				  "walk", "jump", "jumpTo", "veer",
-				  "left", "right", "around",
-				  "look",
-				  "north", "south", "east", "west",
-				  "drop", "grab", "get", "free", "pop",
-				  "front", "back",
-				  // Control structures
-				  "if", "else", "fi",
-				  "while", "do", "od",
-				  "repeatTimes", "per",
-				  // Conditions
-				  "isfacing", "isValid", // "pick", 
-				  "canWalk", "not"
-				  }
-    allSymbols := {";", "(", ")" , ",", "{", "}", ":="}  // Symbols  and brackets, both single char and  multicharacter
-	
-	
-	// TRANSLATION FOR ALL STRINGS IN KEYWORDS
-	
-	// Operators (length 1) can be translated as themselves so you don't need to add it to the translation table
-	
-	// translation.put("\n",'@')  only use this if \n is part of the language and is not skipped @ must not be used for any other translation 
-    
-    
-    translation.put("VAR",'V')
-    translation.put("PROC",'P')
-    translation.put("CORP",'C')
-    
-    // Each command is translated as its initial letter
-    translation.put("walk",'w')
-    translation.put("jump",'j')
-    translation.put("jumpTo",'t') // 'j' was already taken
-    translation.put("veer",'v')
-    translation.put("look",'l')
-    translation.put("drop",'d')
-    translation.put("grab",'g')
-    translation.put("get",'e') // 'g' was already taken
-    translation.put("free",'f')
-    translation.put("pop",'p')
-    
-    // Each direction is translated as its uppercase initial
-    translation.put("left",'L')
-    translation.put("right",'R')
-    translation.put("around",'A')
-    translation.put("north",'N')
-    translation.put("south",'S')
-    translation.put("east",'E')
-    translation.put("west",'W')
-    translation.put("front",'F')
-    translation.put("back",'B')
-    
-    
-    translation.put("if",'i')
-    translation.put("else",'e DUPLICADO')
-    translation.put("fi",'f DUPLICADO')
-    translation.put("while",'w DUPLICADO')
-    translation.put("do",'d DUPLICADO')
-    translation.put("od",'o')
-    translation.put("repeatTimes",'r DUPLICADO')
-    translation.put("per",'p DUPLICADO')
-    
-    
-    translation.put("isfacing",'i DUPLICADO')
-    translation.put("isValid",'i DUPLICADO')
-    translation.put("pick",'p DUPLICADO')
-    translation.put("canWalk",'c')
-    translation.put("not",'n')
-
-	 
-	
-	translation.put("right",'r')
-	translation.put("walk",'w') 
-	translation.put("look",'k') 
-	translation.put("IdL",'v')  
-	translation.put("IdU",'V')  //if  there is no difference between names that start with caps and those that don't,
-	    							//assign the same translation
-	 
-	 translation.put("Num",'#')
-	 // **************
-	 
-end
-
-
-<<<
-Document event: offset: 8228, length: 0, timestamp: 729
-text:>
-    <
-
-
-
-!ENTRY org.apache.log4j 4 0 2022-11-27 16:46:14.416
-!MESSAGE org.eclipse.xtext.ui.editor.model.DocumentPartitioner  - Detected unexpected state in document partitioner. Please file a bug with the following information attached:
-Document content after the event was applied:
->>>using gold.**
-
-var currentString: String
-var images: GArrayList()
-
-var allSymbols: ISet
-var keyWords: ISet
-var skipChars: ISet
-
-var  preKW : ISet
-var  preOps :ISet
-
-var StartOps:ISet
-var Symbols1: ISet
-
-var CharsSymbols1: ISet
-
-var alphaUpper:ISet
-var alphaLower :ISet
-var digits :ISet
-
-var alphaNum : ISet
-
-var Out : ISet
-var diffIdents : Boolean
-
-var Ids: ISet
-var translation : GHashTableMap()
-
-
-chars(string) :=  {string.charAt(i)| 0 <= i <string.length() }
-
-charsStrings(strings) := (∪ s | s ∈ strings: chars(s) )
-
-elements(array) :=  {array[i]| 0 <= i < |array| }
-         
-prefixes(string) := {string.substring(0,i)| 1 <= i <= string.length() }
-splits(string):= { ⟨string.substring(0,i),string.substring(i,string.length())⟩| 1 <= i <= string.length()-1 }
-
-allPrefixes(strings):= (∪ s | s ∈ strings: prefixes(s) )
-
-translationGet(q) :=  ((|q|=1 and q ∈Symbols1 and q != '\n')?q:translation.get(q))
-
-function runLexer(M, input) begin 
-    currentString :=  λ
-    images := GArrayList()
-    result:=M.acceptsString(input) 
-    return ⟨result,images⟩
- end
- 
- function problems(q: String) begin
-    
-    if q in allSymbols then return false
-    elseif |q|≤1  then return true
-    else
-    	for each ⟨s,t⟩ in splits(q) do
-         if not problems(s) and not problems(t) then return false end
-       end
-       return true
-	end
-   	
- end
- 
- 
- 	function translationPreOps(state) begin
- 	 var x, y
- 	 var q: String
- 	 q:= state
- 	 n := q.length()
- 	 if n=0 then return λ
- 	 elseif q  ∈ allSymbols then 
- 	 	images.add(q)
- 	 	return translationGet(q)  
- 	 elseif n=1 then return λ
- 	 else  
- 	 	 for each ⟨s,t⟩ in splits(q) do
- 	     	x:=translationPreOps(s)
-       	y:=translationPreOps(t) 
-          	if x≠ λ  and  y≠λ then 
-            return x+y end
-        end
-        
- 	    return   λ
- 	     
-   end
-
- end
- 
-function createLexer():ITransducer begin
-	
-	initialize()
-	
-	preOps := allPrefixes(allSymbols)
- 	preKW  := allPrefixes(keyWords)
-   StartOps := (∪ x | x ∈ allSymbols: {x.charAt(0)} ) 
-	Symbols1 := ((∪ x | x ∈ StartOps: {""+x} ) ∩ allSymbols) // \ {"\n"}  add this if \n  is a token 
-	CharsSymbols1 := (∪ x | x ∈ Symbols1: {x.charAt(0)} )
-	Out   := 	CharsSymbols1 ∪ (∪ x | x ∈ translation.values(): {x} )
-
-	print Out
-   Ids:= {"IdU","IdL"}
-
-   Q:= {"INIT","IdU","Num","Err","IdL"} ∪ preKW ∪ preOps 
-	
-	print Q
-	
-	Σ:= alphaNum ∪ charsStrings(allSymbols) ∪ skipChars ∪ {':','-'}
-	
-	 
-	q₀:="INIT"
-	F:= {"INIT"}
-	return 	GDeterministicTransducer(Q,Σ,Out,q₀,F,δ,g,h)
-end
-
-function δ(state,σ) begin
-  
- 
-   var q: String
-   q := state
-   
-   if q = "Err" then return "Err" 
-   elseif q ∈ preOps  then
- 		if q+σ in preOps then   return q+σ 
-     	elseif problems(q) then  return "Err"
-    	elseif σ ∈ skipChars  then return "INIT"	
-     	elseif  σ in ('0'‥'9') then  return "Num"
-       elseif  λ+σ in preKW then return λ+σ
-       elseif  σ in alphaUpper  then return "IdU"	
-       elseif  σ in alphaLower  then return "IdL"	
-       elseif  λ+σ in preOps then	 return λ+σ
-       else return "Err"
-  		end	  	
-    elseif  σ ∈ skipChars and q ∈ preKW and not (q∈keyWords) and q.charAt(0)=':'   then return "Err"	
-    elseif  σ ∈ skipChars   then return "INIT"	
-    elseif q="INIT" and  σ in ('0'‥'9') then  return "Num"
-    elseif q="INIT" and  λ+σ in preKW then return λ+σ
-    elseif q = "INIT" and σ in alphaUpper  then return "IdU"
-    elseif q = "INIT" and σ in alphaLower  then return "IdL"	
-    elseif q = "INIT" and  λ+σ in preOps then	 return λ+σ
-    elseif q ∈ preKW  and (q+σ) in preKW then return q+σ 	
-    elseif q ∈ preKW and σ in alphaNum  and q.charAt(0) ∈ alphaUpper then return "IdU"
-    elseif q ∈ preKW and σ in alphaNum  and q.charAt(0) ∈ alphaLower then return "IdL"
-    elseif q ∈ preKW  and  λ+σ in preOps then	 return λ+σ
-    elseif q = "Num" and  σ in ('0'‥'9') then  return "Num"
-    elseif q = "Num" and  λ+σ in preOps  then return λ+σ
-    elseif q = "Num" and σ in alphaNum  then return "Err"	
-    elseif q ∈ Ids  and σ in alphaNum  then return q
-    elseif q ∈ Ids and  λ+σ in preOps  then return λ+σ
-    else return "Err"
-end	
-end 
-
- 
-
-
-function g(q) begin
-	return λ
-end
-
-function h(q,σ) begin
-	var s: String
-	s :=(σ = '\n')?"\\n": (λ+σ)  
-    
-  	if q ∈ preOps  then
-       if σ ∈ skipChars and q ∈ allSymbols then 
-       	images.add(currentString)
-       	currentString := λ
-       	return translationGet(q)
-       elseif q+σ in preOps then 
-       	currentString := currentString + s
-       	return λ
-       elseif σ ∈ (StartOps ∪ alphaNum) and q ∈ allSymbols then 
-       	images.add(currentString)
-       	currentString := λ  + s
-       	return translationGet(q)
-      elseif σ ∈ (StartOps ∪ alphaNum ∪ skipChars∪{':'})  then 
-      	   currentString := λ  + s
-      	   return translationPreOps(q)
-       else	
-       	currentString := currentString + s
-       	return λ
-       end
-     
-     
-   elseif q ∉ {"Err"} and σ ∈ skipChars  ∪ StartOps then
-		if q="INIT" then 
-		   currentString := (σ ∈ StartOps)? s:λ
-			return λ
-    	elseif translationGet(q)=null then 
-		  
-          images.add(currentString)
-          currentString := (σ ∈ skipChars  ∪ StartOps)?s:λ
-       	 f= q.charAt(0)
-       	 if f in alphaUpper then return translationGet("IdU")
-       	 elseif f in alphaLower then 
-       	 return translationGet("IdL")
-       	 else  return null
-       	end
-    	else 
-    		images.add(currentString)
-       	currentString := (σ ∈ skipChars  ∪ StartOps)?s:λ
-    		return translationGet(q)
-    	end
-    else 
-    	 currentString := currentString + s
-    	return  λ
-
-end
-end
-
-// **************  This is the only  procedure you have to change for your lexer 
- 
- procedure initialize() begin
- 
-    skipChars := {' ', '\t', '\n'}
-    alphaUpper := ('A'‥'Z')
-    alphaLower := ('a' ‥ 'z') 
-    digits :=  ('0'‥'9')
-    alphaNum := alphaUpper ∪ alphaLower ∪ digits  ∪ {'-'}  // Alphanumeric characters
-
-    keyWords := {"VAR", "PROC", "CORP",
-    			  // Commands
-				  "walk", "jump", "jumpTo", "veer",
-				  "left", "right", "around",
-				  "look",
-				  "north", "south", "east", "west",
-				  "drop", "grab", "get", "free", "pop",
-				  "front", "back",
-				  // Control structures
-				  "if", "else", "fi",
-				  "while", "do", "od",
-				  "repeatTimes", "per",
-				  // Conditions
-				  "isfacing", "isValid", // "pick", 
-				  "canWalk", "not"
-				  }
-    allSymbols := {";", "(", ")" , ",", "{", "}", ":="}  // Symbols  and brackets, both single char and  multicharacter
-	
-	
-	// TRANSLATION FOR ALL STRINGS IN KEYWORDS
-	
-	// Operators (length 1) can be translated as themselves so you don't need to add it to the translation table
-	
-	// translation.put("\n",'@')  only use this if \n is part of the language and is not skipped @ must not be used for any other translation 
-    
-    
-    translation.put("VAR",'V')
-    translation.put("PROC",'P')
-    translation.put("CORP",'C')
-    
-    // Each command is translated as its initial letter
-    translation.put("walk",'w')
-    translation.put("jump",'j')
-    translation.put("jumpTo",'t') // 'j' was already taken
-    translation.put("veer",'v')
-    translation.put("look",'l')
-    translation.put("drop",'d')
-    translation.put("grab",'g')
-    translation.put("get",'e') // 'g' was already taken
-    translation.put("free",'f')
-    translation.put("pop",'p')
-    
-    // Each direction is translated as its uppercase initial
-    translation.put("left",'L')
-    translation.put("right",'R')
-    translation.put("around",'A')
-    translation.put("north",'N')
-    translation.put("south",'S')
-    translation.put("east",'E')
-    translation.put("west",'W')
-    translation.put("front",'F')
-    translation.put("back",'B')
-    
-    // Control structures
-    translation.put("if",'i')
-    translation.put("else",'e DUPLICADO')
-    translation.put("fi",'f DUPLICADO')
-    translation.put("while",'w DUPLICADO')
-    translation.put("do",'d DUPLICADO')
-    translation.put("od",'o')
-    translation.put("repeatTimes",'r DUPLICADO')
-    translation.put("per",'p DUPLICADO')
-    
-    // Conditions
-    translation.put("isfacing",'i DUPLICADO')
-    translation.put("isValid",'i DUPLICADO')
-    translation.put("pick",'p DUPLICADO')
-    translation.put("canWalk",'c')
-    translation.put("not",'n')
-
-	 
-	
-	translation.put("right",'r')
-	translation.put("walk",'w') 
-	translation.put("look",'k') 
-	translation.put("IdL",'v')  
-	translation.put("IdU",'V')  //if  there is no difference between names that start with caps and those that don't,
-	    							//assign the same translation
-	 
-	 translation.put("Num",'#')
-	 // **************
-	 
-end
-
-
-<<<
-Document event: offset: 8255, length: 0, timestamp: 731
-text:>// Conditions<
-
-
-
-!ENTRY org.apache.log4j 4 0 2022-11-27 16:51:06.397
-!MESSAGE org.eclipse.xtext.ui.editor.model.DocumentPartitioner  - Detected unexpected state in document partitioner. Please file a bug with the following information attached:
-Document content after the event was applied:
->>>using gold.**
-
-var currentString: String
-var images: GArrayList()
-
-var allSymbols: ISet
-var keyWords: ISet
-var skipChars: ISet
-
-var  preKW : ISet
-var  preOps :ISet
-
-var StartOps:ISet
-var Symbols1: ISet
-
-var CharsSymbols1: ISet
-
-var alphaUpper:ISet
-var alphaLower :ISet
-var digits :ISet
-
-var alphaNum : ISet
-
-var Out : ISet
-var diffIdents : Boolean
-
-var Ids: ISet
-var translation : GHashTableMap()
-
-
-chars(string) :=  {string.charAt(i)| 0 <= i <string.length() }
-
-charsStrings(strings) := (∪ s | s ∈ strings: chars(s) )
-
-elements(array) :=  {array[i]| 0 <= i < |array| }
-         
-prefixes(string) := {string.substring(0,i)| 1 <= i <= string.length() }
-splits(string):= { ⟨string.substring(0,i),string.substring(i,string.length())⟩| 1 <= i <= string.length()-1 }
-
-allPrefixes(strings):= (∪ s | s ∈ strings: prefixes(s) )
-
-translationGet(q) :=  ((|q|=1 and q ∈Symbols1 and q != '\n')?q:translation.get(q))
-
-function runLexer(M, input) begin 
-    currentString :=  λ
-    images := GArrayList()
-    result:=M.acceptsString(input) 
-    return ⟨result,images⟩
- end
- 
- function problems(q: String) begin
-    
-    if q in allSymbols then return false
-    elseif |q|≤1  then return true
-    else
-    	for each ⟨s,t⟩ in splits(q) do
-         if not problems(s) and not problems(t) then return false end
-       end
-       return true
-	end
-   	
- end
- 
- 
- 	function translationPreOps(state) begin
- 	 var x, y
- 	 var q: String
- 	 q:= state
- 	 n := q.length()
- 	 if n=0 then return λ
- 	 elseif q  ∈ allSymbols then 
- 	 	images.add(q)
- 	 	return translationGet(q)  
- 	 elseif n=1 then return λ
- 	 else  
- 	 	 for each ⟨s,t⟩ in splits(q) do
- 	     	x:=translationPreOps(s)
-       	y:=translationPreOps(t) 
-          	if x≠ λ  and  y≠λ then 
-            return x+y end
-        end
-        
- 	    return   λ
- 	     
-   end
-
- end
- 
-function createLexer():ITransducer begin
-	
-	initialize()
-	
-	preOps := allPrefixes(allSymbols)
- 	preKW  := allPrefixes(keyWords)
-   StartOps := (∪ x | x ∈ allSymbols: {x.charAt(0)} ) 
-	Symbols1 := ((∪ x | x ∈ StartOps: {""+x} ) ∩ allSymbols) // \ {"\n"}  add this if \n  is a token 
-	CharsSymbols1 := (∪ x | x ∈ Symbols1: {x.charAt(0)} )
-	Out   := 	CharsSymbols1 ∪ (∪ x | x ∈ translation.values(): {x} )
-
-	print Out
-   Ids:= {"IdU","IdL"}
-
-   Q:= {"INIT","IdU","Num","Err","IdL"} ∪ preKW ∪ preOps 
-	
-	print Q
-	
-	Σ:= alphaNum ∪ charsStrings(allSymbols) ∪ skipChars ∪ {':','-'}
-	
-	 
-	q₀:="INIT"
-	F:= {"INIT"}
-	return 	GDeterministicTransducer(Q,Σ,Out,q₀,F,δ,g,h)
-end
-
-function δ(state,σ) begin
-  
- 
-   var q: String
-   q := state
-   
-   if q = "Err" then return "Err" 
-   elseif q ∈ preOps  then
- 		if q+σ in preOps then   return q+σ 
-     	elseif problems(q) then  return "Err"
-    	elseif σ ∈ skipChars  then return "INIT"	
-     	elseif  σ in ('0'‥'9') then  return "Num"
-       elseif  λ+σ in preKW then return λ+σ
-       elseif  σ in alphaUpper  then return "IdU"	
-       elseif  σ in alphaLower  then return "IdL"	
-       elseif  λ+σ in preOps then	 return λ+σ
-       else return "Err"
-  		end	  	
-    elseif  σ ∈ skipChars and q ∈ preKW and not (q∈keyWords) and q.charAt(0)=':'   then return "Err"	
-    elseif  σ ∈ skipChars   then return "INIT"	
-    elseif q="INIT" and  σ in ('0'‥'9') then  return "Num"
-    elseif q="INIT" and  λ+σ in preKW then return λ+σ
-    elseif q = "INIT" and σ in alphaUpper  then return "IdU"
-    elseif q = "INIT" and σ in alphaLower  then return "IdL"	
-    elseif q = "INIT" and  λ+σ in preOps then	 return λ+σ
-    elseif q ∈ preKW  and (q+σ) in preKW then return q+σ 	
-    elseif q ∈ preKW and σ in alphaNum  and q.charAt(0) ∈ alphaUpper then return "IdU"
-    elseif q ∈ preKW and σ in alphaNum  and q.charAt(0) ∈ alphaLower then return "IdL"
-    elseif q ∈ preKW  and  λ+σ in preOps then	 return λ+σ
-    elseif q = "Num" and  σ in ('0'‥'9') then  return "Num"
-    elseif q = "Num" and  λ+σ in preOps  then return λ+σ
-    elseif q = "Num" and σ in alphaNum  then return "Err"	
-    elseif q ∈ Ids  and σ in alphaNum  then return q
-    elseif q ∈ Ids and  λ+σ in preOps  then return λ+σ
-    else return "Err"
-end	
-end 
-
- 
-
-
-function g(q) begin
-	return λ
-end
-
-function h(q,σ) begin
-	var s: String
-	s :=(σ = '\n')?"\\n": (λ+σ)  
-    
-  	if q ∈ preOps  then
-       if σ ∈ skipChars and q ∈ allSymbols then 
-       	images.add(currentString)
-       	currentString := λ
-       	return translationGet(q)
-       elseif q+σ in preOps then 
-       	currentString := currentString + s
-       	return λ
-       elseif σ ∈ (StartOps ∪ alphaNum) and q ∈ allSymbols then 
-       	images.add(currentString)
-       	currentString := λ  + s
-       	return translationGet(q)
-      elseif σ ∈ (StartOps ∪ alphaNum ∪ skipChars∪{':'})  then 
-      	   currentString := λ  + s
-      	   return translationPreOps(q)
-       else	
-       	currentString := currentString + s
-       	return λ
-       end
-     
-     
-   elseif q ∉ {"Err"} and σ ∈ skipChars  ∪ StartOps then
-		if q="INIT" then 
-		   currentString := (σ ∈ StartOps)? s:λ
-			return λ
-    	elseif translationGet(q)=null then 
-		  
-          images.add(currentString)
-          currentString := (σ ∈ skipChars  ∪ StartOps)?s:λ
-       	 f= q.charAt(0)
-       	 if f in alphaUpper then return translationGet("IdU")
-       	 elseif f in alphaLower then 
-       	 return translationGet("IdL")
-       	 else  return null
-       	end
-    	else 
-    		images.add(currentString)
-       	currentString := (σ ∈ skipChars  ∪ StartOps)?s:λ
-    		return translationGet(q)
-    	end
-    else 
-    	 currentString := currentString + s
-    	return  λ
-
-end
-end
-
-// **************  This is the only  procedure you have to change for your lexer 
- 
- procedure initialize() begin
- 
-    skipChars := {' ', '\t', '\n'}
-    alphaUpper := ('A'‥'Z')
-    alphaLower := ('a' ‥ 'z') 
-    digits :=  ('0'‥'9')
-    alphaNum := alphaUpper ∪ alphaLower ∪ digits  ∪ {'-'}  // Alphanumeric characters
-
-    keyWords := {"VAR", "PROC", "CORP",
-    			  // Commands
-				  "walk", "jump", "jumpTo", "veer",
-				  "left", "right", "around",
-				  "look",
-				  "north", "south", "east", "west",
-				  "drop", "grab", "get", "free", "pop",
-				  "front", "back",
-				  // Control structures
-				  "if", "else", "fi",
-				  "while", "do", "od",
-				  "repeatTimes", "per",
-				  // Conditions
-				  "isfacing", "isValid", // "pick", 
-				  "canWalk", "not"
-				  }
-    allSymbols := {";", "(", ")" , ",", "{", "}", ":="}  // Symbols  and brackets, both single char and  multicharacter
-	
-	
-	// TRANSLATION FOR ALL STRINGS IN KEYWORDS
-	
-	// Operators (length 1) can be translated as themselves so you don't need to add it to the translation table
-	
-	// translation.put("\n",'@')  only use this if \n is part of the language and is not skipped @ must not be used for any other translation 
-    
-    
-    translation.put("VAR",'V')
-    translation.put("PROC",'P')
-    translation.put("CORP",'C')
-    
-    // Each command is translated as its initial letter
-    translation.put("walk",'k') // 'w' used by while
-    translation.put("jump",'j')
-    translation.put("jumpTo",'t') // 'j' is used by "jump"
-    translation.put("veer",'v')
-    translation.put("look",'l')
-    translation.put("drop",'d')
-    translation.put("grab",'a') // 'g' is used by "get"
-    translation.put("get",'g') 
-    translation.put("free",'f')
-    translation.put("pop",'o') // 'p' is used by "per"
-    
-    // Each direction is translated as its uppercase initial
-    translation.put("left",'L')
-    translation.put("right",'R')
-    translation.put("around",'A')
-    translation.put("north",'N')
-    translation.put("south",'S')
-    translation.put("east",'E')
-    translation.put("west",'W')
-    translation.put("front",'F')
-    translation.put("back",'B')
-    
-    // Control structures
-    translation.put("if",'i')
-    translation.put("else",'e DUPLICADO')
-    translation.put("fi",'f DUPLICADO')
-    translation.put("while",'w ')
-    translation.put("do",'d DUPLICADO')
-    translation.put("od",'o')
-    translation.put("repeatTimes",'r')
-    translation.put("per",'p')
-    
-    // Conditions
-    translation.put("isfacing",'i DUPLICADO')
-    translation.put("isValid",'i DUPLICADO')
-    translation.put("pick",'p DUPLICADO')
-    translation.put("canWalk",'c')
-    translation.put("not",'n')
-    
-    // Symbols 
-    translation.put(":=",'=')
-
-	translation.put("IdL",'v')  
-	translation.put("IdU",'V')  //if  there is no difference between names that start with caps and those that don't,
-	    							//assign the same translation
-	 
-	 translation.put("Num",'#')
-	 // **************
-	 
-end
-
-
-<<<
-Document event: offset: 8113, length: 9, timestamp: 875
-text:><
-
-
-!SESSION 2022-11-27 18:34:25.497 -----------------------------------------------
-eclipse.buildId=4.3.2.M20140221-1700
-java.version=1.8.0_231
-java.vendor=Oracle Corporation
-BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
-Framework arguments:  -product org.eclipse.epp.package.dsl.product
-Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.dsl.product
-
-!ENTRY org.eclipse.egit.ui 2 0 2022-11-27 18:34:46.198
-!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
-user global configuration and to define the default location to store repositories: 'C:\Users\feder'. If this is
-not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
-EGit might behave differently since they see different configuration options.
-This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
-
-!ENTRY org.eclipse.ui 4 0 2022-11-27 18:34:55.193
-!MESSAGE FileDocumentProvider.createElementInfo
-!STACK 1
-org.eclipse.core.internal.resources.ResourceException: Resource '/LexerParserRobot202220/src/LexerParserRobot202220.gold' does not exist.
-	at org.eclipse.core.internal.resources.Resource.checkExists(Resource.java:341)
-	at org.eclipse.core.internal.resources.Resource.checkAccessible(Resource.java:215)
-	at org.eclipse.core.internal.resources.File.getContents(File.java:287)
-	at org.eclipse.ui.editors.text.FileDocumentProvider.setDocumentContent(FileDocumentProvider.java:399)
-	at org.eclipse.xtext.ui.editor.model.XtextDocumentProvider.setDocumentContent(XtextDocumentProvider.java:194)
-	at org.eclipse.ui.editors.text.StorageDocumentProvider.createDocument(StorageDocumentProvider.java:229)
-	at org.eclipse.xtext.ui.editor.model.XtextDocumentProvider.createDocument(XtextDocumentProvider.java:139)
-	at org.eclipse.ui.editors.text.FileDocumentProvider.createElementInfo(FileDocumentProvider.java:737)
-	at org.eclipse.xtext.ui.editor.model.XtextDocumentProvider.createElementInfo(XtextDocumentProvider.java:252)
-	at org.eclipse.ui.texteditor.AbstractDocumentProvider.connect(AbstractDocumentProvider.java:400)
-	at org.eclipse.ui.texteditor.AbstractTextEditor.doSetInput(AbstractTextEditor.java:4230)
-	at org.eclipse.ui.texteditor.StatusTextEditor.doSetInput(StatusTextEditor.java:237)
-	at org.eclipse.ui.texteditor.AbstractDecoratedTextEditor.doSetInput(AbstractDecoratedTextEditor.java:1480)
-	at org.eclipse.ui.editors.text.TextEditor.doSetInput(TextEditor.java:169)
-	at org.eclipse.xtext.ui.editor.XtextEditor.doSetInput(XtextEditor.java:232)
-	at org.eclipse.ui.texteditor.AbstractTextEditor$19.run(AbstractTextEditor.java:3217)
-	at org.eclipse.jface.operation.ModalContext.runInCurrentThread(ModalContext.java:464)
-	at org.eclipse.jface.operation.ModalContext.run(ModalContext.java:372)
-	at org.eclipse.ui.internal.WorkbenchWindow$13.run(WorkbenchWindow.java:1829)
-	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:70)
-	at org.eclipse.ui.internal.WorkbenchWindow.run(WorkbenchWindow.java:1826)
-	at org.eclipse.ui.texteditor.AbstractTextEditor.internalInit(AbstractTextEditor.java:3235)
-	at org.eclipse.ui.texteditor.AbstractTextEditor.init(AbstractTextEditor.java:3262)
-	at org.eclipse.xtext.ui.editor.XtextEditor.init(XtextEditor.java:255)
-	at org.eclipse.ui.internal.EditorReference.initialize(EditorReference.java:359)
-	at org.eclipse.ui.internal.e4.compatibility.CompatibilityPart.create(CompatibilityPart.java:306)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
-	at java.lang.reflect.Method.invoke(Unknown Source)
-	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:56)
-	at org.eclipse.e4.core.internal.di.InjectorImpl.processAnnotated(InjectorImpl.java:877)
-	at org.eclipse.e4.core.internal.di.InjectorImpl.processAnnotated(InjectorImpl.java:857)
-	at org.eclipse.e4.core.internal.di.InjectorImpl.inject(InjectorImpl.java:119)
-	at org.eclipse.e4.core.internal.di.InjectorImpl.internalMake(InjectorImpl.java:333)
-	at org.eclipse.e4.core.internal.di.InjectorImpl.make(InjectorImpl.java:254)
-	at org.eclipse.e4.core.contexts.ContextInjectionFactory.make(ContextInjectionFactory.java:162)
-	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.createFromBundle(ReflectionContributionFactory.java:102)
-	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.doCreate(ReflectionContributionFactory.java:71)
-	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.create(ReflectionContributionFactory.java:53)
-	at org.eclipse.e4.ui.workbench.renderers.swt.ContributedPartRenderer.createWidget(ContributedPartRenderer.java:129)
+	at org.eclipse.e4.ui.workbench.renderers.swt.LazyStackRenderer.postProcess(LazyStackRenderer.java:96)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:649)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:735)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:706)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:700)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:685)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:62)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:645)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$6.run(PartRenderingEngine.java:526)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:511)
+	at org.eclipse.e4.ui.workbench.renderers.swt.ElementReferenceRenderer.createWidget(ElementReferenceRenderer.java:61)
 	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createWidget(PartRenderingEngine.java:949)
 	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:633)
 	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:735)
@@ -1585,113 +389,60 @@ org.eclipse.core.internal.resources.ResourceException: Resource '/LexerParserRob
 	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:700)
 	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
 	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:685)
-	at org.eclipse.e4.ui.internal.workbench.PartServiceImpl$1.handleEvent(PartServiceImpl.java:90)
-	at org.eclipse.e4.ui.services.internal.events.UIEventHandler$1.run(UIEventHandler.java:41)
-	at org.eclipse.swt.widgets.Synchronizer.syncExec(Synchronizer.java:180)
-	at org.eclipse.ui.internal.UISynchronizer.syncExec(UISynchronizer.java:150)
-	at org.eclipse.swt.widgets.Display.syncExec(Display.java:4688)
-	at org.eclipse.e4.ui.internal.workbench.swt.E4Application$1.syncExec(E4Application.java:205)
-	at org.eclipse.e4.ui.services.internal.events.UIEventHandler.handleEvent(UIEventHandler.java:38)
-	at org.eclipse.equinox.internal.event.EventHandlerWrapper.handleEvent(EventHandlerWrapper.java:197)
-	at org.eclipse.equinox.internal.event.EventHandlerTracker.dispatchEvent(EventHandlerTracker.java:197)
-	at org.eclipse.equinox.internal.event.EventHandlerTracker.dispatchEvent(EventHandlerTracker.java:1)
-	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
-	at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148)
-	at org.eclipse.equinox.internal.event.EventAdminImpl.dispatchEvent(EventAdminImpl.java:135)
-	at org.eclipse.equinox.internal.event.EventAdminImpl.sendEvent(EventAdminImpl.java:78)
-	at org.eclipse.equinox.internal.event.EventComponent.sendEvent(EventComponent.java:39)
-	at org.eclipse.e4.ui.services.internal.events.EventBroker.send(EventBroker.java:80)
-	at org.eclipse.e4.ui.internal.workbench.UIEventPublisher.notifyChanged(UIEventPublisher.java:58)
-	at org.eclipse.emf.common.notify.impl.BasicNotifierImpl.eNotify(BasicNotifierImpl.java:374)
-	at org.eclipse.e4.ui.model.application.ui.impl.ElementContainerImpl.setSelectedElement(ElementContainerImpl.java:171)
-	at org.eclipse.e4.ui.internal.workbench.PartServiceImpl.hidePart(PartServiceImpl.java:1159)
-	at org.eclipse.ui.internal.WorkbenchPage.hidePart(WorkbenchPage.java:1476)
-	at org.eclipse.ui.internal.WorkbenchPage.hidePart(WorkbenchPage.java:1429)
-	at org.eclipse.ui.internal.WorkbenchPage.closeEditors(WorkbenchPage.java:1399)
-	at org.eclipse.ui.internal.WorkbenchPage.closeEditor(WorkbenchPage.java:1521)
-	at org.eclipse.ui.texteditor.AbstractTextEditor$23.run(AbstractTextEditor.java:4330)
-	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)
-	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:135)
-	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:4145)
-	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3762)
-	at org.eclipse.jface.operation.ModalContext$ModalContextThread.block(ModalContext.java:173)
-	at org.eclipse.jface.operation.ModalContext.run(ModalContext.java:388)
-	at org.eclipse.ltk.internal.ui.refactoring.RefactoringWizardDialog2.run(RefactoringWizardDialog2.java:331)
-	at org.eclipse.ltk.ui.refactoring.RefactoringWizard.internalPerformFinish(RefactoringWizard.java:637)
-	at org.eclipse.ltk.ui.refactoring.UserInputWizardPage.performFinish(UserInputWizardPage.java:153)
-	at org.eclipse.ltk.ui.refactoring.resource.DeleteResourcesWizard$DeleteResourcesRefactoringConfigurationPage.performFinish(DeleteResourcesWizard.java:202)
-	at org.eclipse.ltk.ui.refactoring.RefactoringWizard.performFinish(RefactoringWizard.java:710)
-	at org.eclipse.ltk.internal.ui.refactoring.RefactoringWizardDialog2.okPressed(RefactoringWizardDialog2.java:455)
-	at org.eclipse.jface.dialogs.Dialog.buttonPressed(Dialog.java:476)
-	at org.eclipse.jface.dialogs.Dialog$2.widgetSelected(Dialog.java:628)
-	at org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:248)
-	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:84)
-	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1057)
-	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:4170)
-	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3759)
-	at org.eclipse.jface.window.Window.runEventLoop(Window.java:826)
-	at org.eclipse.jface.window.Window.open(Window.java:802)
-	at org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation$1.run(RefactoringWizardOpenOperation.java:187)
-	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:70)
-	at org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation.run(RefactoringWizardOpenOperation.java:202)
-	at org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation.run(RefactoringWizardOpenOperation.java:122)
-	at org.eclipse.ltk.internal.ui.refactoring.actions.DeleteResourcesHandler.execute(DeleteResourcesHandler.java:40)
-	at org.eclipse.ui.internal.handlers.HandlerProxy.execute(HandlerProxy.java:290)
-	at org.eclipse.ui.internal.handlers.E4HandlerProxy.execute(E4HandlerProxy.java:90)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
-	at java.lang.reflect.Method.invoke(Unknown Source)
-	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:56)
-	at org.eclipse.e4.core.internal.di.InjectorImpl.invokeUsingClass(InjectorImpl.java:243)
-	at org.eclipse.e4.core.internal.di.InjectorImpl.invoke(InjectorImpl.java:224)
-	at org.eclipse.e4.core.contexts.ContextInjectionFactory.invoke(ContextInjectionFactory.java:132)
-	at org.eclipse.e4.core.commands.internal.HandlerServiceHandler.execute(HandlerServiceHandler.java:167)
-	at org.eclipse.core.commands.Command.executeWithChecks(Command.java:499)
-	at org.eclipse.core.commands.ParameterizedCommand.executeWithChecks(ParameterizedCommand.java:508)
-	at org.eclipse.e4.core.commands.internal.HandlerServiceImpl.executeHandler(HandlerServiceImpl.java:213)
-	at org.eclipse.ui.internal.handlers.LegacyHandlerService.executeCommandInContext(LegacyHandlerService.java:480)
-	at org.eclipse.ui.internal.ide.actions.LTKLauncher.runCommand(LTKLauncher.java:95)
-	at org.eclipse.ui.internal.ide.actions.LTKLauncher.openDeleteWizard(LTKLauncher.java:47)
-	at org.eclipse.ui.actions.DeleteResourceAction.run(DeleteResourceAction.java:474)
-	at org.eclipse.jdt.internal.ui.refactoring.reorg.DeleteAction.run(DeleteAction.java:195)
-	at org.eclipse.jdt.ui.actions.SelectionDispatchAction.dispatchRun(SelectionDispatchAction.java:275)
-	at org.eclipse.jdt.ui.actions.SelectionDispatchAction.run(SelectionDispatchAction.java:251)
-	at org.eclipse.jface.action.Action.runWithEvent(Action.java:499)
-	at org.eclipse.jface.commands.ActionHandler.execute(ActionHandler.java:119)
-	at org.eclipse.ui.internal.handlers.E4HandlerProxy.execute(E4HandlerProxy.java:90)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
-	at java.lang.reflect.Method.invoke(Unknown Source)
-	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:56)
-	at org.eclipse.e4.core.internal.di.InjectorImpl.invokeUsingClass(InjectorImpl.java:243)
-	at org.eclipse.e4.core.internal.di.InjectorImpl.invoke(InjectorImpl.java:224)
-	at org.eclipse.e4.core.contexts.ContextInjectionFactory.invoke(ContextInjectionFactory.java:132)
-	at org.eclipse.e4.core.commands.internal.HandlerServiceHandler.execute(HandlerServiceHandler.java:167)
-	at org.eclipse.core.commands.Command.executeWithChecks(Command.java:499)
-	at org.eclipse.core.commands.ParameterizedCommand.executeWithChecks(ParameterizedCommand.java:508)
-	at org.eclipse.e4.core.commands.internal.HandlerServiceImpl.executeHandler(HandlerServiceImpl.java:213)
-	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.executeCommand(KeyBindingDispatcher.java:285)
-	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.press(KeyBindingDispatcher.java:504)
-	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.processKeyEvent(KeyBindingDispatcher.java:555)
-	at org.eclipse.e4.ui.bindings.keys.OutOfOrderListener.handleEvent(OutOfOrderListener.java:70)
-	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:84)
-	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1057)
-	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1081)
-	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1066)
-	at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1108)
-	at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1104)
-	at org.eclipse.swt.widgets.Widget.wmKeyDown(Widget.java:1827)
-	at org.eclipse.swt.widgets.Control.WM_KEYDOWN(Control.java:4975)
-	at org.eclipse.swt.widgets.Tree.WM_KEYDOWN(Tree.java:6137)
-	at org.eclipse.swt.widgets.Control.windowProc(Control.java:4643)
-	at org.eclipse.swt.widgets.Tree.windowProc(Tree.java:6005)
-	at org.eclipse.swt.widgets.Display.windowProc(Display.java:4977)
-	at org.eclipse.swt.internal.win32.OS.DispatchMessageW(Native Method)
-	at org.eclipse.swt.internal.win32.OS.DispatchMessage(OS.java:2549)
-	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3757)
-	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$9.run(PartRenderingEngine.java:1113)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:62)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:645)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:735)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:706)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:700)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:685)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:62)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:645)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:735)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:706)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:700)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:685)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:62)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:645)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:735)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:706)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:700)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:685)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:62)
+	at org.eclipse.e4.ui.workbench.renderers.swt.PerspectiveRenderer.processContents(PerspectiveRenderer.java:59)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:645)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:735)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:706)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:700)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:685)
+	at org.eclipse.e4.ui.workbench.renderers.swt.PerspectiveStackRenderer.showTab(PerspectiveStackRenderer.java:103)
+	at org.eclipse.e4.ui.workbench.renderers.swt.LazyStackRenderer.postProcess(LazyStackRenderer.java:96)
+	at org.eclipse.e4.ui.workbench.renderers.swt.PerspectiveStackRenderer.postProcess(PerspectiveStackRenderer.java:77)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:649)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:735)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:706)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:700)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:685)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:62)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:645)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:735)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:706)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:700)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:685)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:62)
+	at org.eclipse.e4.ui.workbench.renderers.swt.WBWRenderer.processContents(WBWRenderer.java:581)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:645)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:735)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:706)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:700)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:685)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$9.run(PartRenderingEngine.java:1042)
 	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
 	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:997)
 	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:140)
@@ -1712,142 +463,17 @@ org.eclipse.core.internal.resources.ResourceException: Resource '/LexerParserRob
 	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:636)
 	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:591)
 	at org.eclipse.equinox.launcher.Main.run(Main.java:1450)
-!SUBENTRY 1 org.eclipse.core.resources 4 368 2022-11-27 18:34:55.193
-!MESSAGE Resource '/LexerParserRobot202220/src/LexerParserRobot202220.gold' does not exist.
+!SUBENTRY 1 org.eclipse.core.resources 4 368 2022-12-03 15:51:04.431
+!MESSAGE Resource '/qp3/src/qp4.gold' does not exist.
 
-!ENTRY org.eclipse.e4.ui.workbench 4 0 2022-11-27 18:36:11.751
-!MESSAGE Error setting focus to : org.eclipse.e4.ui.model.application.ui.basic.impl.PartImpl LexerParserRobot202220.gold
-!STACK 0
-org.eclipse.swt.SWTException: Widget is disposed
-	at org.eclipse.swt.SWT.error(SWT.java:4397)
-	at org.eclipse.swt.SWT.error(SWT.java:4312)
-	at org.eclipse.swt.SWT.error(SWT.java:4283)
-	at org.eclipse.swt.widgets.Widget.error(Widget.java:472)
-	at org.eclipse.swt.widgets.Widget.checkWidget(Widget.java:344)
-	at org.eclipse.swt.widgets.Control.setFocus(Control.java:3321)
-	at org.eclipse.swt.widgets.Composite.setFocus(Composite.java:1040)
-	at org.eclipse.swt.widgets.Composite.setFocus(Composite.java:1040)
-	at org.eclipse.ui.texteditor.StatusTextEditor.setFocus(StatusTextEditor.java:120)
-	at org.eclipse.ui.internal.e4.compatibility.CompatibilityPart.delegateSetFocus(CompatibilityPart.java:192)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
-	at java.lang.reflect.Method.invoke(Unknown Source)
-	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:56)
-	at org.eclipse.e4.core.internal.di.InjectorImpl.invokeUsingClass(InjectorImpl.java:243)
-	at org.eclipse.e4.core.internal.di.InjectorImpl.invokeUsingClass(InjectorImpl.java:249)
-	at org.eclipse.e4.core.internal.di.InjectorImpl.invoke(InjectorImpl.java:220)
-	at org.eclipse.e4.core.contexts.ContextInjectionFactory.invoke(ContextInjectionFactory.java:107)
-	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.focusGui(PartRenderingEngine.java:763)
-	at org.eclipse.e4.ui.workbench.renderers.swt.ContributedPartRenderer$2.setFocus(ContributedPartRenderer.java:102)
-	at org.eclipse.swt.custom.CTabItem.setFocus(CTabItem.java:329)
-	at org.eclipse.swt.custom.CTabFolder.setFocus(CTabFolder.java:2528)
-	at org.eclipse.swt.widgets.Control.fixFocus(Control.java:1053)
-	at org.eclipse.swt.widgets.Control.setVisible(Control.java:3819)
-	at org.eclipse.swt.custom.CTabFolder.setSelection(CTabFolder.java:3068)
-	at org.eclipse.swt.custom.CTabFolder.setSelection(CTabFolder.java:3076)
-	at org.eclipse.swt.custom.CTabFolder.onMouse(CTabFolder.java:1772)
-	at org.eclipse.swt.custom.CTabFolder$1.handleEvent(CTabFolder.java:279)
-	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:84)
-	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1057)
-	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:4170)
-	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3759)
-	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$9.run(PartRenderingEngine.java:1113)
-	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
-	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:997)
-	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:140)
-	at org.eclipse.ui.internal.Workbench$5.run(Workbench.java:611)
-	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
-	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:567)
-	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:150)
-	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:124)
-	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
-	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
-	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
-	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:354)
-	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:181)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
-	at java.lang.reflect.Method.invoke(Unknown Source)
-	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:636)
-	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:591)
-	at org.eclipse.equinox.launcher.Main.run(Main.java:1450)
-
-!ENTRY org.eclipse.e4.ui.workbench 4 0 2022-11-27 18:36:14.704
-!MESSAGE Error setting focus to : org.eclipse.e4.ui.model.application.ui.basic.impl.PartImpl LexerParserRobot202220.gold
-!STACK 0
-org.eclipse.swt.SWTException: Widget is disposed
-	at org.eclipse.swt.SWT.error(SWT.java:4397)
-	at org.eclipse.swt.SWT.error(SWT.java:4312)
-	at org.eclipse.swt.SWT.error(SWT.java:4283)
-	at org.eclipse.swt.widgets.Widget.error(Widget.java:472)
-	at org.eclipse.swt.widgets.Widget.checkWidget(Widget.java:344)
-	at org.eclipse.swt.widgets.Control.setFocus(Control.java:3321)
-	at org.eclipse.swt.widgets.Composite.setFocus(Composite.java:1040)
-	at org.eclipse.swt.widgets.Composite.setFocus(Composite.java:1040)
-	at org.eclipse.ui.texteditor.StatusTextEditor.setFocus(StatusTextEditor.java:120)
-	at org.eclipse.ui.internal.e4.compatibility.CompatibilityPart.delegateSetFocus(CompatibilityPart.java:192)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
-	at java.lang.reflect.Method.invoke(Unknown Source)
-	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:56)
-	at org.eclipse.e4.core.internal.di.InjectorImpl.invokeUsingClass(InjectorImpl.java:243)
-	at org.eclipse.e4.core.internal.di.InjectorImpl.invokeUsingClass(InjectorImpl.java:249)
-	at org.eclipse.e4.core.internal.di.InjectorImpl.invoke(InjectorImpl.java:220)
-	at org.eclipse.e4.core.contexts.ContextInjectionFactory.invoke(ContextInjectionFactory.java:107)
-	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.focusGui(PartRenderingEngine.java:763)
-	at org.eclipse.e4.ui.workbench.renderers.swt.ContributedPartRenderer$2.setFocus(ContributedPartRenderer.java:102)
-	at org.eclipse.swt.custom.CTabItem.setFocus(CTabItem.java:329)
-	at org.eclipse.swt.custom.CTabFolder.setFocus(CTabFolder.java:2528)
-	at org.eclipse.swt.widgets.Control.fixFocus(Control.java:1053)
-	at org.eclipse.swt.widgets.Control.setVisible(Control.java:3819)
-	at org.eclipse.swt.custom.CTabFolder.setSelection(CTabFolder.java:3068)
-	at org.eclipse.swt.custom.CTabFolder.setSelection(CTabFolder.java:3076)
-	at org.eclipse.swt.custom.CTabFolder.onMouse(CTabFolder.java:1772)
-	at org.eclipse.swt.custom.CTabFolder$1.handleEvent(CTabFolder.java:279)
-	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:84)
-	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1057)
-	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:4170)
-	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3759)
-	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$9.run(PartRenderingEngine.java:1113)
-	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
-	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:997)
-	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:140)
-	at org.eclipse.ui.internal.Workbench$5.run(Workbench.java:611)
-	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
-	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:567)
-	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:150)
-	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:124)
-	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
-	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
-	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
-	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:354)
-	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:181)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
-	at java.lang.reflect.Method.invoke(Unknown Source)
-	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:636)
-	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:591)
-	at org.eclipse.equinox.launcher.Main.run(Main.java:1450)
-!SESSION 2022-11-27 18:36:47.545 -----------------------------------------------
-eclipse.buildId=4.3.2.M20140221-1700
-java.version=1.8.0_231
-java.vendor=Oracle Corporation
-BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
-Framework arguments:  -product org.eclipse.epp.package.dsl.product
-Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.dsl.product
-
-!ENTRY org.eclipse.egit.ui 2 0 2022-11-27 18:37:00.737
+!ENTRY org.eclipse.egit.ui 2 0 2022-12-03 15:51:19.906
 !MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
 user global configuration and to define the default location to store repositories: 'C:\Users\feder'. If this is
 not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
 EGit might behave differently since they see different configuration options.
 This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
 
-!ENTRY org.apache.log4j 4 0 2022-11-27 20:26:20.302
+!ENTRY org.apache.log4j 4 0 2022-12-03 16:05:40.625
 !MESSAGE org.eclipse.xtext.ui.editor.model.DocumentPartitioner  - Detected unexpected state in document partitioner. Please file a bug with the following information attached:
 Document content after the event was applied:
 >>>/* Project 3
@@ -1863,65 +489,202 @@ using gold.**
 toSet(C) :=  {x|  x in C}
 
 function createParser(A):IPushdownAutomaton begin
+	
+	// Declare each token as a variable (I'm not memorizing 40 tokens‥.)
+	var PROG: String
+	var GORP: String
+	var VAR: String
+	var PROC: String
+	var CORP: String
+	var if_: String
+	var else_: String
+	var fi: String
+	var while_: String
+	var do_: String
+	var od: String
+	var repeatTimes: String
+	var per: String
+	var isfacing: String
+	var isValid: String
+	var canWalk: String
+	var not_: String
+	var walk: String
+	var jump: String
+	var jumpTo: String
+	var veer: String
+	var look: String
+	var drop: String
+	var grab: String
+	var get: String
+	var free: String
+	var pop: String
+	var pick: String
+	var left: String
+	var right: String
+	var around: String
+	var north: String
+	var south: String
+	var east: String
+	var west: String
+	var front: String
+	var back: String
+	
+	PROG := "D"
+	GORP := "G"
+	VAR := "A"
+	PROC := "P"
+	CORP := "C"
+	if_ := "i"
+	else_ := "s"
+	fi := "f"
+	while_ := "w"
+	do_ := "x"
+	od := "y"
+	repeatTimes := "r"
+	per := "p"
+	isfacing := "b"
+	isValid := "h"
+	canWalk := "c"
+	not_ := "n"
+	walk := "k"
+	jump := "j"
+	jumpTo := "t"
+	veer := "q"
+	look := "l"
+	drop := "d"
+	grab := "a"
+	get := "g"
+	free := "e"
+	pop := "o"
+	pick := "m"
+	left := "L"
+	right := "R"
+	around := "O"
+	north := "N"
+	south := "S"
+	east := "E"
+	west := "W"
+	front := "F"
+	back := "B"
+	
+	
+	// Extra variables
+	var par: String
+	par = "("
+	var key: String
+	key = "{"
+	var num: String
+	num := "#"
+	var v: String
+	v := "v"
+	var V: String
+	V := "V"
+	
 	// States
-	Q := {0, }
+	Q := {"qPROG","q,", "qCORP", "q2",
+		 "q1",
+		 "q;",
+		 "qPROC",
+		 "qPROC(",
+		 "qPROC)",
+		 "qPROC,",
+		 "qPROCinstrs",
+		 "qPROCp",
+		 "qPROCv",
+		 "qVAR",
+		 "qv",
+		 "qCORP",
+		 "qBlock",
+		 "qBlockEnd"}
+	
 	// Tokens (Automaton's alphabet)
 	Σ := toSet(A) ∪ {' ', '\n', '\t'}
 	// Stack's alphabet
-	Γ := {'1'}
-	q₀ := 0
-	F := {0}
-	M := GPushdownAutomaton(Q,Σ,Γ,q₀,F)
-
-SkipChars := {' ', '\n', '\t'}   // this will only  be used when testing only the parser, as the lexer removes SkipChars
-
-M.delta(0,1,'D').push('D')
-
-
-M.delta(0,1,'').p('D')
+	Γ := {'D', 'P', 'C', 'A', '(', 'v', '{'}
+	// Initial state
+	q₀ := "qPROG"
+	// Final state
+	F := {"qPROG"}
 	
-M.delta(0,1,'w').ignore()
-M.delta(1,2,'(').ignore()
-M.delta(2,7,'#').ignore()
-M.delta(2,7,'V').ignore()
-M.delta(2,7,'v').ignore()
+	M := GPushdownAutomaton(Q, Σ, Γ, q₀, F)
 
-M.delta(2,3,'r').ignore()
-M.delta(3,6,',').ignore()
+	SkipChars := {' ', '\n', '\t'}   // this will only  be used when testing only the parser, as the lexer removes SkipChars
 
-M.delta(0,4,'k').ignore()
+	
+	// AUTOMATON
 
-M.delta(4,5,'(').ignore()
-M.delta(5,7,'N').ignore()
+	// A program defintion begins with the keyword PROG 
+	M.delta("qPROG", "q1", PROG).push(PROG)
+	// It ends the keyword GORP
+	M.delta("qBlockEnd", "qPROG", GORP).pop(PROG)
+	
+	// A declaration of variables is the keyword VAR . 
+	M.delta("q1", "qVAR", VAR).push(VAR)
+	// followed by a list of names separated  by commas
+	M.delta("qVAR", "qv", v).ignore()
+	M.delta("qv", "q,", ',').push(v)
+	M.delta("q,", "qv", v).pop(v)
+	// The list is followed by ;
+	M.delta("qVAR", "q2", ';').pop(VAR)  // Valid empty variable declaration: VAR ;
+	M.delta("qv", "q2", ';').pop(VAR)
+	
+	// A procedure defintion is a the word PROC
+	M.delta("q1", "qPROC", PROC).push(PROC)
+	M.delta("q2", "qPROC", PROC).push(PROC)
+	// followed by a name
+	M.delta("qPROC", "qPROCv", v).changeTop(PROC, CORP)
+	// followed by a list of parameters within parenthesis separated by commas
+	M.delta("qPROCv", "qPROC(", '(').push(par)
+	M.delta("qPROC(", "qPROCp", v).ignore()
+	M.delta("qPROC(", "qPROC)", ')').pop(par)  // Procedure with no parameters: PROC hello( ) {‥.} CORP
+	M.delta("qPROCp", "qPROC)", ')').pop(par)
+	M.delta("qPROCp", "qPROC,", ',').push(v)
+	M.delta("qPROC,", "qPROCp", v).pop(v)
+	// followed by a block of instructions
+	M.delta("qPROC)", "qPROCinstrs", '{').push(key)
+	// and ending with the word CORP
+	M.delta("qCORP", "q2", CORP).pop(CORP)
+	
+	
+	// Block of instructions inside procedure
+	// A block of instructions is a sequence of instructions separated by semicolons within curly brackets
+	// TODO
+	M.delta("qPROCinstrs", "qCORP", '}').pop(key)  // Empty block of instructions in procedure: PROC hi(‥.) { } CORP
+
+	// name := n
+	M.delta("qPROCinstrs", "qASSIGN", v).push(v)
+	M.delta("qASSIGN", "q:=", ''''=).push(v)
 
 
-M.delta(6,7,'#').ignore()
-M.delta(6,7,'V').ignore()
-
-M.delta(6,7,'v').ignore()
-M.delta(7,0,')').ignore()
-
-
- // this will only  be used when testing only the parser as the lexer removes  SkipChars
- 
- for each q in Q do
- 	for each s in SkipChars do
- 	   M.delta(q,q,λ+s).ignore()
- 	end
- end
-
-
-return M
+	// Single block of instructions in program, outside procedures
+	// A block of instructions is a sequence of instructions separated by semicolons within curly brackets
+	M.delta("q1", "qBlock", '{').push(key)
+	M.delta("q2", "qBlock", '{').push(key)
+	// TODO
+	M.delta("qBlock", "qBlockEnd", '}').pop(key) // Empty instruction block : PROG ‥. { } GORP
+	
+	
+	
+	 // this will only  be used when testing only the parser as the lexer removes  SkipChars
+	 
+	 for each q in Q do
+	 	for each s in SkipChars do
+	 	   M.delta(q,q,λ+s).ignore()
+	 	end
+	 end
+	
+	
+	return M
 
 end
 
 <<<
-Document event: offset: 534, length: 4, timestamp: 201
-text:>p<
+Document event: offset: 4037, length: 0, timestamp: 41
+text:>''<
 
 
 
-!ENTRY org.apache.log4j 4 0 2022-11-27 20:26:20.392
+!ENTRY org.apache.log4j 4 0 2022-12-03 16:05:41.745
 !MESSAGE org.eclipse.xtext.ui.editor.model.DocumentPartitioner  - Detected unexpected state in document partitioner. Please file a bug with the following information attached:
 Document content after the event was applied:
 >>>/* Project 3
@@ -1937,139 +700,640 @@ using gold.**
 toSet(C) :=  {x|  x in C}
 
 function createParser(A):IPushdownAutomaton begin
+	
+	// Declare each token as a variable (I'm not memorizing 40 tokens‥.)
+	var PROG: String
+	var GORP: String
+	var VAR: String
+	var PROC: String
+	var CORP: String
+	var if_: String
+	var else_: String
+	var fi: String
+	var while_: String
+	var do_: String
+	var od: String
+	var repeatTimes: String
+	var per: String
+	var isfacing: String
+	var isValid: String
+	var canWalk: String
+	var not_: String
+	var walk: String
+	var jump: String
+	var jumpTo: String
+	var veer: String
+	var look: String
+	var drop: String
+	var grab: String
+	var get: String
+	var free: String
+	var pop: String
+	var pick: String
+	var left: String
+	var right: String
+	var around: String
+	var north: String
+	var south: String
+	var east: String
+	var west: String
+	var front: String
+	var back: String
+	
+	PROG := "D"
+	GORP := "G"
+	VAR := "A"
+	PROC := "P"
+	CORP := "C"
+	if_ := "i"
+	else_ := "s"
+	fi := "f"
+	while_ := "w"
+	do_ := "x"
+	od := "y"
+	repeatTimes := "r"
+	per := "p"
+	isfacing := "b"
+	isValid := "h"
+	canWalk := "c"
+	not_ := "n"
+	walk := "k"
+	jump := "j"
+	jumpTo := "t"
+	veer := "q"
+	look := "l"
+	drop := "d"
+	grab := "a"
+	get := "g"
+	free := "e"
+	pop := "o"
+	pick := "m"
+	left := "L"
+	right := "R"
+	around := "O"
+	north := "N"
+	south := "S"
+	east := "E"
+	west := "W"
+	front := "F"
+	back := "B"
+	
+	
+	// Extra variables
+	var par: String
+	par = "("
+	var key: String
+	key = "{"
+	var num: String
+	num := "#"
+	var v: String
+	v := "v"
+	var V: String
+	V := "V"
+	
 	// States
-	Q := {0, }
+	Q := {"qPROG","q,", "qCORP", "q2",
+		 "q1",
+		 "q;",
+		 "qPROC",
+		 "qPROC(",
+		 "qPROC)",
+		 "qPROC,",
+		 "qPROCinstrs",
+		 "qPROCp",
+		 "qPROCv",
+		 "qVAR",
+		 "qv",
+		 "qCORP",
+		 "qBlock",
+		 "qBlockEnd"}
+	
 	// Tokens (Automaton's alphabet)
 	Σ := toSet(A) ∪ {' ', '\n', '\t'}
 	// Stack's alphabet
-	Γ := {'1'}
-	q₀ := 0
-	F := {0}
-	M := GPushdownAutomaton(Q,Σ,Γ,q₀,F)
-
-SkipChars := {' ', '\n', '\t'}   // this will only  be used when testing only the parser, as the lexer removes SkipChars
-
-M.delta(0,1,'D').push('D')
-
-
-M.delta(0,1,'').po('D')
+	Γ := {'D', 'P', 'C', 'A', '(', 'v', '{'}
+	// Initial state
+	q₀ := "qPROG"
+	// Final state
+	F := {"qPROG"}
 	
-M.delta(0,1,'w').ignore()
-M.delta(1,2,'(').ignore()
-M.delta(2,7,'#').ignore()
-M.delta(2,7,'V').ignore()
-M.delta(2,7,'v').ignore()
+	M := GPushdownAutomaton(Q, Σ, Γ, q₀, F)
 
-M.delta(2,3,'r').ignore()
-M.delta(3,6,',').ignore()
+	SkipChars := {' ', '\n', '\t'}   // this will only  be used when testing only the parser, as the lexer removes SkipChars
 
-M.delta(0,4,'k').ignore()
+	
+	// AUTOMATON
 
-M.delta(4,5,'(').ignore()
-M.delta(5,7,'N').ignore()
+	// A program defintion begins with the keyword PROG 
+	M.delta("qPROG", "q1", PROG).push(PROG)
+	// It ends the keyword GORP
+	M.delta("qBlockEnd", "qPROG", GORP).pop(PROG)
+	
+	// A declaration of variables is the keyword VAR . 
+	M.delta("q1", "qVAR", VAR).push(VAR)
+	// followed by a list of names separated  by commas
+	M.delta("qVAR", "qv", v).ignore()
+	M.delta("qv", "q,", ',').push(v)
+	M.delta("q,", "qv", v).pop(v)
+	// The list is followed by ;
+	M.delta("qVAR", "q2", ';').pop(VAR)  // Valid empty variable declaration: VAR ;
+	M.delta("qv", "q2", ';').pop(VAR)
+	
+	// A procedure defintion is a the word PROC
+	M.delta("q1", "qPROC", PROC).push(PROC)
+	M.delta("q2", "qPROC", PROC).push(PROC)
+	// followed by a name
+	M.delta("qPROC", "qPROCv", v).changeTop(PROC, CORP)
+	// followed by a list of parameters within parenthesis separated by commas
+	M.delta("qPROCv", "qPROC(", '(').push(par)
+	M.delta("qPROC(", "qPROCp", v).ignore()
+	M.delta("qPROC(", "qPROC)", ')').pop(par)  // Procedure with no parameters: PROC hello( ) {‥.} CORP
+	M.delta("qPROCp", "qPROC)", ')').pop(par)
+	M.delta("qPROCp", "qPROC,", ',').push(v)
+	M.delta("qPROC,", "qPROCp", v).pop(v)
+	// followed by a block of instructions
+	M.delta("qPROC)", "qPROCinstrs", '{').push(key)
+	// and ending with the word CORP
+	M.delta("qCORP", "q2", CORP).pop(CORP)
+	
+	
+	// Block of instructions inside procedure
+	// A block of instructions is a sequence of instructions separated by semicolons within curly brackets
+	// TODO
+	M.delta("qPROCinstrs", "qCORP", '}').pop(key)  // Empty block of instructions in procedure: PROC hi(‥.) { } CORP
+
+	// name := n
+	M.delta("qPROCinstrs", "qASSIGN", v).push(v)
+	M.delta("qASSIGN", "q:=", '''=).push(v)
 
 
-M.delta(6,7,'#').ignore()
-M.delta(6,7,'V').ignore()
-
-M.delta(6,7,'v').ignore()
-M.delta(7,0,')').ignore()
-
-
- // this will only  be used when testing only the parser as the lexer removes  SkipChars
- 
- for each q in Q do
- 	for each s in SkipChars do
- 	   M.delta(q,q,λ+s).ignore()
- 	end
- end
-
-
-return M
+	// Single block of instructions in program, outside procedures
+	// A block of instructions is a sequence of instructions separated by semicolons within curly brackets
+	M.delta("q1", "qBlock", '{').push(key)
+	M.delta("q2", "qBlock", '{').push(key)
+	// TODO
+	M.delta("qBlock", "qBlockEnd", '}').pop(key) // Empty instruction block : PROG ‥. { } GORP
+	
+	
+	
+	 // this will only  be used when testing only the parser as the lexer removes  SkipChars
+	 
+	 for each q in Q do
+	 	for each s in SkipChars do
+	 	   M.delta(q,q,λ+s).ignore()
+	 	end
+	 end
+	
+	
+	return M
 
 end
 
 <<<
-Document event: offset: 535, length: 0, timestamp: 202
+Document event: offset: 4038, length: 1, timestamp: 42
+text:><
+
+
+
+!ENTRY org.apache.log4j 4 0 2022-12-03 16:05:42.135
+!MESSAGE org.eclipse.xtext.ui.editor.model.DocumentPartitioner  - Detected unexpected state in document partitioner. Please file a bug with the following information attached:
+Document content after the event was applied:
+>>>/* Project 3
+ * 
+ * Parser
+ * 
+ * Federico Melo Barrero
+ * 
+ */
+
+using gold.**
+
+toSet(C) :=  {x|  x in C}
+
+function createParser(A):IPushdownAutomaton begin
+	
+	// Declare each token as a variable (I'm not memorizing 40 tokens‥.)
+	var PROG: String
+	var GORP: String
+	var VAR: String
+	var PROC: String
+	var CORP: String
+	var if_: String
+	var else_: String
+	var fi: String
+	var while_: String
+	var do_: String
+	var od: String
+	var repeatTimes: String
+	var per: String
+	var isfacing: String
+	var isValid: String
+	var canWalk: String
+	var not_: String
+	var walk: String
+	var jump: String
+	var jumpTo: String
+	var veer: String
+	var look: String
+	var drop: String
+	var grab: String
+	var get: String
+	var free: String
+	var pop: String
+	var pick: String
+	var left: String
+	var right: String
+	var around: String
+	var north: String
+	var south: String
+	var east: String
+	var west: String
+	var front: String
+	var back: String
+	
+	PROG := "D"
+	GORP := "G"
+	VAR := "A"
+	PROC := "P"
+	CORP := "C"
+	if_ := "i"
+	else_ := "s"
+	fi := "f"
+	while_ := "w"
+	do_ := "x"
+	od := "y"
+	repeatTimes := "r"
+	per := "p"
+	isfacing := "b"
+	isValid := "h"
+	canWalk := "c"
+	not_ := "n"
+	walk := "k"
+	jump := "j"
+	jumpTo := "t"
+	veer := "q"
+	look := "l"
+	drop := "d"
+	grab := "a"
+	get := "g"
+	free := "e"
+	pop := "o"
+	pick := "m"
+	left := "L"
+	right := "R"
+	around := "O"
+	north := "N"
+	south := "S"
+	east := "E"
+	west := "W"
+	front := "F"
+	back := "B"
+	
+	
+	// Extra variables
+	var par: String
+	par = "("
+	var key: String
+	key = "{"
+	var num: String
+	num := "#"
+	var v: String
+	v := "v"
+	var V: String
+	V := "V"
+	
+	// States
+	Q := {"qPROG","q,", "qCORP", "q2",
+		 "q1",
+		 "q;",
+		 "qPROC",
+		 "qPROC(",
+		 "qPROC)",
+		 "qPROC,",
+		 "qPROCinstrs",
+		 "qPROCp",
+		 "qPROCv",
+		 "qVAR",
+		 "qv",
+		 "qCORP",
+		 "qBlock",
+		 "qBlockEnd"}
+	
+	// Tokens (Automaton's alphabet)
+	Σ := toSet(A) ∪ {' ', '\n', '\t'}
+	// Stack's alphabet
+	Γ := {'D', 'P', 'C', 'A', '(', 'v', '{'}
+	// Initial state
+	q₀ := "qPROG"
+	// Final state
+	F := {"qPROG"}
+	
+	M := GPushdownAutomaton(Q, Σ, Γ, q₀, F)
+
+	SkipChars := {' ', '\n', '\t'}   // this will only  be used when testing only the parser, as the lexer removes SkipChars
+
+	
+	// AUTOMATON
+
+	// A program defintion begins with the keyword PROG 
+	M.delta("qPROG", "q1", PROG).push(PROG)
+	// It ends the keyword GORP
+	M.delta("qBlockEnd", "qPROG", GORP).pop(PROG)
+	
+	// A declaration of variables is the keyword VAR . 
+	M.delta("q1", "qVAR", VAR).push(VAR)
+	// followed by a list of names separated  by commas
+	M.delta("qVAR", "qv", v).ignore()
+	M.delta("qv", "q,", ',').push(v)
+	M.delta("q,", "qv", v).pop(v)
+	// The list is followed by ;
+	M.delta("qVAR", "q2", ';').pop(VAR)  // Valid empty variable declaration: VAR ;
+	M.delta("qv", "q2", ';').pop(VAR)
+	
+	// A procedure defintion is a the word PROC
+	M.delta("q1", "qPROC", PROC).push(PROC)
+	M.delta("q2", "qPROC", PROC).push(PROC)
+	// followed by a name
+	M.delta("qPROC", "qPROCv", v).changeTop(PROC, CORP)
+	// followed by a list of parameters within parenthesis separated by commas
+	M.delta("qPROCv", "qPROC(", '(').push(par)
+	M.delta("qPROC(", "qPROCp", v).ignore()
+	M.delta("qPROC(", "qPROC)", ')').pop(par)  // Procedure with no parameters: PROC hello( ) {‥.} CORP
+	M.delta("qPROCp", "qPROC)", ')').pop(par)
+	M.delta("qPROCp", "qPROC,", ',').push(v)
+	M.delta("qPROC,", "qPROCp", v).pop(v)
+	// followed by a block of instructions
+	M.delta("qPROC)", "qPROCinstrs", '{').push(key)
+	// and ending with the word CORP
+	M.delta("qCORP", "q2", CORP).pop(CORP)
+	
+	
+	// Block of instructions inside procedure
+	// A block of instructions is a sequence of instructions separated by semicolons within curly brackets
+	// TODO
+	M.delta("qPROCinstrs", "qCORP", '}').pop(key)  // Empty block of instructions in procedure: PROC hi(‥.) { } CORP
+
+	// name := n
+	M.delta("qPROCinstrs", "qASSIGN", v).push(v)
+	M.delta("qASSIGN", "q:=", ''=).push(v)
+
+
+	// Single block of instructions in program, outside procedures
+	// A block of instructions is a sequence of instructions separated by semicolons within curly brackets
+	M.delta("q1", "qBlock", '{').push(key)
+	M.delta("q2", "qBlock", '{').push(key)
+	// TODO
+	M.delta("qBlock", "qBlockEnd", '}').pop(key) // Empty instruction block : PROG ‥. { } GORP
+	
+	
+	
+	 // this will only  be used when testing only the parser as the lexer removes  SkipChars
+	 
+	 for each q in Q do
+	 	for each s in SkipChars do
+	 	   M.delta(q,q,λ+s).ignore()
+	 	end
+	 end
+	
+	
+	return M
+
+end
+
+<<<
+Document event: offset: 4037, length: 1, timestamp: 43
+text:><
+
+
+
+!ENTRY org.apache.log4j 4 0 2022-12-03 16:35:52.586
+!MESSAGE org.eclipse.xtext.ui.editor.model.DocumentPartitioner  - Detected unexpected state in document partitioner. Please file a bug with the following information attached:
+Document content after the event was applied:
+>>>/* Project 3
+ * 
+ * Parser
+ * 
+ * Federico Melo Barrero
+ * 
+ */
+
+using gold.**
+
+toSet(C) :=  {x|  x in C}
+
+function createParser(A):IPushdownAutomaton begin
+	
+	// Declare each token as a variable (I'm not memorizing 40 tokens‥.)
+	var PROG: String
+	var GORP: String
+	var VAR: String
+	var PROC: String
+	var CORP: String
+	var if_: String
+	var else_: String
+	var fi: String
+	var while_: String
+	var do_: String
+	var od: String
+	var repeatTimes: String
+	var per: String
+	var isfacing: String
+	var isValid: String
+	var canWalk: String
+	var not_: String
+	var walk: String
+	var jump: String
+	var jumpTo: String
+	var veer: String
+	var look: String
+	var drop: String
+	var grab: String
+	var get: String
+	var free: String
+	var pop: String
+	var pick: String
+	var left: String
+	var right: String
+	var around: String
+	var north: String
+	var south: String
+	var east: String
+	var west: String
+	var front: String
+	var back: String
+	
+	PROG := "D"
+	GORP := "G"
+	VAR := "A"
+	PROC := "P"
+	CORP := "C"
+	if_ := "i"
+	else_ := "s"
+	fi := "f"
+	while_ := "w"
+	do_ := "x"
+	od := "y"
+	repeatTimes := "r"
+	per := "p"
+	isfacing := "b"
+	isValid := "h"
+	canWalk := "c"
+	not_ := "n"
+	walk := "k"
+	jump := "j"
+	jumpTo := "t"
+	veer := "q"
+	look := "l"
+	drop := "d"
+	grab := "a"
+	get := "g"
+	free := "e"
+	pop := "o"
+	pick := "m"
+	left := "L"
+	right := "R"
+	around := "O"
+	north := "N"
+	south := "S"
+	east := "E"
+	west := "W"
+	front := "F"
+	back := "B"
+	
+	
+	// Extra variables
+	var par: String
+	par = "("
+	var key: String
+	key = "{"
+	var num: String
+	num := "#"
+	var v: String
+	v := "v"
+	var V: String
+	V := "V"
+	
+	
+	var commandEnd: String
+	commandEnd := "U"
+	var commandBegin: String
+	commandBegin := "J"
+	
+	
+	// States
+	Q := {"qPROG","q,", "qCORP", "q2",
+		 "q1",
+		 "q;",
+		 "qPROC",
+		 "qPROC(",
+		 "qPROC)",
+		 "qPROC,",
+		 "qPROCinstrs",
+		 "qPROCp",
+		 "qPROCv",
+		 "qVAR",
+		 "qv",
+		 "qCORP",
+		 "qBlock",
+		 "qBlockEnd",
+		 "qASSIGN",
+		 "q:=",
+		 "qInstr;"}
+	
+	// Tokens (Automaton's alphabet)
+	Σ := toSet(A) ∪ {' ', '\n', '\t'}
+	// Stack's alphabet
+	Γ := {'D', 'P', 'C', 'A', '(', 'v', '{', 'U'}
+	// Initial state
+	q₀ := "qPROG"
+	// Final state
+	F := {"qPROG"}
+	
+	M := GPushdownAutomaton(Q, Σ, Γ, q₀, F)
+
+	SkipChars := {' ', '\n', '\t'}   // this will only  be used when testing only the parser, as the lexer removes SkipChars
+
+	
+	// AUTOMATON
+
+	// A program defintion begins with the keyword PROG 
+	M.delta("qPROG", "q1", PROG).push(PROG)
+	// It ends the keyword GORP
+	M.delta("qBlockEnd", "qPROG", GORP).pop(PROG)
+	
+	// A declaration of variables is the keyword VAR . 
+	M.delta("q1", "qVAR", VAR).push(VAR)
+	// followed by a list of names separated  by commas
+	M.delta("qVAR", "qv", v).ignore()
+	M.delta("qv", "q,", ',').push(v)
+	M.delta("q,", "qv", v).pop(v)
+	// The list is followed by ;
+	M.delta("qVAR", "q2", ';').pop(VAR)  // Valid empty variable declaration: VAR ;
+	M.delta("qv", "q2", ';').pop(VAR)
+	
+	// A procedure defintion is a the word PROC
+	M.delta("q1", "qPROC", PROC).push(PROC)
+	M.delta("q2", "qPROC", PROC).push(PROC)
+	// followed by a name
+	M.delta("qPROC", "qPROCv", v).changeTop(PROC, CORP)
+	// followed by a list of parameters within parenthesis separated by commas
+	M.delta("qPROCv", "qPROC(", '(').push(par)
+	M.delta("qPROC(", "qPROCp", v).ignore()
+	M.delta("qPROC(", "qPROC)", ')').pop(par)  // Procedure with no parameters: PROC hello( ) {‥.} CORP
+	M.delta("qPROCp", "qPROC)", ')').pop(par)
+	M.delta("qPROCp", "qPROC,", ',').push(v)
+	M.delta("qPROC,", "qPROCp", v).pop(v)
+	// followed by a block of instructions
+	M.delta("qPROC)", "qPROCinstrs", '{').push(key)
+	// and ending with the word CORP
+	M.delta("qCORP", "q2", CORP).pop(CORP)
+	
+	
+	// Block of instructions inside procedure
+	M.delta("qPROCinstrs", "qCORP", '}').pop(key)  // Empty block of instructions in procedure: PROC hi(‥.) { } CORP
+	M.delta("qPROCinstrs", "qCORP", '}').pop(key+commandEnd)
+
+	// Single block of instructions in program, outside procedures
+	M.delta("q1", "qBlock", '{').push(key)
+	M.delta("q2", "qBlock", '{').push(key)
+	M.delta("qBlock", "qBlockEnd", '}').pop(key) // Empty instruction block : PROG ‥. { } GORP
+	M.delta("qBlock", "qBlockEnd", '}').pop(key+commandEnd)
+
+	// A block of instructions is a sequence of instructions separated by semicolons within curly brackets
+	for each qBlock in {"qPROCinstrs", "qBlock"} do
+		
+	// name := n
+	M.delta(qBlock, "qASSIGN", v).push(v)
+	M.delta(qBlock, "qASSIGN", v).changeTop(ço)
+	M.delta("qASSIGN", "q:=", '=').ignore()
+	M.delta("q:=", qBlock, "#").changeTop(v, commandEnd)
+	
+	
+	// instr ; instr
+	M.delta(qBlock, "qInstr;", ";").changeTop(commandEnd, commandBegin)
+	end
+
+	
+	 // this will only  be used when testing only the parser as the lexer removes  SkipChars
+	 
+	 for each q in Q do
+	 	for each s in SkipChars do
+	 	   M.delta(q,q,λ+s).ignore()
+	 	end
+	 end
+	
+	
+	return M
+
+end
+
+<<<
+Document event: offset: 4595, length: 0, timestamp: 528
 text:>o<
 
 
 
-!ENTRY org.apache.log4j 4 0 2022-11-27 20:26:20.512
-!MESSAGE org.eclipse.xtext.ui.editor.model.DocumentPartitioner  - Detected unexpected state in document partitioner. Please file a bug with the following information attached:
-Document content after the event was applied:
->>>/* Project 3
- * 
- * Parser
- * 
- * Federico Melo Barrero
- * 
- */
-
-using gold.**
-
-toSet(C) :=  {x|  x in C}
-
-function createParser(A):IPushdownAutomaton begin
-	// States
-	Q := {0, }
-	// Tokens (Automaton's alphabet)
-	Σ := toSet(A) ∪ {' ', '\n', '\t'}
-	// Stack's alphabet
-	Γ := {'1'}
-	q₀ := 0
-	F := {0}
-	M := GPushdownAutomaton(Q,Σ,Γ,q₀,F)
-
-SkipChars := {' ', '\n', '\t'}   // this will only  be used when testing only the parser, as the lexer removes SkipChars
-
-M.delta(0,1,'D').push('D')
-
-
-M.delta(0,1,'').pop('D')
-	
-M.delta(0,1,'w').ignore()
-M.delta(1,2,'(').ignore()
-M.delta(2,7,'#').ignore()
-M.delta(2,7,'V').ignore()
-M.delta(2,7,'v').ignore()
-
-M.delta(2,3,'r').ignore()
-M.delta(3,6,',').ignore()
-
-M.delta(0,4,'k').ignore()
-
-M.delta(4,5,'(').ignore()
-M.delta(5,7,'N').ignore()
-
-
-M.delta(6,7,'#').ignore()
-M.delta(6,7,'V').ignore()
-
-M.delta(6,7,'v').ignore()
-M.delta(7,0,')').ignore()
-
-
- // this will only  be used when testing only the parser as the lexer removes  SkipChars
- 
- for each q in Q do
- 	for each s in SkipChars do
- 	   M.delta(q,q,λ+s).ignore()
- 	end
- end
-
-
-return M
-
-end
-
-<<<
-Document event: offset: 536, length: 0, timestamp: 203
-text:>p<
-
-
-
-!ENTRY org.apache.log4j 4 0 2022-11-27 20:52:56.698
+!ENTRY org.apache.log4j 4 0 2022-12-03 16:35:52.994
 !MESSAGE org.eclipse.xtext.ui.editor.model.DocumentPartitioner  - Detected unexpected state in document partitioner. Please file a bug with the following information attached:
 Document content after the event was applied:
 >>>/* Project 3
@@ -2087,809 +1351,130 @@ toSet(C) :=  {x|  x in C}
 function createParser(A):IPushdownAutomaton begin
 	
 	// Declare each token as a variable (I'm not memorizing 40 tokens‥.)
-	var PROG: char
-	var GORP: char
-	var VAR: char
-	var PROC: char
-	var CORP: char
-	var if_: char
-	var else_: char
-	var fi: char
-	var while_: char
-	var do_: char
-	var od: char
-	var repeatTimes: char
-	var per: char
-	var isfacing: char
-	var isValid: char
-	var canWalk: char
-	var not_: char
-	var walk: char
-	var jump: char
-	var jumpTo: char
-	var veer: char
-	var look: char
-	var drop: char
-	var grab: char
-	var get: char
-	var free: char
-	var pop: char
-	var pick: char
-	var left: char
-	var right: char
-	var around: char
-	var north: char
-	var south: char
-	var east: char
-	var west: char
-	var front: char
-	var back: char
-	var num: char
-	var v: char
-	var V: char
+	var PROG: String
+	var GORP: String
+	var VAR: String
+	var PROC: String
+	var CORP: String
+	var if_: String
+	var else_: String
+	var fi: String
+	var while_: String
+	var do_: String
+	var od: String
+	var repeatTimes: String
+	var per: String
+	var isfacing: String
+	var isValid: String
+	var canWalk: String
+	var not_: String
+	var walk: String
+	var jump: String
+	var jumpTo: String
+	var veer: String
+	var look: String
+	var drop: String
+	var grab: String
+	var get: String
+	var free: String
+	var pop: String
+	var pick: String
+	var left: String
+	var right: String
+	var around: String
+	var north: String
+	var south: String
+	var east: String
+	var west: String
+	var front: String
+	var back: String
 	
-	PROG := 'D'
-	GORP := 'G'
-	VAR := 'A'
-	PROC := 'P'
-	CORP := 'C'
-	if_ := 'i'
-	else_ := 's'
-	fi := 'f'
-	while_ := 'w'
-	do_ := 'x'
-	od := 'y'
-	repeatTimes := 'r'
-	per := 'p'
-	isfacing := 'b'
-	isValid := 'h'
-	canWalk := 'c'
-	not_ := 'n'
-	walk := 'k'
-	jump := 'j'
-	jumpTo := 't'
-	veer := 'q'
-	look := 'l'
-	drop := 'd'
-	grab := 'a'
-	get := 'g'
-	free := 'e'
-	pop := 'o'
-	pick := 'm'
-	left := 'L'
-	right := 'R'
-	around := 'O'
-	north := 'N'
-	south := 'S'
-	east := 'E'
-	west := 'W'
-	front := 'F'
-	back := 'B'
-	num := '#'
-	num := 'v'
-	num := 'V'
+	PROG := "D"
+	GORP := "G"
+	VAR := "A"
+	PROC := "P"
+	CORP := "C"
+	if_ := "i"
+	else_ := "s"
+	fi := "f"
+	while_ := "w"
+	do_ := "x"
+	od := "y"
+	repeatTimes := "r"
+	per := "p"
+	isfacing := "b"
+	isValid := "h"
+	canWalk := "c"
+	not_ := "n"
+	walk := "k"
+	jump := "j"
+	jumpTo := "t"
+	veer := "q"
+	look := "l"
+	drop := "d"
+	grab := "a"
+	get := "g"
+	free := "e"
+	pop := "o"
+	pick := "m"
+	left := "L"
+	right := "R"
+	around := "O"
+	north := "N"
+	south := "S"
+	east := "E"
+	west := "W"
+	front := "F"
+	back := "B"
+	
 	
 	// Extra variables
-	var par: char
-	par = ')'
+	var par: String
+	par = "("
+	var key: String
+	key = "{"
+	var num: String
+	num := "#"
+	var v: String
+	v := "v"
+	var V: String
+	V := "V"
+	
+	
+	var commandEnd: String
+	commandEnd := "U"
+	var commandBegin: String
+	commandBegin := "J"
 	
 	
 	// States
-	Q := {"qPROG", "q1"}
+	Q := {"qPROG","q,", "qCORP", "q2",
+		 "q1",
+		 "q;",
+		 "qPROC",
+		 "qPROC(",
+		 "qPROC)",
+		 "qPROC,",
+		 "qPROCinstrs",
+		 "qPROCp",
+		 "qPROCv",
+		 "qVAR",
+		 "qv",
+		 "qCORP",
+		 "qBlock",
+		 "qBlockEnd",
+		 "qASSIGN",
+		 "q:=",
+		 "qInstr;"}
+	
 	// Tokens (Automaton's alphabet)
 	Σ := toSet(A) ∪ {' ', '\n', '\t'}
 	// Stack's alphabet
-	Γ := {PROG, par}
+	Γ := {'D', 'P', 'C', 'A', '(', 'v', '{', 'U'}
 	// Initial state
-	q₀ := 0
+	q₀ := "qPROG"
 	// Final state
-	F := {0}
-	
-	M := GPushdownAutomaton(Q, Σ, Γ, q₀, F)
-
-	SkipChars := {' ', '\n', '\t'}   // this will only  be used when testing only the parser, as the lexer removes SkipChars
-
-	
-	// AUTOMATON
-
-	M.delta("qPROG", "q1", PROG).push(PROG)
-	M.delta(1, "qPROG", GORP).pop(PROG)
-	
-	M.delta("q1", "qVAR", VAR).push(VAR)
-	
-	M.delta("qVAR", "qv", v).ignore()
-	M.delta("qv", "q,", '','').push('v')
-	
-	
-		
-	M.delta(0,1,'w').ignore()
-	M.delta(1,2,'(').ignore()
-	M.delta(2,7,'#').ignore()
-	M.delta(2,7,'V').ignore()
-	M.delta(2,7,'v').ignore()
-	
-	M.delta(2,3,'r').ignore()
-	M.delta(3,6,',').ignore()
-	
-	M.delta(0,4,'k').ignore()
-	
-	M.delta(4,5,'(').ignore()
-	M.delta(5,7,'N').ignore()
-	
-	
-	M.delta(6,7,'#').ignore()
-	M.delta(6,7,'V').ignore()
-	
-	M.delta(6,7,'v').ignore()
-	M.delta(7,0,')').ignore()
-	
-	
-	 // this will only  be used when testing only the parser as the lexer removes  SkipChars
-	 
-	 for each q in Q do
-	 	for each s in SkipChars do
-	 	   M.delta(q,q,λ+s).ignore()
-	 	end
-	 end
-	
-	
-	return M
-
-end
-
-<<<
-Document event: offset: 2152, length: 0, timestamp: 895
-text:>''<
-
-
-
-!ENTRY org.apache.log4j 4 0 2022-11-27 20:52:58.007
-!MESSAGE org.eclipse.xtext.ui.editor.model.DocumentPartitioner  - Detected unexpected state in document partitioner. Please file a bug with the following information attached:
-Document content after the event was applied:
->>>/* Project 3
- * 
- * Parser
- * 
- * Federico Melo Barrero
- * 
- */
-
-using gold.**
-
-toSet(C) :=  {x|  x in C}
-
-function createParser(A):IPushdownAutomaton begin
-	
-	// Declare each token as a variable (I'm not memorizing 40 tokens‥.)
-	var PROG: char
-	var GORP: char
-	var VAR: char
-	var PROC: char
-	var CORP: char
-	var if_: char
-	var else_: char
-	var fi: char
-	var while_: char
-	var do_: char
-	var od: char
-	var repeatTimes: char
-	var per: char
-	var isfacing: char
-	var isValid: char
-	var canWalk: char
-	var not_: char
-	var walk: char
-	var jump: char
-	var jumpTo: char
-	var veer: char
-	var look: char
-	var drop: char
-	var grab: char
-	var get: char
-	var free: char
-	var pop: char
-	var pick: char
-	var left: char
-	var right: char
-	var around: char
-	var north: char
-	var south: char
-	var east: char
-	var west: char
-	var front: char
-	var back: char
-	var num: char
-	var v: char
-	var V: char
-	
-	PROG := 'D'
-	GORP := 'G'
-	VAR := 'A'
-	PROC := 'P'
-	CORP := 'C'
-	if_ := 'i'
-	else_ := 's'
-	fi := 'f'
-	while_ := 'w'
-	do_ := 'x'
-	od := 'y'
-	repeatTimes := 'r'
-	per := 'p'
-	isfacing := 'b'
-	isValid := 'h'
-	canWalk := 'c'
-	not_ := 'n'
-	walk := 'k'
-	jump := 'j'
-	jumpTo := 't'
-	veer := 'q'
-	look := 'l'
-	drop := 'd'
-	grab := 'a'
-	get := 'g'
-	free := 'e'
-	pop := 'o'
-	pick := 'm'
-	left := 'L'
-	right := 'R'
-	around := 'O'
-	north := 'N'
-	south := 'S'
-	east := 'E'
-	west := 'W'
-	front := 'F'
-	back := 'B'
-	num := '#'
-	num := 'v'
-	num := 'V'
-	
-	// Extra variables
-	var par: char
-	par = ')'
-	
-	
-	// States
-	Q := {"qPROG", "q1"}
-	// Tokens (Automaton's alphabet)
-	Σ := toSet(A) ∪ {' ', '\n', '\t'}
-	// Stack's alphabet
-	Γ := {PROG, par}
-	// Initial state
-	q₀ := 0
-	// Final state
-	F := {0}
-	
-	M := GPushdownAutomaton(Q, Σ, Γ, q₀, F)
-
-	SkipChars := {' ', '\n', '\t'}   // this will only  be used when testing only the parser, as the lexer removes SkipChars
-
-	
-	// AUTOMATON
-
-	M.delta("qPROG", "q1", PROG).push(PROG)
-	M.delta(1, "qPROG", GORP).pop(PROG)
-	
-	M.delta("q1", "qVAR", VAR).push(VAR)
-	
-	M.delta("qVAR", "qv", v).ignore()
-	M.delta("qv", "q,", '''').push('v')
-	
-	
-		
-	M.delta(0,1,'w').ignore()
-	M.delta(1,2,'(').ignore()
-	M.delta(2,7,'#').ignore()
-	M.delta(2,7,'V').ignore()
-	M.delta(2,7,'v').ignore()
-	
-	M.delta(2,3,'r').ignore()
-	M.delta(3,6,',').ignore()
-	
-	M.delta(0,4,'k').ignore()
-	
-	M.delta(4,5,'(').ignore()
-	M.delta(5,7,'N').ignore()
-	
-	
-	M.delta(6,7,'#').ignore()
-	M.delta(6,7,'V').ignore()
-	
-	M.delta(6,7,'v').ignore()
-	M.delta(7,0,')').ignore()
-	
-	
-	 // this will only  be used when testing only the parser as the lexer removes  SkipChars
-	 
-	 for each q in Q do
-	 	for each s in SkipChars do
-	 	   M.delta(q,q,λ+s).ignore()
-	 	end
-	 end
-	
-	
-	return M
-
-end
-
-<<<
-Document event: offset: 2151, length: 1, timestamp: 896
-text:><
-
-
-
-!ENTRY org.apache.log4j 4 0 2022-11-27 20:55:54.392
-!MESSAGE org.eclipse.xtext.ui.editor.model.DocumentPartitioner  - Detected unexpected state in document partitioner. Please file a bug with the following information attached:
-Document content after the event was applied:
->>>/* Project 3
- * 
- * Parser
- * 
- * Federico Melo Barrero
- * 
- */
-
-using gold.**
-
-toSet(C) :=  {x|  x in C}
-
-function createParser(A):IPushdownAutomaton begin
-	
-	// Declare each token as a variable (I'm not memorizing 40 tokens‥.)
-	var PROG: char
-	var GORP: char
-	var VAR: char
-	var PROC: char
-	var CORP: char
-	var if_: char
-	var else_: char
-	var fi: char
-	var while_: char
-	var do_: char
-	var od: char
-	var repeatTimes: char
-	var per: char
-	var isfacing: char
-	var isValid: char
-	var canWalk: char
-	var not_: char
-	var walk: char
-	var jump: char
-	var jumpTo: char
-	var veer: char
-	var look: char
-	var drop: char
-	var grab: char
-	var get: char
-	var free: char
-	var pop: char
-	var pick: char
-	var left: char
-	var right: char
-	var around: char
-	var north: char
-	var south: char
-	var east: char
-	var west: char
-	var front: char
-	var back: char
-	var num: char
-	var v: char
-	var V: char
-	
-	PROG := 'D'
-	GORP := 'G'
-	VAR := 'A'
-	PROC := 'P'
-	CORP := 'C'
-	if_ := 'i'
-	else_ := 's'
-	fi := 'f'
-	while_ := 'w'
-	do_ := 'x'
-	od := 'y'
-	repeatTimes := 'r'
-	per := 'p'
-	isfacing := 'b'
-	isValid := 'h'
-	canWalk := 'c'
-	not_ := 'n'
-	walk := 'k'
-	jump := 'j'
-	jumpTo := 't'
-	veer := 'q'
-	look := 'l'
-	drop := 'd'
-	grab := 'a'
-	get := 'g'
-	free := 'e'
-	pop := 'o'
-	pick := 'm'
-	left := 'L'
-	right := 'R'
-	around := 'O'
-	north := 'N'
-	south := 'S'
-	east := 'E'
-	west := 'W'
-	front := 'F'
-	back := 'B'
-	num := '#'
-	num := 'v'
-	num := 'V'
-	
-	// Extra variables
-	var par: char
-	par = ')'
-	
-	
-	// States
-	Q := {"qPROG", "q1"}
-	// Tokens (Automaton's alphabet)
-	Σ := toSet(A) ∪ {' ', '\n', '\t'}
-	// Stack's alphabet
-	Γ := {PROG, par}
-	// Initial state
-	q₀ := 0
-	// Final state
-	F := {0}
-	
-	M := GPushdownAutomaton(Q, Σ, Γ, q₀, F)
-
-	SkipChars := {' ', '\n', '\t'}   // this will only  be used when testing only the parser, as the lexer removes SkipChars
-
-	
-	// AUTOMATON
-
-	M.delta("qPROG", "q1", PROG).push(PROG)
-	M.delta(1, "qPROG", GORP).pop(PROG)
-	
-	M.delta("q1", "qVAR", VAR).push(VAR)
-	
-	M.delta("qVAR", "qv", v).ignore()
-	M.delta("qv", "q,", ',').push(v)
-	M.delta("q,", "qVAR", v).pop(v)
-	M.delta("qv", "q;", ;).pop(VAR)
-	M.delta("qv", "q;", ;).pop(VAR)
-	
-
-	
-	
-		
-	M.delta(0,1,'w').ignore()
-	M.delta(1,2,'(').ignore()
-	M.delta(2,7,'#').ignore()
-	M.delta(2,7,'V').ignore()
-	M.delta(2,7,'v').ignore()
-	
-	M.delta(2,3,'r').ignore()
-	M.delta(3,6,',').ignore()
-	
-	M.delta(0,4,'k').ignore()
-	
-	M.delta(4,5,'(').ignore()
-	M.delta(5,7,'N').ignore()
-	
-	
-	M.delta(6,7,'#').ignore()
-	M.delta(6,7,'V').ignore()
-	
-	M.delta(6,7,'v').ignore()
-	M.delta(7,0,')').ignore()
-	
-	
-	 // this will only  be used when testing only the parser as the lexer removes  SkipChars
-	 
-	 for each q in Q do
-	 	for each s in SkipChars do
-	 	   M.delta(q,q,λ+s).ignore()
-	 	end
-	 end
-	
-	
-	return M
-
-end
-
-<<<
-Document event: offset: 2232, length: 0, timestamp: 917
-text:>M.delta("qv", "q;", ;).pop(VAR)
-	<
-
-
-
-!ENTRY org.apache.log4j 4 0 2022-11-27 20:55:55.540
-!MESSAGE org.eclipse.xtext.ui.editor.model.DocumentPartitioner  - Detected unexpected state in document partitioner. Please file a bug with the following information attached:
-Document content after the event was applied:
->>>/* Project 3
- * 
- * Parser
- * 
- * Federico Melo Barrero
- * 
- */
-
-using gold.**
-
-toSet(C) :=  {x|  x in C}
-
-function createParser(A):IPushdownAutomaton begin
-	
-	// Declare each token as a variable (I'm not memorizing 40 tokens‥.)
-	var PROG: char
-	var GORP: char
-	var VAR: char
-	var PROC: char
-	var CORP: char
-	var if_: char
-	var else_: char
-	var fi: char
-	var while_: char
-	var do_: char
-	var od: char
-	var repeatTimes: char
-	var per: char
-	var isfacing: char
-	var isValid: char
-	var canWalk: char
-	var not_: char
-	var walk: char
-	var jump: char
-	var jumpTo: char
-	var veer: char
-	var look: char
-	var drop: char
-	var grab: char
-	var get: char
-	var free: char
-	var pop: char
-	var pick: char
-	var left: char
-	var right: char
-	var around: char
-	var north: char
-	var south: char
-	var east: char
-	var west: char
-	var front: char
-	var back: char
-	var num: char
-	var v: char
-	var V: char
-	
-	PROG := 'D'
-	GORP := 'G'
-	VAR := 'A'
-	PROC := 'P'
-	CORP := 'C'
-	if_ := 'i'
-	else_ := 's'
-	fi := 'f'
-	while_ := 'w'
-	do_ := 'x'
-	od := 'y'
-	repeatTimes := 'r'
-	per := 'p'
-	isfacing := 'b'
-	isValid := 'h'
-	canWalk := 'c'
-	not_ := 'n'
-	walk := 'k'
-	jump := 'j'
-	jumpTo := 't'
-	veer := 'q'
-	look := 'l'
-	drop := 'd'
-	grab := 'a'
-	get := 'g'
-	free := 'e'
-	pop := 'o'
-	pick := 'm'
-	left := 'L'
-	right := 'R'
-	around := 'O'
-	north := 'N'
-	south := 'S'
-	east := 'E'
-	west := 'W'
-	front := 'F'
-	back := 'B'
-	num := '#'
-	num := 'v'
-	num := 'V'
-	
-	// Extra variables
-	var par: char
-	par = ')'
-	
-	
-	// States
-	Q := {"qPROG", "q1"}
-	// Tokens (Automaton's alphabet)
-	Σ := toSet(A) ∪ {' ', '\n', '\t'}
-	// Stack's alphabet
-	Γ := {PROG, par}
-	// Initial state
-	q₀ := 0
-	// Final state
-	F := {0}
-	
-	M := GPushdownAutomaton(Q, Σ, Γ, q₀, F)
-
-	SkipChars := {' ', '\n', '\t'}   // this will only  be used when testing only the parser, as the lexer removes SkipChars
-
-	
-	// AUTOMATON
-
-	M.delta("qPROG", "q1", PROG).push(PROG)
-	M.delta(1, "qPROG", GORP).pop(PROG)
-	
-	M.delta("q1", "qVAR", VAR).push(VAR)
-	
-	M.delta("qVAR", "qv", v).ignore()
-	M.delta("qv", "q,", ',').push(v)
-	M.delta("q,", "qVAR", v).pop(v)
-	M.delta("qv", "q;", ;).pop(VAR)
-	
-
-	
-	
-		
-	M.delta(0,1,'w').ignore()
-	M.delta(1,2,'(').ignore()
-	M.delta(2,7,'#').ignore()
-	M.delta(2,7,'V').ignore()
-	M.delta(2,7,'v').ignore()
-	
-	M.delta(2,3,'r').ignore()
-	M.delta(3,6,',').ignore()
-	
-	M.delta(0,4,'k').ignore()
-	
-	M.delta(4,5,'(').ignore()
-	M.delta(5,7,'N').ignore()
-	
-	
-	M.delta(6,7,'#').ignore()
-	M.delta(6,7,'V').ignore()
-	
-	M.delta(6,7,'v').ignore()
-	M.delta(7,0,')').ignore()
-	
-	
-	 // this will only  be used when testing only the parser as the lexer removes  SkipChars
-	 
-	 for each q in Q do
-	 	for each s in SkipChars do
-	 	   M.delta(q,q,λ+s).ignore()
-	 	end
-	 end
-	
-	
-	return M
-
-end
-
-<<<
-Document event: offset: 2232, length: 34, timestamp: 916
-text:><
-
-
-
-!ENTRY org.apache.log4j 4 0 2022-11-27 20:59:50.967
-!MESSAGE org.eclipse.xtext.ui.editor.model.DocumentPartitioner  - Detected unexpected state in document partitioner. Please file a bug with the following information attached:
-Document content after the event was applied:
->>>/* Project 3
- * 
- * Parser
- * 
- * Federico Melo Barrero
- * 
- */
-
-using gold.**
-
-toSet(C) :=  {x|  x in C}
-
-function createParser(A):IPushdownAutomaton begin
-	
-	// Declare each token as a variable (I'm not memorizing 40 tokens‥.)
-	var PROG: char
-	var GORP: char
-	var VAR: char
-	var PROC: char
-	var CORP: char
-	var if_: char
-	var else_: char
-	var fi: char
-	var while_: char
-	var do_: char
-	var od: char
-	var repeatTimes: char
-	var per: char
-	var isfacing: char
-	var isValid: char
-	var canWalk: char
-	var not_: char
-	var walk: char
-	var jump: char
-	var jumpTo: char
-	var veer: char
-	var look: char
-	var drop: char
-	var grab: char
-	var get: char
-	var free: char
-	var pop: char
-	var pick: char
-	var left: char
-	var right: char
-	var around: char
-	var north: char
-	var south: char
-	var east: char
-	var west: char
-	var front: char
-	var back: char
-	var num: char
-	var v: char
-	var V: char
-	
-	PROG := 'D'
-	GORP := 'G'
-	VAR := 'A'
-	PROC := 'P'
-	CORP := 'C'
-	if_ := 'i'
-	else_ := 's'
-	fi := 'f'
-	while_ := 'w'
-	do_ := 'x'
-	od := 'y'
-	repeatTimes := 'r'
-	per := 'p'
-	isfacing := 'b'
-	isValid := 'h'
-	canWalk := 'c'
-	not_ := 'n'
-	walk := 'k'
-	jump := 'j'
-	jumpTo := 't'
-	veer := 'q'
-	look := 'l'
-	drop := 'd'
-	grab := 'a'
-	get := 'g'
-	free := 'e'
-	pop := 'o'
-	pick := 'm'
-	left := 'L'
-	right := 'R'
-	around := 'O'
-	north := 'N'
-	south := 'S'
-	east := 'E'
-	west := 'W'
-	front := 'F'
-	back := 'B'
-	num := '#'
-	num := 'v'
-	num := 'V'
-	
-	// Extra variables
-	var par: char
-	par = ')'
-	
-	
-	// States
-	Q := {"qPROG", "q1"}
-	// Tokens (Automaton's alphabet)
-	Σ := toSet(A) ∪ {' ', '\n', '\t'}
-	// Stack's alphabet
-	Γ := {PROG, par}
-	// Initial state
-	q₀ := 0
-	// Final state
-	F := {0}
+	F := {"qPROG"}
 	
 	M := GPushdownAutomaton(Q, Σ, Γ, q₀, F)
 
@@ -2901,1535 +1486,60 @@ function createParser(A):IPushdownAutomaton begin
 	// A program defintion begins with the keyword PROG 
 	M.delta("qPROG", "q1", PROG).push(PROG)
 	// It ends the keyword GORP
-	M.delta(1, "qPROG", GORP).pop(PROG)
+	M.delta("qBlockEnd", "qPROG", GORP).pop(PROG)
 	
 	// A declaration of variables is the keyword VAR . 
 	M.delta("q1", "qVAR", VAR).push(VAR)
 	// followed by a list of names separated  by commas
 	M.delta("qVAR", "qv", v).ignore()
 	M.delta("qv", "q,", ',').push(v)
-	M.delta("q,", "qVAR", v).pop(v)
+	M.delta("q,", "qv", v).pop(v)
 	// The list is followed by ;
-	M.delta("qv", "q;", ;).pop(VAR)
-	
-	
-
-	
-	
-		
-	M.delta(0,1,'w').ignore()
-	M.delta(1,2,'(').ignore()
-	M.delta(2,7,'#').ignore()
-	M.delta(2,7,'V').ignore()
-	M.delta(2,7,'v').ignore()
-	
-	M.delta(2,3,'r').ignore()
-	M.delta(3,6,',').ignore()
-	
-	M.delta(0,4,'k').ignore()
-	
-	M.delta(4,5,'(').ignore()
-	M.delta(5,7,'N').ignore()
-	
-	
-	M.delta(6,7,'#').ignore()
-	M.delta(6,7,'V').ignore()
-	
-	M.delta(6,7,'v').ignore()
-	M.delta(7,0,')').ignore()
-	
-	
-	 // this will only  be used when testing only the parser as the lexer removes  SkipChars
-	 
-	 for each q in Q do
-	 	for each s in SkipChars do
-	 	   M.delta(q,q,λ+s).ignore()
-	 	end
-	 end
-	
-	
-	return M
-
-end
-
-<<<
-Document event: offset: 2450, length: 0, timestamp: 974
-text:>
-	<
-
-
-
-!ENTRY org.apache.log4j 4 0 2022-11-27 20:59:51.071
-!MESSAGE org.eclipse.xtext.ui.editor.model.DocumentPartitioner  - Detected unexpected state in document partitioner. Please file a bug with the following information attached:
-Document content after the event was applied:
->>>/* Project 3
- * 
- * Parser
- * 
- * Federico Melo Barrero
- * 
- */
-
-using gold.**
-
-toSet(C) :=  {x|  x in C}
-
-function createParser(A):IPushdownAutomaton begin
-	
-	// Declare each token as a variable (I'm not memorizing 40 tokens‥.)
-	var PROG: char
-	var GORP: char
-	var VAR: char
-	var PROC: char
-	var CORP: char
-	var if_: char
-	var else_: char
-	var fi: char
-	var while_: char
-	var do_: char
-	var od: char
-	var repeatTimes: char
-	var per: char
-	var isfacing: char
-	var isValid: char
-	var canWalk: char
-	var not_: char
-	var walk: char
-	var jump: char
-	var jumpTo: char
-	var veer: char
-	var look: char
-	var drop: char
-	var grab: char
-	var get: char
-	var free: char
-	var pop: char
-	var pick: char
-	var left: char
-	var right: char
-	var around: char
-	var north: char
-	var south: char
-	var east: char
-	var west: char
-	var front: char
-	var back: char
-	var num: char
-	var v: char
-	var V: char
-	
-	PROG := 'D'
-	GORP := 'G'
-	VAR := 'A'
-	PROC := 'P'
-	CORP := 'C'
-	if_ := 'i'
-	else_ := 's'
-	fi := 'f'
-	while_ := 'w'
-	do_ := 'x'
-	od := 'y'
-	repeatTimes := 'r'
-	per := 'p'
-	isfacing := 'b'
-	isValid := 'h'
-	canWalk := 'c'
-	not_ := 'n'
-	walk := 'k'
-	jump := 'j'
-	jumpTo := 't'
-	veer := 'q'
-	look := 'l'
-	drop := 'd'
-	grab := 'a'
-	get := 'g'
-	free := 'e'
-	pop := 'o'
-	pick := 'm'
-	left := 'L'
-	right := 'R'
-	around := 'O'
-	north := 'N'
-	south := 'S'
-	east := 'E'
-	west := 'W'
-	front := 'F'
-	back := 'B'
-	num := '#'
-	num := 'v'
-	num := 'V'
-	
-	// Extra variables
-	var par: char
-	par = ')'
-	
-	
-	// States
-	Q := {"qPROG", "q1"}
-	// Tokens (Automaton's alphabet)
-	Σ := toSet(A) ∪ {' ', '\n', '\t'}
-	// Stack's alphabet
-	Γ := {PROG, par}
-	// Initial state
-	q₀ := 0
-	// Final state
-	F := {0}
-	
-	M := GPushdownAutomaton(Q, Σ, Γ, q₀, F)
-
-	SkipChars := {' ', '\n', '\t'}   // this will only  be used when testing only the parser, as the lexer removes SkipChars
-
-	
-	// AUTOMATON
-
-	// A program defintion begins with the keyword PROG 
-	M.delta("qPROG", "q1", PROG).push(PROG)
-	// It ends the keyword GORP
-	M.delta(1, "qPROG", GORP).pop(PROG)
-	
-	// A declaration of variables is the keyword VAR . 
-	M.delta("q1", "qVAR", VAR).push(VAR)
-	// followed by a list of names separated  by commas
-	M.delta("qVAR", "qv", v).ignore()
-	M.delta("qv", "q,", ',').push(v)
-	M.delta("q,", "qVAR", v).pop(v)
-	// The list is followed by ;
-	M.delta("qv", "q;", ;).pop(VAR)
-	
-	
-	
-
-	
-	
-		
-	M.delta(0,1,'w').ignore()
-	M.delta(1,2,'(').ignore()
-	M.delta(2,7,'#').ignore()
-	M.delta(2,7,'V').ignore()
-	M.delta(2,7,'v').ignore()
-	
-	M.delta(2,3,'r').ignore()
-	M.delta(3,6,',').ignore()
-	
-	M.delta(0,4,'k').ignore()
-	
-	M.delta(4,5,'(').ignore()
-	M.delta(5,7,'N').ignore()
-	
-	
-	M.delta(6,7,'#').ignore()
-	M.delta(6,7,'V').ignore()
-	
-	M.delta(6,7,'v').ignore()
-	M.delta(7,0,')').ignore()
-	
-	
-	 // this will only  be used when testing only the parser as the lexer removes  SkipChars
-	 
-	 for each q in Q do
-	 	for each s in SkipChars do
-	 	   M.delta(q,q,λ+s).ignore()
-	 	end
-	 end
-	
-	
-	return M
-
-end
-
-<<<
-Document event: offset: 2453, length: 0, timestamp: 975
-text:>
-	<
-
-
-
-!ENTRY org.apache.log4j 4 0 2022-11-27 20:59:51.287
-!MESSAGE org.eclipse.xtext.ui.editor.model.DocumentPartitioner  - Detected unexpected state in document partitioner. Please file a bug with the following information attached:
-Document content after the event was applied:
->>>/* Project 3
- * 
- * Parser
- * 
- * Federico Melo Barrero
- * 
- */
-
-using gold.**
-
-toSet(C) :=  {x|  x in C}
-
-function createParser(A):IPushdownAutomaton begin
-	
-	// Declare each token as a variable (I'm not memorizing 40 tokens‥.)
-	var PROG: char
-	var GORP: char
-	var VAR: char
-	var PROC: char
-	var CORP: char
-	var if_: char
-	var else_: char
-	var fi: char
-	var while_: char
-	var do_: char
-	var od: char
-	var repeatTimes: char
-	var per: char
-	var isfacing: char
-	var isValid: char
-	var canWalk: char
-	var not_: char
-	var walk: char
-	var jump: char
-	var jumpTo: char
-	var veer: char
-	var look: char
-	var drop: char
-	var grab: char
-	var get: char
-	var free: char
-	var pop: char
-	var pick: char
-	var left: char
-	var right: char
-	var around: char
-	var north: char
-	var south: char
-	var east: char
-	var west: char
-	var front: char
-	var back: char
-	var num: char
-	var v: char
-	var V: char
-	
-	PROG := 'D'
-	GORP := 'G'
-	VAR := 'A'
-	PROC := 'P'
-	CORP := 'C'
-	if_ := 'i'
-	else_ := 's'
-	fi := 'f'
-	while_ := 'w'
-	do_ := 'x'
-	od := 'y'
-	repeatTimes := 'r'
-	per := 'p'
-	isfacing := 'b'
-	isValid := 'h'
-	canWalk := 'c'
-	not_ := 'n'
-	walk := 'k'
-	jump := 'j'
-	jumpTo := 't'
-	veer := 'q'
-	look := 'l'
-	drop := 'd'
-	grab := 'a'
-	get := 'g'
-	free := 'e'
-	pop := 'o'
-	pick := 'm'
-	left := 'L'
-	right := 'R'
-	around := 'O'
-	north := 'N'
-	south := 'S'
-	east := 'E'
-	west := 'W'
-	front := 'F'
-	back := 'B'
-	num := '#'
-	num := 'v'
-	num := 'V'
-	
-	// Extra variables
-	var par: char
-	par = ')'
-	
-	
-	// States
-	Q := {"qPROG", "q1"}
-	// Tokens (Automaton's alphabet)
-	Σ := toSet(A) ∪ {' ', '\n', '\t'}
-	// Stack's alphabet
-	Γ := {PROG, par}
-	// Initial state
-	q₀ := 0
-	// Final state
-	F := {0}
-	
-	M := GPushdownAutomaton(Q, Σ, Γ, q₀, F)
-
-	SkipChars := {' ', '\n', '\t'}   // this will only  be used when testing only the parser, as the lexer removes SkipChars
-
-	
-	// AUTOMATON
-
-	// A program defintion begins with the keyword PROG 
-	M.delta("qPROG", "q1", PROG).push(PROG)
-	// It ends the keyword GORP
-	M.delta(1, "qPROG", GORP).pop(PROG)
-	
-	// A declaration of variables is the keyword VAR . 
-	M.delta("q1", "qVAR", VAR).push(VAR)
-	// followed by a list of names separated  by commas
-	M.delta("qVAR", "qv", v).ignore()
-	M.delta("qv", "q,", ',').push(v)
-	M.delta("q,", "qVAR", v).pop(v)
-	// The list is followed by ;
-	M.delta("qv", "q;", ;).pop(VAR)
-	
-	PROC
-	
-
-	
-	
-		
-	M.delta(0,1,'w').ignore()
-	M.delta(1,2,'(').ignore()
-	M.delta(2,7,'#').ignore()
-	M.delta(2,7,'V').ignore()
-	M.delta(2,7,'v').ignore()
-	
-	M.delta(2,3,'r').ignore()
-	M.delta(3,6,',').ignore()
-	
-	M.delta(0,4,'k').ignore()
-	
-	M.delta(4,5,'(').ignore()
-	M.delta(5,7,'N').ignore()
-	
-	
-	M.delta(6,7,'#').ignore()
-	M.delta(6,7,'V').ignore()
-	
-	M.delta(6,7,'v').ignore()
-	M.delta(7,0,')').ignore()
-	
-	
-	 // this will only  be used when testing only the parser as the lexer removes  SkipChars
-	 
-	 for each q in Q do
-	 	for each s in SkipChars do
-	 	   M.delta(q,q,λ+s).ignore()
-	 	end
-	 end
-	
-	
-	return M
-
-end
-
-<<<
-Document event: offset: 2456, length: 0, timestamp: 976
-text:>PROC<
-
-
-
-!ENTRY org.apache.log4j 4 0 2022-11-27 20:59:52.184
-!MESSAGE org.eclipse.xtext.ui.editor.model.DocumentPartitioner  - Detected unexpected state in document partitioner. Please file a bug with the following information attached:
-Document content after the event was applied:
->>>/* Project 3
- * 
- * Parser
- * 
- * Federico Melo Barrero
- * 
- */
-
-using gold.**
-
-toSet(C) :=  {x|  x in C}
-
-function createParser(A):IPushdownAutomaton begin
-	
-	// Declare each token as a variable (I'm not memorizing 40 tokens‥.)
-	var PROG: char
-	var GORP: char
-	var VAR: char
-	var PROC: char
-	var CORP: char
-	var if_: char
-	var else_: char
-	var fi: char
-	var while_: char
-	var do_: char
-	var od: char
-	var repeatTimes: char
-	var per: char
-	var isfacing: char
-	var isValid: char
-	var canWalk: char
-	var not_: char
-	var walk: char
-	var jump: char
-	var jumpTo: char
-	var veer: char
-	var look: char
-	var drop: char
-	var grab: char
-	var get: char
-	var free: char
-	var pop: char
-	var pick: char
-	var left: char
-	var right: char
-	var around: char
-	var north: char
-	var south: char
-	var east: char
-	var west: char
-	var front: char
-	var back: char
-	var num: char
-	var v: char
-	var V: char
-	
-	PROG := 'D'
-	GORP := 'G'
-	VAR := 'A'
-	PROC := 'P'
-	CORP := 'C'
-	if_ := 'i'
-	else_ := 's'
-	fi := 'f'
-	while_ := 'w'
-	do_ := 'x'
-	od := 'y'
-	repeatTimes := 'r'
-	per := 'p'
-	isfacing := 'b'
-	isValid := 'h'
-	canWalk := 'c'
-	not_ := 'n'
-	walk := 'k'
-	jump := 'j'
-	jumpTo := 't'
-	veer := 'q'
-	look := 'l'
-	drop := 'd'
-	grab := 'a'
-	get := 'g'
-	free := 'e'
-	pop := 'o'
-	pick := 'm'
-	left := 'L'
-	right := 'R'
-	around := 'O'
-	north := 'N'
-	south := 'S'
-	east := 'E'
-	west := 'W'
-	front := 'F'
-	back := 'B'
-	num := '#'
-	num := 'v'
-	num := 'V'
-	
-	// Extra variables
-	var par: char
-	par = ')'
-	
-	
-	// States
-	Q := {"qPROG", "q1"}
-	// Tokens (Automaton's alphabet)
-	Σ := toSet(A) ∪ {' ', '\n', '\t'}
-	// Stack's alphabet
-	Γ := {PROG, par}
-	// Initial state
-	q₀ := 0
-	// Final state
-	F := {0}
-	
-	M := GPushdownAutomaton(Q, Σ, Γ, q₀, F)
-
-	SkipChars := {' ', '\n', '\t'}   // this will only  be used when testing only the parser, as the lexer removes SkipChars
-
-	
-	// AUTOMATON
-
-	// A program defintion begins with the keyword PROG 
-	M.delta("qPROG", "q1", PROG).push(PROG)
-	// It ends the keyword GORP
-	M.delta(1, "qPROG", GORP).pop(PROG)
-	
-	// A declaration of variables is the keyword VAR . 
-	M.delta("q1", "qVAR", VAR).push(VAR)
-	// followed by a list of names separated  by commas
-	M.delta("qVAR", "qv", v).ignore()
-	M.delta("qv", "q,", ',').push(v)
-	M.delta("q,", "qVAR", v).pop(v)
-	// The list is followed by ;
-	M.delta("qv", "q;", ;).pop(VAR)
-	
-	
-	
-
-	
-	
-		
-	M.delta(0,1,'w').ignore()
-	M.delta(1,2,'(').ignore()
-	M.delta(2,7,'#').ignore()
-	M.delta(2,7,'V').ignore()
-	M.delta(2,7,'v').ignore()
-	
-	M.delta(2,3,'r').ignore()
-	M.delta(3,6,',').ignore()
-	
-	M.delta(0,4,'k').ignore()
-	
-	M.delta(4,5,'(').ignore()
-	M.delta(5,7,'N').ignore()
-	
-	
-	M.delta(6,7,'#').ignore()
-	M.delta(6,7,'V').ignore()
-	
-	M.delta(6,7,'v').ignore()
-	M.delta(7,0,')').ignore()
-	
-	
-	 // this will only  be used when testing only the parser as the lexer removes  SkipChars
-	 
-	 for each q in Q do
-	 	for each s in SkipChars do
-	 	   M.delta(q,q,λ+s).ignore()
-	 	end
-	 end
-	
-	
-	return M
-
-end
-
-<<<
-Document event: offset: 2456, length: 4, timestamp: 975
-text:><
-
-
-
-!ENTRY org.apache.log4j 4 0 2022-11-27 20:59:54.799
-!MESSAGE org.eclipse.xtext.ui.editor.model.DocumentPartitioner  - Detected unexpected state in document partitioner. Please file a bug with the following information attached:
-Document content after the event was applied:
->>>/* Project 3
- * 
- * Parser
- * 
- * Federico Melo Barrero
- * 
- */
-
-using gold.**
-
-toSet(C) :=  {x|  x in C}
-
-function createParser(A):IPushdownAutomaton begin
-	
-	// Declare each token as a variable (I'm not memorizing 40 tokens‥.)
-	var PROG: char
-	var GORP: char
-	var VAR: char
-	var PROC: char
-	var CORP: char
-	var if_: char
-	var else_: char
-	var fi: char
-	var while_: char
-	var do_: char
-	var od: char
-	var repeatTimes: char
-	var per: char
-	var isfacing: char
-	var isValid: char
-	var canWalk: char
-	var not_: char
-	var walk: char
-	var jump: char
-	var jumpTo: char
-	var veer: char
-	var look: char
-	var drop: char
-	var grab: char
-	var get: char
-	var free: char
-	var pop: char
-	var pick: char
-	var left: char
-	var right: char
-	var around: char
-	var north: char
-	var south: char
-	var east: char
-	var west: char
-	var front: char
-	var back: char
-	var num: char
-	var v: char
-	var V: char
-	
-	PROG := 'D'
-	GORP := 'G'
-	VAR := 'A'
-	PROC := 'P'
-	CORP := 'C'
-	if_ := 'i'
-	else_ := 's'
-	fi := 'f'
-	while_ := 'w'
-	do_ := 'x'
-	od := 'y'
-	repeatTimes := 'r'
-	per := 'p'
-	isfacing := 'b'
-	isValid := 'h'
-	canWalk := 'c'
-	not_ := 'n'
-	walk := 'k'
-	jump := 'j'
-	jumpTo := 't'
-	veer := 'q'
-	look := 'l'
-	drop := 'd'
-	grab := 'a'
-	get := 'g'
-	free := 'e'
-	pop := 'o'
-	pick := 'm'
-	left := 'L'
-	right := 'R'
-	around := 'O'
-	north := 'N'
-	south := 'S'
-	east := 'E'
-	west := 'W'
-	front := 'F'
-	back := 'B'
-	num := '#'
-	num := 'v'
-	num := 'V'
-	
-	// Extra variables
-	var par: char
-	par = ')'
-	
-	
-	// States
-	Q := {"qPROG", "q1"}
-	// Tokens (Automaton's alphabet)
-	Σ := toSet(A) ∪ {' ', '\n', '\t'}
-	// Stack's alphabet
-	Γ := {PROG, par}
-	// Initial state
-	q₀ := 0
-	// Final state
-	F := {0}
-	
-	M := GPushdownAutomaton(Q, Σ, Γ, q₀, F)
-
-	SkipChars := {' ', '\n', '\t'}   // this will only  be used when testing only the parser, as the lexer removes SkipChars
-
-	
-	// AUTOMATON
-
-	// A program defintion begins with the keyword PROG 
-	M.delta("qPROG", "q1", PROG).push(PROG)
-	// It ends the keyword GORP
-	M.delta(1, "qPROG", GORP).pop(PROG)
-	
-	// A declaration of variables is the keyword VAR . 
-	M.delta("q1", "qVAR", VAR).push(VAR)
-	// followed by a list of names separated  by commas
-	M.delta("qVAR", "qv", v).ignore()
-	M.delta("qv", "q,", ',').push(v)
-	M.delta("q,", "qVAR", v).pop(v)
-	// The list is followed by ;
-	M.delta("qv", "q;", ;).pop(VAR)
-	
-	
-	
-	
-
-	
-	
-		
-	M.delta(0,1,'w').ignore()
-	M.delta(1,2,'(').ignore()
-	M.delta(2,7,'#').ignore()
-	M.delta(2,7,'V').ignore()
-	M.delta(2,7,'v').ignore()
-	
-	M.delta(2,3,'r').ignore()
-	M.delta(3,6,',').ignore()
-	
-	M.delta(0,4,'k').ignore()
-	
-	M.delta(4,5,'(').ignore()
-	M.delta(5,7,'N').ignore()
-	
-	
-	M.delta(6,7,'#').ignore()
-	M.delta(6,7,'V').ignore()
-	
-	M.delta(6,7,'v').ignore()
-	M.delta(7,0,')').ignore()
-	
-	
-	 // this will only  be used when testing only the parser as the lexer removes  SkipChars
-	 
-	 for each q in Q do
-	 	for each s in SkipChars do
-	 	   M.delta(q,q,λ+s).ignore()
-	 	end
-	 end
-	
-	
-	return M
-
-end
-
-<<<
-Document event: offset: 2456, length: 0, timestamp: 977
-text:>
-	<
-
-
-
-!ENTRY org.apache.log4j 4 0 2022-11-27 20:59:54.895
-!MESSAGE org.eclipse.xtext.ui.editor.model.DocumentPartitioner  - Detected unexpected state in document partitioner. Please file a bug with the following information attached:
-Document content after the event was applied:
->>>/* Project 3
- * 
- * Parser
- * 
- * Federico Melo Barrero
- * 
- */
-
-using gold.**
-
-toSet(C) :=  {x|  x in C}
-
-function createParser(A):IPushdownAutomaton begin
-	
-	// Declare each token as a variable (I'm not memorizing 40 tokens‥.)
-	var PROG: char
-	var GORP: char
-	var VAR: char
-	var PROC: char
-	var CORP: char
-	var if_: char
-	var else_: char
-	var fi: char
-	var while_: char
-	var do_: char
-	var od: char
-	var repeatTimes: char
-	var per: char
-	var isfacing: char
-	var isValid: char
-	var canWalk: char
-	var not_: char
-	var walk: char
-	var jump: char
-	var jumpTo: char
-	var veer: char
-	var look: char
-	var drop: char
-	var grab: char
-	var get: char
-	var free: char
-	var pop: char
-	var pick: char
-	var left: char
-	var right: char
-	var around: char
-	var north: char
-	var south: char
-	var east: char
-	var west: char
-	var front: char
-	var back: char
-	var num: char
-	var v: char
-	var V: char
-	
-	PROG := 'D'
-	GORP := 'G'
-	VAR := 'A'
-	PROC := 'P'
-	CORP := 'C'
-	if_ := 'i'
-	else_ := 's'
-	fi := 'f'
-	while_ := 'w'
-	do_ := 'x'
-	od := 'y'
-	repeatTimes := 'r'
-	per := 'p'
-	isfacing := 'b'
-	isValid := 'h'
-	canWalk := 'c'
-	not_ := 'n'
-	walk := 'k'
-	jump := 'j'
-	jumpTo := 't'
-	veer := 'q'
-	look := 'l'
-	drop := 'd'
-	grab := 'a'
-	get := 'g'
-	free := 'e'
-	pop := 'o'
-	pick := 'm'
-	left := 'L'
-	right := 'R'
-	around := 'O'
-	north := 'N'
-	south := 'S'
-	east := 'E'
-	west := 'W'
-	front := 'F'
-	back := 'B'
-	num := '#'
-	num := 'v'
-	num := 'V'
-	
-	// Extra variables
-	var par: char
-	par = ')'
-	
-	
-	// States
-	Q := {"qPROG", "q1"}
-	// Tokens (Automaton's alphabet)
-	Σ := toSet(A) ∪ {' ', '\n', '\t'}
-	// Stack's alphabet
-	Γ := {PROG, par}
-	// Initial state
-	q₀ := 0
-	// Final state
-	F := {0}
-	
-	M := GPushdownAutomaton(Q, Σ, Γ, q₀, F)
-
-	SkipChars := {' ', '\n', '\t'}   // this will only  be used when testing only the parser, as the lexer removes SkipChars
-
-	
-	// AUTOMATON
-
-	// A program defintion begins with the keyword PROG 
-	M.delta("qPROG", "q1", PROG).push(PROG)
-	// It ends the keyword GORP
-	M.delta(1, "qPROG", GORP).pop(PROG)
-	
-	// A declaration of variables is the keyword VAR . 
-	M.delta("q1", "qVAR", VAR).push(VAR)
-	// followed by a list of names separated  by commas
-	M.delta("qVAR", "qv", v).ignore()
-	M.delta("qv", "q,", ',').push(v)
-	M.delta("q,", "qVAR", v).pop(v)
-	// The list is followed by ;
-	M.delta("qv", "q;", ;).pop(VAR)
-	
-	
-	M.delta("q1", "qPROC", PROC).push(PROC)
-	
-	
-
-	
-	
-		
-	M.delta(0,1,'w').ignore()
-	M.delta(1,2,'(').ignore()
-	M.delta(2,7,'#').ignore()
-	M.delta(2,7,'V').ignore()
-	M.delta(2,7,'v').ignore()
-	
-	M.delta(2,3,'r').ignore()
-	M.delta(3,6,',').ignore()
-	
-	M.delta(0,4,'k').ignore()
-	
-	M.delta(4,5,'(').ignore()
-	M.delta(5,7,'N').ignore()
-	
-	
-	M.delta(6,7,'#').ignore()
-	M.delta(6,7,'V').ignore()
-	
-	M.delta(6,7,'v').ignore()
-	M.delta(7,0,')').ignore()
-	
-	
-	 // this will only  be used when testing only the parser as the lexer removes  SkipChars
-	 
-	 for each q in Q do
-	 	for each s in SkipChars do
-	 	   M.delta(q,q,λ+s).ignore()
-	 	end
-	 end
-	
-	
-	return M
-
-end
-
-<<<
-Document event: offset: 2459, length: 0, timestamp: 978
-text:>M.delta("q1", "qPROC", PROC).push(PROC)
-	<
-
-
-
-!ENTRY org.apache.log4j 4 0 2022-11-27 21:00:00.862
-!MESSAGE org.eclipse.xtext.ui.editor.model.DocumentPartitioner  - Detected unexpected state in document partitioner. Please file a bug with the following information attached:
-Document content after the event was applied:
->>>/* Project 3
- * 
- * Parser
- * 
- * Federico Melo Barrero
- * 
- */
-
-using gold.**
-
-toSet(C) :=  {x|  x in C}
-
-function createParser(A):IPushdownAutomaton begin
-	
-	// Declare each token as a variable (I'm not memorizing 40 tokens‥.)
-	var PROG: char
-	var GORP: char
-	var VAR: char
-	var PROC: char
-	var CORP: char
-	var if_: char
-	var else_: char
-	var fi: char
-	var while_: char
-	var do_: char
-	var od: char
-	var repeatTimes: char
-	var per: char
-	var isfacing: char
-	var isValid: char
-	var canWalk: char
-	var not_: char
-	var walk: char
-	var jump: char
-	var jumpTo: char
-	var veer: char
-	var look: char
-	var drop: char
-	var grab: char
-	var get: char
-	var free: char
-	var pop: char
-	var pick: char
-	var left: char
-	var right: char
-	var around: char
-	var north: char
-	var south: char
-	var east: char
-	var west: char
-	var front: char
-	var back: char
-	var num: char
-	var v: char
-	var V: char
-	
-	PROG := 'D'
-	GORP := 'G'
-	VAR := 'A'
-	PROC := 'P'
-	CORP := 'C'
-	if_ := 'i'
-	else_ := 's'
-	fi := 'f'
-	while_ := 'w'
-	do_ := 'x'
-	od := 'y'
-	repeatTimes := 'r'
-	per := 'p'
-	isfacing := 'b'
-	isValid := 'h'
-	canWalk := 'c'
-	not_ := 'n'
-	walk := 'k'
-	jump := 'j'
-	jumpTo := 't'
-	veer := 'q'
-	look := 'l'
-	drop := 'd'
-	grab := 'a'
-	get := 'g'
-	free := 'e'
-	pop := 'o'
-	pick := 'm'
-	left := 'L'
-	right := 'R'
-	around := 'O'
-	north := 'N'
-	south := 'S'
-	east := 'E'
-	west := 'W'
-	front := 'F'
-	back := 'B'
-	num := '#'
-	num := 'v'
-	num := 'V'
-	
-	// Extra variables
-	var par: char
-	par = ')'
-	
-	
-	// States
-	Q := {"qPROG", "q1"}
-	// Tokens (Automaton's alphabet)
-	Σ := toSet(A) ∪ {' ', '\n', '\t'}
-	// Stack's alphabet
-	Γ := {PROG, par}
-	// Initial state
-	q₀ := 0
-	// Final state
-	F := {0}
-	
-	M := GPushdownAutomaton(Q, Σ, Γ, q₀, F)
-
-	SkipChars := {' ', '\n', '\t'}   // this will only  be used when testing only the parser, as the lexer removes SkipChars
-
-	
-	// AUTOMATON
-
-	// A program defintion begins with the keyword PROG 
-	M.delta("qPROG", "q1", PROG).push(PROG)
-	// It ends the keyword GORP
-	M.delta(1, "qPROG", GORP).pop(PROG)
-	
-	// A declaration of variables is the keyword VAR . 
-	M.delta("q1", "qVAR", VAR).push(VAR)
-	// followed by a list of names separated  by commas
-	M.delta("qVAR", "qv", v).ignore()
-	M.delta("qv", "q,", ',').push(v)
-	M.delta("q,", "qVAR", v).pop(v)
-	// The list is followed by ;
-	M.delta("qv", "q;", ;).pop(VAR)
-	
-	/
-	M.delta("q1", "qPROC", PROC).push(PROC)
-	
-	
-
-	
-	
-		
-	M.delta(0,1,'w').ignore()
-	M.delta(1,2,'(').ignore()
-	M.delta(2,7,'#').ignore()
-	M.delta(2,7,'V').ignore()
-	M.delta(2,7,'v').ignore()
-	
-	M.delta(2,3,'r').ignore()
-	M.delta(3,6,',').ignore()
-	
-	M.delta(0,4,'k').ignore()
-	
-	M.delta(4,5,'(').ignore()
-	M.delta(5,7,'N').ignore()
-	
-	
-	M.delta(6,7,'#').ignore()
-	M.delta(6,7,'V').ignore()
-	
-	M.delta(6,7,'v').ignore()
-	M.delta(7,0,')').ignore()
-	
-	
-	 // this will only  be used when testing only the parser as the lexer removes  SkipChars
-	 
-	 for each q in Q do
-	 	for each s in SkipChars do
-	 	   M.delta(q,q,λ+s).ignore()
-	 	end
-	 end
-	
-	
-	return M
-
-end
-
-<<<
-Document event: offset: 2456, length: 0, timestamp: 979
-text:>/<
-
-
-
-!ENTRY org.apache.log4j 4 0 2022-11-27 21:00:00.991
-!MESSAGE org.eclipse.xtext.ui.editor.model.DocumentPartitioner  - Detected unexpected state in document partitioner. Please file a bug with the following information attached:
-Document content after the event was applied:
->>>/* Project 3
- * 
- * Parser
- * 
- * Federico Melo Barrero
- * 
- */
-
-using gold.**
-
-toSet(C) :=  {x|  x in C}
-
-function createParser(A):IPushdownAutomaton begin
-	
-	// Declare each token as a variable (I'm not memorizing 40 tokens‥.)
-	var PROG: char
-	var GORP: char
-	var VAR: char
-	var PROC: char
-	var CORP: char
-	var if_: char
-	var else_: char
-	var fi: char
-	var while_: char
-	var do_: char
-	var od: char
-	var repeatTimes: char
-	var per: char
-	var isfacing: char
-	var isValid: char
-	var canWalk: char
-	var not_: char
-	var walk: char
-	var jump: char
-	var jumpTo: char
-	var veer: char
-	var look: char
-	var drop: char
-	var grab: char
-	var get: char
-	var free: char
-	var pop: char
-	var pick: char
-	var left: char
-	var right: char
-	var around: char
-	var north: char
-	var south: char
-	var east: char
-	var west: char
-	var front: char
-	var back: char
-	var num: char
-	var v: char
-	var V: char
-	
-	PROG := 'D'
-	GORP := 'G'
-	VAR := 'A'
-	PROC := 'P'
-	CORP := 'C'
-	if_ := 'i'
-	else_ := 's'
-	fi := 'f'
-	while_ := 'w'
-	do_ := 'x'
-	od := 'y'
-	repeatTimes := 'r'
-	per := 'p'
-	isfacing := 'b'
-	isValid := 'h'
-	canWalk := 'c'
-	not_ := 'n'
-	walk := 'k'
-	jump := 'j'
-	jumpTo := 't'
-	veer := 'q'
-	look := 'l'
-	drop := 'd'
-	grab := 'a'
-	get := 'g'
-	free := 'e'
-	pop := 'o'
-	pick := 'm'
-	left := 'L'
-	right := 'R'
-	around := 'O'
-	north := 'N'
-	south := 'S'
-	east := 'E'
-	west := 'W'
-	front := 'F'
-	back := 'B'
-	num := '#'
-	num := 'v'
-	num := 'V'
-	
-	// Extra variables
-	var par: char
-	par = ')'
-	
-	
-	// States
-	Q := {"qPROG", "q1"}
-	// Tokens (Automaton's alphabet)
-	Σ := toSet(A) ∪ {' ', '\n', '\t'}
-	// Stack's alphabet
-	Γ := {PROG, par}
-	// Initial state
-	q₀ := 0
-	// Final state
-	F := {0}
-	
-	M := GPushdownAutomaton(Q, Σ, Γ, q₀, F)
-
-	SkipChars := {' ', '\n', '\t'}   // this will only  be used when testing only the parser, as the lexer removes SkipChars
-
-	
-	// AUTOMATON
-
-	// A program defintion begins with the keyword PROG 
-	M.delta("qPROG", "q1", PROG).push(PROG)
-	// It ends the keyword GORP
-	M.delta(1, "qPROG", GORP).pop(PROG)
-	
-	// A declaration of variables is the keyword VAR . 
-	M.delta("q1", "qVAR", VAR).push(VAR)
-	// followed by a list of names separated  by commas
-	M.delta("qVAR", "qv", v).ignore()
-	M.delta("qv", "q,", ',').push(v)
-	M.delta("q,", "qVAR", v).pop(v)
-	// The list is followed by ;
-	M.delta("qv", "q;", ;).pop(VAR)
-	
-	//
-	M.delta("q1", "qPROC", PROC).push(PROC)
-	
-	
-
-	
-	
-		
-	M.delta(0,1,'w').ignore()
-	M.delta(1,2,'(').ignore()
-	M.delta(2,7,'#').ignore()
-	M.delta(2,7,'V').ignore()
-	M.delta(2,7,'v').ignore()
-	
-	M.delta(2,3,'r').ignore()
-	M.delta(3,6,',').ignore()
-	
-	M.delta(0,4,'k').ignore()
-	
-	M.delta(4,5,'(').ignore()
-	M.delta(5,7,'N').ignore()
-	
-	
-	M.delta(6,7,'#').ignore()
-	M.delta(6,7,'V').ignore()
-	
-	M.delta(6,7,'v').ignore()
-	M.delta(7,0,')').ignore()
-	
-	
-	 // this will only  be used when testing only the parser as the lexer removes  SkipChars
-	 
-	 for each q in Q do
-	 	for each s in SkipChars do
-	 	   M.delta(q,q,λ+s).ignore()
-	 	end
-	 end
-	
-	
-	return M
-
-end
-
-<<<
-Document event: offset: 2457, length: 0, timestamp: 980
-text:>/<
-
-
-
-!ENTRY org.apache.log4j 4 0 2022-11-27 21:04:36.869
-!MESSAGE org.eclipse.xtext.ui.editor.model.DocumentPartitioner  - Detected unexpected state in document partitioner. Please file a bug with the following information attached:
-Document content after the event was applied:
->>>/* Project 3
- * 
- * Parser
- * 
- * Federico Melo Barrero
- * 
- */
-
-using gold.**
-
-toSet(C) :=  {x|  x in C}
-
-function createParser(A):IPushdownAutomaton begin
-	
-	// Declare each token as a variable (I'm not memorizing 40 tokens‥.)
-	var PROG: char
-	var GORP: char
-	var VAR: char
-	var PROC: char
-	var CORP: char
-	var if_: char
-	var else_: char
-	var fi: char
-	var while_: char
-	var do_: char
-	var od: char
-	var repeatTimes: char
-	var per: char
-	var isfacing: char
-	var isValid: char
-	var canWalk: char
-	var not_: char
-	var walk: char
-	var jump: char
-	var jumpTo: char
-	var veer: char
-	var look: char
-	var drop: char
-	var grab: char
-	var get: char
-	var free: char
-	var pop: char
-	var pick: char
-	var left: char
-	var right: char
-	var around: char
-	var north: char
-	var south: char
-	var east: char
-	var west: char
-	var front: char
-	var back: char
-	var num: char
-	var v: char
-	var V: char
-	
-	PROG := 'D'
-	GORP := 'G'
-	VAR := 'A'
-	PROC := 'P'
-	CORP := 'C'
-	if_ := 'i'
-	else_ := 's'
-	fi := 'f'
-	while_ := 'w'
-	do_ := 'x'
-	od := 'y'
-	repeatTimes := 'r'
-	per := 'p'
-	isfacing := 'b'
-	isValid := 'h'
-	canWalk := 'c'
-	not_ := 'n'
-	walk := 'k'
-	jump := 'j'
-	jumpTo := 't'
-	veer := 'q'
-	look := 'l'
-	drop := 'd'
-	grab := 'a'
-	get := 'g'
-	free := 'e'
-	pop := 'o'
-	pick := 'm'
-	left := 'L'
-	right := 'R'
-	around := 'O'
-	north := 'N'
-	south := 'S'
-	east := 'E'
-	west := 'W'
-	front := 'F'
-	back := 'B'
-	num := '#'
-	num := 'v'
-	num := 'V'
-	
-	// Extra variables
-	var par: char
-	par = ')'
-	
-	
-	// States
-	Q := {"qPROG", "q1", "q,", "q;", "qPROC", "qPROCv", "qVAR", "qv"}
-	// Tokens (Automaton's alphabet)
-	Σ := toSet(A) ∪ {' ', '\n', '\t'}
-	// Stack's alphabet
-	Γ := {PROG, par}
-	// Initial state
-	q₀ := 0
-	// Final state
-	F := {0}
-	
-	M := GPushdownAutomaton(Q, Σ, Γ, q₀, F)
-
-	SkipChars := {' ', '\n', '\t'}   // this will only  be used when testing only the parser, as the lexer removes SkipChars
-
-	
-	// AUTOMATON
-
-	// A program defintion begins with the keyword PROG 
-	M.delta("qPROG", "q1", PROG).push(PROG)
-	// It ends the keyword GORP
-	M.delta(1, "qPROG", GORP).pop(PROG)
-	
-	// A declaration of variables is the keyword VAR . 
-	M.delta("q1", "qVAR", VAR).push(VAR)
-	// followed by a list of names separated  by commas
-	M.delta("qVAR", "qv", v).ignore()
-	M.delta("qv", "q,", ',').push(v)
-	M.delta("q,", "qVAR", v).pop(v)
-	// The list is followed by ;
-	M.delta("qv", "q;", '''';).pop(VAR)
+	M.delta("qVAR", "q2", ';').pop(VAR)  // Valid empty variable declaration: VAR ;
+	M.delta("qv", "q2", ';').pop(VAR)
 	
 	// A procedure defintion is a the word PROC
 	M.delta("q1", "qPROC", PROC).push(PROC)
+	M.delta("q2", "qPROC", PROC).push(PROC)
 	// followed by a name
 	M.delta("qPROC", "qPROCv", v).changeTop(PROC, CORP)
-	
 	// followed by a list of parameters within parenthesis separated by commas
-	
-	
+	M.delta("qPROCv", "qPROC(", '(').push(par)
+	M.delta("qPROC(", "qPROCp", v).ignore()
+	M.delta("qPROC(", "qPROC)", ')').pop(par)  // Procedure with no parameters: PROC hello( ) {‥.} CORP
+	M.delta("qPROCp", "qPROC)", ')').pop(par)
+	M.delta("qPROCp", "qPROC,", ',').push(v)
+	M.delta("qPROC,", "qPROCp", v).pop(v)
+	// followed by a block of instructions
+	M.delta("qPROC)", "qPROCinstrs", '{').push(key)
 	// and ending with the word CORP
-	M.delta(0, 1, CORP).pop(CORP)
+	M.delta("qCORP", "q2", CORP).pop(CORP)
 	
+	
+	// Block of instructions inside procedure
+	M.delta("qPROCinstrs", "qCORP", '}').pop(key)  // Empty block of instructions in procedure: PROC hi(‥.) { } CORP
+	M.delta("qPROCinstrs", "qCORP", '}').pop(key+commandEnd)
 
-	
-	
+	// Single block of instructions in program, outside procedures
+	M.delta("q1", "qBlock", '{').push(key)
+	M.delta("q2", "qBlock", '{').push(key)
+	M.delta("qBlock", "qBlockEnd", '}').pop(key) // Empty instruction block : PROG ‥. { } GORP
+	M.delta("qBlock", "qBlockEnd", '}').pop(key+commandEnd)
+
+	// A block of instructions is a sequence of instructions separated by semicolons within curly brackets
+	for each qBlock in {"qPROCinstrs", "qBlock"} do
 		
-	M.delta(0,1,'w').ignore()
-	M.delta(1,2,'(').ignore()
-	M.delta(2,7,'#').ignore()
-	M.delta(2,7,'V').ignore()
-	M.delta(2,7,'v').ignore()
-	
-	M.delta(2,3,'r').ignore()
-	M.delta(3,6,',').ignore()
-	
-	M.delta(0,4,'k').ignore()
-	
-	M.delta(4,5,'(').ignore()
-	M.delta(5,7,'N').ignore()
+	// name := n
+	M.delta(qBlock, "qASSIGN", v).push(v)
+	M.delta(qBlock, "qASSIGN", v).changeTop(ç)
+	M.delta("qASSIGN", "q:=", '=').ignore()
+	M.delta("q:=", qBlock, "#").changeTop(v, commandEnd)
 	
 	
-	M.delta(6,7,'#').ignore()
-	M.delta(6,7,'V').ignore()
-	
-	M.delta(6,7,'v').ignore()
-	M.delta(7,0,')').ignore()
-	
+	// instr ; instr
+	M.delta(qBlock, "qInstr;", ";").changeTop(commandEnd, commandBegin)
+	end
+
 	
 	 // this will only  be used when testing only the parser as the lexer removes  SkipChars
 	 
@@ -4445,200 +1555,7 @@ function createParser(A):IPushdownAutomaton begin
 end
 
 <<<
-Document event: offset: 2486, length: 0, timestamp: 1029
-text:>''<
-
-
-
-!ENTRY org.apache.log4j 4 0 2022-11-27 21:04:37.797
-!MESSAGE org.eclipse.xtext.ui.editor.model.DocumentPartitioner  - Detected unexpected state in document partitioner. Please file a bug with the following information attached:
-Document content after the event was applied:
->>>/* Project 3
- * 
- * Parser
- * 
- * Federico Melo Barrero
- * 
- */
-
-using gold.**
-
-toSet(C) :=  {x|  x in C}
-
-function createParser(A):IPushdownAutomaton begin
-	
-	// Declare each token as a variable (I'm not memorizing 40 tokens‥.)
-	var PROG: char
-	var GORP: char
-	var VAR: char
-	var PROC: char
-	var CORP: char
-	var if_: char
-	var else_: char
-	var fi: char
-	var while_: char
-	var do_: char
-	var od: char
-	var repeatTimes: char
-	var per: char
-	var isfacing: char
-	var isValid: char
-	var canWalk: char
-	var not_: char
-	var walk: char
-	var jump: char
-	var jumpTo: char
-	var veer: char
-	var look: char
-	var drop: char
-	var grab: char
-	var get: char
-	var free: char
-	var pop: char
-	var pick: char
-	var left: char
-	var right: char
-	var around: char
-	var north: char
-	var south: char
-	var east: char
-	var west: char
-	var front: char
-	var back: char
-	var num: char
-	var v: char
-	var V: char
-	
-	PROG := 'D'
-	GORP := 'G'
-	VAR := 'A'
-	PROC := 'P'
-	CORP := 'C'
-	if_ := 'i'
-	else_ := 's'
-	fi := 'f'
-	while_ := 'w'
-	do_ := 'x'
-	od := 'y'
-	repeatTimes := 'r'
-	per := 'p'
-	isfacing := 'b'
-	isValid := 'h'
-	canWalk := 'c'
-	not_ := 'n'
-	walk := 'k'
-	jump := 'j'
-	jumpTo := 't'
-	veer := 'q'
-	look := 'l'
-	drop := 'd'
-	grab := 'a'
-	get := 'g'
-	free := 'e'
-	pop := 'o'
-	pick := 'm'
-	left := 'L'
-	right := 'R'
-	around := 'O'
-	north := 'N'
-	south := 'S'
-	east := 'E'
-	west := 'W'
-	front := 'F'
-	back := 'B'
-	num := '#'
-	num := 'v'
-	num := 'V'
-	
-	// Extra variables
-	var par: char
-	par = ')'
-	
-	
-	// States
-	Q := {"qPROG", "q1", "q,", "q;", "qPROC", "qPROCv", "qVAR", "qv"}
-	// Tokens (Automaton's alphabet)
-	Σ := toSet(A) ∪ {' ', '\n', '\t'}
-	// Stack's alphabet
-	Γ := {PROG, par}
-	// Initial state
-	q₀ := 0
-	// Final state
-	F := {0}
-	
-	M := GPushdownAutomaton(Q, Σ, Γ, q₀, F)
-
-	SkipChars := {' ', '\n', '\t'}   // this will only  be used when testing only the parser, as the lexer removes SkipChars
-
-	
-	// AUTOMATON
-
-	// A program defintion begins with the keyword PROG 
-	M.delta("qPROG", "q1", PROG).push(PROG)
-	// It ends the keyword GORP
-	M.delta(1, "qPROG", GORP).pop(PROG)
-	
-	// A declaration of variables is the keyword VAR . 
-	M.delta("q1", "qVAR", VAR).push(VAR)
-	// followed by a list of names separated  by commas
-	M.delta("qVAR", "qv", v).ignore()
-	M.delta("qv", "q,", ',').push(v)
-	M.delta("q,", "qVAR", v).pop(v)
-	// The list is followed by ;
-	M.delta("qv", "q;", '';).pop(VAR)
-	
-	// A procedure defintion is a the word PROC
-	M.delta("q1", "qPROC", PROC).push(PROC)
-	// followed by a name
-	M.delta("qPROC", "qPROCv", v).changeTop(PROC, CORP)
-	
-	// followed by a list of parameters within parenthesis separated by commas
-	
-	
-	// and ending with the word CORP
-	M.delta(0, 1, CORP).pop(CORP)
-	
-
-	
-	
-		
-	M.delta(0,1,'w').ignore()
-	M.delta(1,2,'(').ignore()
-	M.delta(2,7,'#').ignore()
-	M.delta(2,7,'V').ignore()
-	M.delta(2,7,'v').ignore()
-	
-	M.delta(2,3,'r').ignore()
-	M.delta(3,6,',').ignore()
-	
-	M.delta(0,4,'k').ignore()
-	
-	M.delta(4,5,'(').ignore()
-	M.delta(5,7,'N').ignore()
-	
-	
-	M.delta(6,7,'#').ignore()
-	M.delta(6,7,'V').ignore()
-	
-	M.delta(6,7,'v').ignore()
-	M.delta(7,0,')').ignore()
-	
-	
-	 // this will only  be used when testing only the parser as the lexer removes  SkipChars
-	 
-	 for each q in Q do
-	 	for each s in SkipChars do
-	 	   M.delta(q,q,λ+s).ignore()
-	 	end
-	 end
-	
-	
-	return M
-
-end
-
-<<<
-Document event: offset: 2486, length: 2, timestamp: 1030
+Document event: offset: 4595, length: 1, timestamp: 529
 text:><
 
 

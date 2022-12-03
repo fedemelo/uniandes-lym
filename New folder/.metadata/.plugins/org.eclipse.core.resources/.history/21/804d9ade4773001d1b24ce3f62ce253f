@@ -1,0 +1,237 @@
+/* Project 3
+ * 
+ * Parser
+ * 
+ * Federico Melo Barrero
+ * 
+ */
+
+using gold.**
+
+toSet(C) :=  {x|  x in C}
+
+function createParser(A):IPushdownAutomaton begin
+	
+	// Declare each token as a variable
+	var PROG: String
+	var GORP: String
+	var VAR: String
+	var PROC: String
+	var CORP: String
+	var if_: String
+	var else_: String
+	var fi: String
+	var while_: String
+	var do_: String
+	var od: String
+	var repeatTimes: String
+	var per: String
+	var isfacing: String
+	var isValid: String
+	var canWalk: String
+	var not_: String
+	var walk: String
+	var jump: String
+	var jumpTo: String
+	var veer: String
+	var look: String
+	var drop: String
+	var grab: String
+	var get: String
+	var free: String
+	var pop: String
+	var pick: String
+	var left: String
+	var right: String
+	var around: String
+	var north: String
+	var south: String
+	var east: String
+	var west: String
+	var front: String
+	var back: String
+
+	PROG := "D"
+	GORP := "G"
+	VAR := "A"
+	PROC := "P"
+	CORP := "C"
+	if_ := "i"
+	else_ := "s"
+	fi := "f"
+	while_ := "w"
+	do_ := "x"
+	od := "y"
+	repeatTimes := "r"
+	per := "p"
+	isfacing := "b"
+	isValid := "h"
+	canWalk := "c"
+	not_ := "n"
+	walk := "k"
+	jump := "j"
+	jumpTo := "t"
+	veer := "q"
+	look := "l"
+	drop := "d"
+	grab := "a"
+	get := "g"
+	free := "e"
+	pop := "o"
+	pick := "m"
+	left := "L"
+	right := "R"
+	around := "O"
+	north := "N"
+	south := "S"
+	east := "E"
+	west := "W"
+	front := "F"
+	back := "B"
+	
+	// Non-terminal symbols to define the grammar
+	var varInicial: String
+	varInicial := "Z"
+	
+	var varDecl: String
+	varDecl := "H"
+	
+	var procDefs: String
+	procDefs := "I"
+
+	var block: String
+    block := "J"
+	
+	var procDef: String
+    procDef := "K"
+	
+	var vars: String
+    vars := "M"
+    
+    var params: String
+    params := "Q"
+    
+    var instrs: String
+    instrs := "T"
+    
+    var command: String
+    command := "U"
+    
+    var ctrl_struct: String
+    ctrl_struct := "X"
+    
+    var proc_call: String
+    proc_call := "Y"
+    
+    var var_: String
+    var_ := "u"
+	
+	// States
+	Q := {"I", "q", "F", "qVAR", "qPROC", "qC"}
+	
+	// Tokens (Automaton's alphabet)
+	Σ := toSet(A) ∪ {' ', '\n', '\t'}
+	// Stack's alphabet
+	Γ := ('a'‥'z') ∪ ('A'‥'Z') ∪ {'#', '=', '$', '{', '}', '(', ')', ',', ';'}
+	
+	q₀ := "I"
+	F := {"F"}
+	
+	M := GPushdownAutomaton(Q, Σ, Γ, q₀, F)
+
+	SkipChars := {' ', '\n', '\t'}   // this will only  be used when testing only the parser, as the lexer removes SkipChars
+
+	
+	var state: String
+	
+	// AUTOMATON
+	M.delta("I", "q", "").push("$"+varInicial)
+	M.delta("q", "F", "").pop("$")
+	
+	// varInicial ::= PROG varDecl procDefs block GORP
+	M.delta("q", "q", "").changeTop(varInicial, GORP+block+procDefs+varDecl+PROG)
+	
+
+	
+	// varDecl ::= [VAR vars;]
+	M.delta("q", "qVAR", "").changeTop(varDecl, "")
+	M.delta("q", "qVAR", "").changeTop(varDecl, ';'+vars+VAR)
+	// vars ::= v(, v)*
+	M.delta("qVAR", "qVAR", "").changeTop(vars, "v")
+	M.delta("qVAR", "qVAR", "").changeTop(vars, vars+",v")
+	
+
+	
+	// procDefs ::= procDef*
+	M.delta("q", "qPROC", "").changeTop(procDefs, "")
+	M.delta("q", "qPROC", "").changeTop(procDefs, procDef+procDefs)
+	M.delta("qPROC", "qPROC", "").changeTop(procDefs, procDef+procDefs)
+	M.delta("qPROC", "qPROC", "").changeTop(procDefs, procDef+procDefs)
+	// procDef ::= PROC v ( [params] ) block CORP
+	M.delta("qPROC", "qPROC", "").changeTop(procDef, CORP+block+')'+params+'('+'v'+PROC)
+	M.delta("qPROC", "qPROC", "").changeTop(procDef, CORP+block+')'+'('+'v'+PROC)
+	
+	// params ::=  v(, v)*
+	M.delta("qPROC", "qPROC", "").changeTop(params, "v")
+	M.delta("qPROC", "qPROC", "").changeTop(params, params+",v")
+
+	
+	// block ::= { instrs }
+	M.delta("qPROC", "qPROC", "").changeTop(block, "}{")  // Empty instruction block
+	M.delta("qPROC", "qPROC", "").changeTop(block, "}"+instrs+"{") 
+
+	// instrs ::= command|ctrl_struct|proc_call
+	// M.delta("q", "qC", "").changeTop(instrs, command)
+	// M.delta("q", "qS", "").changeTop(instrs, ctrl_struct)
+	// M.delta("q", "qP", "").changeTop(instrs, proc_call)
+	
+	// command ::= v := #
+	M.delta("qC", "qC", "").changeTop(command, "#"+"="+"v")
+	// command ::=  walk(var_)	
+	for each comm in {walk, jump, drop, grab, get, free, pop, pick} do
+		M.delta("qC", "qC", "").changeTop(comm, ")"+var_+"("+comm)
+	end
+	// var_
+	M.delta("qC", "qC", "").changeTop(var_, "v")
+	M.delta("qC", "qC", "").changeTop(var_, "#")
+	// command ::=  veer(D)
+	for each D in {left, right, around} do
+		M.delta("qC", "qC", "").changeTop(veer, ")"+D+"("+veer)
+	end
+	// command ::=  look(O)
+	for each O in {north, south, east, west} do
+		M.delta("qC", "qC", "").changeTop(look, ")"+O+"("+look)
+	end
+
+	// command ::=  jumpTo(n, m)
+	M.delta("qC", "qC", "").changeTop(jumpTo, ")"+var_+","+var_+"("+jumpTo)
+	// command ::=  walk(d, n)
+	for each d in {front, right, left, back} do
+			M.delta("qC", "qC", "").changeTop(walk, ")"+var_+","+d+"("+walk)
+	end
+	// command ::=  walk(o, n)
+	for each o in {north, south, west, east} do
+		M.delta("qC", "qC", "").changeTop(walk, ")"+var_+","+o+"("+walk)
+	end
+	
+	
+	for each terminal in {walk, jump, jumpTo, veer, look, drop, grab, get, free, pop, pick, A} do
+	  	M.delta("qC", "qC", terminal).pop(terminal)
+	end
+	
+	
+
+
+	 // this will only  be used when testing only the parser as the lexer removes SkipChars
+	 
+	 for each q in Q do
+	 	for each s in SkipChars do
+	 	   M.delta(q,q,λ+s).ignore()
+	 	end
+	 end
+	
+	
+	return M
+
+end
+

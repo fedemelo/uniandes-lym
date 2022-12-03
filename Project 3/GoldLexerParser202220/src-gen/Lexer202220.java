@@ -1032,7 +1032,7 @@ public final class Lexer202220 {
       $line=354;
       ((gold.structures.map.GHashTableMap)translation).put("IdL",'v');
       $line=355;
-      ((gold.structures.map.GHashTableMap)translation).put("IdU",'V');
+      ((gold.structures.map.GHashTableMap)translation).put("IdU",'v');
       $line=358;
       ((gold.structures.map.GHashTableMap)translation).put("Num",'#');
     }

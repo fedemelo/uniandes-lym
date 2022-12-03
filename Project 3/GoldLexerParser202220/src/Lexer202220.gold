@@ -352,7 +352,7 @@ end
 
 	// Variables
 	translation.put("IdL",'v')  
-	translation.put("IdU",'V')  //if  there is no difference between names that start with caps and those that don't,
+	translation.put("IdU",'v')  //if  there is no difference between names that start with caps and those that don't,
 	    							//assign the same translation
 	 // Numbers
 	 translation.put("Num",'#')

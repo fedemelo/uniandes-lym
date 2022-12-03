@@ -102,6 +102,13 @@ function createParser(A):IPushdownAutomaton begin
 	var V: String
 	V := "V"
 	
+	
+	var commandEnd: String
+	commandEnd := "U"
+	var commandBegin: String
+	commandBegin := "J"
+	
+	
 	// States
 	Q := {"qPROG","q,", "qCORP", "q2",
 		 "q1",
@@ -117,12 +124,15 @@ function createParser(A):IPushdownAutomaton begin
 		 "qv",
 		 "qCORP",
 		 "qBlock",
-		 "qBlockEnd"}
+		 "qBlockEnd",
+		 "qASSIGN",
+		 "q:=",
+		 "qInstr;"}
 	
 	// Tokens (Automaton's alphabet)
 	Σ := toSet(A) ∪ {' ', '\n', '\t'}
 	// Stack's alphabet
-	Γ := {'D', 'P', 'C', 'A', '(', 'v', '{'}
+	Γ := ('A'‥'Z') ∪ {'(', 'v', '{'}
 	// Initial state
 	q₀ := "qPROG"
 	// Final state
@@ -169,23 +179,31 @@ function createParser(A):IPushdownAutomaton begin
 	
 	
 	// Block of instructions inside procedure
-	// A block of instructions is a sequence of instructions separated by semicolons within curly brackets
-	// TODO
 	M.delta("qPROCinstrs", "qCORP", '}').pop(key)  // Empty block of instructions in procedure: PROC hi(‥.) { } CORP
-
+	M.delta("qPROCinstrs", "qCORP", '}').pop(key+commandEnd)
 
 	// Single block of instructions in program, outside procedures
-	// A block of instructions is a sequence of instructions separated by semicolons within curly brackets
 	M.delta("q1", "qBlock", '{').push(key)
 	M.delta("q2", "qBlock", '{').push(key)
-	// TODO
 	M.delta("qBlock", "qBlockEnd", '}').pop(key) // Empty instruction block : PROG ‥. { } GORP
+	M.delta("qBlock", "qBlockEnd", '}').pop(key+commandEnd)
+
+	// A block of instructions is a sequence of instructions separated by semicolons within curly brackets
+	for each qBlock in {"qPROCinstrs", "qBlock"} do
+		
+	// name := n
+	M.delta(qBlock, "qASSIGN", v).push(v)
+	M.delta("qInstr;", "qASSIGN", v).changeTop(commandBegin, v)  // ; name
+	M.delta("qASSIGN", "q:=", '=').ignore()
+	M.delta("q:=", qBlock, "#").changeTop(v, commandEnd)
 	
 	
+	// instr ; instr
+	M.delta(qBlock, "qInstr;", ";").changeTop(commandEnd, commandBegin)
+	end
+
 	
 	 // this will only  be used when testing only the parser as the lexer removes  SkipChars
-	 
-	 // ????????
 	 
 	 for each q in Q do
 	 	for each s in SkipChars do
