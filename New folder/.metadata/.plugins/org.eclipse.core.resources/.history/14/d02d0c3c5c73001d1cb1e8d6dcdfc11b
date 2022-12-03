@@ -104,8 +104,6 @@ function createParser(A):IPushdownAutomaton begin
 	instrEnd := "U"
 	var instrBegin: String
 	instrBegin := "J"
-	var procDef: String
-	procDef := "H"
 	
 	
 	// States
@@ -174,16 +172,12 @@ function createParser(A):IPushdownAutomaton begin
 		 "qJumpToP2",
 		 "qWalkP1",
 		 "qWalkP1,",
-		 "qWalkP2",
-		 "qProcCall",
-		 "qProcCall(",
-		 "qProcCallP",
-		 "qProcCallP,"}
+		 "qWalkP2"}
 	
 	// Tokens (Automaton's alphabet)
 	Σ := toSet(A) ∪ {' ', '\n', '\t'}
 	// Stack's alphabet
-	Γ := ('A'‥'Z') ∪ ('a'‥'z')  ∪ {'(', '{'}
+	Γ := ('A'‥'Z') ∪ ('a'‥'z')  ∪ {'(', '{', ','}
 	// Initial state
 	q₀ := "qPROG"
 	// Final state
@@ -385,21 +379,15 @@ function createParser(A):IPushdownAutomaton begin
 		// Procedure call
 			    
 		// v (p0, p1,‥., pn)
-		M.delta(qBlock, "qProcCall", v).push(procDef)
-	    M.delta("qInstr;", "qProcCall", v).changeTop(instrBegin, procDef)  // ; pop
+		M.delta(qBlock, "qProcCall", pop).push(v)
+	    M.delta("qInstr;", "qProcCall", pop).changeTop(instrBegin, v)  // ; pop
 	    M.delta("qProcCall", "qProcCall(", '(').push(par)
-	    M.delta("qProcCall(", "qProcCallP", v).pop(par) // v (p)
-	    M.delta("qProcCall(", "qProcCallP", '#').pop(par) // v (p)
-	    M.delta("qProcCallP", "qProcCallP,", ',').push(par) // // v (p0, p1,‥., pn)
-	    M.delta("qProcCallP,", "qProcCallP", v).pop(par) // // v (p0, p1,‥., pn)	
-	    M.delta("qProcCallP,", "qProcCallP", '#').pop(par) // // v (p0, p1,‥., pn)	
-		M.delta("qProcCallP", qBlock, ')').changeTop(procDef, instrEnd) // )
-		M.delta("qProcCall(", qBlock, ')').changeTop(procDef, instrEnd) // v ()
+	    M.delta("qProcCall(", "qProcCall)", ')').pop(par) // v ()
+	    M.delta("qProcCall(", "qProcCallP", v) // v (p)
+	    M.delta("qProcCallP", "qProcCall)", ')').pop(par) // v (p)
+	    M.delta("qProcCallP", "qProcCallP,", ',').push(',') // // v (p0, p1,‥., pn)
+	    M.delta("qProcCallP,", "qProcCallP", v).pop(',') // // v (p0, p1,‥., pn)	
 		
-		
-	    M.delta("qPop(", "qPopP", v).pop(par)
-	    M.delta("qPop(", "qPopP", '#').pop(par)
-	    M.delta("qPopP", qBlock, ')').changeTop(pop, instrEnd)
     
 	end
 	

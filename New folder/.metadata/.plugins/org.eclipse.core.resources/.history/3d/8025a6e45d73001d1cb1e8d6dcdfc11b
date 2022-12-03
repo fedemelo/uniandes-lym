@@ -293,7 +293,7 @@ public final class ParserRobot202220 {
       $line=184;
       Object \u03A3=$fix($opUnionY(ParserRobot202220.toSet(A),GCollections.asSet(' ','\n','\t')));
       $line=186;
-      Object \u0393=$fix($opUnionY($opUnionY($opIntvlY('A','Z'),$opIntvlY('a','z')),GCollections.asSet('(','{')));
+      Object \u0393=$fix($opUnionY($opUnionY($opIntvlY('A','Z'),$opIntvlY('a','z')),GCollections.asSet('(','{',',')));
       $line=188;
       Object q_0=$fix("qPROG");
       $line=190;
@@ -522,40 +522,34 @@ public final class ParserRobot202220 {
         $line=390;
         $invokeMethod("push",((gold.structures.automaton.GPushdownAutomaton)M).delta("qProcCall","qProcCall(",$cast(java.lang.String.class,'(')),new Object[]{par});
         $line=391;
-        $invokeMethod("pop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qProcCall(","qProcCallP",$cast(java.lang.String.class,v)),new Object[]{par});
+        ((gold.structures.automaton.GPushdownAutomaton)M).delta("qProcCall(","qProcCallP",$cast(java.lang.String.class,v));
         $line=392;
-        $invokeMethod("pop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qProcCall(","qProcCallP",$cast(java.lang.String.class,'#')),new Object[]{par});
+        ((gold.structures.automaton.GPushdownAutomaton)M).delta("qProcCall(","qProcCallP",$cast(java.lang.String.class,'#'));
         $line=393;
-        $invokeMethod("push",((gold.structures.automaton.GPushdownAutomaton)M).delta("qProcCallP","qProcCallP,",$cast(java.lang.String.class,',')),new Object[]{par});
+        $invokeMethod("push",((gold.structures.automaton.GPushdownAutomaton)M).delta("qProcCallP","qProcCallP,",$cast(java.lang.String.class,',')),new Object[]{","});
         $line=394;
-        $invokeMethod("pop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qProcCallP,","qProcCallP",$cast(java.lang.String.class,v)),new Object[]{par});
+        $invokeMethod("pop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qProcCallP,","qProcCallP",$cast(java.lang.String.class,v)),new Object[]{","});
         $line=395;
-        $invokeMethod("pop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qProcCallP,","qProcCallP",$cast(java.lang.String.class,'#')),new Object[]{par});
+        $invokeMethod("pop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qProcCallP,","qProcCallP",$cast(java.lang.String.class,'#')),new Object[]{","});
         $line=396;
-        $invokeMethod("changeTop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qProcCallP",qBlock,$cast(java.lang.String.class,')')),new Object[]{procDef,instrEnd});
+        $invokeMethod("changeTop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qProcCallP",qBlock,$cast(java.lang.String.class,')')),new Object[]{procDef,par});
         $line=397;
-        $invokeMethod("changeTop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qProcCall(",qBlock,$cast(java.lang.String.class,')')),new Object[]{procDef,instrEnd});
-        $line=400;
-        $invokeMethod("pop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qPop(","qPopP",$cast(java.lang.String.class,v)),new Object[]{par});
-        $line=401;
-        $invokeMethod("pop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qPop(","qPopP",$cast(java.lang.String.class,'#')),new Object[]{par});
-        $line=402;
-        $invokeMethod("changeTop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qPopP",qBlock,$cast(java.lang.String.class,')')),new Object[]{pop,instrEnd});
+        $invokeMethod("pop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qProcCall(",qBlock,$cast(java.lang.String.class,')')),new Object[]{par});
       }
-      $line=408;
+      $line=403;
       for (Object $v8:GCollections.unmodifiableCollection(Q)) {
         Object q=$v8;
-        $line=409;
+        $line=404;
         for (Object $v9:GCollections.unmodifiableCollection(SkipChars)) {
           Object s=$v9;
-          $line=410;
+          $line=405;
           $invokeMethod("ignore",((gold.structures.automaton.GPushdownAutomaton)M).delta(q,q,$cast(java.lang.String.class,$opAdditY("",s))),new Object[]{});
         }
       }
-      $line=415;
+      $line=410;
       $result=M;
       if (true) break $try;
-      $line=417;
+      $line=412;
       $rethrow(new RuntimeException("The function \"createParser(A:Object)\" did not return a value."));
     }
     catch (Throwable $throwable) {

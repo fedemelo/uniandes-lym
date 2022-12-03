@@ -183,7 +183,7 @@ function createParser(A):IPushdownAutomaton begin
 	// Tokens (Automaton's alphabet)
 	Σ := toSet(A) ∪ {' ', '\n', '\t'}
 	// Stack's alphabet
-	Γ := ('A'‥'Z') ∪ ('a'‥'z')  ∪ {'(', '{'}
+	Γ := ('A'‥'Z') ∪ ('a'‥'z')  ∪ {'(', '{', ','}
 	// Initial state
 	q₀ := "qPROG"
 	// Final state

@@ -293,7 +293,7 @@ public final class ParserRobot202220 {
       $line=184;
       Object \u03A3=$fix($opUnionY(ParserRobot202220.toSet(A),GCollections.asSet(' ','\n','\t')));
       $line=186;
-      Object \u0393=$fix($opUnionY($opUnionY($opIntvlY('A','Z'),$opIntvlY('a','z')),GCollections.asSet('(','{')));
+      Object \u0393=$fix($opUnionY($opUnionY($opIntvlY('A','Z'),$opIntvlY('a','z')),GCollections.asSet('(','{',',')));
       $line=188;
       Object q_0=$fix("qPROG");
       $line=190;
