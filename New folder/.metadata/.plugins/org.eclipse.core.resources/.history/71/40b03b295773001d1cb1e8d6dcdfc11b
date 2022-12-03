@@ -164,12 +164,7 @@ function createParser(A):IPushdownAutomaton begin
 		 "qPop)",
 		 "qGetP",
 		 "qPick(",
-		 "qPick",
-		 "qJumpTo",
-		 "qJumpTo(",
-		 "qJumpToP",
-		 "qJumpToP,",
-		 "qJumpToP2"}
+		 "qPick"}
 	
 	// Tokens (Automaton's alphabet)
 	Σ := toSet(A) ∪ {' ', '\n', '\t'}
@@ -242,15 +237,6 @@ function createParser(A):IPushdownAutomaton begin
 	M.delta("qASSIGN", "q:=", '=').ignore()
 	M.delta("q:=", qBlock, "#").changeTop(v, commandEnd)
 
-    // walk(n) command
-    M.delta(qBlock, "qWalk", walk).push(walk)
-    M.delta("qInstr;", "qWalk", walk).changeTop(commandBegin, walk)  // ; walk
-    M.delta("qWalk", "qWalk(", '(').push(par)
-    M.delta("qWalk(", "qWalkP", v).pop(par)
-    M.delta("qWalk(", "qWalkP", '#').pop(par)
-    M.delta("qWalkP", qBlock, ')').changeTop(walk, commandEnd)
-
-
     // jump(n) command
     M.delta(qBlock, "qJump", jump).push(jump)
     M.delta("qInstr;", "qJump", jump).changeTop(commandBegin, jump)  // ; jump
@@ -258,91 +244,8 @@ function createParser(A):IPushdownAutomaton begin
     M.delta("qJump(", "qJumpP", v).pop(par)
     M.delta("qJump(", "qJumpP", '#').pop(par)
     M.delta("qJumpP", qBlock, ')').changeTop(jump, commandEnd)
-
-
-    // veer(n) command
-    M.delta(qBlock, "qVeer", veer).push(veer)
-    M.delta("qInstr;", "qVeer", veer).changeTop(commandBegin, veer)  // ; veer
-    M.delta("qVeer", "qVeer(", '(').push(par)
-    M.delta("qVeer(", "qVeerP", v).pop(par)
-    M.delta("qVeer(", "qVeerP", '#').pop(par)
-    M.delta("qVeerP", qBlock, ')').changeTop(veer, commandEnd)
-
-
-    // look(n) command
-    M.delta(qBlock, "qLook", look).push(look)
-    M.delta("qInstr;", "qLook", look).changeTop(commandBegin, look)  // ; look
-    M.delta("qLook", "qLook(", '(').push(par)
-    M.delta("qLook(", "qLookP", v).pop(par)
-    M.delta("qLook(", "qLookP", '#').pop(par)
-    M.delta("qLookP", qBlock, ')').changeTop(look, commandEnd)
-
-
-    // drop(n) command
-    M.delta(qBlock, "qDrop", drop).push(drop)
-    M.delta("qInstr;", "qDrop", drop).changeTop(commandBegin, drop)  // ; drop
-    M.delta("qDrop", "qDrop(", '(').push(par)
-    M.delta("qDrop(", "qDropP", v).pop(par)
-    M.delta("qDrop(", "qDropP", '#').pop(par)
-    M.delta("qDropP", qBlock, ')').changeTop(drop, commandEnd)
-
-
-    // grab(n) command
-    M.delta(qBlock, "qGrab", grab).push(grab)
-    M.delta("qInstr;", "qGrab", grab).changeTop(commandBegin, grab)  // ; grab
-    M.delta("qGrab", "qGrab(", '(').push(par)
-    M.delta("qGrab(", "qGrabP", v).pop(par)
-    M.delta("qGrab(", "qGrabP", '#').pop(par)
-    M.delta("qGrabP", qBlock, ')').changeTop(grab, commandEnd)
-
-
-    // get(n) command
-    M.delta(qBlock, "qGet", get).push(get)
-    M.delta("qInstr;", "qGet", get).changeTop(commandBegin, get)  // ; get
-    M.delta("qGet", "qGet(", '(').push(par)
-    M.delta("qGet(", "qGetP", v).pop(par)
-    M.delta("qGet(", "qGetP", '#').pop(par)
-    M.delta("qGetP", qBlock, ')').changeTop(get, commandEnd)
-
-
-    // free(n) command
-    M.delta(qBlock, "qFree", free).push(free)
-    M.delta("qInstr;", "qFree", free).changeTop(commandBegin, free)  // ; free
-    M.delta("qFree", "qFree(", '(').push(par)
-    M.delta("qFree(", "qFreeP", v).pop(par)
-    M.delta("qFree(", "qFreeP", '#').pop(par)
-    M.delta("qFreeP", qBlock, ')').changeTop(free, commandEnd)
-
-
-    // pop(n) command
-    M.delta(qBlock, "qPop", pop).push(pop)
-    M.delta("qInstr;", "qPop", pop).changeTop(commandBegin, pop)  // ; pop
-    M.delta("qPop", "qPop(", '(').push(par)
-    M.delta("qPop(", "qPopP", v).pop(par)
-    M.delta("qPop(", "qPopP", '#').pop(par)
-    M.delta("qPopP", qBlock, ')').changeTop(pop, commandEnd)
-
-
-    // pick(n) command
-⧐    M.delta(qBlock, "qPick", pick).push(pick)
-⧐    M.delta("qInstr;", "qPick", pick).changeTop(commandBegin, pick)  // ; pick
-⧐    M.delta("qPick", "qPick(", '(').push(par)
-⧐    M.delta("qPick(", "qPickP", v).pop(par)
-⧐    M.delta("qPick(", "qPickP", '#').pop(par)
-⧐    M.delta("qPickP", qBlock, ')').changeTop(pick, commandEnd)
-
-
-    // jumpTo(n, m) command
-    M.delta(qBlock, "qJumpTo", jumpTo).push(jumpTo)
-    M.delta("qInstr;", "qJumpTo", jumpTo).changeTop(commandBegin, jumpTo)  // ; jumpTo
-    M.delta("qJumpTo", "qJumpTo(", '(').push(par)
-    M.delta("qJumpTo(", "qJumpToP", v).pop(par)
-    M.delta("qJumpTo(", "qJumpToP", '#').pop(par)
-    M.delta("qJumpToP", "qJumpToP,", ',').push(v)
-    M.delta("qJumpToP,", "qJumpToP2", v).pop(v)
-    M.delta("qJumpToP,", "qJumpToP2", '#').pop(v)
-    M.delta("qJumpToP2", qBlock, ')').changeTop(jumpTo, commandEnd)
-
+    
+    
     
 	end
 	

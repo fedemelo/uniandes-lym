@@ -164,12 +164,7 @@ function createParser(A):IPushdownAutomaton begin
 		 "qPop)",
 		 "qGetP",
 		 "qPick(",
-		 "qPick",
-		 "qJumpTo",
-		 "qJumpTo(",
-		 "qJumpToP",
-		 "qJumpToP,",
-		 "qJumpToP2"}
+		 "qPick"}
 	
 	// Tokens (Automaton's alphabet)
 	Σ := toSet(A) ∪ {' ', '\n', '\t'}

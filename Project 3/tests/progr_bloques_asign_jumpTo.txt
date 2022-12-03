@@ -1,0 +1,25 @@
+PROG
+VAR n, x, y;
+PROC putCB (c, b)
+{
+}
+CORP
+PROC goNorth ()
+{
+	jumpTo(hgfds, gg)
+}
+CORP
+PROC goWest (e, r, ttre, we)
+{
+	fgh := 567;
+	g := 4567;
+	ghj := 919;
+	jump(rtt);
+	jumpTo(2, gg);
+	jumpTo(ghjk, 17)
+}
+CORP
+{
+	jumpTo(4654, 6789432)
+}
+GORP
