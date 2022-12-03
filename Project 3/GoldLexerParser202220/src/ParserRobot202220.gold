@@ -175,6 +175,23 @@ function createParser(A):IPushdownAutomaton begin
 		 "qWalkP1",
 		 "qWalkP1,",
 		 "qWalkP2",
+		 "qCondition",
+		 "qIsfacing",
+		 "qIsfacing(",
+		 "qIsfacingP",
+		 "qProcCallP,",
+		 "qProcCallP,",
+		 "qIsValid",
+		 "qIsValid(",
+		 "qIsValidP1",
+		 "qIsValidP1,",
+		 "qIsValidP2",
+		 "qCondition",
+		 "qCanWalk",
+		 "qCanWalk(",
+		 "qCanWalkP1",
+		 "qCanWalkP1,",
+		 "qCanWalkP2",
 		 "qProcCall",
 		 "qProcCall(",
 		 "qProcCallP",
@@ -375,11 +392,61 @@ function createParser(A):IPushdownAutomaton begin
 	    
 	    // Control structures
 	    
+	    
+	    // TODO
+	    
 	    //  if (condition)Block1 else Block2 fi
 ⧐		M.delta(qBlock, "qIf", if_).push(if_)
 ⧐		M.delta("qInstr;", "qIf", if_).changeTop(instrBegin, if_)  // ; if
 ⧐		M.delta("qIf", "qIf(", '(').push(par)
 		
+		
+		
+		// Conditions
+		
+		//  isfacing(O) condition
+	    M.delta("qCondition", "qIsfacing", isfacing).push(isfacing)
+	    M.delta("qInstr;", "qIsfacing", isfacing).changeTop(instrBegin, isfacing)  // ; isfacing
+	    M.delta("qIsfacing", "qIsfacing(", '(').push(par)
+	    for each D in {north, south, east, west} do
+	    	M.delta("qIsfacing(", "qIsfacingP", D).pop(par)
+	    end
+	    M.delta("qIsfacingP", "qCondition", ')').changeTop(isfacing, instrEnd)
+		
+		
+		// isValid(ins,n) condition
+	    M.delta("qCondition", "qIsValid", isValid).push(isValid)
+	    M.delta("qInstr;", "qIsValid", isValid).changeTop(instrBegin, isValid)  // ; isValid
+	    M.delta("qIsValid", "qIsValid(", '(').push(par)
+	    for each ins in {walk, jump, grab, pop, pick, free, drop} do
+	    	M.delta("qIsValid(", "qIsValidP1", ins).pop(par)
+	    end
+	    M.delta("qIsValidP1", "qIsValidP1,", ',').push(v)
+	    M.delta("qIsValidP1,", "qIsValidP2", v).pop(v)
+	    M.delta("qIsValidP1,", "qIsValidP2", '#').pop(v)
+	    M.delta("qIsValidP2", "qCondition", ')').changeTop(isValid, instrEnd)
+		
+		
+		// canWalk condition
+	    M.delta("qCondition", "qCanWalk", canWalk).push(canWalk)
+	    M.delta("qInstr;", "qCanWalk", canWalk).changeTop(instrBegin, canWalk)  // ; canWalk
+	    M.delta("qCanWalk", "qCanWalk(", '(').push(par)
+	    // canWalk(d,n) condition 
+	    for each d in {north, south, east, west} do
+	    	M.delta("qCanWalk(", "qCanWalkP1", d).pop(par)
+	    end
+	    // canWalk(o,n) condition
+	    for each o in {front, right, left, back} do
+	    	M.delta("qCanWalk(", "qCanWalkP1", o).pop(par)
+	    end
+	    M.delta("qCanWalkP1", "qCanWalkP1,", ',').push(v)
+	    M.delta("qCanWalkP1,", "qCanWalkP2", v).pop(v)
+	    M.delta("qCanWalkP1,", "qCanWalkP2", '#').pop(v)
+	    M.delta("qCanWalkP2", "qCondition", ')').changeTop(canWalk, instrEnd)
+		
+		
+		// not( condition )
+		// TODO
 		
 		
 		// Procedure call
@@ -395,11 +462,6 @@ function createParser(A):IPushdownAutomaton begin
 	    M.delta("qProcCallP,", "qProcCallP", '#').pop(par) // // v (p0, p1,‥., pn)	
 		M.delta("qProcCallP", qBlock, ')').changeTop(procDef, instrEnd) // )
 		M.delta("qProcCall(", qBlock, ')').changeTop(procDef, instrEnd) // v ()
-		
-		
-	    M.delta("qPop(", "qPopP", v).pop(par)
-	    M.delta("qPop(", "qPopP", '#').pop(par)
-	    M.delta("qPopP", qBlock, ')').changeTop(pop, instrEnd)
     
 	end
 	
