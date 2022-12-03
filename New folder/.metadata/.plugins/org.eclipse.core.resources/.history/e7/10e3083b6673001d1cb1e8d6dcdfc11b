@@ -430,7 +430,7 @@ function createParser(A):IPushdownAutomaton begin
 		    for each D in {north, south, east, west} do
 		    	M.delta("qIsfacing(", "qIsfacingP", D).pop(par)
 		    end
-		    M.delta("qIsfacingP", qCondition, ')').changeTop(isfacing, par)
+		    M.delta("qIsfacingP", qCondition, ')').changeTop(isfacing, instrEnd)
 			
 			
 			// isValid(ins,n) condition
@@ -443,7 +443,7 @@ function createParser(A):IPushdownAutomaton begin
 		    M.delta("qIsValidP1", "qIsValidP1,", ',').push(v)
 		    M.delta("qIsValidP1,", "qIsValidP2", v).pop(v)
 		    M.delta("qIsValidP1,", "qIsValidP2", '#').pop(v)
-		    M.delta("qIsValidP2", qCondition, ')').changeTop(isValid, par)
+		    M.delta("qIsValidP2", qCondition, ')').changeTop(isValid, instrEnd)
 			
 			
 			// canWalk condition
@@ -461,7 +461,7 @@ function createParser(A):IPushdownAutomaton begin
 		    M.delta("qCanWalkP1", "qCanWalkP1,", ',').push(v)
 		    M.delta("qCanWalkP1,", "qCanWalkP2", v).pop(v)
 		    M.delta("qCanWalkP1,", "qCanWalkP2", '#').pop(v)
-		    M.delta("qCanWalkP2", qCondition, ')').changeTop(canWalk, par)
+		    M.delta("qCanWalkP2", qCondition, ')').changeTop(canWalk, instrEnd)
 			
 			
 			// not( condition )

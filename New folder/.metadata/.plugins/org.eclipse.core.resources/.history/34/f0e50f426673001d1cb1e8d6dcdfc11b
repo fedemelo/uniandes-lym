@@ -547,7 +547,7 @@ public final class ParserRobot202220 {
             $invokeMethod("pop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qIsfacing(","qIsfacingP",$cast(java.lang.String.class,D)),new Object[]{par});
           }
           $line=433;
-          $invokeMethod("changeTop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qIsfacingP",qCondition,$cast(java.lang.String.class,')')),new Object[]{isfacing,par});
+          $invokeMethod("changeTop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qIsfacingP",qCondition,$cast(java.lang.String.class,')')),new Object[]{isfacing,instrEnd});
           $line=437;
           $invokeMethod("changeTop",((gold.structures.automaton.GPushdownAutomaton)M).delta(qCondition,"qIsValid",$cast(java.lang.String.class,isValid)),new Object[]{par,isValid});
           $line=438;
@@ -567,7 +567,7 @@ public final class ParserRobot202220 {
           $line=445;
           $invokeMethod("pop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qIsValidP1,","qIsValidP2",$cast(java.lang.String.class,'#')),new Object[]{v});
           $line=446;
-          $invokeMethod("changeTop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qIsValidP2",qCondition,$cast(java.lang.String.class,')')),new Object[]{isValid,par});
+          $invokeMethod("changeTop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qIsValidP2",qCondition,$cast(java.lang.String.class,')')),new Object[]{isValid,instrEnd});
           $line=450;
           $invokeMethod("changeTop",((gold.structures.automaton.GPushdownAutomaton)M).delta(qCondition,"qCanWalk",$cast(java.lang.String.class,canWalk)),new Object[]{par,canWalk});
           $line=451;
@@ -593,7 +593,7 @@ public final class ParserRobot202220 {
           $line=463;
           $invokeMethod("pop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qCanWalkP1,","qCanWalkP2",$cast(java.lang.String.class,'#')),new Object[]{v});
           $line=464;
-          $invokeMethod("changeTop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qCanWalkP2",qCondition,$cast(java.lang.String.class,')')),new Object[]{canWalk,par});
+          $invokeMethod("changeTop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qCanWalkP2",qCondition,$cast(java.lang.String.class,')')),new Object[]{canWalk,instrEnd});
         }
         $line=475;
         $invokeMethod("push",((gold.structures.automaton.GPushdownAutomaton)M).delta(qBlock,"qProcCall",$cast(java.lang.String.class,v)),new Object[]{procDef});
