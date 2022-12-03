@@ -371,22 +371,22 @@ public final class ParserRobot202220 {
         $line=245;
         $invokeMethod("pop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qJump(","qJumpP",$cast(java.lang.String.class,'#')),new Object[]{par});
         $line=246;
-        $invokeMethod("changeTop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qJumpP",qBlock,$cast(java.lang.String.class,')')),new Object[]{jump,commandEnd});
+        $invokeMethod("changeTop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qJumpP","qJump)",$cast(java.lang.String.class,')')),new Object[]{jump,commandEnd});
       }
-      $line=254;
+      $line=252;
       for (Object $v4:GCollections.unmodifiableCollection(Q)) {
         Object q=$v4;
-        $line=255;
+        $line=253;
         for (Object $v5:GCollections.unmodifiableCollection(SkipChars)) {
           Object s=$v5;
-          $line=256;
+          $line=254;
           $invokeMethod("ignore",((gold.structures.automaton.GPushdownAutomaton)M).delta(q,q,$cast(java.lang.String.class,$opAdditY("",s))),new Object[]{});
         }
       }
-      $line=261;
+      $line=259;
       $result=M;
       if (true) break $try;
-      $line=263;
+      $line=261;
       $rethrow(new RuntimeException("The function \"createParser(A:Object)\" did not return a value."));
     }
     catch (Throwable $throwable) {

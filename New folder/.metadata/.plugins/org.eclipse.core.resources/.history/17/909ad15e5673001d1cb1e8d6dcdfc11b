@@ -243,10 +243,8 @@ function createParser(A):IPushdownAutomaton begin
     M.delta("qJump", "qJump(", '(').push(par)
     M.delta("qJump(", "qJumpP", v).pop(par)
     M.delta("qJump(", "qJumpP", '#').pop(par)
-    M.delta("qJumpP", qBlock, ')').changeTop(jump, commandEnd)
-    
-    
-    
+    M.delta("qJumpP", "qJump)", ')').changeTop(jump, commandEnd)
+
 	end
 	
 	 // this will only  be used when testing only the parser as the lexer removes  SkipChars

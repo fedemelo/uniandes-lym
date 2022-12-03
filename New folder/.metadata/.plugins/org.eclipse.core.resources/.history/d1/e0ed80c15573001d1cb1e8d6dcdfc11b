@@ -124,52 +124,12 @@ function createParser(A):IPushdownAutomaton begin
 		 "qBlockEnd",
 		 "qASSIGN",
 		 "q:=",
-		 "qInstr;",
-		 "qLookP", 
-		 "qDropP", 
-		 "qJump(",
-		 "qJump",
-		 "qPopP",
-		 "qGrab(",
-		 "qVeer(",
-		 "qFree(",
-		 "qDrop)",
-		 "qPop",
-		 "qWalk",
-		 "qJump)",
-		 "qFree)",
-		 "qWalkP",
-		 "qLook",
-		 "qVeer)",
-		 "qGet)",
-		 "qPop(",
-		 "qFree",
-		 "qDrop(",
-		 "qPickP",
-		 "qJumpP",
-		 "qGrab",
-		 "qWalk(",
-		 "qLook(",
-		 "qDrop",
-		 "qGet",
-		 "qGrabP",
-		 "qWalk)",
-		 "qGet(",
-		 "qPick)",
-		 "qLook)",
-		 "qGrab)",
-		 "qVeer",
-		 "qFreeP",
-		 "qVeerP",
-		 "qPop)",
-		 "qGetP",
-		 "qPick(",
-		 "qPick"}
+		 "qInstr;"}
 	
 	// Tokens (Automaton's alphabet)
 	Σ := toSet(A) ∪ {' ', '\n', '\t'}
 	// Stack's alphabet
-	Γ := ('A'‥'Z') ∪ ('a'‥'z')  ∪ {'(', '{'}
+	Γ := ('A'‥'Z') ∪ {'(', 'v', '{'}
 	// Initial state
 	q₀ := "qPROG"
 	// Final state
@@ -241,12 +201,10 @@ function createParser(A):IPushdownAutomaton begin
     M.delta(qBlock, "qJump", jump).push(jump)
     M.delta("qInstr;", "qJump", jump).changeTop(commandBegin, jump)  // ; jump
     M.delta("qJump", "qJump(", '(').push(par)
-    M.delta("qJump(", "qJumpP", v).pop(par)
-    M.delta("qJump(", "qJumpP", '#').pop(par)
-    M.delta("qJumpP", qBlock, ')').changeTop(jump, commandEnd)
-    
-    
-    
+    M.delta("qJump(", "qJumpP", v).ignore()
+    M.delta("qJump(", "qJumpP", '#').ignore()
+    M.delta("qJumpP", "qJump)", ')').changeTop(par, commandEnd)
+
 	end
 	
 	 // this will only  be used when testing only the parser as the lexer removes  SkipChars

@@ -98,7 +98,10 @@ function createParser(A):IPushdownAutomaton begin
 	var num: String
 	num := "#"
 	var v: String
-	v := "v"	
+	v := "v"
+	var V: String
+	V := "V"
+	
 	
 	var commandEnd: String
 	commandEnd := "U"
@@ -124,52 +127,12 @@ function createParser(A):IPushdownAutomaton begin
 		 "qBlockEnd",
 		 "qASSIGN",
 		 "q:=",
-		 "qInstr;",
-		 "qLookP", 
-		 "qDropP", 
-		 "qJump(",
-		 "qJump",
-		 "qPopP",
-		 "qGrab(",
-		 "qVeer(",
-		 "qFree(",
-		 "qDrop)",
-		 "qPop",
-		 "qWalk",
-		 "qJump)",
-		 "qFree)",
-		 "qWalkP",
-		 "qLook",
-		 "qVeer)",
-		 "qGet)",
-		 "qPop(",
-		 "qFree",
-		 "qDrop(",
-		 "qPickP",
-		 "qJumpP",
-		 "qGrab",
-		 "qWalk(",
-		 "qLook(",
-		 "qDrop",
-		 "qGet",
-		 "qGrabP",
-		 "qWalk)",
-		 "qGet(",
-		 "qPick)",
-		 "qLook)",
-		 "qGrab)",
-		 "qVeer",
-		 "qFreeP",
-		 "qVeerP",
-		 "qPop)",
-		 "qGetP",
-		 "qPick(",
-		 "qPick"}
+		 "qInstr;"}
 	
 	// Tokens (Automaton's alphabet)
 	Σ := toSet(A) ∪ {' ', '\n', '\t'}
 	// Stack's alphabet
-	Γ := ('A'‥'Z') ∪ ('a'‥'z')  ∪ {'(', '{'}
+	Γ := ('A'‥'Z') ∪ {'(', 'v', '{'}
 	// Initial state
 	q₀ := "qPROG"
 	// Final state
@@ -228,26 +191,17 @@ function createParser(A):IPushdownAutomaton begin
 	// A block of instructions is a sequence of instructions separated by semicolons within curly brackets
 	for each qBlock in {"qPROCinstrs", "qBlock"} do
 		
-	// instr ; instr
-	M.delta(qBlock, "qInstr;", ";").changeTop(commandEnd, commandBegin)
-		
 	// name := n
 	M.delta(qBlock, "qASSIGN", v).push(v)
 	M.delta("qInstr;", "qASSIGN", v).changeTop(commandBegin, v)  // ; name
 	M.delta("qASSIGN", "q:=", '=').ignore()
 	M.delta("q:=", qBlock, "#").changeTop(v, commandEnd)
-
-    // jump(n) command
-    M.delta(qBlock, "qJump", jump).push(jump)
-    M.delta("qInstr;", "qJump", jump).changeTop(commandBegin, jump)  // ; jump
-    M.delta("qJump", "qJump(", '(').push(par)
-    M.delta("qJump(", "qJumpP", v).pop(par)
-    M.delta("qJump(", "qJumpP", '#').pop(par)
-    M.delta("qJumpP", qBlock, ')').changeTop(jump, commandEnd)
-    
-    
-    
+	
+	
+	// instr ; instr
+	M.delta(qBlock, "qInstr;", ";").changeTop(commandEnd, commandBegin)
 	end
+
 	
 	 // this will only  be used when testing only the parser as the lexer removes  SkipChars
 	 
