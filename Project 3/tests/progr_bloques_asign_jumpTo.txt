@@ -15,8 +15,10 @@ PROC goWest (e, r, ttre, we)
 	g := 4567;
 	ghj := 919;
 	jump(rtt);
-	jumpTo(2, gg);
-	jumpTo(ghjk, 17)
+	walk(3);
+	walk(north, gg);
+	walk(front, 434);
+	walk(back, tre)
 }
 CORP
 {

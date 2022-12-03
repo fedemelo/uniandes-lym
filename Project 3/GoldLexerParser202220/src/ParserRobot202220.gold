@@ -169,7 +169,10 @@ function createParser(A):IPushdownAutomaton begin
 		 "qJumpTo(",
 		 "qJumpToP",
 		 "qJumpToP,",
-		 "qJumpToP2"}
+		 "qJumpToP2",
+		 "qWalkP1",
+		 "qWalkP1,",
+		 "qWalkP2"}
 	
 	// Tokens (Automaton's alphabet)
 	Σ := toSet(A) ∪ {' ', '\n', '\t'}
@@ -242,14 +245,6 @@ function createParser(A):IPushdownAutomaton begin
 	M.delta("qASSIGN", "q:=", '=').ignore()
 	M.delta("q:=", qBlock, "#").changeTop(v, commandEnd)
 
-    // walk(n) command
-    M.delta(qBlock, "qWalk", walk).push(walk)
-    M.delta("qInstr;", "qWalk", walk).changeTop(commandBegin, walk)  // ; walk
-    M.delta("qWalk", "qWalk(", '(').push(par)
-    M.delta("qWalk(", "qWalkP", v).pop(par)
-    M.delta("qWalk(", "qWalkP", '#').pop(par)
-    M.delta("qWalkP", qBlock, ')').changeTop(walk, commandEnd)
-
 
     // jump(n) command
     M.delta(qBlock, "qJump", jump).push(jump)
@@ -258,24 +253,6 @@ function createParser(A):IPushdownAutomaton begin
     M.delta("qJump(", "qJumpP", v).pop(par)
     M.delta("qJump(", "qJumpP", '#').pop(par)
     M.delta("qJumpP", qBlock, ')').changeTop(jump, commandEnd)
-
-
-    // veer(n) command
-    M.delta(qBlock, "qVeer", veer).push(veer)
-    M.delta("qInstr;", "qVeer", veer).changeTop(commandBegin, veer)  // ; veer
-    M.delta("qVeer", "qVeer(", '(').push(par)
-    M.delta("qVeer(", "qVeerP", v).pop(par)
-    M.delta("qVeer(", "qVeerP", '#').pop(par)
-    M.delta("qVeerP", qBlock, ')').changeTop(veer, commandEnd)
-
-
-    // look(n) command
-    M.delta(qBlock, "qLook", look).push(look)
-    M.delta("qInstr;", "qLook", look).changeTop(commandBegin, look)  // ; look
-    M.delta("qLook", "qLook(", '(').push(par)
-    M.delta("qLook(", "qLookP", v).pop(par)
-    M.delta("qLook(", "qLookP", '#').pop(par)
-    M.delta("qLookP", qBlock, ')').changeTop(look, commandEnd)
 
 
     // drop(n) command
@@ -321,6 +298,26 @@ function createParser(A):IPushdownAutomaton begin
     M.delta("qPop(", "qPopP", v).pop(par)
     M.delta("qPop(", "qPopP", '#').pop(par)
     M.delta("qPopP", qBlock, ')').changeTop(pop, commandEnd)
+    
+
+    // veer(D) command
+    M.delta(qBlock, "qVeer", veer).push(veer)
+    M.delta("qInstr;", "qVeer", veer).changeTop(commandBegin, veer)  // ; veer
+    M.delta("qVeer", "qVeer(", '(').push(par)
+    for each D in {left, right, around} do
+    	M.delta("qVeer(", "qVeerP", D).pop(par)
+    end
+    M.delta("qVeerP", qBlock, ')').changeTop(veer, commandEnd)
+
+
+    // look(O) command
+    M.delta(qBlock, "qLook", look).push(look)
+    M.delta("qInstr;", "qLook", look).changeTop(commandBegin, look)  // ; look
+    M.delta("qLook", "qLook(", '(').push(par)
+    for each D in {north, south, east, west} do
+    	M.delta("qLook(", "qLookP", D).pop(par)
+    end
+    M.delta("qLookP", qBlock, ')').changeTop(look, commandEnd)
 
 
     // pick(n) command
@@ -343,6 +340,26 @@ function createParser(A):IPushdownAutomaton begin
     M.delta("qJumpToP,", "qJumpToP2", '#').pop(v)
     M.delta("qJumpToP2", qBlock, ')').changeTop(jumpTo, commandEnd)
 
+
+    // walk(n) command
+    M.delta(qBlock, "qWalk", walk).push(walk)
+    M.delta("qInstr;", "qWalk", walk).changeTop(commandBegin, walk)  // ; walk
+    M.delta("qWalk", "qWalk(", '(').push(par)
+    M.delta("qWalk(", "qWalkP", v).pop(par)
+    M.delta("qWalk(", "qWalkP", '#').pop(par)
+    M.delta("qWalkP", qBlock, ')').changeTop(walk, commandEnd)
+    // walk(d,n) command
+    for each d in {front, right, left, back} do
+    	M.delta("qWalk(", "qWalkP1", d).pop(par)
+    end
+    // walk(o,n) command 
+    for each o in {north, south, east, west} do
+    	M.delta("qWalk(", "qWalkP1", o).pop(par)
+    end
+    M.delta("qWalkP1", "qWalkP1,", ',').push(v)
+    M.delta("qWalkP1,", "qWalkP2", v).pop(v)
+    M.delta("qWalkP1,", "qWalkP2", '#').pop(v)
+    M.delta("qWalkP2", qBlock, ')').changeTop(walk, commandEnd)
     
 	end
 	
