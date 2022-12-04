@@ -3,6 +3,7 @@
  * Parser
  * 
  * Federico Melo Barrero
+ * German Alberto Rojas Cetina
  * 
  */
 
@@ -454,7 +455,7 @@ function createParser(A):IPushdownAutomaton begin
 		M.delta("qInstr;", "qRepeatTimes", repeatTimes).changeTop(instrBegin, repeatTimes)  // ; repeatTimes
 		M.delta("qRepeatTimes", "qRepeatTimesN", v).push(v)
 		M.delta("qRepeatTimes", "qRepeatTimesN", '#').push(v)
-		M.delta("qRepeatTimesN", "qRepeatTimesBlock", '{').push(key)
+		M.delta("qRepeatTimesN", "qRepeatTimesBlock", '{').changeTop(v, key)
 		M.delta("qRepeatTimesBlock", "qRepeatTimesBlockEnd", '}').pop(key) // Empty instruction block { }
 		M.delta("qRepeatTimesBlock", "qRepeatTimesBlockEnd", '}').pop(key+instrEnd)
 	    M.delta("qRepeatTimesBlockEnd", qBlock, per).changeTop(repeatTimes, instrEnd)

@@ -49,7 +49,7 @@ public final class Lexer202220 {
   public static String currentString=null;
   static {
     int $line=0;
-    $line=11;
+    $line=12;
     $try:try {
       currentString=$defaultValue(String.class);
     }
@@ -60,7 +60,7 @@ public final class Lexer202220 {
   public static GArrayList images=null;
   static {
     int $line=0;
-    $line=12;
+    $line=13;
     $try:try {
       images=$invokeConstructor(GArrayList.class,new Object[]{});
     }
@@ -71,7 +71,7 @@ public final class Lexer202220 {
   public static ISet allSymbols=null;
   static {
     int $line=0;
-    $line=14;
+    $line=15;
     $try:try {
       allSymbols=$defaultValue(ISet.class);
     }
@@ -82,7 +82,7 @@ public final class Lexer202220 {
   public static ISet keyWords=null;
   static {
     int $line=0;
-    $line=15;
+    $line=16;
     $try:try {
       keyWords=$defaultValue(ISet.class);
     }
@@ -93,7 +93,7 @@ public final class Lexer202220 {
   public static ISet skipChars=null;
   static {
     int $line=0;
-    $line=16;
+    $line=17;
     $try:try {
       skipChars=$defaultValue(ISet.class);
     }
@@ -104,7 +104,7 @@ public final class Lexer202220 {
   public static ISet preKW=null;
   static {
     int $line=0;
-    $line=18;
+    $line=19;
     $try:try {
       preKW=$defaultValue(ISet.class);
     }
@@ -115,7 +115,7 @@ public final class Lexer202220 {
   public static ISet preOps=null;
   static {
     int $line=0;
-    $line=19;
+    $line=20;
     $try:try {
       preOps=$defaultValue(ISet.class);
     }
@@ -126,7 +126,7 @@ public final class Lexer202220 {
   public static ISet StartOps=null;
   static {
     int $line=0;
-    $line=21;
+    $line=22;
     $try:try {
       StartOps=$defaultValue(ISet.class);
     }
@@ -137,7 +137,7 @@ public final class Lexer202220 {
   public static ISet Symbols1=null;
   static {
     int $line=0;
-    $line=22;
+    $line=23;
     $try:try {
       Symbols1=$defaultValue(ISet.class);
     }
@@ -148,7 +148,7 @@ public final class Lexer202220 {
   public static ISet CharsSymbols1=null;
   static {
     int $line=0;
-    $line=24;
+    $line=25;
     $try:try {
       CharsSymbols1=$defaultValue(ISet.class);
     }
@@ -159,7 +159,7 @@ public final class Lexer202220 {
   public static ISet alphaUpper=null;
   static {
     int $line=0;
-    $line=26;
+    $line=27;
     $try:try {
       alphaUpper=$defaultValue(ISet.class);
     }
@@ -170,7 +170,7 @@ public final class Lexer202220 {
   public static ISet alphaLower=null;
   static {
     int $line=0;
-    $line=27;
+    $line=28;
     $try:try {
       alphaLower=$defaultValue(ISet.class);
     }
@@ -181,7 +181,7 @@ public final class Lexer202220 {
   public static ISet digits=null;
   static {
     int $line=0;
-    $line=28;
+    $line=29;
     $try:try {
       digits=$defaultValue(ISet.class);
     }
@@ -192,7 +192,7 @@ public final class Lexer202220 {
   public static ISet alphaNum=null;
   static {
     int $line=0;
-    $line=30;
+    $line=31;
     $try:try {
       alphaNum=$defaultValue(ISet.class);
     }
@@ -203,7 +203,7 @@ public final class Lexer202220 {
   public static ISet Out=null;
   static {
     int $line=0;
-    $line=32;
+    $line=33;
     $try:try {
       Out=$defaultValue(ISet.class);
     }
@@ -214,7 +214,7 @@ public final class Lexer202220 {
   public static Boolean diffIdents=null;
   static {
     int $line=0;
-    $line=33;
+    $line=34;
     $try:try {
       diffIdents=$defaultValue(Boolean.class);
     }
@@ -225,7 +225,7 @@ public final class Lexer202220 {
   public static ISet Ids=null;
   static {
     int $line=0;
-    $line=35;
+    $line=36;
     $try:try {
       Ids=$defaultValue(ISet.class);
     }
@@ -236,7 +236,7 @@ public final class Lexer202220 {
   public static GHashTableMap translation=null;
   static {
     int $line=0;
-    $line=36;
+    $line=37;
     $try:try {
       translation=$invokeConstructor(GHashTableMap.class,new Object[]{});
     }
@@ -256,7 +256,7 @@ public final class Lexer202220 {
       }
       $result=$v1;
       if (true) break $try;
-      $line=39;
+      $line=40;
       $rethrow(new RuntimeException("The function \"chars(string:Object)\" did not return a value."));
     }
     catch (Throwable $throwable) {
@@ -274,7 +274,7 @@ public final class Lexer202220 {
       }
       $result=$v5;
       if (true) break $try;
-      $line=41;
+      $line=42;
       $rethrow(new RuntimeException("The function \"charsStrings(strings:Object)\" did not return a value."));
     }
     catch (Throwable $throwable) {
@@ -294,7 +294,7 @@ public final class Lexer202220 {
       }
       $result=$v7;
       if (true) break $try;
-      $line=43;
+      $line=44;
       $rethrow(new RuntimeException("The function \"elements(array:Object)\" did not return a value."));
     }
     catch (Throwable $throwable) {
@@ -314,7 +314,7 @@ public final class Lexer202220 {
       }
       $result=$v11;
       if (true) break $try;
-      $line=45;
+      $line=46;
       $rethrow(new RuntimeException("The function \"prefixes(string:Object)\" did not return a value."));
     }
     catch (Throwable $throwable) {
@@ -334,7 +334,7 @@ public final class Lexer202220 {
       }
       $result=$v15;
       if (true) break $try;
-      $line=46;
+      $line=47;
       $rethrow(new RuntimeException("The function \"splits(string:Object)\" did not return a value."));
     }
     catch (Throwable $throwable) {
@@ -352,7 +352,7 @@ public final class Lexer202220 {
       }
       $result=$v19;
       if (true) break $try;
-      $line=48;
+      $line=49;
       $rethrow(new RuntimeException("The function \"allPrefixes(strings:Object)\" did not return a value."));
     }
     catch (Throwable $throwable) {
@@ -366,7 +366,7 @@ public final class Lexer202220 {
     $try:try {
       $result=(($bool((($opEqualY($opAbsolY(q),1)&&$opMembrY(q,Symbols1))&&!$opEqualY(q,'\n'))))?(q):(((gold.structures.map.GHashTableMap)translation).get(q)));
       if (true) break $try;
-      $line=50;
+      $line=51;
       $rethrow(new RuntimeException("The function \"translationGet(q:Object)\" did not return a value."));
     }
     catch (Throwable $throwable) {
@@ -378,16 +378,16 @@ public final class Lexer202220 {
     int $line=0;
     Object $result=null;
     $try:try {
-      $line=53;
-      currentString=$cast(String.class,$fix(""));
       $line=54;
-      images=$cast(GArrayList.class,$fix($invokeConstructor(GArrayList.class,new Object[]{})));
+      currentString=$cast(String.class,$fix(""));
       $line=55;
-      Object result=$fix($invokeMethod("acceptsString",M,new Object[]{input}));
+      images=$cast(GArrayList.class,$fix($invokeConstructor(GArrayList.class,new Object[]{})));
       $line=56;
+      Object result=$fix($invokeMethod("acceptsString",M,new Object[]{input}));
+      $line=57;
       $result=GCollections.asList(result,images);
       if (true) break $try;
-      $line=57;
+      $line=58;
       $rethrow(new RuntimeException("The function \"runLexer(M:Object,input:Object)\" did not return a value."));
     }
     catch (Throwable $throwable) {
@@ -399,38 +399,38 @@ public final class Lexer202220 {
     int $line=0;
     Object $result=null;
     $try:try {
-      $line=61;
+      $line=62;
       if ($opMembrY(q,allSymbols)) {
-        $line=61;
+        $line=62;
         $result=false;
         if (true) break $try;
       }
       else {
-        $line=62;
+        $line=63;
         if ($opLessqY($opAbsolY(q),1)) {
-          $line=62;
+          $line=63;
           $result=true;
           if (true) break $try;
         }
         else {
-          $line=64;
+          $line=65;
           for (Object $v21:GCollections.unmodifiableCollection(Lexer202220.splits(q))) {
             java.util.Iterator $v22=GCollections.unmodifiableCollection($v21).iterator();
             Object s=$v22.next();
             Object t=$v22.next();
-            $line=65;
+            $line=66;
             if ((!$bool(Lexer202220.problems($cast(java.lang.String.class,s)))&&!$bool(Lexer202220.problems($cast(java.lang.String.class,t))))) {
-              $line=65;
+              $line=66;
               $result=false;
               if (true) break $try;
             }
           }
-          $line=67;
+          $line=68;
           $result=true;
           if (true) break $try;
         }
       }
-      $line=70;
+      $line=71;
       $rethrow(new RuntimeException("The function \"problems(q:String)\" did not return a value."));
     }
     catch (Throwable $throwable) {
@@ -442,62 +442,62 @@ public final class Lexer202220 {
     int $line=0;
     Object $result=null;
     $try:try {
-      $line=74;
+      $line=75;
       Object x=null;
       Object y=null;
-      $line=75;
+      $line=76;
       String q=null;
       q=$defaultValue(String.class);
-      $line=76;
-      q=$cast(String.class,$fix(state));
       $line=77;
-      Object n=$fix(((java.lang.String)q).length());
+      q=$cast(String.class,$fix(state));
       $line=78;
+      Object n=$fix(((java.lang.String)q).length());
+      $line=79;
       if ($opEqualY(n,0)) {
-        $line=78;
+        $line=79;
         $result="";
         if (true) break $try;
       }
       else {
-        $line=79;
+        $line=80;
         if ($opMembrY(q,allSymbols)) {
-          $line=80;
-          ((gold.structures.list.GArrayList)images).add(q);
           $line=81;
+          ((gold.structures.list.GArrayList)images).add(q);
+          $line=82;
           $result=Lexer202220.translationGet(q);
           if (true) break $try;
         }
         else {
-          $line=82;
+          $line=83;
           if ($opEqualY(n,1)) {
-            $line=82;
+            $line=83;
             $result="";
             if (true) break $try;
           }
           else {
-            $line=84;
+            $line=85;
             for (Object $v23:GCollections.unmodifiableCollection(Lexer202220.splits(q))) {
               java.util.Iterator $v24=GCollections.unmodifiableCollection($v23).iterator();
               Object s=$v24.next();
               Object t=$v24.next();
-              $line=85;
-              x=$fix(Lexer202220.translationPreOps(s));
               $line=86;
-              y=$fix(Lexer202220.translationPreOps(t));
+              x=$fix(Lexer202220.translationPreOps(s));
               $line=87;
+              y=$fix(Lexer202220.translationPreOps(t));
+              $line=88;
               if ((!$opEqualY(x,"")&&!$opEqualY(y,""))) {
-                $line=88;
+                $line=89;
                 $result=$opAdditY(x,y);
                 if (true) break $try;
               }
             }
-            $line=91;
+            $line=92;
             $result="";
             if (true) break $try;
           }
         }
       }
-      $line=95;
+      $line=96;
       $rethrow(new RuntimeException("The function \"translationPreOps(state:Object)\" did not return a value."));
     }
     catch (Throwable $throwable) {
@@ -509,54 +509,54 @@ public final class Lexer202220 {
     int $line=0;
     Object $result=null;
     $try:try {
-      $line=99;
+      $line=100;
       Lexer202220.initialize();
-      $line=101;
-      preOps=$cast(ISet.class,$fix(Lexer202220.allPrefixes(allSymbols)));
       $line=102;
-      preKW=$cast(ISet.class,$fix(Lexer202220.allPrefixes(keyWords)));
+      preOps=$cast(ISet.class,$fix(Lexer202220.allPrefixes(allSymbols)));
       $line=103;
+      preKW=$cast(ISet.class,$fix(Lexer202220.allPrefixes(keyWords)));
+      $line=104;
       gold.structures.set.ISet $v25=$newSet(GCollections.emptySet());
       $v26:for (Object x:GCollections.unmodifiableCollection(allSymbols)) {
         $v25.union(GCollections.unmodifiableSet(((java.lang.Iterable)(GCollections.asSet($invokeMethod("charAt",x,new Object[]{0}))))));
       }
       StartOps=$cast(ISet.class,$fix($v25));
-      $line=104;
+      $line=105;
       gold.structures.set.ISet $v27=$newSet(GCollections.emptySet());
       $v28:for (Object x:GCollections.unmodifiableCollection(StartOps)) {
         $v27.union(GCollections.unmodifiableSet(((java.lang.Iterable)(GCollections.asSet($opAdditY("",x))))));
       }
       Symbols1=$cast(ISet.class,$fix($opInterY($v27,allSymbols)));
-      $line=105;
+      $line=106;
       gold.structures.set.ISet $v29=$newSet(GCollections.emptySet());
       $v30:for (Object x:GCollections.unmodifiableCollection(Symbols1)) {
         $v29.union(GCollections.unmodifiableSet(((java.lang.Iterable)(GCollections.asSet($invokeMethod("charAt",x,new Object[]{0}))))));
       }
       CharsSymbols1=$cast(ISet.class,$fix($v29));
-      $line=106;
+      $line=107;
       gold.structures.set.ISet $v31=$newSet(GCollections.emptySet());
       $v32:for (Object x:GCollections.unmodifiableCollection(((gold.structures.map.GHashTableMap)translation).values())) {
         $v31.union(GCollections.unmodifiableSet(((java.lang.Iterable)(GCollections.asSet(x)))));
       }
       Out=$cast(ISet.class,$fix($opUnionY(CharsSymbols1,$v31)));
-      $line=108;
-      System.out.println($message(new Object[]{Out}));
       $line=109;
+      System.out.println($message(new Object[]{Out}));
+      $line=110;
       Ids=$cast(ISet.class,$fix(GCollections.asSet("IdU","IdL")));
-      $line=111;
+      $line=112;
       Object Q=$fix($opUnionY($opUnionY(GCollections.asSet("INIT","IdU","Num","Err","IdL"),preKW),preOps));
-      $line=113;
+      $line=114;
       System.out.println($message(new Object[]{Q}));
-      $line=115;
+      $line=116;
       Object \u03A3=$fix($opUnionY($opUnionY($opUnionY(alphaNum,Lexer202220.charsStrings(allSymbols)),skipChars),GCollections.asSet(':','-')));
-      $line=118;
-      Object q_0=$fix("INIT");
       $line=119;
-      Object F=$fix(GCollections.asSet("INIT"));
+      Object q_0=$fix("INIT");
       $line=120;
+      Object F=$fix(GCollections.asSet("INIT"));
+      $line=121;
       $result=$invokeConstructor(GDeterministicTransducer.class,new Object[]{Q,\u03A3,Out,q_0,F,new GMethod(Lexer202220.class,"\u03B4"),new GMethod(Lexer202220.class,"g"),new GMethod(Lexer202220.class,"h")});
       if (true) break $try;
-      $line=121;
+      $line=122;
       $rethrow(new RuntimeException("The function \"createLexer()\" did not return a value."));
     }
     catch (Throwable $throwable) {
@@ -568,77 +568,77 @@ public final class Lexer202220 {
     int $line=0;
     Object $result=null;
     $try:try {
-      $line=126;
+      $line=127;
       String q=null;
       q=$defaultValue(String.class);
-      $line=127;
+      $line=128;
       q=$cast(String.class,$fix(state));
-      $line=129;
+      $line=130;
       if ($opEqualY(q,"Err")) {
-        $line=129;
+        $line=130;
         $result="Err";
         if (true) break $try;
       }
       else {
-        $line=130;
+        $line=131;
         if ($opMembrY(q,preOps)) {
-          $line=131;
+          $line=132;
           if ($opMembrY($opAdditY(q,\u03C3),preOps)) {
-            $line=131;
+            $line=132;
             $result=$opAdditY(q,\u03C3);
             if (true) break $try;
           }
           else {
-            $line=132;
+            $line=133;
             if ($bool(Lexer202220.problems($cast(java.lang.String.class,q)))) {
-              $line=132;
+              $line=133;
               $result="Err";
               if (true) break $try;
             }
             else {
-              $line=133;
+              $line=134;
               if ($opMembrY(\u03C3,skipChars)) {
-                $line=133;
+                $line=134;
                 $result="INIT";
                 if (true) break $try;
               }
               else {
-                $line=134;
+                $line=135;
                 if ($opMembrY(\u03C3,$opIntvlY('0','9'))) {
-                  $line=134;
+                  $line=135;
                   $result="Num";
                   if (true) break $try;
                 }
                 else {
-                  $line=135;
+                  $line=136;
                   if ($opMembrY($opAdditY("",\u03C3),preKW)) {
-                    $line=135;
+                    $line=136;
                     $result=$opAdditY("",\u03C3);
                     if (true) break $try;
                   }
                   else {
-                    $line=136;
+                    $line=137;
                     if ($opMembrY(\u03C3,alphaUpper)) {
-                      $line=136;
+                      $line=137;
                       $result="IdU";
                       if (true) break $try;
                     }
                     else {
-                      $line=137;
+                      $line=138;
                       if ($opMembrY(\u03C3,alphaLower)) {
-                        $line=137;
+                        $line=138;
                         $result="IdL";
                         if (true) break $try;
                       }
                       else {
-                        $line=138;
+                        $line=139;
                         if ($opMembrY($opAdditY("",\u03C3),preOps)) {
-                          $line=138;
+                          $line=139;
                           $result=$opAdditY("",\u03C3);
                           if (true) break $try;
                         }
                         else {
-                          $line=139;
+                          $line=140;
                           $result="Err";
                           if (true) break $try;
                         }
@@ -651,119 +651,119 @@ public final class Lexer202220 {
           }
         }
         else {
-          $line=141;
+          $line=142;
           if (((($opMembrY(\u03C3,skipChars)&&$opMembrY(q,preKW))&&!$bool($opMembrY(q,keyWords)))&&$opEqualY(((java.lang.String)q).charAt($int(0)),':'))) {
-            $line=141;
+            $line=142;
             $result="Err";
             if (true) break $try;
           }
           else {
-            $line=142;
+            $line=143;
             if ($opMembrY(\u03C3,skipChars)) {
-              $line=142;
+              $line=143;
               $result="INIT";
               if (true) break $try;
             }
             else {
-              $line=143;
+              $line=144;
               if (($opEqualY(q,"INIT")&&$opMembrY(\u03C3,$opIntvlY('0','9')))) {
-                $line=143;
+                $line=144;
                 $result="Num";
                 if (true) break $try;
               }
               else {
-                $line=144;
+                $line=145;
                 if (($opEqualY(q,"INIT")&&$opMembrY($opAdditY("",\u03C3),preKW))) {
-                  $line=144;
+                  $line=145;
                   $result=$opAdditY("",\u03C3);
                   if (true) break $try;
                 }
                 else {
-                  $line=145;
+                  $line=146;
                   if (($opEqualY(q,"INIT")&&$opMembrY(\u03C3,alphaUpper))) {
-                    $line=145;
+                    $line=146;
                     $result="IdU";
                     if (true) break $try;
                   }
                   else {
-                    $line=146;
+                    $line=147;
                     if (($opEqualY(q,"INIT")&&$opMembrY(\u03C3,alphaLower))) {
-                      $line=146;
+                      $line=147;
                       $result="IdL";
                       if (true) break $try;
                     }
                     else {
-                      $line=147;
+                      $line=148;
                       if (($opEqualY(q,"INIT")&&$opMembrY($opAdditY("",\u03C3),preOps))) {
-                        $line=147;
+                        $line=148;
                         $result=$opAdditY("",\u03C3);
                         if (true) break $try;
                       }
                       else {
-                        $line=148;
+                        $line=149;
                         if (($opMembrY(q,preKW)&&$opMembrY($opAdditY(q,\u03C3),preKW))) {
-                          $line=148;
+                          $line=149;
                           $result=$opAdditY(q,\u03C3);
                           if (true) break $try;
                         }
                         else {
-                          $line=149;
+                          $line=150;
                           if ((($opMembrY(q,preKW)&&$opMembrY(\u03C3,alphaNum))&&$opMembrY(((java.lang.String)q).charAt($int(0)),alphaUpper))) {
-                            $line=149;
+                            $line=150;
                             $result="IdU";
                             if (true) break $try;
                           }
                           else {
-                            $line=150;
+                            $line=151;
                             if ((($opMembrY(q,preKW)&&$opMembrY(\u03C3,alphaNum))&&$opMembrY(((java.lang.String)q).charAt($int(0)),alphaLower))) {
-                              $line=150;
+                              $line=151;
                               $result="IdL";
                               if (true) break $try;
                             }
                             else {
-                              $line=151;
+                              $line=152;
                               if (($opMembrY(q,preKW)&&$opMembrY($opAdditY("",\u03C3),preOps))) {
-                                $line=151;
+                                $line=152;
                                 $result=$opAdditY("",\u03C3);
                                 if (true) break $try;
                               }
                               else {
-                                $line=152;
+                                $line=153;
                                 if (($opEqualY(q,"Num")&&$opMembrY(\u03C3,$opIntvlY('0','9')))) {
-                                  $line=152;
+                                  $line=153;
                                   $result="Num";
                                   if (true) break $try;
                                 }
                                 else {
-                                  $line=153;
+                                  $line=154;
                                   if (($opEqualY(q,"Num")&&$opMembrY($opAdditY("",\u03C3),preOps))) {
-                                    $line=153;
+                                    $line=154;
                                     $result=$opAdditY("",\u03C3);
                                     if (true) break $try;
                                   }
                                   else {
-                                    $line=154;
+                                    $line=155;
                                     if (($opEqualY(q,"Num")&&$opMembrY(\u03C3,alphaNum))) {
-                                      $line=154;
+                                      $line=155;
                                       $result="Err";
                                       if (true) break $try;
                                     }
                                     else {
-                                      $line=155;
+                                      $line=156;
                                       if (($opMembrY(q,Ids)&&$opMembrY(\u03C3,alphaNum))) {
-                                        $line=155;
+                                        $line=156;
                                         $result=q;
                                         if (true) break $try;
                                       }
                                       else {
-                                        $line=156;
+                                        $line=157;
                                         if (($opMembrY(q,Ids)&&$opMembrY($opAdditY("",\u03C3),preOps))) {
-                                          $line=156;
+                                          $line=157;
                                           $result=$opAdditY("",\u03C3);
                                           if (true) break $try;
                                         }
                                         else {
-                                          $line=157;
+                                          $line=158;
                                           $result="Err";
                                           if (true) break $try;
                                         }
@@ -784,7 +784,7 @@ public final class Lexer202220 {
           }
         }
       }
-      $line=159;
+      $line=160;
       $rethrow(new RuntimeException("The function \"\u03B4(state:Object,\u03C3:Object)\" did not return a value."));
     }
     catch (Throwable $throwable) {
@@ -796,10 +796,10 @@ public final class Lexer202220 {
     int $line=0;
     Object $result=null;
     $try:try {
-      $line=165;
+      $line=166;
       $result="";
       if (true) break $try;
-      $line=166;
+      $line=167;
       $rethrow(new RuntimeException("The function \"g(q:Object)\" did not return a value."));
     }
     catch (Throwable $throwable) {
@@ -811,56 +811,56 @@ public final class Lexer202220 {
     int $line=0;
     Object $result=null;
     $try:try {
-      $line=169;
+      $line=170;
       String s=null;
       s=$defaultValue(String.class);
-      $line=170;
+      $line=171;
       s=$cast(String.class,$fix((($bool($opEqualY(\u03C3,'\n')))?("\\n"):($opAdditY("",\u03C3)))));
-      $line=172;
+      $line=173;
       if ($opMembrY(q,preOps)) {
-        $line=173;
+        $line=174;
         if (($opMembrY(\u03C3,skipChars)&&$opMembrY(q,allSymbols))) {
-          $line=174;
-          ((gold.structures.list.GArrayList)images).add(currentString);
           $line=175;
-          currentString=$cast(String.class,$fix(""));
+          ((gold.structures.list.GArrayList)images).add(currentString);
           $line=176;
+          currentString=$cast(String.class,$fix(""));
+          $line=177;
           $result=Lexer202220.translationGet(q);
           if (true) break $try;
         }
         else {
-          $line=177;
+          $line=178;
           if ($opMembrY($opAdditY(q,\u03C3),preOps)) {
-            $line=178;
-            currentString=$cast(String.class,$fix($opAdditY(currentString,s)));
             $line=179;
+            currentString=$cast(String.class,$fix($opAdditY(currentString,s)));
+            $line=180;
             $result="";
             if (true) break $try;
           }
           else {
-            $line=180;
+            $line=181;
             if (($opMembrY(\u03C3,$opUnionY(StartOps,alphaNum))&&$opMembrY(q,allSymbols))) {
-              $line=181;
-              ((gold.structures.list.GArrayList)images).add(currentString);
               $line=182;
-              currentString=$cast(String.class,$fix($opAdditY("",s)));
+              ((gold.structures.list.GArrayList)images).add(currentString);
               $line=183;
+              currentString=$cast(String.class,$fix($opAdditY("",s)));
+              $line=184;
               $result=Lexer202220.translationGet(q);
               if (true) break $try;
             }
             else {
-              $line=184;
+              $line=185;
               if ($opMembrY(\u03C3,$opUnionY($opUnionY($opUnionY(StartOps,alphaNum),skipChars),GCollections.asSet(':')))) {
-                $line=185;
-                currentString=$cast(String.class,$fix($opAdditY("",s)));
                 $line=186;
+                currentString=$cast(String.class,$fix($opAdditY("",s)));
+                $line=187;
                 $result=Lexer202220.translationPreOps(q);
                 if (true) break $try;
               }
               else {
-                $line=188;
-                currentString=$cast(String.class,$fix($opAdditY(currentString,s)));
                 $line=189;
+                currentString=$cast(String.class,$fix($opAdditY(currentString,s)));
+                $line=190;
                 $result="";
                 if (true) break $try;
               }
@@ -869,65 +869,65 @@ public final class Lexer202220 {
         }
       }
       else {
-        $line=193;
+        $line=194;
         if ((!$opMembrY(q,GCollections.asSet("Err"))&&$opMembrY(\u03C3,$opUnionY(skipChars,StartOps)))) {
-          $line=194;
+          $line=195;
           if ($opEqualY(q,"INIT")) {
-            $line=195;
-            currentString=$cast(String.class,$fix((($bool($opMembrY(\u03C3,StartOps)))?(s):(""))));
             $line=196;
+            currentString=$cast(String.class,$fix((($bool($opMembrY(\u03C3,StartOps)))?(s):(""))));
+            $line=197;
             $result="";
             if (true) break $try;
           }
           else {
-            $line=197;
+            $line=198;
             if ($opEqualY(Lexer202220.translationGet(q),null)) {
-              $line=199;
-              ((gold.structures.list.GArrayList)images).add(currentString);
               $line=200;
-              currentString=$cast(String.class,$fix((($bool($opMembrY(\u03C3,$opUnionY(skipChars,StartOps))))?(s):(""))));
+              ((gold.structures.list.GArrayList)images).add(currentString);
               $line=201;
-              Object f=$fix($invokeMethod("charAt",q,new Object[]{0}));
+              currentString=$cast(String.class,$fix((($bool($opMembrY(\u03C3,$opUnionY(skipChars,StartOps))))?(s):(""))));
               $line=202;
+              Object f=$fix($invokeMethod("charAt",q,new Object[]{0}));
+              $line=203;
               if ($opMembrY(f,alphaUpper)) {
-                $line=202;
+                $line=203;
                 $result=Lexer202220.translationGet("IdU");
                 if (true) break $try;
               }
               else {
-                $line=203;
+                $line=204;
                 if ($opMembrY(f,alphaLower)) {
-                  $line=204;
+                  $line=205;
                   $result=Lexer202220.translationGet("IdL");
                   if (true) break $try;
                 }
                 else {
-                  $line=205;
+                  $line=206;
                   $result=null;
                   if (true) break $try;
                 }
               }
             }
             else {
-              $line=208;
-              ((gold.structures.list.GArrayList)images).add(currentString);
               $line=209;
-              currentString=$cast(String.class,$fix((($bool($opMembrY(\u03C3,$opUnionY(skipChars,StartOps))))?(s):(""))));
+              ((gold.structures.list.GArrayList)images).add(currentString);
               $line=210;
+              currentString=$cast(String.class,$fix((($bool($opMembrY(\u03C3,$opUnionY(skipChars,StartOps))))?(s):(""))));
+              $line=211;
               $result=Lexer202220.translationGet(q);
               if (true) break $try;
             }
           }
         }
         else {
-          $line=213;
-          currentString=$cast(String.class,$fix($opAdditY(currentString,s)));
           $line=214;
+          currentString=$cast(String.class,$fix($opAdditY(currentString,s)));
+          $line=215;
           $result="";
           if (true) break $try;
         }
       }
-      $line=217;
+      $line=218;
       $rethrow(new RuntimeException("The function \"h(q:Object,\u03C3:Object)\" did not return a value."));
     }
     catch (Throwable $throwable) {
@@ -939,101 +939,101 @@ public final class Lexer202220 {
     int $line=0;
     Object $result=null;
     $try:try {
-      $line=223;
-      skipChars=$cast(ISet.class,$fix(GCollections.asSet(' ','\t','\n')));
       $line=224;
-      alphaUpper=$cast(ISet.class,$fix($opIntvlY('A','Z')));
+      skipChars=$cast(ISet.class,$fix(GCollections.asSet(' ','\t','\n')));
       $line=225;
-      alphaLower=$cast(ISet.class,$fix($opIntvlY('a','z')));
+      alphaUpper=$cast(ISet.class,$fix($opIntvlY('A','Z')));
       $line=226;
-      digits=$cast(ISet.class,$fix($opIntvlY('0','9')));
+      alphaLower=$cast(ISet.class,$fix($opIntvlY('a','z')));
       $line=227;
+      digits=$cast(ISet.class,$fix($opIntvlY('0','9')));
+      $line=228;
       alphaNum=$cast(ISet.class,$fix($opUnionY($opUnionY($opUnionY(alphaUpper,alphaLower),digits),GCollections.asSet('-'))));
-      $line=229;
+      $line=230;
       keyWords=$cast(ISet.class,$fix(GCollections.asSet("PROG","GORP","VAR","PROC","CORP","walk","jump","jumpTo","veer","left","right","around","look","north","south","east","west","drop","grab","get","free","pop","front","back","if","else","fi","while","do","od","repeatTimes","per","isfacing","isValid","canWalk","not")));
-      $line=246;
+      $line=247;
       allSymbols=$cast(ISet.class,$fix(GCollections.asSet(";","(",")",",","{","}",":=")));
-      $line=304;
-      ((gold.structures.map.GHashTableMap)translation).put("PROG",'D');
       $line=305;
-      ((gold.structures.map.GHashTableMap)translation).put("GORP",'G');
+      ((gold.structures.map.GHashTableMap)translation).put("PROG",'D');
       $line=306;
-      ((gold.structures.map.GHashTableMap)translation).put("VAR",'A');
+      ((gold.structures.map.GHashTableMap)translation).put("GORP",'G');
       $line=307;
-      ((gold.structures.map.GHashTableMap)translation).put("PROC",'P');
+      ((gold.structures.map.GHashTableMap)translation).put("VAR",'A');
       $line=308;
+      ((gold.structures.map.GHashTableMap)translation).put("PROC",'P');
+      $line=309;
       ((gold.structures.map.GHashTableMap)translation).put("CORP",'C');
-      $line=311;
-      ((gold.structures.map.GHashTableMap)translation).put("walk",'k');
       $line=312;
-      ((gold.structures.map.GHashTableMap)translation).put("jump",'j');
+      ((gold.structures.map.GHashTableMap)translation).put("walk",'k');
       $line=313;
-      ((gold.structures.map.GHashTableMap)translation).put("jumpTo",'t');
+      ((gold.structures.map.GHashTableMap)translation).put("jump",'j');
       $line=314;
-      ((gold.structures.map.GHashTableMap)translation).put("veer",'q');
+      ((gold.structures.map.GHashTableMap)translation).put("jumpTo",'t');
       $line=315;
-      ((gold.structures.map.GHashTableMap)translation).put("look",'l');
+      ((gold.structures.map.GHashTableMap)translation).put("veer",'q');
       $line=316;
-      ((gold.structures.map.GHashTableMap)translation).put("drop",'d');
+      ((gold.structures.map.GHashTableMap)translation).put("look",'l');
       $line=317;
-      ((gold.structures.map.GHashTableMap)translation).put("grab",'a');
+      ((gold.structures.map.GHashTableMap)translation).put("drop",'d');
       $line=318;
-      ((gold.structures.map.GHashTableMap)translation).put("get",'g');
+      ((gold.structures.map.GHashTableMap)translation).put("grab",'a');
       $line=319;
-      ((gold.structures.map.GHashTableMap)translation).put("free",'e');
+      ((gold.structures.map.GHashTableMap)translation).put("get",'g');
       $line=320;
+      ((gold.structures.map.GHashTableMap)translation).put("free",'e');
+      $line=321;
       ((gold.structures.map.GHashTableMap)translation).put("pop",'o');
-      $line=323;
-      ((gold.structures.map.GHashTableMap)translation).put("left",'L');
       $line=324;
-      ((gold.structures.map.GHashTableMap)translation).put("right",'R');
+      ((gold.structures.map.GHashTableMap)translation).put("left",'L');
       $line=325;
-      ((gold.structures.map.GHashTableMap)translation).put("around",'O');
+      ((gold.structures.map.GHashTableMap)translation).put("right",'R');
       $line=326;
-      ((gold.structures.map.GHashTableMap)translation).put("north",'N');
+      ((gold.structures.map.GHashTableMap)translation).put("around",'O');
       $line=327;
-      ((gold.structures.map.GHashTableMap)translation).put("south",'S');
+      ((gold.structures.map.GHashTableMap)translation).put("north",'N');
       $line=328;
-      ((gold.structures.map.GHashTableMap)translation).put("east",'E');
+      ((gold.structures.map.GHashTableMap)translation).put("south",'S');
       $line=329;
-      ((gold.structures.map.GHashTableMap)translation).put("west",'W');
+      ((gold.structures.map.GHashTableMap)translation).put("east",'E');
       $line=330;
-      ((gold.structures.map.GHashTableMap)translation).put("front",'F');
+      ((gold.structures.map.GHashTableMap)translation).put("west",'W');
       $line=331;
+      ((gold.structures.map.GHashTableMap)translation).put("front",'F');
+      $line=332;
       ((gold.structures.map.GHashTableMap)translation).put("back",'B');
-      $line=334;
-      ((gold.structures.map.GHashTableMap)translation).put("if",'i');
       $line=335;
-      ((gold.structures.map.GHashTableMap)translation).put("else",'s');
+      ((gold.structures.map.GHashTableMap)translation).put("if",'i');
       $line=336;
-      ((gold.structures.map.GHashTableMap)translation).put("fi",'f');
+      ((gold.structures.map.GHashTableMap)translation).put("else",'s');
       $line=337;
-      ((gold.structures.map.GHashTableMap)translation).put("while",'w');
+      ((gold.structures.map.GHashTableMap)translation).put("fi",'f');
       $line=338;
-      ((gold.structures.map.GHashTableMap)translation).put("do",'x');
+      ((gold.structures.map.GHashTableMap)translation).put("while",'w');
       $line=339;
-      ((gold.structures.map.GHashTableMap)translation).put("od",'y');
+      ((gold.structures.map.GHashTableMap)translation).put("do",'x');
       $line=340;
-      ((gold.structures.map.GHashTableMap)translation).put("repeatTimes",'r');
+      ((gold.structures.map.GHashTableMap)translation).put("od",'y');
       $line=341;
+      ((gold.structures.map.GHashTableMap)translation).put("repeatTimes",'r');
+      $line=342;
       ((gold.structures.map.GHashTableMap)translation).put("per",'p');
-      $line=344;
-      ((gold.structures.map.GHashTableMap)translation).put("isfacing",'b');
       $line=345;
-      ((gold.structures.map.GHashTableMap)translation).put("isValid",'h');
+      ((gold.structures.map.GHashTableMap)translation).put("isfacing",'b');
       $line=346;
-      ((gold.structures.map.GHashTableMap)translation).put("pick",'m');
+      ((gold.structures.map.GHashTableMap)translation).put("isValid",'h');
       $line=347;
-      ((gold.structures.map.GHashTableMap)translation).put("canWalk",'c');
+      ((gold.structures.map.GHashTableMap)translation).put("pick",'m');
       $line=348;
+      ((gold.structures.map.GHashTableMap)translation).put("canWalk",'c');
+      $line=349;
       ((gold.structures.map.GHashTableMap)translation).put("not",'n');
-      $line=351;
+      $line=352;
       ((gold.structures.map.GHashTableMap)translation).put(":=",'=');
-      $line=354;
-      ((gold.structures.map.GHashTableMap)translation).put("IdL",'v');
       $line=355;
+      ((gold.structures.map.GHashTableMap)translation).put("IdL",'v');
+      $line=356;
       ((gold.structures.map.GHashTableMap)translation).put("IdU",'v');
-      $line=358;
+      $line=359;
       ((gold.structures.map.GHashTableMap)translation).put("Num",'#');
     }
     catch (Throwable $throwable) {

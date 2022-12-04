@@ -19,7 +19,20 @@ PROC goWest ()
 CORP
 PROC repes ()
 {
-	if ( canWalk (west ,1)) { walk (west ,1)} fi
+	repeatTimes 234567 {
+	while ( not( canWalk (north ,1))) do { walk (north ,1)} od
+	} per ;
+	if ( not(canWalk (west ,1))) { walk (west ,1)} fi;
+	jump(56); free(fgh);
+	repeatTimes gfd {
+		fgh := 567;
+		g := 4567;
+		ghj := 919;
+		jump(rtt);
+		walk(3);
+		walk(north, gg);
+		walk(front, 434);
+		walk(back, tre) } per
 }
 CORP
 {
