@@ -1,0 +1,542 @@
+/* Project 3
+ * 
+ * Parser
+ * 
+ * Federico Melo Barrero
+ * 
+ */
+
+using gold.**
+
+toSet(C) :=  {x|  x in C}
+
+function createParser(A):IPushdownAutomaton begin
+	
+	// Declare each token as a variable (I'm not memorizing 40 tokens‥.)
+	var PROG: String
+	var GORP: String
+	var VAR: String
+	var PROC: String
+	var CORP: String
+	var if_: String
+	var else_: String
+	var fi: String
+	var while_: String
+	var do_: String
+	var od: String
+	var repeatTimes: String
+	var per: String
+	var isfacing: String
+	var isValid: String
+	var canWalk: String
+	var not_: String
+	var walk: String
+	var jump: String
+	var jumpTo: String
+	var veer: String
+	var look: String
+	var drop: String
+	var grab: String
+	var get: String
+	var free: String
+	var pop: String
+	var pick: String
+	var left: String
+	var right: String
+	var around: String
+	var north: String
+	var south: String
+	var east: String
+	var west: String
+	var front: String
+	var back: String
+	
+	PROG := "D"
+	GORP := "G"
+	VAR := "A"
+	PROC := "P"
+	CORP := "C"
+	if_ := "i"
+	else_ := "s"
+	fi := "f"
+	while_ := "w"
+	do_ := "x"
+	od := "y"
+	repeatTimes := "r"
+	per := "p"
+	isfacing := "b"
+	isValid := "h"
+	canWalk := "c"
+	not_ := "n"
+	walk := "k"
+	jump := "j"
+	jumpTo := "t"
+	veer := "q"
+	look := "l"
+	drop := "d"
+	grab := "a"
+	get := "g"
+	free := "e"
+	pop := "o"
+	pick := "m"
+	left := "L"
+	right := "R"
+	around := "O"
+	north := "N"
+	south := "S"
+	east := "E"
+	west := "W"
+	front := "F"
+	back := "B"
+	
+	
+	// Extra variables
+	var par: String
+	par = "("
+	var key: String
+	key = "{"
+	var num: String
+	num := "#"
+	var v: String
+	v := "v"	
+	
+	var instrEnd: String
+	instrEnd := "U"
+	var instrBegin: String
+	instrBegin := "J"
+	var procDef: String
+	procDef := "H"
+	var notCond: String
+	notCond := "I"
+	
+	
+	// States
+	Q := {"qPROG",
+	      "q,",
+	      "qCORP",
+	      "q2",
+		  "q1",
+		  "q;",
+		  "qPROC",
+		  "qPROC(",
+		  "qPROC)",
+		  "qPROC,",
+		  "qPROCinstrs",
+		  "qPROCp",
+		  "qPROCv",
+		  "qVAR",
+		  "qv",
+		  "qCORP",
+		  "qBlock",
+		  "qBlockEnd",
+		  "qASSIGN",
+		  "q:=",
+		  "qInstr;",
+		  "qLookP", 
+		  "qDropP", 
+		  "qJump(",
+		  "qJump",
+		  "qPopP",
+		  "qGrab(",
+		  "qVeer(",
+		  "qFree(",
+		  "qDrop)",
+		  "qPop",
+		  "qWalk",
+		  "qJump)",
+		  "qFree)",
+		  "qWalkP",
+		  "qLook",
+		  "qVeer)",
+		  "qGet)",
+		  "qPop(",
+		  "qFree",
+		  "qDrop(",
+		  "qPickP",
+		  "qJumpP",
+		  "qGrab",
+		  "qWalk(",
+		  "qLook(",
+		  "qDrop",
+		  "qGet",
+		  "qGrabP",
+		  "qWalk)",
+		  "qGet(",
+		  "qPick)",
+		  "qLook)",
+		  "qGrab)",
+		  "qVeer",
+		  "qFreeP",
+		  "qVeerP",
+		  "qPop)",
+		  "qGetP",
+		  "qPick(",
+		  "qPick",
+		  "qJumpTo",
+		  "qJumpTo(",
+		  "qJumpToP",
+		  "qJumpToP,",
+		  "qJumpToP2",
+		  "qWalkP1",
+		  "qWalkP1,",
+		  "qWalkP2",
+		  "qCondition",
+		  "qIsfacing",
+		  "qIsfacing(",
+		  "qIsfacingP",
+		  "qProcCallP,",
+		  "qProcCallP,",
+		  "qIsValid",
+		  "qIsValid(",
+		  "qIsValidP1",
+		  "qIsValidP1,",
+		  "qIsValidP2",
+		  "qCondition",
+		  "qCanWalk",
+		  "qCanWalk(",
+		  "qCanWalkP1",
+		  "qCanWalkP1,",
+		  "qCanWalkP2",
+		  "qIf",
+		  "qIfCondition",
+		  "qIfCondition)",
+		  "qIfBlock",
+		  "qIfBlockEnd",
+		  "qElse",
+		  "qElseBlock",
+		  "qElseBlockEnd",
+		  "qWhile",
+		  "qWhileCondition",
+		  "qWhileCondition)",
+		  "qDo",
+		  "qWhileBlock",
+		  "qWhileBlockEnd",
+		  "qRepeatTimes",
+		  "qRepeatTimesN",
+		  "qRepeatTimesBlock",
+		  "qRepeatTimesBlockEnd",
+		  "qNot",
+		  "qNotCondition",
+		  "qProcCall",
+		  "qProcCall(",
+		  "qProcCallP",
+		  "qProcCallP,"}
+	
+	// Tokens (Automaton's alphabet)
+	Σ := toSet(A) ∪ {' ', '\n', '\t'}
+	// Stack's alphabet
+	Γ := ('A'‥'Z') ∪ ('a'‥'z')  ∪ {'(', '{'}
+	// Initial state
+	q₀ := "qPROG"
+	// Final state
+	F := {"qPROG"}
+	
+	M := GPushdownAutomaton(Q, Σ, Γ, q₀, F)
+
+	SkipChars := {' ', '\n', '\t'}   // this will only  be used when testing only the parser, as the lexer removes SkipChars
+
+	
+	// AUTOMATON
+
+	// A program defintion begins with the keyword PROG 
+	M.delta("qPROG", "q1", PROG).push(PROG)
+	// It ends the keyword GORP
+	M.delta("qBlockEnd", "qPROG", GORP).pop(PROG)
+	
+	// A declaration of variables is the keyword VAR . 
+	M.delta("q1", "qVAR", VAR).push(VAR)
+	// followed by a list of names separated  by commas
+	M.delta("qVAR", "qv", v).ignore()
+	M.delta("qv", "q,", ',').push(v)
+	M.delta("q,", "qv", v).pop(v)
+	// The list is followed by ;
+	M.delta("qVAR", "q2", ';').pop(VAR)  // Valid empty variable declaration: VAR ;
+	M.delta("qv", "q2", ';').pop(VAR)
+	
+	// A procedure defintion is a the word PROC
+	M.delta("q1", "qPROC", PROC).push(PROC)
+	M.delta("q2", "qPROC", PROC).push(PROC)
+	// followed by a name
+	M.delta("qPROC", "qPROCv", v).changeTop(PROC, CORP)
+	// followed by a list of parameters within parenthesis separated by commas
+	M.delta("qPROCv", "qPROC(", '(').push(par)
+	M.delta("qPROC(", "qPROCp", v).ignore()
+	M.delta("qPROC(", "qPROC)", ')').pop(par)  // Procedure with no parameters: PROC hello( ) {‥.} CORP
+	M.delta("qPROCp", "qPROC)", ')').pop(par)
+	M.delta("qPROCp", "qPROC,", ',').push(v)
+	M.delta("qPROC,", "qPROCp", v).pop(v)
+	// followed by a block of instructions
+	M.delta("qPROC)", "qPROCinstrs", '{').push(key)
+	// and ending with the word CORP
+	M.delta("qCORP", "q2", CORP).pop(CORP)
+	
+	
+	// Block of instructions inside procedure
+	M.delta("qPROCinstrs", "qCORP", '}').pop(key)  // Empty block of instructions in procedure: PROC hi(‥.) { } CORP
+	M.delta("qPROCinstrs", "qCORP", '}').pop(key+instrEnd)
+
+	// Single block of instructions in program, outside procedures
+	M.delta("q1", "qBlock", '{').push(key)
+	M.delta("q2", "qBlock", '{').push(key)
+	M.delta("qBlock", "qBlockEnd", '}').pop(key) // Empty instruction block : PROG ‥. { } GORP
+	M.delta("qBlock", "qBlockEnd", '}').pop(key+instrEnd)
+
+
+
+	// A block of instructions is a sequence of instructions separated by semicolons within curly brackets
+	for each qBlock in {"qPROCinstrs", "qBlock", "qIfBlock", "qElseBlock", "qWhileBlock", "qRepeatTimesBlock"} do
+		
+		// instr ; instr
+		M.delta(qBlock, "qInstr;", ";").changeTop(instrEnd, instrBegin)
+		
+		
+		
+		// Commands
+		
+		// name := n
+		M.delta(qBlock, "qASSIGN", v).push(v)
+		M.delta("qInstr;", "qASSIGN", v).changeTop(instrBegin, v)  // ; name
+		M.delta("qASSIGN", "q:=", '=').ignore()
+		M.delta("q:=", qBlock, "#").changeTop(v, instrEnd)
+	
+	
+	    // jump(n) command
+	    M.delta(qBlock, "qJump", jump).push(jump)
+	    M.delta("qInstr;", "qJump", jump).changeTop(instrBegin, jump)  // ; jump
+	    M.delta("qJump", "qJump(", '(').push(par)
+	    M.delta("qJump(", "qJumpP", v).pop(par)
+	    M.delta("qJump(", "qJumpP", '#').pop(par)
+	    M.delta("qJumpP", qBlock, ')').changeTop(jump, instrEnd)
+	
+	
+	    // drop(n) command
+	    M.delta(qBlock, "qDrop", drop).push(drop)
+	    M.delta("qInstr;", "qDrop", drop).changeTop(instrBegin, drop)  // ; drop
+	    M.delta("qDrop", "qDrop(", '(').push(par)
+	    M.delta("qDrop(", "qDropP", v).pop(par)
+	    M.delta("qDrop(", "qDropP", '#').pop(par)
+	    M.delta("qDropP", qBlock, ')').changeTop(drop, instrEnd)
+	
+	
+	    // grab(n) command
+	    M.delta(qBlock, "qGrab", grab).push(grab)
+	    M.delta("qInstr;", "qGrab", grab).changeTop(instrBegin, grab)  // ; grab
+	    M.delta("qGrab", "qGrab(", '(').push(par)
+	    M.delta("qGrab(", "qGrabP", v).pop(par)
+	    M.delta("qGrab(", "qGrabP", '#').pop(par)
+	    M.delta("qGrabP", qBlock, ')').changeTop(grab, instrEnd)
+	
+	
+	    // get(n) command
+	    M.delta(qBlock, "qGet", get).push(get)
+	    M.delta("qInstr;", "qGet", get).changeTop(instrBegin, get)  // ; get
+	    M.delta("qGet", "qGet(", '(').push(par)
+	    M.delta("qGet(", "qGetP", v).pop(par)
+	    M.delta("qGet(", "qGetP", '#').pop(par)
+	    M.delta("qGetP", qBlock, ')').changeTop(get, instrEnd)
+	
+	
+	    // free(n) command
+	    M.delta(qBlock, "qFree", free).push(free)
+	    M.delta("qInstr;", "qFree", free).changeTop(instrBegin, free)  // ; free
+	    M.delta("qFree", "qFree(", '(').push(par)
+	    M.delta("qFree(", "qFreeP", v).pop(par)
+	    M.delta("qFree(", "qFreeP", '#').pop(par)
+	    M.delta("qFreeP", qBlock, ')').changeTop(free, instrEnd)
+	
+	
+	    // pop(n) command
+	    M.delta(qBlock, "qPop", pop).push(pop)
+	    M.delta("qInstr;", "qPop", pop).changeTop(instrBegin, pop)  // ; pop
+	    M.delta("qPop", "qPop(", '(').push(par)
+	    M.delta("qPop(", "qPopP", v).pop(par)
+	    M.delta("qPop(", "qPopP", '#').pop(par)
+	    M.delta("qPopP", qBlock, ')').changeTop(pop, instrEnd)
+	    
+	
+	    // veer(D) command
+	    M.delta(qBlock, "qVeer", veer).push(veer)
+	    M.delta("qInstr;", "qVeer", veer).changeTop(instrBegin, veer)  // ; veer
+	    M.delta("qVeer", "qVeer(", '(').push(par)
+	    for each D in {left, right, around} do
+	    	M.delta("qVeer(", "qVeerP", D).pop(par)
+	    end
+	    M.delta("qVeerP", qBlock, ')').changeTop(veer, instrEnd)
+	
+	
+	    // look(O) command
+	    M.delta(qBlock, "qLook", look).push(look)
+	    M.delta("qInstr;", "qLook", look).changeTop(instrBegin, look)  // ; look
+	    M.delta("qLook", "qLook(", '(').push(par)
+	    for each D in {north, south, east, west} do
+	    	M.delta("qLook(", "qLookP", D).pop(par)
+	    end
+	    M.delta("qLookP", qBlock, ')').changeTop(look, instrEnd)
+	
+	
+	    // pick(n) command. 
+	    // No en enunciado!
+	⧐    M.delta(qBlock, "qPick", pick).push(pick)
+	⧐    M.delta("qInstr;", "qPick", pick).changeTop(instrBegin, pick)  // ; pick
+	⧐    M.delta("qPick", "qPick(", '(').push(par)
+	⧐    M.delta("qPick(", "qPickP", v).pop(par)
+	⧐    M.delta("qPick(", "qPickP", '#').pop(par)
+	⧐    M.delta("qPickP", qBlock, ')').changeTop(pick, instrEnd)
+	
+	
+	    // jumpTo(n, m) command
+	    M.delta(qBlock, "qJumpTo", jumpTo).push(jumpTo)
+	    M.delta("qInstr;", "qJumpTo", jumpTo).changeTop(instrBegin, jumpTo)  // ; jumpTo
+	    M.delta("qJumpTo", "qJumpTo(", '(').push(par)
+	    M.delta("qJumpTo(", "qJumpToP", v).pop(par)
+	    M.delta("qJumpTo(", "qJumpToP", '#').pop(par)
+	    M.delta("qJumpToP", "qJumpToP,", ',').push(v)
+	    M.delta("qJumpToP,", "qJumpToP2", v).pop(v)
+	    M.delta("qJumpToP,", "qJumpToP2", '#').pop(v)
+	    M.delta("qJumpToP2", qBlock, ')').changeTop(jumpTo, instrEnd)
+	
+	
+	    // walk(n) command
+	    M.delta(qBlock, "qWalk", walk).push(walk)
+	    M.delta("qInstr;", "qWalk", walk).changeTop(instrBegin, walk)  // ; walk
+	    M.delta("qWalk", "qWalk(", '(').push(par)
+	    M.delta("qWalk(", "qWalkP", v).pop(par)
+	    M.delta("qWalk(", "qWalkP", '#').pop(par)
+	    M.delta("qWalkP", qBlock, ')').changeTop(walk, instrEnd)
+	    // walk(d,n) command
+	    for each d in {front, right, left, back} do
+	    	M.delta("qWalk(", "qWalkP1", d).pop(par)
+	    end
+	    // walk(o,n) command 
+	    for each o in {north, south, east, west} do
+	    	M.delta("qWalk(", "qWalkP1", o).pop(par)
+	    end
+	    M.delta("qWalkP1", "qWalkP1,", ',').push(v)
+	    M.delta("qWalkP1,", "qWalkP2", v).pop(v)
+	    M.delta("qWalkP1,", "qWalkP2", '#').pop(v)
+	    M.delta("qWalkP2", qBlock, ')').changeTop(walk, instrEnd)
+
+	    
+	    
+	    // Control structures
+
+	    // if (condition)Block1 fi
+		M.delta(qBlock, "qIf", if_).push(if_)
+		M.delta("qInstr;", "qIf", if_).changeTop(instrBegin, if_)  // ; if
+		M.delta("qIf", "qIfCondition", '(').push(par)
+		M.delta("qIfCondition", "qIfCondition)", ')').pop(par)
+		M.delta("qIfCondition)", "qIfBlock", '{').push(key)
+		M.delta("qIfBlock", "qIfBlockEnd", '}').pop(key) // Empty instruction block { }
+		M.delta("qIfBlock", "qIfBlockEnd", '}').pop(key+instrEnd)
+	    M.delta("qIfBlockEnd", qBlock, fi).changeTop(if_, instrEnd)
+		//  if (condition)Block1 else Block2 fi
+		M.delta("qIfBlockEnd", "qElse", else_).changeTop(if_, else_)
+		M.delta("qElse", "qElseBlock", '{').push(key)
+		M.delta("qElseBlock", "qElseBlockEnd", '}').pop(key) // Empty instruction block { }
+		M.delta("qElseBlock", "qElseBlockEnd", '}').pop(key+instrEnd)
+		M.delta("qElseBlockEnd", qBlock, fi).changeTop(else_, instrEnd)
+
+		
+		// while (condition)do Block od 
+		M.delta(qBlock, "qWhile", while_).push(while_)
+		M.delta("qInstr;", "qWhile", while_).changeTop(instrBegin, while_)  // ; while
+		M.delta("qWhile", "qWhileCondition", '(').push(par)
+		M.delta("qWhileCondition", "qWhileCondition)", ')').pop(par)
+		M.delta("qWhileCondition)", "qDo", do_).changeTop(while_, do_)
+		M.delta("qDo", "qWhileBlock", '{').push(key)
+		M.delta("qWhileBlock", "qWhileBlockEnd", '}').pop(key) // Empty instruction block { }
+		M.delta("qWhileBlock", "qWhileBlockEnd", '}').pop(key+instrEnd)
+	    M.delta("qWhileBlockEnd", qBlock, od).changeTop(do_, instrEnd)
+		
+		
+		// repeatTimes n Block per
+		M.delta(qBlock, "qRepeatTimes", repeatTimes).push(repeatTimes)
+		M.delta("qInstr;", "qRepeatTimes", repeatTimes).changeTop(instrBegin, repeatTimes)  // ; repeatTimes
+		M.delta("qRepeatTimes", "qRepeatTimesN", v).push(v)
+		M.delta("qRepeatTimes", "qRepeatTimesN", '#').push(v)
+		M.delta("qRepeatTimesN", "qRepeatTimesBlock", '{').changeTop(v, key)
+		M.delta("qRepeatTimesBlock", "qRepeatTimesBlockEnd", '}').pop(key) // Empty instruction block { }
+		M.delta("qRepeatTimesBlock", "qRepeatTimesBlockEnd", '}').pop(key+instrEnd)
+	    M.delta("qRepeatTimesBlockEnd", qBlock, per).changeTop(repeatTimes, instrEnd)
+		
+		// Conditions
+		for each qCondition in {"qIfCondition", "qWhileCondition", "qNotCondition"} do
+		
+			//  isfacing(O) condition
+		    M.delta(qCondition, "qIsfacing", isfacing).changeTop(par, isfacing)
+		    M.delta("qInstr;", "qIsfacing", isfacing).changeTop(instrBegin, isfacing)  // ; isfacing
+		    M.delta("qIsfacing", "qIsfacing(", '(').push(par)
+		    for each D in {north, south, east, west} do
+		    	M.delta("qIsfacing(", "qIsfacingP", D).pop(par)
+		    end
+		    M.delta("qIsfacingP", qCondition, ')').changeTop(isfacing, par)
+			
+			
+			// isValid(ins,n) condition
+		    M.delta(qCondition, "qIsValid", isValid).changeTop(par, isValid)
+		    M.delta("qInstr;", "qIsValid", isValid).changeTop(instrBegin, isValid)  // ; isValid
+		    M.delta("qIsValid", "qIsValid(", '(').push(par)
+		    for each ins in {walk, jump, grab, pop, pick, free, drop} do
+		    	M.delta("qIsValid(", "qIsValidP1", ins).pop(par)
+		    end
+		    M.delta("qIsValidP1", "qIsValidP1,", ',').push(v)
+		    M.delta("qIsValidP1,", "qIsValidP2", v).pop(v)
+		    M.delta("qIsValidP1,", "qIsValidP2", '#').pop(v)
+		    M.delta("qIsValidP2", qCondition, ')').changeTop(isValid, par)
+			
+			
+			// canWalk condition
+		    M.delta(qCondition, "qCanWalk", canWalk).changeTop(par, canWalk)
+		    M.delta("qInstr;", "qCanWalk", canWalk).changeTop(instrBegin, canWalk)  // ; canWalk
+		    M.delta("qCanWalk", "qCanWalk(", '(').push(par)
+		    // canWalk(d,n) condition 
+		    for each d in {north, south, east, west} do
+		    	M.delta("qCanWalk(", "qCanWalkP1", d).pop(par)
+		    end
+		    // canWalk(o,n) condition
+		    for each o in {front, right, left, back} do
+		    	M.delta("qCanWalk(", "qCanWalkP1", o).pop(par)
+		    end
+		    M.delta("qCanWalkP1", "qCanWalkP1,", ',').push(v)
+		    M.delta("qCanWalkP1,", "qCanWalkP2", v).pop(v)
+		    M.delta("qCanWalkP1,", "qCanWalkP2", '#').pop(v)
+		    M.delta("qCanWalkP2", qCondition, ')').changeTop(canWalk, par)
+			
+			
+			// not( condition )
+			M.delta(qCondition, "qNot", not_).changeTop(par, not_)
+		    M.delta("qInstr;", "qNot", not_).changeTop(instrBegin, not_)  // ; not
+		    M.delta("qNot", "qNotCondition", '(').changeTop(not_, par+par)
+		    M.delta("qNotCondition", qCondition, ')').pop(par)
+		
+		end
+		
+		// Procedure call
+			    
+		// v (p0, p1,‥., pn)
+		M.delta(qBlock, "qProcCall", v).push(procDef)
+	    M.delta("qInstr;", "qProcCall", v).changeTop(instrBegin, procDef)  // ; pop
+	    M.delta("qProcCall", "qProcCall(", '(').push(par)
+	    M.delta("qProcCall(", "qProcCallP", v).pop(par) // v (p)
+	    M.delta("qProcCall(", "qProcCallP", '#').pop(par) // v (p)
+	    M.delta("qProcCallP", "qProcCallP,", ',').push(par) // // v (p0, p1,‥., pn)
+	    M.delta("qProcCallP,", "qProcCallP", v).pop(par) // // v (p0, p1,‥., pn)	
+	    M.delta("qProcCallP,", "qProcCallP", '#').pop(par) // // v (p0, p1,‥., pn)	
+		M.delta("qProcCallP", qBlock, ')').changeTop(procDef, instrEnd) // )
+		M.delta("qProcCall(", qBlock, ')').changeTop(procDef, instrEnd) // v ()
+    
+	end
+	
+	 // this will only  be used when testing only the parser as the lexer removes  SkipChars
+	 
+	 for each q in Q do
+	 	for each s in SkipChars do
+	 	   M.delta(q,q,λ+s).ignore()
+	 	end
+	 end
+	
+	
+	return M
+
+end
+
