@@ -648,9 +648,9 @@ public final class ParserRobot202220 {
           $line=508;
           $invokeMethod("changeTop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qInstr;","qNot",$cast(java.lang.String.class,not_)),new Object[]{instrBegin,not_});
           $line=509;
-          $invokeMethod("changeTop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qNot","qNotCondition",$cast(java.lang.String.class,'(')),new Object[]{not_,$opAdditY(par,par)});
+          $invokeMethod("changeTop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qNot","qNotCondition",$cast(java.lang.String.class,'(')),new Object[]{not_,notCond});
           $line=510;
-          $invokeMethod("pop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qNotCondition",qCondition,$cast(java.lang.String.class,')')),new Object[]{par});
+          $invokeMethod("changeTop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qNotCondition",qCondition,$cast(java.lang.String.class,')')),new Object[]{$opAdditY(par,notCond),par});
         }
         $line=517;
         $invokeMethod("push",((gold.structures.automaton.GPushdownAutomaton)M).delta(qBlock,"qProcCall",$cast(java.lang.String.class,v)),new Object[]{procDef});

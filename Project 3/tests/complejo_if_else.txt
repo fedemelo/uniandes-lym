@@ -28,7 +28,7 @@ PROC goWest ()
 CORP
 PROC condicional ()
 {
-	if ( canWalk (west ,1)) { walk (west ,1)} fi
+	if ( not( canWalk (west ,1) ) ) { walk (west ,1)} fi
 }
 CORP
 PROC condicional ()
