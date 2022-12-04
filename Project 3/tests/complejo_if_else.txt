@@ -1,0 +1,53 @@
+PROG
+VAR n, x, y;
+PROC putCB (c, b)
+{
+	drop (c);
+	free (b);
+	walk (n)
+}
+CORP
+PROC goNorth ()
+{
+	jumpTo(4654, 6789432);
+	ghj    := 5678;
+	pop(5678)
+}
+CORP
+PROC goWest ()
+{
+	fgh := 567;
+	g := 4567;
+	ghj := 919;
+	jump(rtt);
+	walk(3);
+	walk(north, gg);
+	walk(front, 434);
+	walk(back, tre)
+}
+CORP
+PROC condicional ()
+{
+	if ( canWalk (west ,1)) { walk (west ,1)} fi
+}
+CORP
+PROC condicional ()
+{
+	if ( canWalk (west ,1)) { walk (west ,1)} else {
+	fgh := 567;
+	g := 4567;
+	ghj := 919;
+	jump(rtt);
+	walk(3);
+	walk(north, gg);
+	walk(front, 434);
+	walk(back, tre)
+ } fi
+}
+CORP
+{
+	go (3 ,3);
+	n := 6;
+	putCB (2 ,1)
+}
+GORP

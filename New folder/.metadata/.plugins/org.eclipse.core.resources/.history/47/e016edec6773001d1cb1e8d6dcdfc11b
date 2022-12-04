@@ -534,13 +534,13 @@ public final class ParserRobot202220 {
         $line=416;
         $invokeMethod("changeTop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qIfCondBlockEnd","qElse",$cast(java.lang.String.class,else_)),new Object[]{if_,else_});
         $line=417;
-        $invokeMethod("push",((gold.structures.automaton.GPushdownAutomaton)M).delta("qElse","qElseCondBlock",$cast(java.lang.String.class,'{')),new Object[]{key});
+        $invokeMethod("changeTop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qElse","qElseCondBlock",$cast(java.lang.String.class,'{')),new Object[]{else_,key});
         $line=418;
         $invokeMethod("pop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qElseCondBlock","qElseCondBlockEnd",$cast(java.lang.String.class,'}')),new Object[]{key});
         $line=419;
         $invokeMethod("pop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qElseCondBlock","qElseCondBlockEnd",$cast(java.lang.String.class,'}')),new Object[]{$opAdditY(key,instrEnd)});
         $line=420;
-        $invokeMethod("changeTop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qElseCondBlockEnd",qBlock,$cast(java.lang.String.class,fi)),new Object[]{else_,instrEnd});
+        $invokeMethod("changeTop",((gold.structures.automaton.GPushdownAutomaton)M).delta("qElseCondBlockEnd",qBlock,$cast(java.lang.String.class,fi)),new Object[]{if_,instrEnd});
         $line=432;
         for (Object $v8:GCollections.unmodifiableCollection(GCollections.asSet("qIfCondition"))) {
           Object qCondition=$v8;

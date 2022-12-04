@@ -414,10 +414,10 @@ function createParser(A):IPushdownAutomaton begin
 	    M.delta("qIfCondBlockEnd", qBlock, fi).changeTop(if_, instrEnd)
 		//  if (condition)Block1 else Block2 fi
 		M.delta("qIfCondBlockEnd", "qElse", else_).changeTop(if_, else_)
-		M.delta("qElse", "qElseCondBlock", '{').push(key)
+		M.delta("qElse", "qElseCondBlock", '{').changeTop(else_, key)
 		M.delta("qElseCondBlock", "qElseCondBlockEnd", '}').pop(key) // Empty instruction block { }
 		M.delta("qElseCondBlock", "qElseCondBlockEnd", '}').pop(key+instrEnd)
-		M.delta("qElseCondBlockEnd", qBlock, fi).changeTop(else_, instrEnd)
+		M.delta("qElseCondBlockEnd", qBlock, fi).changeTop(if_, instrEnd)
 
 		
 		// while (condition)do Block od 

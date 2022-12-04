@@ -200,7 +200,10 @@ function createParser(A):IPushdownAutomaton begin
 		 "qProcCall",
 		 "qProcCall(",
 		 "qProcCallP",
-		 "qProcCallP,"}
+		 "qProcCallP,",
+		 "qElse",
+		 "qElseCondBlock",
+		 "qElseCondBlockEnd"}
 	
 	// Tokens (Automaton's alphabet)
 	Σ := toSet(A) ∪ {' ', '\n', '\t'}
@@ -261,8 +264,10 @@ function createParser(A):IPushdownAutomaton begin
 	M.delta("qBlock", "qBlockEnd", '}').pop(key) // Empty instruction block : PROG ‥. { } GORP
 	M.delta("qBlock", "qBlockEnd", '}').pop(key+instrEnd)
 
+
+
 	// A block of instructions is a sequence of instructions separated by semicolons within curly brackets
-	for each qBlock in {"qPROCinstrs", "qBlock", "qIfCondBlock"} do
+	for each qBlock in {"qPROCinstrs", "qBlock", "qIfCondBlock", "qElseCondBlock"} do
 		
 		// instr ; instr
 		M.delta(qBlock, "qInstr;", ";").changeTop(instrEnd, instrBegin)
@@ -404,13 +409,16 @@ function createParser(A):IPushdownAutomaton begin
 		M.delta("qIf", "qIfCondition", '(').push(par)
 		M.delta("qIfCondition", "qIfCondition)", ')').pop(par)
 		M.delta("qIfCondition)", "qIfCondBlock", '{').push(key)
-		M.delta("qIfCondBlock", "qIfCondBlockEnd", '}').pop(key) // Empty instruction block : PROG ‥. { } GORP
+		M.delta("qIfCondBlock", "qIfCondBlockEnd", '}').pop(key) // Empty instruction block { }
 		M.delta("qIfCondBlock", "qIfCondBlockEnd", '}').pop(key+instrEnd)
 	    M.delta("qIfCondBlockEnd", qBlock, fi).changeTop(if_, instrEnd)
-
 		//  if (condition)Block1 else Block2 fi
-		// TODO
-		
+		M.delta("qIfCondBlockEnd", "qElse", else_).changeTop(if_, else_)
+		M.delta("qElse", "qElseCondBlock", '{').push(key)
+		M.delta("qElseCondBlock", "qElseCondBlockEnd", '}').pop(key) // Empty instruction block { }
+		M.delta("qElseCondBlock", "qElseCondBlockEnd", '}').pop(key+instrEnd)
+		M.delta("qElseCondBlockEnd", qBlock, fi).changeTop(else_, instrEnd)
+
 		
 		// while (condition)do Block od 
 		// TODO
